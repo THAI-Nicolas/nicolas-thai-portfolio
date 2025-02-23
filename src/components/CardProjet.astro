@@ -1,0 +1,15 @@
+---
+const { ...projet } = Astro.props;
+---
+
+<a
+  href={`/projets/${projet.id}`}
+  class="flex justify-center items-center bg-gray-300 h-52 max-w-96 w-full relative overflow-hidden"
+>
+  <h3 class="uppercase z-10">{projet.nom}</h3>
+  <img
+    class="absolute inset-0 object-cover w-full h-full opacity-80 hover:scale-110 hover:opacity-50 transition-all duration-75"
+    src={projet.img}
+    alt={projet.nom}
+  />
+</a>

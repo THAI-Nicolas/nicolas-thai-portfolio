@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  h1 {
+    @apply text-4xl font-bold font-montserrat text-center py-20;
+  }
+  h2 {
+    @apply text-2xl font-bold font-montserrat;
+  }
+  h3 {
+    @apply text-xl font-bold font-montserrat;
+  }
+  p {
+    @apply text-base font-raleway;
+  }
+  a {
+    @apply  no-underline font-raleway;
+  }
+  ul {
+    @apply list-none;
+  }
+  li {
+    @apply list-none;
+  }
+}

@@ -1,0 +1,30 @@
+---
+import { Image } from "astro:assets";
+import Logo from "../assets/icons/Logo.webp";
+---
+
+<header
+  class="bg-black text-white h-16 flex flex-col justify-center pl-4 pr-10"
+>
+  <nav class="flex justify-between items-center">
+    <a href="/">
+      <Image class="w-14" src={Logo} alt="Logo" />
+    </a>
+    <div>
+      <ul
+        class="flex gap-16 *:uppercase *:font-bold *:text-lg *:font-montserrat ml-16"
+      >
+        <li><a class="font-montserrat" href="/projets">Projets</a></li>
+        <li><a class="font-montserrat" href="/about">à propos</a></li>
+        <li><a class="font-montserrat" href="/contact">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <a
+        href="/contact"
+        class="uppercase font-bold text-sm font-montserrat bg-white text-black px-4 py-2 rounded-sm hover:bg-black hover:text-white hover:underline transition-all duration-75"
+        >Contactez-moi</a
+      >
+    </div>
+  </nav>
+</header>

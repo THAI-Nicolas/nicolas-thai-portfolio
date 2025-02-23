@@ -1,0 +1,46 @@
+---
+import { Image } from "astro:assets";
+import Logo from "../assets/icons/Logo.webp";
+import IconMail from "../assets/icons/IconMail.webp";
+import IconLinkedin from "../assets/icons/IconLinkedin.svg";
+import IconFacebook from "../assets/icons/IconFacebook.svg";
+import IconInstagram from "../assets/icons/IconInstagram.svg";
+import IconTiktok from "../assets/icons/IconTiktok.svg";
+---
+
+<footer class="bg-black text-white p-10 max-h-96">
+  <a href="/" class="flex justify-center items-center py-4">
+    <Image class="w-14" src={Logo} alt="Logo" />
+  </a>
+  <ul
+    class="flex justify-center items-center gap-32 py-10 *:font-montserrat *:text-md *:uppercase"
+  >
+    <li><a href="/projets" class="font-montserrat">Mes projets</a></li>
+    <li><a href="/about" class="font-montserrat">About</a></li>
+    <li><a href="" class="font-montserrat">Skills</a></li>
+    <li><a href="/contact" class="font-montserrat">Contact</a></li>
+  </ul>
+  <div class="flex justify-center items-center gap-3">
+    <Image class="w-4" src={IconMail} alt="Mail" />
+    <a
+      href="mailto:nicolas.thai@gmail.com"
+      class="text-sm underline py-6 font-raleway"
+    >
+      nicolas@thai.com
+    </a>
+  </div>
+  <ul class="flex justify-center items-center gap-3">
+    <li>
+      <a href=""
+        ><Image class="w-4 stroke-black" src={IconLinkedin} alt="Linkedin" /></a
+      >
+    </li>
+    <li>
+      <a href=""><Image class="w-4" src={IconFacebook} alt="Facebook" /></a>
+    </li>
+    <li>
+      <a href=""><Image class="w-4" src={IconInstagram} alt="Instagram" /></a>
+    </li>
+    <li><a href=""><Image class="w-4" src={IconTiktok} alt="Tiktok" /></a></li>
+  </ul>
+</footer>

@@ -1,0 +1,14 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getProjet } from "../../backend/backend.mjs";
+const { id } = Astro.params;
+const projet = await getProjet(id);
+
+if (!projet) {
+  return Astro.redirect("/projets");
+}
+---
+
+<Layout>
+  <h1 class="uppercase">{projet.nom}</h1>
+</Layout>
