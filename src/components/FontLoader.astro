@@ -1,0 +1,58 @@
+---
+// Composant pour charger les polices Adobe Fonts de manière optimisée
+---
+
+<!-- Préconnexion pour améliorer les performances -->
+<link rel="preconnect" href="https://use.typekit.net" crossorigin>
+
+<!-- Script Adobe Fonts optimisé -->
+<script is:inline>
+  (function(d) {
+    var config = {
+      kitId: 'acv0ote',
+      scriptTimeout: 3000,
+      async: true
+    },
+    h = d.documentElement,
+    t = setTimeout(function(){
+      h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
+    }, config.scriptTimeout),
+    tk = d.createElement("script"),
+    f = false,
+    s = d.getElementsByTagName("script")[0],
+    a;
+    
+    h.className += " wf-loading";
+    tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
+    tk.async = true;
+    tk.onload = tk.onreadystatechange = function(){
+      a = this.readyState;
+      if(f || a && a != "complete" && a != "loaded") return;
+      f = true;
+      clearTimeout(t);
+      try {
+        Typekit.load(config);
+      } catch(e) {
+        console.warn('Adobe Fonts loading failed:', e);
+      }
+    };
+    s.parentNode.insertBefore(tk, s);
+  })(document);
+</script>
+
+<!-- Fallback CSS pour les polices non chargées -->
+<style>
+  .wf-loading * {
+    font-display: swap;
+  }
+  
+  /* Animation douce pour l'apparition du texte */
+  .wf-active .font-primary {
+    animation: fadeInText 0.3s ease-in-out;
+  }
+  
+  @keyframes fadeInText {
+    from { opacity: 0.8; }
+    to { opacity: 1; }
+  }
+</style>

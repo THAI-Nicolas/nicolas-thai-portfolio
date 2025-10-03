@@ -1,2 +1,144 @@
-@tailwind;
-@tailwind utilities;
+@import "tailwindcss";
+
+:root {
+  /* Couleurs personnalisées pour Tailwind */
+  --color-light-blue: #34beed;
+  --color-dark-blue: #008cff;
+  --color-light-gray: #e1e2e6;
+  --color-text-gray: #383e3f;
+  --color-dark-gray: #a2a2a2;
+  --color-background: #f2f2f2;
+}
+
+/* Classes utilitaires personnalisées */
+.text-light-blue {
+  color: var(--color-light-blue);
+}
+.text-dark-blue {
+  color: var(--color-dark-blue);
+}
+.text-text-gray {
+  color: var(--color-text-gray);
+}
+.text-dark-gray {
+  color: var(--color-dark-gray);
+}
+
+.bg-light-blue {
+  background-color: var(--color-light-blue);
+}
+.bg-dark-blue {
+  background-color: var(--color-dark-blue);
+}
+.bg-light-gray {
+  background-color: var(--color-light-gray);
+}
+.bg-background {
+  background-color: var(--color-background);
+}
+
+.border-light-blue {
+  border-color: var(--color-light-blue);
+}
+.border-dark-blue {
+  border-color: var(--color-dark-blue);
+}
+.border-light-gray {
+  border-color: var(--color-light-gray);
+}
+
+/* Classes Tailwind responsive */
+
+/* H1 : FOT-Rodin ProN - Mobile 20px / Desktop 36px */
+.h1 {
+  font-family: "fot-rodin-pron", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #000000;
+  font-size: 20px;
+}
+
+/* H2 : Raleway - Mobile 16px / Desktop 32px */
+.h2 {
+  font-family: "raleway", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #000000;
+  font-size: 16px;
+}
+
+/* H3 : Raleway - Mobile 10px / Desktop 20px */
+.h3 {
+  font-family: "raleway", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #000000;
+  font-size: 10px;
+}
+
+/* Body 1 : Raleway - Mobile 16px / Desktop 20px */
+.body-1 {
+  font-family: "raleway", sans-serif;
+  font-weight: 400;
+  color: #000000;
+  font-size: 16px;
+}
+
+/* Body 2 : Raleway - Mobile 14px / Desktop 16px */
+.body-2 {
+  font-family: "raleway", sans-serif;
+  font-weight: 400;
+  color: #000000;
+  font-size: 14px;
+}
+
+/* Projet H1 : Hagrid - Mobile 28px / Desktop 40px */
+.project-h1 {
+  font-family: "hagrid", sans-serif;
+  font-weight: 400;
+  color: #000000;
+  font-size: 28px;
+}
+
+/* Projet H2 : Hagrid - Mobile 20px / Desktop 32px */
+.project-h2 {
+  font-family: "hagrid", sans-serif;
+  font-weight: 400;
+  color: #000000;
+  font-size: 20px;
+}
+
+/* Desktop (lg breakpoint = 1024px+) */
+@media (min-width: 1024px) {
+  .h1 {
+    font-size: 36px;
+  }
+  .h2 {
+    font-size: 32px;
+  }
+  .h3 {
+    font-size: 20px;
+  }
+  .body-1 {
+    font-size: 20px;
+  }
+  .body-2 {
+    font-size: 16px;
+  }
+  .project-h1 {
+    font-size: 40px;
+  }
+  .project-h2 {
+    font-size: 32px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-background);
+}
