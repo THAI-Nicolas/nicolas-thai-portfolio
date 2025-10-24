@@ -1,0 +1,109 @@
+---
+import ChannelEmpty from "../assets/icones/channel-bloc.svg";
+
+export interface Props {
+  isEmpty?: boolean;
+  projectCover?: string;
+  projectTitle?: string;
+  href?: string;
+  onClick?: () => void;
+}
+
+const {
+  isEmpty = true,
+  projectCover,
+  projectTitle,
+  href = "#",
+  onClick,
+} = Astro.props;
+---
+
+<div
+  class="w-[396px] h-[215px] cursor-pointer transition-all duration-200 ease-in-out group"
+  data-onclick={onClick ? "true" : undefined}
+>
+  <div class="relative w-full h-full wii-channel-container">
+    <ChannelEmpty class="w-full h-full wii-channel-svg" />
+    {
+      !isEmpty && projectCover && (
+        <div class="absolute inset-0 flex items-center justify-center">
+          <img
+            src={projectCover}
+            alt={projectTitle || "Project cover"}
+            class="object-contain wii-project-cover"
+            style="width: calc(100% - 4px); height: calc(100% - 4px);"
+          />
+        </div>
+      )
+    }
+  </div>
+</div>
+
+<style>
+  /* Effet de texture grain VHS */
+  .wii-channel-container {
+    position: relative;
+  }
+
+  .wii-channel-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: radial-gradient(
+        circle at 1px 1px,
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 0
+      ),
+      radial-gradient(
+        circle at 2px 2px,
+        rgba(255, 255, 255, 0.1) 1px,
+        transparent 0
+      );
+    background-size:
+      3px 3px,
+      4px 4px;
+    background-position:
+      0 0,
+      1px 1px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.6;
+    mix-blend-mode: overlay;
+  }
+
+  /* Effet hover sur le SVG */
+  .wii-channel-svg {
+    transition: color 0.2s ease-in-out;
+    color: rgb(119, 117, 117);
+    z-index: 3;
+  }
+
+  .group:hover .wii-channel-svg {
+    color: var(--color-light-blue);
+  }
+
+  /* Style pour l'image du projet */
+  .wii-project-cover {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  }
+
+  /* Focus ring supprimé */
+  div:focus {
+    outline: none;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const channels = document.querySelectorAll('div[data-onclick="true"]');
+
+    channels.forEach((channel) => {
+      channel.addEventListener("click", (e) => {
+        console.log("Channel cliqué");
+      });
+    });
+  });
+</script>
