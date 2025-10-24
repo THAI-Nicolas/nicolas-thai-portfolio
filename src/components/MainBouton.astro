@@ -1,0 +1,131 @@
+---
+import IconRetour from "../assets/icones/retour.webp";
+import IconDezoom from "../assets/icones/dezoom.webp";
+import IconEnveloppe from "../assets/icones/enveloppe.svg";
+import FormeBouton from "../assets/icones/forme_main_bouton.svg";
+
+export interface Props {
+  type: "retour" | "contact" | "presentation" | "dezoom";
+  href?: string;
+  onClick?: () => void;
+}
+
+const { type, href = "#", onClick } = Astro.props;
+
+const icons = {
+  retour: IconRetour,
+  contact: IconEnveloppe,
+  dezoom: IconDezoom,
+  presentation: null, // On le fera plus tard
+};
+---
+
+<button
+  class="relative cursor-pointer transition-transform duration-200 ease-in-out border-none bg-none p-0 w-28 h-28 hover:scale-105"
+  data-type={type}
+  data-onclick={onClick ? "true" : undefined}
+>
+  <div
+    class="w-full h-full rounded-full relative overflow-hidden flex items-center justify-center wii-main-button__circle"
+  >
+    {/* Forme décorative en arrière-plan */}
+    <div class="absolute top-1 left-1 w-18 h-18 wii-main-button__shape">
+      <FormeBouton class="w-full h-full" />
+    </div>
+
+    {/* Icônes */}
+    {
+      type === "retour" && (
+        <img
+          src="/src/assets/icones/retour.webp"
+          class="w-12 h-9 wii-main-button__icon relative z-10"
+          alt="Retour"
+        />
+      )
+    }
+    {
+      type === "contact" && (
+        <IconEnveloppe class="w-12 h-12 wii-main-button__icon relative z-10" />
+      )
+    }
+    {
+      type === "dezoom" && (
+        <img
+          src="/src/assets/icones/dezoom.webp"
+          class="w-12 h-12 wii-main-button__icon relative z-10"
+          alt="Dézoom"
+        />
+      )
+    }
+    {
+      type === "presentation" && (
+        <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center relative z-10">
+          <span class="text-xs text-gray-600">Mii</span>
+        </div>
+      )
+    }
+  </div>
+</button>
+
+<style>
+  /* Focus ring supprimé */
+  button:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .wii-main-button__circle {
+    /* État normal */
+    background-color: var(--color-light-gray); /* Couleur du Figma */
+    border: 3px solid var(--color-light-blue);
+
+    /* Ombres du Figma */
+    box-shadow:
+      inset -4px -4px 9.5px rgba(0, 0, 0, 0.26),
+      5.8px 8.7px 0px rgba(186, 188, 193, 1);
+  }
+
+  .wii-main-button__icon {
+    color: var(--color-dark-gray); /* Couleur grise du Figma */
+  }
+
+  .wii-main-button__shape {
+    z-index: 1; /* Derrière l'icône */
+    color: #ecebeb; /* Couleur bleue Wii */
+  }
+
+  /* État actif */
+  button:active .wii-main-button__circle {
+    transform: translateY(1px);
+    box-shadow:
+      inset -4px -4px 9.5px rgba(0, 0, 0, 0.26),
+      4.8px 7.7px 0px rgba(186, 188, 193, 1);
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const buttons = document.querySelectorAll('button[data-onclick="true"]');
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        const type = button.getAttribute("data-type");
+
+        switch (type) {
+          case "retour":
+            console.log("Retour cliqué");
+            break;
+          case "contact":
+            console.log("Contact cliqué");
+            break;
+          case "dezoom":
+            console.log("Dézoom cliqué");
+            break;
+          case "presentation":
+            console.log("Présentation cliqué");
+            break;
+        }
+      });
+    });
+  });
+</script>

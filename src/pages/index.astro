@@ -1,11 +1,26 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import SmallBouton from '../components/SmallBouton.astro';
+import Layout from "../layouts/Layout.astro";
+import SmallBouton from "../components/SmallBouton.astro";
+import MainBouton from "../components/MainBouton.astro";
+import ContactBouton from "../components/ContactBouton.astro";
 ---
 
 <Layout>
-	<h1 class="text-3xl font-bold underline text-light-blue">
-		Test de tailwindcss
-	</h1>
-	<SmallBouton icon="parametres" size="lg" />
+  <h1 class="text-3xl font-bold underline text-light-blue">
+    Test de tailwindcss
+  </h1>
+  <SmallBouton type="parametres" size="lg" />
+  <SmallBouton type="telechargement" size="lg" />
+  <SmallBouton type="zoom" size="lg" />
+  <SmallBouton type="dezoom" size="lg" />
+
+  <MainBouton type="retour" />
+  <MainBouton type="contact" />
+  <MainBouton type="presentation" />
+  <MainBouton type="dezoom" />
+
+  <ContactBouton type="email" />
+  <ContactBouton type="github" />
+  <ContactBouton type="linkedin" />
+  <ContactBouton type="instagram" />
 </Layout>

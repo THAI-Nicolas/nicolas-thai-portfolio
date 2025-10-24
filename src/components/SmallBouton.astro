@@ -1,10 +1,146 @@
 ---
-import IconTelechargement from '../assets/icones/telechargement.svg';
-import IconZoom from '../assets/icones/zoom.svg';
-import IconDezoom from '../assets/icones/dezoom.svg';
-import IconParametres from '../assets/icones/parametres.svg';
+import IconTelechargement from "../assets/icones/telechargement.svg";
+import IconZoom from "../assets/icones/zoom.svg";
+import IconParametres from "../assets/icones/parametres.svg";
+
+export interface Props {
+  type: "parametres" | "telechargement" | "zoom" | "dezoom";
+  href?: string;
+  size?: "sm" | "md" | "lg";
+  onClick?: () => void;
+}
+
+const { type, href = "#", size = "md", onClick } = Astro.props;
+
+const sizeClasses = {
+  sm: "w-12 h-12",
+  md: "w-16 h-16",
+  lg: "w-20 h-20",
+};
+
+const iconSizeClasses = {
+  sm: "w-6 h-6",
+  md: "w-8 h-8",
+  lg: "w-10 h-10",
+};
 ---
 
-<a class="w-10 h-20" href="">
-    <IconParametres class="w-32 h-32" fill="#FFFFFF"/>
-</a>
+<button
+  class={`relative cursor-pointer transition-all duration-200 ease-in-out border-none bg-none p-0 ${sizeClasses[size]}`}
+  data-type={type}
+  data-onclick={onClick ? "true" : undefined}
+>
+  <div
+    class="w-full h-full rounded-full relative overflow-hidden flex items-center justify-center wii-button__circle"
+  >
+    {
+      type === "parametres" && (
+        <IconParametres
+          class={`transition-colors duration-200 wii-button__icon ${iconSizeClasses[size]}`}
+        />
+      )
+    }
+    {
+      type === "telechargement" && (
+        <IconTelechargement
+          class={`transition-colors duration-200 wii-button__icon ${iconSizeClasses[size]}`}
+        />
+      )
+    }
+    {
+      type === "zoom" && (
+        <IconZoom
+          class={`transition-colors duration-200 wii-button__icon ${iconSizeClasses[size]}`}
+        />
+      )
+    }
+    {
+      type === "dezoom" && (
+        <img
+          src="/src/assets/icones/dezoom.webp"
+          class={`transition-colors duration-200 wii-button__icon ${iconSizeClasses[size]}`}
+          alt="Dézoom"
+        />
+      )
+    }
+  </div>
+</button>
+
+<style>
+  /* Focus ring personnalisé */
+  button:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  .wii-button__circle {
+    /* État normal */
+    background-color: var(--color-background);
+    border: 2px solid var(--color-light-blue);
+
+    /* Ombres */
+    box-shadow:
+      inset 0 5px 5px rgba(0, 0, 0, 0.25),
+      0 5px 5px rgba(0, 0, 0, 0.25);
+  }
+
+  .wii-button__icon {
+    color: var(--color-dark-gray);
+  }
+
+  /* Pour l'image dezoom, utiliser un filtre */
+  .wii-button__icon[src] {
+    filter: brightness(0) saturate(100%) invert(70%) sepia(0%) saturate(0%)
+      hue-rotate(0deg) brightness(100%) contrast(100%);
+  }
+
+  /* État hover */
+  button:hover .wii-button__circle {
+    background-color: var(--color-light-blue);
+    border-color: var(--color-light-blue);
+  }
+
+  button:hover .wii-button__icon {
+    color: white;
+  }
+
+  button:hover .wii-button__icon[src] {
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%)
+      hue-rotate(0deg) brightness(100%) contrast(100%);
+  }
+
+  /* État actif */
+  button:active .wii-button__circle {
+    transform: translateY(1px);
+    box-shadow:
+      inset 0 3px 3px rgba(0, 0, 0, 0.25),
+      0 3px 3px rgba(0, 0, 0, 0.25);
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const buttons = document.querySelectorAll('button[data-onclick="true"]');
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        const type = button.getAttribute("data-type");
+
+        switch (type) {
+          case "parametres":
+            console.log("Paramètres cliqué");
+            break;
+          case "telechargement":
+            console.log("Téléchargement cliqué");
+            break;
+          case "zoom":
+            console.log("Zoom cliqué");
+            break;
+          case "dezoom":
+            console.log("Dézoom cliqué");
+            break;
+        }
+      });
+    });
+  });
+</script>
