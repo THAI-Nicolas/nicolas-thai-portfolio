@@ -4,6 +4,9 @@ import SmallBouton from "../components/SmallBouton.astro";
 import MainBouton from "../components/MainBouton.astro";
 import ContactBouton from "../components/ContactBouton.astro";
 import ChannelProjet from "../components/ChannelProjet.astro";
+import CardCV from "../components/CardCV.astro";
+import Fleche from "../components/Fleche.astro";
+import FlecheIcon from "../assets/icones/fleche.svg";
 ---
 
 <Layout>
@@ -32,4 +35,12 @@ import ChannelProjet from "../components/ChannelProjet.astro";
       projectTitle="Project 1"
     />
   </div>
+
+  <CardCV size="desktop" />
+  <CardCV size="mobile" />
+
+  <Fleche size="desktop" direction="gauche" />
+  <Fleche direction="droite" />
+  <Fleche direction="haut" />
+  <Fleche direction="bas" />
 </Layout>

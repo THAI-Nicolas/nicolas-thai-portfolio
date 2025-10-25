@@ -1,0 +1,34 @@
+---
+import CardCVIcon from "../assets/icones/cv_card.svg";
+
+export interface Props {
+  size?: "mobile" | "desktop";
+  href?: string;
+  onClick?: () => void;
+}
+
+const { size = "mobile", href = "#", onClick } = Astro.props;
+---
+
+<div
+  class={`w-10 h-14 ${size === "desktop" ? "md:w-16 md:h-20" : ""} relative`}
+>
+  <a
+    href={href}
+    class="card-cv cursor-pointer transition-transform duration-200 hover:scale-110 block origin-center absolute inset-0"
+    data-onclick={onClick ? "true" : undefined}
+  >
+    <CardCVIcon class="w-full h-full" />
+  </a>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const cardCV = document.querySelector("a[data-onclick='true']");
+    if (cardCV) {
+      cardCV.addEventListener("click", () => {
+        console.log("Card CV cliqué");
+      });
+    }
+  });
+</script>

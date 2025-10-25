@@ -1,0 +1,46 @@
+---
+import FlecheIcon from "../assets/icones/fleche.svg";
+
+export interface Props {
+  size?: "mobile" | "desktop";
+  direction?: "droite" | "gauche" | "haut" | "bas";
+  href?: string;
+  onClick?: () => void;
+}
+
+const {
+  size = "mobile",
+  direction = "droite",
+  href = "#",
+  onClick,
+} = Astro.props;
+---
+
+<div class={`w-8 h-8 ${size === "desktop" ? "md:w-12 md:h-12" : ""} relative`}>
+  <a
+    href={href}
+    class="fleche cursor-pointer transition-all duration-200 hover:scale-110 block origin-center absolute inset-0"
+    data-onclick={onClick ? "true" : undefined}
+  >
+    <FlecheIcon
+      class={`w-full h-full fleche-svg ${direction === "gauche" ? "rotate-180" : direction === "haut" ? "-rotate-90" : direction === "bas" ? "rotate-90" : ""}`}
+    />
+  </a>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const fleche = document.querySelector("a[data-onclick='true']");
+    if (fleche) {
+      fleche.addEventListener("click", () => {
+        console.log("Fleche cliquée");
+      });
+    }
+  });
+</script>
+
+<style>
+  .fleche:hover .fleche-svg {
+    filter: drop-shadow(0 0 15px rgba(52, 190, 237, 0.8));
+  }
+</style>
