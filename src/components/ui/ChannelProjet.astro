@@ -64,38 +64,21 @@ const currentSize = sizes[size] || sizes.desktop;
     display: none !important;
   }
 
-  /* Suppression complète du fond SVG */
+  /* SVG avec bordure visible et hover effect */
   .wii-channel-svg {
     transition: color 0.2s ease-in-out;
     color: rgb(119, 117, 117);
     z-index: 3;
     background: transparent !important;
+    stroke: rgb(119, 117, 117) !important;
+    stroke-width: 2px !important;
     fill: transparent !important;
   }
 
-  .wii-channel-svg path {
-    fill: transparent !important;
-    background: transparent !important;
-  }
-
-  .wii-channel-svg rect {
-    fill: transparent !important;
-    background: transparent !important;
-  }
-
-  .wii-channel-svg circle {
-    fill: transparent !important;
-    background: transparent !important;
-  }
-
-  /* Suppression de tous les éléments de fond */
-  .wii-channel-svg * {
-    fill: transparent !important;
-    background: transparent !important;
-  }
-
+  /* Hover effect sur les bordures */
   .group:hover .wii-channel-svg {
-    color: var(--color-light-blue);
+    color: var(--color-light-blue) !important;
+    stroke: var(--color-light-blue) !important;
   }
 
   /* Style pour l'image du projet */

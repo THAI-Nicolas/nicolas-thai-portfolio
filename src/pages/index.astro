@@ -1,68 +1,97 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import SmallBouton from "../components/boutons/SmallBouton.astro";
-import MainBouton from "../components/boutons/MainBouton.astro";
 import ChannelProjet from "../components/ui/ChannelProjet.astro";
-import CardCV from "../components/boutons/CardCV.astro";
 import Fleche from "../components/ui/Fleche.astro";
 import FooterAccueil from "../components/layout/FooterAccueil.astro";
 import FooterAccueilMobile from "../components/layout/FooterAccueilMobile.astro";
 ---
 
-<Layout title="Accueil" description="Accueil du portfolio de Nicolas THAI">
+<Layout
+  title="Nicolas THAI - Portfolio Développeur Web"
+  description="Accueil du portfolio de Nicolas THAI"
+>
   <!-- Version Desktop -->
   <div class="hidden md:block">
     <!-- Zone principale avec grille de channels -->
     <main class="relative h-screen bg-gray-100 overflow-hidden">
-      <!-- Grille de channels -->
-      <div class="absolute left-40 top-88 transform -translate-y-1/2">
-        <div class="grid grid-cols-5 gap-x-[40px] gap-y-[10px]">
-          <!-- Ligne 1 -->
-          <ChannelProjet
-            isEmpty={false}
-            projectCover="/src/assets/images/asafram_cover.svg"
-            projectTitle="ASAFRAM"
-            size="desktop"
-          />
-          <ChannelProjet
-            isEmpty={false}
-            projectCover="/src/assets/images/rba_cover.svg"
-            projectTitle="Réseau Biodiversité pour les Abeilles"
-            size="desktop"
-          />
-          <ChannelProjet
-            isEmpty={false}
-            projectCover="/src/assets/images/mysubs_cover.svg"
-            projectTitle="MySubs"
-            size="desktop"
-          />
-          <ChannelProjet
-            isEmpty={false}
-            projectCover="/src/assets/images/mmi_soccer_cover.svg"
-            projectTitle="MMI Soccer"
-            size="desktop"
-          />
-          <ChannelProjet isEmpty={true} size="desktop" />
+      <!-- Container pour le carrousel -->
+      <div class="relative w-full h-full overflow-hidden">
+        <!-- Grille unique avec tous les channels -->
+        <div class="absolute left-40 top-88 transform -translate-y-1/2">
+          <div
+            id="carousel-grid"
+            class="grid grid-cols-9 gap-x-[0px] gap-y-[10px] w-[3330px] transition-transform duration-500 ease-in-out"
+          >
+            <!-- Ligne 1 - Channels 1-9 -->
+            <ChannelProjet
+              isEmpty={false}
+              projectCover="/src/assets/images/asafram_cover.svg"
+              projectTitle="ASAFRAM"
+              size="desktop"
+            />
+            <ChannelProjet
+              isEmpty={false}
+              projectCover="/src/assets/images/rba_cover.svg"
+              projectTitle="Réseau Biodiversité pour les Abeilles"
+              size="desktop"
+            />
+            <ChannelProjet
+              isEmpty={false}
+              projectCover="/src/assets/images/mysubs_cover.svg"
+              projectTitle="MySubs"
+              size="desktop"
+            />
+            <ChannelProjet
+              isEmpty={false}
+              projectCover="/src/assets/images/mmi_soccer_cover.svg"
+              projectTitle="MMI Soccer"
+              size="desktop"
+            />
+            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet isEmpty={true} size="desktop" />
 
-          <!-- Ligne 2 -->
-          <ChannelProjet isEmpty={true} size="desktop" />
-          <ChannelProjet isEmpty={true} size="desktop" />
-          <ChannelProjet isEmpty={true} size="desktop" />
-          <ChannelProjet isEmpty={true} size="desktop" />
-          <ChannelProjet isEmpty={true} size="desktop" />
+            <!-- Ligne 2 - Channels 10-18 -->
+            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet isEmpty={true} size="desktop" />
 
-          <!-- Ligne 3 -->
-          <ChannelProjet isEmpty={true} size="desktop" />
-          <ChannelProjet isEmpty={true} size="desktop" />
-          <ChannelProjet isEmpty={true} size="desktop" />
-          <ChannelProjet isEmpty={true} size="desktop" />
-          <ChannelProjet isEmpty={true} size="desktop" />
+            <!-- Ligne 3 - Channels 19-27 -->
+            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet isEmpty={true} size="desktop" />
+          </div>
         </div>
-      </div>
 
-      <!-- Flèche de navigation à droite -->
-      <div class="absolute right-24 top-90 transform -translate-y-1/2 z-30">
-        <Fleche direction="droite" size="desktop" />
+        <!-- Flèche de navigation à droite -->
+        <div
+          class="absolute right-24 top-90 transform -translate-y-1/2 z-30 cursor-pointer"
+          id="arrow-right"
+        >
+          <Fleche direction="droite" size="desktop" />
+        </div>
+
+        <!-- Flèche de navigation à gauche -->
+        <div
+          class="absolute left-24 top-90 transform -translate-y-1/2 z-30 cursor-pointer"
+          id="arrow-left"
+        >
+          <Fleche direction="gauche" size="desktop" />
+        </div>
       </div>
     </main>
 
@@ -76,3 +105,56 @@ import FooterAccueilMobile from "../components/layout/FooterAccueilMobile.astro"
     <FooterAccueilMobile />
   </div>
 </Layout>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    let currentPage = 1;
+    const carouselGrid = document.getElementById("carousel-grid");
+    const arrowRight = document.getElementById("arrow-right");
+    const arrowLeft = document.getElementById("arrow-left");
+
+    // Fonction pour changer de page
+    function switchPage(pageNumber) {
+      console.log("Changement vers la page:", pageNumber);
+      if (pageNumber === 1) {
+        carouselGrid.style.transform = "translateX(0)";
+        arrowRight.style.opacity = "1";
+        arrowLeft.style.opacity = "0";
+        currentPage = 1;
+        console.log("Page 1 active");
+      } else if (pageNumber === 2) {
+        carouselGrid.style.transform = "translateX(-1890px)"; // Décalage de 4.5 colonnes (9 channels)
+        arrowRight.style.opacity = "0";
+        arrowLeft.style.opacity = "1";
+        currentPage = 2;
+        console.log("Page 2 active");
+      }
+    }
+
+    // Initialisation - Page 1 active par défaut
+    if (arrowLeft) {
+      arrowLeft.style.opacity = "0";
+    }
+    if (arrowRight) {
+      arrowRight.addEventListener("click", () => {
+        switchPage(2);
+      });
+    }
+
+    // Navigation vers la page 1 (flèche gauche)
+    if (arrowLeft) {
+      arrowLeft.addEventListener("click", () => {
+        switchPage(1);
+      });
+    }
+
+    // Navigation au clavier
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" && currentPage === 1) {
+        switchPage(2);
+      } else if (e.key === "ArrowLeft" && currentPage === 2) {
+        switchPage(1);
+      }
+    });
+  });
+</script>
