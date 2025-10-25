@@ -1,0 +1,98 @@
+---
+import CardCV from "../boutons/CardCV.astro";
+import MainBouton from "../boutons/MainBouton.astro";
+import SmallBouton from "../boutons/SmallBouton.astro";
+import FondBouton from "../../assets/icones/bouton_fond.svg";
+import FondFooterMobile from "../../assets/icones/footer_fond_mobile.svg";
+---
+
+<footer class="footer-wii-mobile relative w-full h-64 overflow-hidden">
+  <!-- Fond mobile -->
+  <div class="absolute inset-0 w-full h-full z-0">
+    <FondFooterMobile class="w-full h-full object-cover" />
+  </div>
+
+  <!-- Fond bouton gauche -->
+  <div class="absolute left-[-10px] bottom-28 w-32 h-36 z-10">
+    <FondBouton class="h-36 w-32 object-cover" />
+  </div>
+
+  <!-- Fond bouton droite -->
+  <div class="absolute right-0 bottom-28 w-32 h-36 z-10">
+    <FondBouton class="h-36 w-32 object-cover scale-x-[-1]" />
+  </div>
+
+  <!-- MainBouton Mii à gauche -->
+  <div class="absolute left-9 top-16 transform -translate-y-1/2 z-20">
+    <MainBouton type="presentation" size="mobile" />
+  </div>
+
+  <!-- MainBouton Enveloppe à droite -->
+  <div class="absolute right-12 top-17 transform -translate-y-1/2 z-20">
+    <MainBouton type="contact" size="mobile" />
+  </div>
+
+  <!-- CardCV à droite du MainBouton Mii -->
+  <div class="absolute left-34 top-45 transform -translate-y-1/2 z-20">
+    <CardCV size="mobile" />
+  </div>
+
+  <!-- SmallBouton Paramètres à gauche du MainBouton Enveloppe -->
+  <div class="absolute right-34 top-45 transform -translate-y-1/2 z-20">
+    <SmallBouton type="parametres" size="mobile" />
+  </div>
+
+  <!-- Horloge et Date au centre -->
+  <div
+    class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 text-center"
+  >
+    <!-- Horloge -->
+    <div
+      id="clock-mobile"
+      class="text-3xl font-mono text-[#727272] relative bottom-16"
+    >
+      12:00 AM
+    </div>
+
+    <!-- Date -->
+    <div
+      id="date-mobile"
+      class="text-xl text-gray-600 relative bottom-6 font-semibold"
+    >
+      Sam 25/10
+    </div>
+  </div>
+</footer>
+
+<script>
+  function updateClockMobile() {
+    const now = new Date();
+
+    // Format de l'heure (12h avec AM/PM)
+    const hours = now.getHours();
+    const minutes = now.getMinutes().toString().padStart(2, "0");
+    const ampm = hours >= 12 ? "PM" : "AM";
+    const displayHours = hours % 12 || 12;
+
+    const timeString = `${displayHours}:${minutes} ${ampm}`;
+
+    // Format de la date (3 premières lettres du jour + date)
+    const days = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
+    const dayName = days[now.getDay()];
+    const day = now.getDate().toString().padStart(2, "0");
+    const month = (now.getMonth() + 1).toString().padStart(2, "0");
+
+    const dateString = `${dayName} ${day}/${month}`;
+
+    // Mise à jour des éléments
+    const clockElement = document.getElementById("clock-mobile");
+    const dateElement = document.getElementById("date-mobile");
+
+    if (clockElement) clockElement.textContent = timeString;
+    if (dateElement) dateElement.textContent = dateString;
+  }
+
+  // Mise à jour immédiate et toutes les secondes
+  updateClockMobile();
+  setInterval(updateClockMobile, 1000);
+</script>
