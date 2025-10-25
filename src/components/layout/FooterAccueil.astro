@@ -6,39 +6,41 @@ import FondBouton from "../../assets/icones/bouton_fond.svg";
 import FondFooter from "../../assets/icones/footer_fond.svg";
 ---
 
-<footer class="footer-wii relative w-full h-80 overflow-hidden">
+<footer
+  class="footer-wii relative w-full h-80 overflow-hidden bottom-66 left-0 right-0"
+>
   <!-- Fond ondulé -->
   <div class="absolute inset-0 w-full h-full z-0">
     <FondFooter class="w-full h-full object-cover" />
   </div>
 
   <!-- Fond bouton gauche -->
-  <div class="absolute left-0 top-0 w-80 h-full z-10">
+  <div class="absolute left-0 bottom-6 w-70 h-full z-10">
     <FondBouton class="h-full w-full object-cover" />
   </div>
 
   <!-- Fond bouton droite -->
-  <div class="absolute right-0 top-0 w-80 h-full z-10">
+  <div class="absolute right-0 bottom-6 w-70 h-full z-10">
     <FondBouton class="h-full w-full object-cover scale-x-[-1]" />
   </div>
 
   <!-- MainBouton Mii à gauche -->
-  <div class="absolute left-32 top-39 transform -translate-y-1/2 z-20">
+  <div class="absolute left-30 top-33 transform -translate-y-1/2 z-20">
     <MainBouton type="presentation" size="footer" />
   </div>
 
   <!-- MainBouton Enveloppe à droite -->
-  <div class="absolute right-33 top-39 transform -translate-y-1/2 z-20">
+  <div class="absolute right-30 top-33 transform -translate-y-1/2 z-20">
     <MainBouton type="contact" size="footer" />
   </div>
 
   <!-- CardCV à droite du MainBouton Mii -->
-  <div class="absolute left-95 top-50 transform -translate-y-1/2 z-20">
+  <div class="absolute left-95 top-45 transform -translate-y-1/2 z-20">
     <CardCV size="desktop" />
   </div>
 
   <!-- SmallBouton Paramètres à gauche du MainBouton Enveloppe -->
-  <div class="absolute right-95 top-50 transform -translate-y-1/2 z-20">
+  <div class="absolute right-95 top-45 transform -translate-y-1/2 z-20">
     <SmallBouton type="parametres" size="footer" />
   </div>
 

@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* Suppression du scroll global */
+html,
+body {
+  overflow: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 :root {
   /* Couleurs personnalisées pour Tailwind */
   --color-light-blue: #34beed;

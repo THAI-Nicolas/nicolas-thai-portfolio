@@ -2,7 +2,6 @@
 import Layout from "../layouts/Layout.astro";
 import SmallBouton from "../components/boutons/SmallBouton.astro";
 import MainBouton from "../components/boutons/MainBouton.astro";
-import ContactBouton from "../components/boutons/ContactBouton.astro";
 import ChannelProjet from "../components/ui/ChannelProjet.astro";
 import CardCV from "../components/boutons/CardCV.astro";
 import Fleche from "../components/ui/Fleche.astro";
@@ -10,39 +9,70 @@ import FooterAccueil from "../components/layout/FooterAccueil.astro";
 import FooterAccueilMobile from "../components/layout/FooterAccueilMobile.astro";
 ---
 
-<Layout>
-  <h1 class="text-3xl font-bold underline text-light-blue">
-    Test de tailwindcss
-  </h1>
-  <SmallBouton type="parametres" size="lg" />
-  <SmallBouton type="telechargement" size="lg" />
-  <SmallBouton type="zoom" size="lg" />
-  <SmallBouton type="dezoom" size="lg" />
+<Layout title="Accueil" description="Accueil du portfolio de Nicolas THAI">
+  <!-- Version Desktop -->
+  <div class="hidden md:block">
+    <!-- Zone principale avec grille de channels -->
+    <main class="relative h-screen bg-gray-100 overflow-hidden">
+      <!-- Grille de channels -->
+      <div class="absolute left-40 top-88 transform -translate-y-1/2">
+        <div class="grid grid-cols-5 gap-x-[40px] gap-y-[10px]">
+          <!-- Ligne 1 -->
+          <ChannelProjet
+            isEmpty={false}
+            projectCover="/src/assets/images/asafram_cover.svg"
+            projectTitle="ASAFRAM"
+            size="desktop"
+          />
+          <ChannelProjet
+            isEmpty={false}
+            projectCover="/src/assets/images/rba_cover.svg"
+            projectTitle="Réseau Biodiversité pour les Abeilles"
+            size="desktop"
+          />
+          <ChannelProjet
+            isEmpty={false}
+            projectCover="/src/assets/images/mysubs_cover.svg"
+            projectTitle="MySubs"
+            size="desktop"
+          />
+          <ChannelProjet
+            isEmpty={false}
+            projectCover="/src/assets/images/mmi_soccer_cover.svg"
+            projectTitle="MMI Soccer"
+            size="desktop"
+          />
+          <ChannelProjet isEmpty={true} size="desktop" />
 
-  <MainBouton type="retour" />
-  <MainBouton type="contact" />
-  <MainBouton type="presentation" />
-  <MainBouton type="dezoom" />
+          <!-- Ligne 2 -->
+          <ChannelProjet isEmpty={true} size="desktop" />
+          <ChannelProjet isEmpty={true} size="desktop" />
+          <ChannelProjet isEmpty={true} size="desktop" />
+          <ChannelProjet isEmpty={true} size="desktop" />
+          <ChannelProjet isEmpty={true} size="desktop" />
 
-  <ContactBouton type="email" />
-  <ContactBouton type="github" />
-  <ContactBouton type="linkedin" />
-  <ContactBouton type="instagram" />
-  <div class="flex flex-row gap-4">
-    <ChannelProjet isEmpty={true} />
-    <ChannelProjet
-      isEmpty={false}
-      projectCover="/src/assets/images/asafram_cover.svg"
-      projectTitle="Project 1"
-    />
+          <!-- Ligne 3 -->
+          <ChannelProjet isEmpty={true} size="desktop" />
+          <ChannelProjet isEmpty={true} size="desktop" />
+          <ChannelProjet isEmpty={true} size="desktop" />
+          <ChannelProjet isEmpty={true} size="desktop" />
+          <ChannelProjet isEmpty={true} size="desktop" />
+        </div>
+      </div>
+
+      <!-- Flèche de navigation à droite -->
+      <div class="absolute right-24 top-90 transform -translate-y-1/2 z-30">
+        <Fleche direction="droite" size="desktop" />
+      </div>
+    </main>
+
+    <!-- Footer Desktop -->
+    <FooterAccueil />
   </div>
 
-  <CardCV size="desktop" />
-  <CardCV size="mobile" />
-
-  <Fleche size="desktop" direction="gauche" />
-  <Fleche direction="droite" />
-  <Fleche direction="haut" />
-  <Fleche direction="bas" />
-  <FooterAccueilMobile />
+  <!-- Version Mobile -->
+  <div class="block md:hidden">
+    <!-- Footer mobile -->
+    <FooterAccueilMobile />
+  </div>
 </Layout>

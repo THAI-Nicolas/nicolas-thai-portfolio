@@ -5,6 +5,7 @@ export interface Props {
   isEmpty?: boolean;
   projectCover?: string;
   projectTitle?: string;
+  size?: "mobile" | "desktop";
   href?: string;
   onClick?: () => void;
 }
@@ -13,13 +14,26 @@ const {
   isEmpty = true,
   projectCover,
   projectTitle,
+  size = "desktop",
   href = "#",
   onClick,
 } = Astro.props;
+
+// Tailles dynamiques
+const sizes = {
+  mobile: {
+    container: "w-[295px] h-[160px]",
+  },
+  desktop: {
+    container: "w-[380px] h-[190px]",
+  },
+};
+
+const currentSize = sizes[size] || sizes.desktop;
 ---
 
 <div
-  class="w-[396px] h-[215px] cursor-pointer transition-all duration-200 ease-in-out group"
+  class={`${currentSize.container} cursor-pointer transition-all duration-200 ease-in-out group`}
   data-onclick={onClick ? "true" : undefined}
 >
   <div class="relative w-full h-full wii-channel-container">
@@ -40,45 +54,44 @@ const {
 </div>
 
 <style>
-  /* Effet de texture grain VHS */
+  /* Suppression complète de tous les fonds */
   .wii-channel-container {
     position: relative;
+    background: transparent !important;
   }
 
   .wii-channel-container::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: radial-gradient(
-        circle at 1px 1px,
-        rgba(0, 0, 0, 0.15) 1px,
-        transparent 0
-      ),
-      radial-gradient(
-        circle at 2px 2px,
-        rgba(255, 255, 255, 0.1) 1px,
-        transparent 0
-      );
-    background-size:
-      3px 3px,
-      4px 4px;
-    background-position:
-      0 0,
-      1px 1px;
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0.6;
-    mix-blend-mode: overlay;
+    display: none !important;
   }
 
-  /* Effet hover sur le SVG */
+  /* Suppression complète du fond SVG */
   .wii-channel-svg {
     transition: color 0.2s ease-in-out;
     color: rgb(119, 117, 117);
     z-index: 3;
+    background: transparent !important;
+    fill: transparent !important;
+  }
+
+  .wii-channel-svg path {
+    fill: transparent !important;
+    background: transparent !important;
+  }
+
+  .wii-channel-svg rect {
+    fill: transparent !important;
+    background: transparent !important;
+  }
+
+  .wii-channel-svg circle {
+    fill: transparent !important;
+    background: transparent !important;
+  }
+
+  /* Suppression de tous les éléments de fond */
+  .wii-channel-svg * {
+    fill: transparent !important;
+    background: transparent !important;
   }
 
   .group:hover .wii-channel-svg {

@@ -14,9 +14,21 @@ const {
   href = "#",
   onClick,
 } = Astro.props;
+
+// Tailles dynamiques
+const sizes = {
+  mobile: {
+    container: "w-[33px] h-[63px]",
+  },
+  desktop: {
+    container: "w-[58px] h-[111px]",
+  },
+};
+
+const currentSize = sizes[size] || sizes.desktop;
 ---
 
-<div class={`w-8 h-8 ${size === "desktop" ? "md:w-12 md:h-12" : ""} relative`}>
+<div class={`${currentSize.container} relative`}>
   <a
     href={href}
     class="fleche cursor-pointer transition-all duration-200 hover:scale-110 block origin-center absolute inset-0"
