@@ -1,32 +1,45 @@
 ---
-import IconTelechargement from "../assets/icones/telechargement.svg";
-import IconZoom from "../assets/icones/zoom.svg";
-import IconParametres from "../assets/icones/parametres.svg";
+import IconTelechargement from "../../assets/icones/telechargement.svg";
+import IconZoom from "../../assets/icones/zoom.svg";
+import IconParametres from "../../assets/icones/parametres.svg";
 
 export interface Props {
   type: "parametres" | "telechargement" | "zoom" | "dezoom";
   href?: string;
-  size?: "sm" | "md" | "lg";
+  size?: "mobile" | "desktop" | "footer";
   onClick?: () => void;
 }
 
-const { type, href = "#", size = "md", onClick } = Astro.props;
+const { type, href = "#", size = "desktop", onClick } = Astro.props;
 
-const sizeClasses = {
-  sm: "w-12 h-12",
-  md: "w-16 h-16",
-  lg: "w-20 h-20",
+// Tailles dynamiques
+const sizes = {
+  mobile: {
+    button: "w-[50px] h-[50px]",
+    icon: "w-6 h-6",
+  },
+  desktop: {
+    button: "w-[60px] h-[60px]",
+    icon: "w-[28px] h-[28px]",
+  },
+  footer: {
+    button: "w-[80px] h-[80px]",
+    icon: "w-[40px] h-[40px]",
+  },
 };
 
-const iconSizeClasses = {
-  sm: "w-6 h-6",
-  md: "w-8 h-8",
-  lg: "w-10 h-10",
+const currentSize = sizes[size] || sizes.desktop;
+
+const icons = {
+  parametres: IconParametres,
+  telechargement: IconTelechargement,
+  zoom: IconZoom,
+  dezoom: null, // Géré séparément car c'est un .webp
 };
 ---
 
 <button
-  class={`relative cursor-pointer transition-all duration-200 ease-in-out border-none bg-none p-0 ${sizeClasses[size]}`}
+  class={`relative cursor-pointer transition-all duration-200 ease-in-out border-none bg-none p-0 ${currentSize.button}`}
   data-type={type}
   data-onclick={onClick ? "true" : undefined}
 >
@@ -36,21 +49,21 @@ const iconSizeClasses = {
     {
       type === "parametres" && (
         <IconParametres
-          class={`transition-colors duration-200 wii-button__icon ${iconSizeClasses[size]}`}
+          class={`transition-colors duration-200 wii-button__icon ${currentSize.icon}`}
         />
       )
     }
     {
       type === "telechargement" && (
         <IconTelechargement
-          class={`transition-colors duration-200 wii-button__icon ${iconSizeClasses[size]}`}
+          class={`transition-colors duration-200 wii-button__icon ${currentSize.icon}`}
         />
       )
     }
     {
       type === "zoom" && (
         <IconZoom
-          class={`transition-colors duration-200 wii-button__icon ${iconSizeClasses[size]}`}
+          class={`transition-colors duration-200 wii-button__icon ${currentSize.icon}`}
         />
       )
     }
@@ -58,7 +71,7 @@ const iconSizeClasses = {
       type === "dezoom" && (
         <img
           src="/src/assets/icones/dezoom.webp"
-          class={`transition-colors duration-200 wii-button__icon ${iconSizeClasses[size]}`}
+          class={`transition-colors duration-200 wii-button__icon ${currentSize.icon}`}
           alt="Dézoom"
         />
       )

@@ -1,16 +1,17 @@
 ---
-import IconRetour from "../assets/icones/retour.webp";
-import IconDezoom from "../assets/icones/dezoom.webp";
-import IconEnveloppe from "../assets/icones/enveloppe.svg";
-import FormeBouton from "../assets/icones/forme_main_bouton.svg";
+import IconRetour from "../../assets/icones/retour.webp";
+import IconDezoom from "../../assets/icones/dezoom.webp";
+import IconEnveloppe from "../../assets/icones/enveloppe.svg";
+import FormeBouton from "../../assets/icones/forme_main_bouton.svg";
 
 export interface Props {
   type: "retour" | "contact" | "presentation" | "dezoom";
+  size?: "mobile" | "desktop" | "footer";
   href?: string;
   onClick?: () => void;
 }
 
-const { type, href = "#", onClick } = Astro.props;
+const { type, size = "desktop", href = "#", onClick } = Astro.props;
 
 const icons = {
   retour: IconRetour,
@@ -18,10 +19,37 @@ const icons = {
   dezoom: IconDezoom,
   presentation: null, // On le fera plus tard
 };
+
+// Tailles dynamiques
+const sizes = {
+  mobile: {
+    button: "w-[60px] h-[60px]",
+    shape: "w-8 h-8",
+    icon: "w-6 h-6",
+    iconRetour: "w-6 h-4",
+    text: "text-xs",
+  },
+  desktop: {
+    button: "w-[110px] h-[110px]",
+    shape: "w-12 h-12",
+    icon: "w-8 h-8",
+    iconRetour: "w-8 h-6",
+    text: "text-xs",
+  },
+  footer: {
+    button: "w-[178px] h-[178px]",
+    shape: "w-20 h-20",
+    icon: "w-[106px] h-[70px]",
+    iconRetour: "w-20 h-14",
+    text: "text-sm",
+  },
+};
+
+const currentSize = sizes[size] || sizes.desktop;
 ---
 
 <button
-  class="relative cursor-pointer transition-transform duration-200 ease-in-out border-none bg-none p-0 w-28 h-28 hover:scale-105"
+  class={`relative cursor-pointer transition-transform duration-200 ease-in-out border-none bg-none p-0 hover:scale-105 ${currentSize.button}`}
   data-type={type}
   data-onclick={onClick ? "true" : undefined}
 >
@@ -29,7 +57,9 @@ const icons = {
     class="w-full h-full rounded-full relative overflow-hidden flex items-center justify-center wii-main-button__circle"
   >
     {/* Forme décorative en arrière-plan */}
-    <div class="absolute top-1 left-1 w-18 h-18 wii-main-button__shape">
+    <div
+      class={`absolute top-1 left-1 wii-main-button__shape ${currentSize.shape}`}
+    >
       <FormeBouton class="w-full h-full" />
     </div>
 
@@ -38,29 +68,33 @@ const icons = {
       type === "retour" && (
         <img
           src="/src/assets/icones/retour.webp"
-          class="w-12 h-9 wii-main-button__icon relative z-10"
+          class={`wii-main-button__icon relative z-10 ${currentSize.iconRetour}`}
           alt="Retour"
         />
       )
     }
     {
       type === "contact" && (
-        <IconEnveloppe class="w-12 h-12 wii-main-button__icon relative z-10" />
+        <IconEnveloppe
+          class={`wii-main-button__icon relative z-10 ${currentSize.icon}`}
+        />
       )
     }
     {
       type === "dezoom" && (
         <img
           src="/src/assets/icones/dezoom.webp"
-          class="w-12 h-12 wii-main-button__icon relative z-10"
+          class={`wii-main-button__icon relative z-10 ${currentSize.icon}`}
           alt="Dézoom"
         />
       )
     }
     {
       type === "presentation" && (
-        <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center relative z-10">
-          <span class="text-xs text-gray-600">Mii</span>
+        <div
+          class={`bg-gray-300 rounded-full flex items-center justify-center relative z-10 ${currentSize.icon}`}
+        >
+          <span class={`text-gray-600 ${currentSize.text}`}>Mii</span>
         </div>
       )
     }

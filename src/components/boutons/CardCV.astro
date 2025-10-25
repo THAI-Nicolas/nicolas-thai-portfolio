@@ -1,5 +1,5 @@
 ---
-import CardCVIcon from "../assets/icones/cv_card.svg";
+import CardCVIcon from "../../assets/icones/cv_card.svg";
 
 export interface Props {
   size?: "mobile" | "desktop";
@@ -7,12 +7,22 @@ export interface Props {
   onClick?: () => void;
 }
 
-const { size = "mobile", href = "#", onClick } = Astro.props;
+const { size = "desktop", href = "#", onClick } = Astro.props;
+
+// Tailles dynamiques (CardCV uniquement mobile et desktop)
+const sizes = {
+  mobile: {
+    container: "w-[30px] h-[45px]",
+  },
+  desktop: {
+    container: "w-[75px] h-[92px]",
+  },
+};
+
+const currentSize = sizes[size] || sizes.desktop;
 ---
 
-<div
-  class={`w-10 h-14 ${size === "desktop" ? "md:w-16 md:h-20" : ""} relative`}
->
+<div class={`${currentSize.container} relative`}>
   <a
     href={href}
     class="card-cv cursor-pointer transition-transform duration-200 hover:scale-110 block origin-center absolute inset-0"

@@ -1,12 +1,12 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import SmallBouton from "../components/SmallBouton.astro";
-import MainBouton from "../components/MainBouton.astro";
-import ContactBouton from "../components/ContactBouton.astro";
-import ChannelProjet from "../components/ChannelProjet.astro";
-import CardCV from "../components/CardCV.astro";
-import Fleche from "../components/Fleche.astro";
-import FlecheIcon from "../assets/icones/fleche.svg";
+import SmallBouton from "../components/boutons/SmallBouton.astro";
+import MainBouton from "../components/boutons/MainBouton.astro";
+import ContactBouton from "../components/boutons/ContactBouton.astro";
+import ChannelProjet from "../components/ui/ChannelProjet.astro";
+import CardCV from "../components/boutons/CardCV.astro";
+import Fleche from "../components/ui/Fleche.astro";
+import FooterAccueil from "../components/layout/FooterAccueil.astro";
 ---
 
 <Layout>
@@ -43,4 +43,5 @@ import FlecheIcon from "../assets/icones/fleche.svg";
   <Fleche direction="droite" />
   <Fleche direction="haut" />
   <Fleche direction="bas" />
+  <FooterAccueil />
 </Layout>
