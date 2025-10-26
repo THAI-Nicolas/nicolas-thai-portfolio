@@ -4,6 +4,7 @@ import ChannelProjet from "../components/ui/ChannelProjet.astro";
 import Fleche from "../components/ui/Fleche.astro";
 import FooterAccueil from "../components/layout/FooterAccueil.astro";
 import FooterAccueilMobile from "../components/layout/FooterAccueilMobile.astro";
+import CvOverlay from "../components/layout/CvOverlay.astro";
 ---
 
 <Layout
@@ -20,7 +21,7 @@ import FooterAccueilMobile from "../components/layout/FooterAccueilMobile.astro"
         <div class="absolute left-40 top-88 transform -translate-y-1/2">
           <div
             id="carousel-grid"
-            class="grid grid-cols-9 gap-x-[0px] gap-y-[10px] w-[3330px] transition-transform duration-500 ease-in-out"
+            class="grid grid-cols-9 gap-x-[0px] gap-y-[10px] w-[3330px] transition-transform duration-800 ease-in-out"
           >
             <!-- Ligne 1 - Channels 1-9 -->
             <ChannelProjet
@@ -82,15 +83,15 @@ import FooterAccueilMobile from "../components/layout/FooterAccueilMobile.astro"
           class="absolute right-24 top-90 transform -translate-y-1/2 z-30 cursor-pointer"
           id="arrow-right"
         >
-          <Fleche direction="droite" size="desktop" />
+          <Fleche direction="droite" size="mobile" />
         </div>
 
         <!-- Flèche de navigation à gauche -->
         <div
-          class="absolute left-24 top-90 transform -translate-y-1/2 z-30 cursor-pointer"
+          class="absolute left-24 top-90 transform -translate-y-1/2 z-30 cursor-pointer opacity-0"
           id="arrow-left"
         >
-          <Fleche direction="gauche" size="desktop" />
+          <Fleche direction="gauche" size="mobile" />
         </div>
       </div>
     </main>
@@ -104,6 +105,9 @@ import FooterAccueilMobile from "../components/layout/FooterAccueilMobile.astro"
     <!-- Footer mobile -->
     <FooterAccueilMobile />
   </div>
+
+  <!-- CvOverlay -->
+  <CvOverlay client:load />
 </Layout>
 
 <script>
@@ -113,19 +117,63 @@ import FooterAccueilMobile from "../components/layout/FooterAccueilMobile.astro"
     const arrowRight = document.getElementById("arrow-right");
     const arrowLeft = document.getElementById("arrow-left");
 
+    let cvOverlayVisible = false;
+
+    function openCvOverlay() {
+      console.log("Ouverture du CV");
+      cvOverlayVisible = true;
+      const cvOverlay = document.querySelector(".cv-overlay");
+      if (cvOverlay) {
+        console.log("CV Overlay trouvé, ouverture...");
+        cvOverlay.classList.remove(
+          "opacity-0",
+          "pointer-events-none",
+          "hidden"
+        );
+        cvOverlay.classList.add("opacity-100", "pointer-events-auto");
+        console.log("Classes:", cvOverlay.className);
+      } else {
+        console.log("CV Overlay non trouvé !");
+      }
+    }
+
+    function closeCvOverlay() {
+      cvOverlayVisible = false;
+      const cvOverlay = document.querySelector(".cv-overlay");
+      if (cvOverlay) {
+        cvOverlay.classList.add("opacity-0", "pointer-events-none");
+        cvOverlay.classList.remove("opacity-100", "pointer-events-auto");
+      }
+    }
+
+    document.addEventListener("click", (e) => {
+      const target = e.target as HTMLElement;
+      if (target.closest(".card-cv")) {
+        e.preventDefault();
+        openCvOverlay();
+      } else if (
+        target.closest("#cv-return-button") ||
+        target.closest("#cv-close-button")
+      ) {
+        closeCvOverlay();
+      } else if (target.closest(".cv-overlay > div")) {
+        closeCvOverlay();
+      }
+    });
+
     // Fonction pour changer de page
-    function switchPage(pageNumber) {
+    function switchPage(pageNumber: number) {
       console.log("Changement vers la page:", pageNumber);
       if (pageNumber === 1) {
-        carouselGrid.style.transform = "translateX(0)";
-        arrowRight.style.opacity = "1";
-        arrowLeft.style.opacity = "0";
+        if (carouselGrid) carouselGrid.style.transform = "translateX(0)";
+        if (arrowRight) arrowRight.style.opacity = "1";
+        if (arrowLeft) arrowLeft.style.opacity = "0";
         currentPage = 1;
         console.log("Page 1 active");
       } else if (pageNumber === 2) {
-        carouselGrid.style.transform = "translateX(-1890px)"; // Décalage de 4.5 colonnes (9 channels)
-        arrowRight.style.opacity = "0";
-        arrowLeft.style.opacity = "1";
+        if (carouselGrid) carouselGrid.style.transform = "translateX(-1890px)"; // Décalage de 4.5 colonnes (9 channels)
+        if (arrowRight) arrowRight.style.opacity = "0";
+        if (arrowLeft) arrowLeft.style.opacity = "1";
         currentPage = 2;
         console.log("Page 2 active");
       }

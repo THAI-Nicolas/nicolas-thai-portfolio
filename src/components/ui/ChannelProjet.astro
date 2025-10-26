@@ -36,7 +36,9 @@ const currentSize = sizes[size] || sizes.desktop;
   class={`${currentSize.container} cursor-pointer transition-all duration-200 ease-in-out group`}
   data-onclick={onClick ? "true" : undefined}
 >
-  <div class="relative w-full h-full wii-channel-container">
+  <div
+    class={`relative w-full h-full wii-channel-container ${isEmpty ? "empty-channel" : ""}`}
+  >
     <ChannelEmpty class="w-full h-full wii-channel-svg" />
     {
       !isEmpty && projectCover && (
@@ -54,14 +56,10 @@ const currentSize = sizes[size] || sizes.desktop;
 </div>
 
 <style>
-  /* Suppression complète de tous les fonds */
+  /* Container avec texture VHS */
   .wii-channel-container {
     position: relative;
     background: transparent !important;
-  }
-
-  .wii-channel-container::before {
-    display: none !important;
   }
 
   /* SVG avec bordure visible et hover effect */

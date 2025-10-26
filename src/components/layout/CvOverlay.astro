@@ -1,0 +1,149 @@
+---
+import Cv from "../ui/Cv.astro";
+import MainBouton from "../boutons/MainBouton.astro";
+import SmallBouton from "../boutons/SmallBouton.astro";
+import ContactBouton from "../boutons/ContactBouton.astro";
+import Fleche from "../ui/Fleche.astro";
+import Socle from "../ui/Socle.astro";
+
+export interface Props {
+  isVisible?: boolean;
+  onClose?: () => void;
+}
+
+const { isVisible = false, onClose } = Astro.props;
+---
+
+<div
+  class="cv-overlay opacity-0 pointer-events-none fixed inset-0 z-[60]"
+  style="transition: opacity 0.3s ease-in-out;"
+>
+  <div
+    class="backdrop-blur-sm bg-black/50 fixed inset-0 z-[70] overflow-hidden"
+  >
+  </div>
+
+  <div
+    class="cv-container fixed inset-0 z-[80] flex items-center"
+    style="padding-left: 80px; padding-right: 80px;"
+  >
+    <div class="cv-content-wrapper flex items-center gap-12">
+      <!-- Partie gauche - Boutons -->
+      <div
+        class="cv-left-sidebar flex flex-col gap-62 items-start flex-shrink-0 ml-8 mt-20"
+      >
+        <!-- MainBouton Retour -->
+        <div id="cv-return-button" style="margin-top: 34px;">
+          <MainBouton type="retour" size="desktop" />
+        </div>
+
+        <!-- 4 ContactBoutons verticaux -->
+        <div class="flex flex-col gap-4">
+          <ContactBouton type="email" />
+          <ContactBouton type="github" />
+          <ContactBouton type="linkedin" />
+          <ContactBouton type="instagram" />
+        </div>
+      </div>
+
+      <!-- Partie centre - CV -->
+      <div class="cv-center relative flex-shrink-0">
+        <div class="cv-wrapper relative w-[600px]">
+          <!-- SmallBouton Téléchargement en haut à droite -->
+          <div class="absolute top-2 right-2 z-10">
+            <SmallBouton type="telechargement" size="desktop" />
+          </div>
+
+          <!-- CV -->
+          <Cv />
+        </div>
+      </div>
+
+      <!-- Partie droite - Mii -->
+      <div
+        class="cv-right-sidebar relative w-96 h-96 flex flex-col items-center justify-center ml-16"
+      >
+        <!-- Cercle néon -->
+        <div
+          class="neon-circle-outer absolute top-40 left-125 transform -translate-x-1/2 -translate-y-1/2 w-[784px] h-[784px]"
+        >
+        </div>
+
+        <!-- Container pour les flèches -->
+        <div
+          class="absolute bottom-55 left-125 transform -translate-x-1/2 scale-130 flex gap-96 items-center cursor-pointer"
+        >
+          <!-- Flèche gauche -->
+          <div>
+            <Fleche direction="gauche" size="mobile" />
+          </div>
+
+          <!-- Flèche droite -->
+          <div>
+            <Fleche direction="droite" size="mobile" />
+          </div>
+        </div>
+
+        <!-- Mii (espace réservé) -->
+        <div
+          class="mii-container absolute top-0 left-1/2 transform -translate-x-1/2 z-10 flex items-center justify-center w-32 h-32"
+        >
+          <!-- Ici on mettra le Mii plus tard -->
+        </div>
+
+        <!-- Socle avec ombre -->
+        <div
+          class="socle-with-shadow absolute top-100 left-50 z-20"
+          style="width: 600px; height: 100px;"
+        >
+          <div class="relative w-full h-full">
+            <!-- Ombre du socle -->
+            <div
+              class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-4 bg-black/30 blur-md rounded-full"
+            >
+            </div>
+
+            <!-- Socle -->
+            <div class="relative z-10 w-full h-full">
+              <Socle />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .cv-overlay {
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .cv-container {
+    scrollbar-width: thin;
+  }
+
+  .neon-circle-outer {
+    background: rgba(255, 255, 255, 0.7);
+    border: 10.747px solid #34beed;
+    border-radius: 50%;
+    filter: drop-shadow(0 0 32.16px rgba(52, 190, 237, 1));
+    box-shadow: 0 0 32.16px rgba(52, 190, 237, 1);
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const returnButton = document.getElementById("cv-return-button");
+    const cardCvLinks = document.querySelectorAll(".card-cv");
+
+    if (returnButton) {
+      returnButton.addEventListener("click", () => {
+        const cvOverlay = document.querySelector(".cv-overlay");
+        if (cvOverlay) {
+          cvOverlay.classList.add("hidden");
+        }
+      });
+    }
+  });
+</script>
