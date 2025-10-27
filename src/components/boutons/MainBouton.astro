@@ -9,9 +9,10 @@ export interface Props {
   size?: "mobile" | "desktop" | "footer";
   href?: string;
   onClick?: () => void;
+  id?: string;
 }
 
-const { type, size = "desktop", href = "#", onClick } = Astro.props;
+const { type, size = "desktop", href = "#", onClick, id } = Astro.props;
 
 const icons = {
   retour: IconRetour,
@@ -51,6 +52,12 @@ const currentSize = sizes[size] || sizes.desktop;
 <button
   class={`relative cursor-pointer transition-transform duration-200 ease-in-out border-none bg-none p-0 hover:scale-105 ${currentSize.button}`}
   data-type={type}
+  id={id ||
+    (type === "contact"
+      ? "contact-button"
+      : type === "retour"
+        ? "cv-return-button"
+        : undefined)}
   data-onclick={onClick ? "true" : undefined}
 >
   <div

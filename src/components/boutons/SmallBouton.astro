@@ -8,9 +8,10 @@ export interface Props {
   href?: string;
   size?: "mobile" | "desktop" | "footer";
   onClick?: () => void;
+  id?: string;
 }
 
-const { type, href = "#", size = "desktop", onClick } = Astro.props;
+const { type, href = "#", size = "desktop", onClick, id } = Astro.props;
 
 // Tailles dynamiques
 const sizes = {
@@ -42,6 +43,7 @@ const icons = {
   class={`relative cursor-pointer transition-all duration-200 ease-in-out border-none bg-none p-0 ${currentSize.button}`}
   data-type={type}
   data-onclick={onClick ? "true" : undefined}
+  id={id}
 >
   <div
     class="w-full h-full rounded-full relative overflow-hidden flex items-center justify-center wii-button__circle"

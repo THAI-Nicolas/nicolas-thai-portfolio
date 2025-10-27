@@ -1,0 +1,627 @@
+---
+export interface Props {
+  isVisible?: boolean;
+  onClose?: () => void;
+}
+
+const { isVisible = false, onClose } = Astro.props;
+---
+
+<div
+  class="parametres-overlay opacity-0 pointer-events-none fixed inset-0 z-[60]"
+  style="transition: opacity 0.3s ease-in-out;"
+>
+  <!-- Backdrop identique aux autres overlays -->
+  <div class="backdrop-blur-sm bg-black/50 fixed inset-0 z-[70]"></div>
+
+  <!-- Container principal -->
+  <div
+    class="parametres-container fixed inset-0 z-[80] flex items-center justify-center p-8"
+  >
+    <div
+      class="parametres-content w-full max-w-6xl bg-[#f2f2f2] gaming-border"
+      style="animation: fadeIn 0.3s ease-out; border-radius: 4px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);"
+    >
+      <!-- Header gaming -->
+      <div
+        class="parametres-header flex items-center justify-between border-b-2 border-light-blue bg-[#f2f2f2]"
+        style="padding: 20px 48px;"
+      >
+        <div class="flex items-center gap-4">
+          
+          <h2 class="text-2xl font-bold text-text-gray tracking-[0.2em] uppercase">
+            Paramètres
+          </h2>
+        </div>
+        <button
+          id="parametres-close-button"
+          class="cursor-pointer close-button w-12 h-12 border-2 border-light-blue hover:border-light-blue bg-transparent hover:bg-white transition-all duration-300 flex items-center justify-center group"
+          style="border-radius: 4px;"
+        >
+          <svg
+            class="w-6 h-6 text-light-blue group-hover:text-light-blue"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="square"
+              stroke-linejoin="miter"
+              stroke-width="2.5"
+              d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Content gaming -->
+      <div class="parametres-body bg-[#f2f2f2]" style="padding: 24px 48px;">
+        <div class="grid grid-cols-2" style="gap: 16px;">
+          <!-- Colonne gauche -->
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <!-- Section Audio -->
+            <section class="parametres-section">
+              <div class="flex items-center gap-3" style="margin-bottom: 16px;">
+                <h3
+                  class="text-base font-bold text-light-blue uppercase tracking-[0.15em]"
+                >
+                  Audio
+                </h3>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <!-- Volume Général -->
+                <div class="gaming-card">
+                  <div class="flex items-center justify-between" style="margin-bottom: 8px;">
+                    <label class="text-sm font-semibold text-text-gray tracking-wide">
+                      Volume général
+                    </label>
+                    <div
+                      class="slider-value text-sm font-bold text-light-blue tabular-nums"
+                    >
+                      50%
+                    </div>
+                  </div>
+                  <input
+                    type="range"
+                    id="master-volume"
+                    min="0"
+                    max="100"
+                    value="50"
+                    class="gaming-slider"
+                  />
+                </div>
+
+                <!-- Musique d'ambiance -->
+                <div class="gaming-card">
+                  <div class="flex items-center justify-between" style="margin-bottom: 8px;">
+                    <label class="text-sm font-semibold text-text-gray tracking-wide">
+                      Musique d'ambiance
+                    </label>
+                    <div
+                      class="slider-value text-sm font-bold text-light-blue tabular-nums"
+                    >
+                      40%
+                    </div>
+                  </div>
+                  <input
+                    type="range"
+                    id="music-volume"
+                    min="0"
+                    max="100"
+                    value="40"
+                    class="gaming-slider"
+                  />
+                </div>
+
+                <!-- Effets sonores -->
+                <div class="gaming-card">
+                  <div class="flex items-center justify-between" style="margin-bottom: 8px;">
+                    <label class="text-sm font-semibold text-text-gray tracking-wide">
+                      Effets sonores
+                    </label>
+                    <div
+                      class="slider-value text-sm font-bold text-light-blue tabular-nums"
+                    >
+                      70%
+                    </div>
+                  </div>
+                  <input
+                    type="range"
+                    id="sfx-volume"
+                    min="0"
+                    max="100"
+                    value="70"
+                    class="gaming-slider"
+                  />
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- Colonne droite -->
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <!-- Section Interface -->
+            <section class="parametres-section">
+              <div class="flex items-center gap-3" style="margin-bottom: 16px;">
+                <h3
+                  class="text-base font-bold text-light-blue uppercase tracking-[0.15em]"
+                >
+                  Interface
+                </h3>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <!-- Curseur Wii -->
+                <div class="gaming-card">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <label class="text-sm font-semibold text-text-gray block tracking-wide">
+                        Curseur Wii
+                      </label>
+                      <p class="text-xs text-[#a2a2a2] mt-1">
+                        Pointeur style Wii
+                      </p>
+                    </div>
+                    <label class="gaming-toggle">
+                      <input
+                        type="checkbox"
+                        class="toggle-input sr-only"
+                        id="wii-cursor-toggle"
+                        checked
+                      />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Thème -->
+                <div class="gaming-card">
+                  <label class="text-sm font-semibold text-text-gray block tracking-wide" style="margin-bottom: 12px;">
+                    Thème d'affichage
+                  </label>
+                  <div class="grid grid-cols-2 gap-3">
+                    <button class="gaming-btn active" data-theme="light">
+                      <span class="btn-corner top-left"></span>
+                      <span class="btn-corner top-right"></span>
+                      <span class="btn-corner bottom-left"></span>
+                      <span class="btn-corner bottom-right"></span>
+                      Clair
+                    </button>
+                    <button class="gaming-btn" data-theme="dark">
+                      <span class="btn-corner top-left"></span>
+                      <span class="btn-corner top-right"></span>
+                      <span class="btn-corner bottom-left"></span>
+                      <span class="btn-corner bottom-right"></span>
+                      Sombre
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Langue -->
+                <div class="gaming-card">
+                  <label class="text-sm font-semibold text-text-gray block tracking-wide" style="margin-bottom: 12px;">
+                    Langue
+                  </label>
+                  <div class="grid grid-cols-2 gap-3">
+                    <button class="gaming-btn active" data-lang="fr">
+                      <span class="btn-corner top-left"></span>
+                      <span class="btn-corner top-right"></span>
+                      <span class="btn-corner bottom-left"></span>
+                      <span class="btn-corner bottom-right"></span>
+                      Français
+                    </button>
+                    <button class="gaming-btn" data-lang="en">
+                      <span class="btn-corner top-left"></span>
+                      <span class="btn-corner top-right"></span>
+                      <span class="btn-corner bottom-left"></span>
+                      <span class="btn-corner bottom-right"></span>
+                      English
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Animations -->
+                <div class="gaming-card">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <label class="text-sm font-semibold text-text-gray block tracking-wide">
+                        Animations
+                      </label>
+                      <p class="text-xs text-[#a2a2a2] mt-1">
+                        Transitions fluides
+                      </p>
+                    </div>
+                    <label class="gaming-toggle">
+                      <input
+                        type="checkbox"
+                        class="toggle-input sr-only"
+                        id="animations-toggle"
+                        checked
+                      />
+                      <span class="toggle-slider"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer gaming -->
+      <div
+        class="parametres-footer bg-[#f2f2f2] flex justify-between items-center"
+        style="padding: 20px 48px;"
+      >
+        <button
+          id="reset-button"
+          class="cursor-pointer reset-btn font-medium text-xs border-2 transition-all duration-300 uppercase tracking-[0.15em] gaming-btn-border"
+          style="border-radius: 4px; padding: 10px 18px; color: var(--color-light-blue); background: transparent; border-color: var(--color-light-blue);"
+          onmouseenter="this.style.color='white'; this.style.background='var(--color-light-blue)'; this.style.borderColor='var(--color-light-blue)';"
+          onmouseleave="this.style.color='var(--color-light-blue)'; this.style.background='transparent'; this.style.borderColor='var(--color-light-blue)';"
+        >
+          Réinitialiser
+        </button>
+        <button
+          id="apply-button"
+          class="cursor-pointer apply-btn font-medium text-xs border-2 transition-all duration-300 uppercase tracking-[0.15em]"
+          style="border-radius: 4px; padding: 10px 24px; background: var(--color-light-blue); color: #f2f2f2; border-color: var(--color-light-blue);"
+          onmouseenter="this.style.background='#f2f2f2'; this.style.color='var(--color-light-blue)'; this.style.borderColor='var(--color-light-blue)';"
+          onmouseleave="this.style.background='var(--color-light-blue)'; this.style.color='#f2f2f2'; this.style.borderColor='var(--color-light-blue)';"
+        >
+          Enregistrer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Animation d'entrée gaming */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95) translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1) translateY(0);
+    }
+  }
+
+  /* Bordure simple */
+  .gaming-border {
+    border: 2px solid rgba(52, 190, 237, 0.3);
+  }
+
+  /* Cards avec fond clair - sans hover */
+  .gaming-card {
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(52, 190, 237, 0.15);
+    border-radius: 4px;
+  }
+
+  /* Slider simple */
+  .gaming-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    background: #e1e2e6;
+    outline: none;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+
+  .gaming-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    background: var(--color-light-blue);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+  }
+
+  .gaming-slider::-webkit-slider-thumb:hover {
+    background: var(--color-dark-blue);
+    transform: scale(1.1);
+  }
+
+  .gaming-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    background: var(--color-light-blue);
+    cursor: pointer;
+    border: none;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+
+  .gaming-slider::-moz-range-thumb:hover {
+    background: var(--color-dark-blue);
+    transform: scale(1.1);
+  }
+
+  /* Toggle simple */
+  .gaming-toggle {
+    position: relative;
+    display: inline-block;
+    width: 56px;
+    height: 28px;
+  }
+
+  .toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #e1e2e6;
+    border: 2px solid rgba(52, 190, 237, 0.2);
+    transition: all 0.3s ease;
+    border-radius: 32px;
+  }
+
+  .toggle-slider::before {
+    content: "";
+    position: absolute;
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    top: 3px;
+    background: white;
+    transition: all 0.3s ease;
+    border-radius: 32px;
+  }
+
+  .toggle-input:checked + .toggle-slider {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: var(--color-light-blue);
+  }
+
+  .toggle-input:checked + .toggle-slider::before {
+    transform: translateX(28px);
+    background: var(--color-light-blue);
+  }
+
+  /* Boutons simples avec coins */
+  .gaming-btn {
+    position: relative;
+    width: 100%;
+    padding: 10px 16px;
+    border: 2px solid rgba(52, 190, 237, 0.2);
+    background: rgba(255, 255, 255, 0.3);
+    color: var(--color-text-gray);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: 4px;
+  }
+
+  .gaming-btn:hover {
+    border-color: rgba(52, 190, 237, 0.4);
+    color: var(--color-light-blue);
+  }
+
+  .gaming-btn.active {
+    background: rgba(52, 190, 237, 0.1);
+    color: var(--color-light-blue);
+    border-color: var(--color-light-blue);
+  }
+
+  /* Coins des boutons */
+  .btn-corner {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border: 2px solid rgba(52, 190, 237, 0.3);
+  }
+
+  .btn-corner.top-left {
+    top: -2px;
+    left: -2px;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  .btn-corner.top-right {
+    top: -2px;
+    right: -2px;
+    border-left: none;
+    border-bottom: none;
+  }
+
+  .btn-corner.bottom-left {
+    bottom: -2px;
+    left: -2px;
+    border-right: none;
+    border-top: none;
+  }
+
+  .btn-corner.bottom-right {
+    bottom: -2px;
+    right: -2px;
+    border-left: none;
+    border-top: none;
+  }
+
+  .gaming-btn.active .btn-corner {
+    border-color: var(--color-light-blue);
+  }
+
+  /* Bouton avec bordure gaming */
+  .gaming-btn-border {
+    position: relative;
+  }
+
+  /* Utils */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .grid-cols-2 {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // Sliders
+    const sliders = document.querySelectorAll(
+      ".minimal-slider"
+    ) as NodeListOf<HTMLInputElement>;
+
+    sliders.forEach((slider) => {
+      slider.addEventListener("input", (e) => {
+        const target = e.target as HTMLInputElement;
+        const value = target.value;
+        const settingRow = target.closest(".setting-row");
+        const valueDisplay = settingRow?.querySelector(
+          ".slider-value"
+        ) as HTMLElement;
+
+        if (valueDisplay) {
+          valueDisplay.textContent = `${value}%`;
+        }
+      });
+    });
+
+    // Toggles
+    const toggles = document.querySelectorAll(
+      ".toggle-input"
+    ) as NodeListOf<HTMLInputElement>;
+
+    toggles.forEach((toggle) => {
+      toggle.addEventListener("change", (e) => {
+        const target = e.target as HTMLInputElement;
+        console.log(`${target.id} changed to:`, target.checked);
+      });
+    });
+
+    // Boutons (thème et langue)
+    const allButtons = document.querySelectorAll(
+      ".minimal-btn"
+    ) as NodeListOf<HTMLButtonElement>;
+
+    allButtons.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        const target = e.target as HTMLButtonElement;
+        const settingRow = target.closest(".setting-row");
+
+        if (settingRow) {
+          settingRow
+            .querySelectorAll(".minimal-btn")
+            .forEach((btn) => btn.classList.remove("active"));
+          target.classList.add("active");
+        }
+
+        const theme = target.dataset.theme;
+        const lang = target.dataset.lang;
+
+        if (theme) console.log("Theme:", theme);
+        if (lang) console.log("Language:", lang);
+      });
+    });
+
+    // Bouton Enregistrer
+    const applyButton = document.getElementById(
+      "apply-button"
+    ) as HTMLButtonElement;
+
+    if (applyButton) {
+      applyButton.addEventListener("click", () => {
+        console.log("Paramètres enregistrés");
+        const originalText = applyButton.textContent;
+        applyButton.textContent = "✓ ENREGISTRÉ";
+        setTimeout(() => {
+          applyButton.textContent = originalText;
+        }, 1500);
+      });
+    }
+
+    // Bouton Réinitialiser
+    const resetButton = document.getElementById(
+      "reset-button"
+    ) as HTMLButtonElement;
+
+    if (resetButton) {
+      resetButton.addEventListener("click", () => {
+        const masterVolume = document.getElementById(
+          "master-volume"
+        ) as HTMLInputElement;
+        const musicVolume = document.getElementById(
+          "music-volume"
+        ) as HTMLInputElement;
+        const sfxVolume = document.getElementById(
+          "sfx-volume"
+        ) as HTMLInputElement;
+
+        if (masterVolume) {
+          masterVolume.value = "50";
+          const valueDisplay = masterVolume
+            .closest(".setting-row")
+            ?.querySelector(".slider-value") as HTMLElement;
+          if (valueDisplay) valueDisplay.textContent = "50%";
+        }
+
+        if (musicVolume) {
+          musicVolume.value = "40";
+          const valueDisplay = musicVolume
+            .closest(".setting-row")
+            ?.querySelector(".slider-value") as HTMLElement;
+          if (valueDisplay) valueDisplay.textContent = "40%";
+        }
+
+        if (sfxVolume) {
+          sfxVolume.value = "70";
+          const valueDisplay = sfxVolume
+            .closest(".setting-row")
+            ?.querySelector(".slider-value") as HTMLElement;
+          if (valueDisplay) valueDisplay.textContent = "70%";
+        }
+
+        toggles.forEach((toggle) => {
+          toggle.checked = true;
+        });
+
+        const lightTheme = document.querySelector(
+          '[data-theme="light"]'
+        ) as HTMLButtonElement;
+        const themeButtons = document.querySelectorAll('[data-theme]');
+        themeButtons.forEach((btn) => btn.classList.remove("active"));
+        lightTheme?.classList.add("active");
+
+        const frLang = document.querySelector(
+          '[data-lang="fr"]'
+        ) as HTMLButtonElement;
+        const langButtons = document.querySelectorAll('[data-lang]');
+        langButtons.forEach((btn) => btn.classList.remove("active"));
+        frLang?.classList.add("active");
+
+        console.log("Paramètres réinitialisés");
+      });
+    }
+  });
+</script>

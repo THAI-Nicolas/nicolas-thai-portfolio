@@ -5,6 +5,8 @@ import Fleche from "../components/ui/Fleche.astro";
 import FooterAccueil from "../components/layout/FooterAccueil.astro";
 import FooterAccueilMobile from "../components/layout/FooterAccueilMobile.astro";
 import CvOverlay from "../components/layout/CvOverlay.astro";
+import ContactOverlay from "../components/layout/ContactOverlay.astro";
+import ParametresOverlay from "../components/layout/ParametresOverlay.astro";
 ---
 
 <Layout
@@ -83,7 +85,7 @@ import CvOverlay from "../components/layout/CvOverlay.astro";
           class="absolute right-24 top-90 transform -translate-y-1/2 z-30 cursor-pointer"
           id="arrow-right"
         >
-          <Fleche direction="droite" size="mobile" />
+          <Fleche direction="droite" size="desktop" />
         </div>
 
         <!-- Flèche de navigation à gauche -->
@@ -91,7 +93,7 @@ import CvOverlay from "../components/layout/CvOverlay.astro";
           class="absolute left-24 top-90 transform -translate-y-1/2 z-30 cursor-pointer opacity-0"
           id="arrow-left"
         >
-          <Fleche direction="gauche" size="mobile" />
+          <Fleche direction="gauche" size="desktop" />
         </div>
       </div>
     </main>
@@ -108,6 +110,12 @@ import CvOverlay from "../components/layout/CvOverlay.astro";
 
   <!-- CvOverlay -->
   <CvOverlay client:load />
+
+  <!-- ContactOverlay -->
+  <ContactOverlay client:load />
+
+  <!-- ParametresOverlay -->
+  <ParametresOverlay client:load />
 </Layout>
 
 <script>
@@ -118,6 +126,63 @@ import CvOverlay from "../components/layout/CvOverlay.astro";
     const arrowLeft = document.getElementById("arrow-left");
 
     let cvOverlayVisible = false;
+    let contactOverlayVisible = false;
+    let parametresOverlayVisible = false;
+
+    function openParametresOverlay() {
+      console.log("Ouverture des Paramètres");
+      parametresOverlayVisible = true;
+      const parametresOverlay = document.querySelector(".parametres-overlay");
+      if (parametresOverlay) {
+        parametresOverlay.classList.remove(
+          "opacity-0",
+          "pointer-events-none",
+          "hidden"
+        );
+        parametresOverlay.classList.add("opacity-100", "pointer-events-auto");
+      }
+    }
+
+    function closeParametresOverlay() {
+      console.log("Fermeture des Paramètres");
+      parametresOverlayVisible = false;
+      const parametresOverlay = document.querySelector(".parametres-overlay");
+      if (parametresOverlay) {
+        parametresOverlay.classList.add("opacity-0", "pointer-events-none");
+        parametresOverlay.classList.remove(
+          "opacity-100",
+          "pointer-events-auto"
+        );
+      }
+    }
+
+    function openContactOverlay() {
+      console.log("Ouverture du Contact");
+      contactOverlayVisible = true;
+      const contactOverlay = document.querySelector(".contact-overlay");
+      if (contactOverlay) {
+        contactOverlay.classList.remove(
+          "opacity-0",
+          "pointer-events-none",
+          "hidden"
+        );
+        contactOverlay.classList.add("opacity-100", "pointer-events-auto");
+      }
+    }
+
+    function closeContactOverlay() {
+      console.log("closeContactOverlay appelée");
+      contactOverlayVisible = false;
+      const contactOverlay = document.querySelector(".contact-overlay");
+      if (contactOverlay) {
+        console.log("Overlay trouvé, fermeture...");
+        contactOverlay.classList.add("opacity-0", "pointer-events-none");
+        contactOverlay.classList.remove("opacity-100", "pointer-events-auto");
+        console.log("Classes après fermeture:", contactOverlay.className);
+      } else {
+        console.log("Overlay non trouvé!");
+      }
+    }
 
     function openCvOverlay() {
       console.log("Ouverture du CV");
@@ -158,6 +223,20 @@ import CvOverlay from "../components/layout/CvOverlay.astro";
         closeCvOverlay();
       } else if (target.closest(".cv-overlay > div")) {
         closeCvOverlay();
+      } else if (target.closest("#contact-button")) {
+        e.preventDefault();
+        openContactOverlay();
+      } else if (target.closest("#contact-return-button")) {
+        console.log("Fermeture du Contact");
+        closeContactOverlay();
+      } else if (target.closest("#parametres-button")) {
+        e.preventDefault();
+        openParametresOverlay();
+      } else if (
+        target.closest("#parametres-close-button") ||
+        target.closest("#parametres-close-button button")
+      ) {
+        closeParametresOverlay();
       }
     });
 

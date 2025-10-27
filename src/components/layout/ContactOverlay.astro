@@ -1,0 +1,277 @@
+---
+import ContactBouton from "../boutons/ContactBouton.astro";
+import MainBouton from "../boutons/MainBouton.astro";
+import SmallBouton from "../boutons/SmallBouton.astro";
+
+export interface Props {
+  isVisible?: boolean;
+  onClose?: () => void;
+}
+
+const { isVisible = false, onClose } = Astro.props;
+---
+
+<div
+  class="contact-overlay opacity-0 pointer-events-none fixed inset-0 z-[60]"
+  style="transition: opacity 0.3s ease-in-out;"
+>
+  <div
+    class="backdrop-blur-sm bg-black/50 fixed inset-0 z-[70] overflow-hidden"
+  >
+  </div>
+
+  <div
+    class="contact-container fixed inset-0 z-[80] flex items-center"
+    style="padding-left: 80px; padding-right: 80px;"
+    id="contact-container"
+  >
+    <div
+      class="contact-content-wrapper w-full flex items-center justify-between"
+    >
+      <!-- Partie gauche - 4 ContactBoutons -->
+      <div class="contact-left-sidebar flex flex-col gap-4 items-start">
+        <ContactBouton type="email" />
+        <ContactBouton type="github" />
+        <ContactBouton type="linkedin" />
+        <ContactBouton type="instagram" />
+      </div>
+
+      <!-- Partie centre - Enveloppe avec formulaire -->
+      <div class="contact-center flex justify-center items-center">
+        <div class="envelope-wrapper-2 w-[800px] h-[600px]">
+          <!-- Enveloppe -->
+          <div class="envelope-2">
+            <div class="flap front"></div>
+            <div class="flap top"></div>
+            <div class="letter-2">
+              <!-- Contenu du formulaire -->
+              <div class="form-content p-12 relative h-full">
+                <h2 class="text-4xl font-bold text-[#34beed] mb-6">
+                  FORMULAIRE
+                </h2>
+
+                <form class="space-y-3 text-sm">
+                  <div>
+                    <label
+                      class="block text-sm font-semibold mb-2 text-gray-700"
+                      >Prénom</label
+                    >
+                    <input
+                      type="text"
+                      placeholder="Ex: Xavier"
+                      class="w-full px-4 py-2 border-2 border-[#34beed] rounded focus:outline-none focus:border-[#2a9ed1] text-sm"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      class="block text-sm font-semibold mb-2 text-gray-700"
+                      >Nom</label
+                    >
+                    <input
+                      type="text"
+                      placeholder="Ex: Dupont-de-Ligones"
+                      class="w-full px-4 py-2 border-2 border-[#34beed] rounded focus:outline-none focus:border-[#2a9ed1] text-sm"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      class="block text-sm font-semibold mb-2 text-gray-700"
+                      >Email</label
+                    >
+                    <input
+                      type="email"
+                      placeholder="Ex: jesuisenfuitegz@outlook.fr"
+                      class="w-full px-4 py-2 border-2 border-[#34beed] rounded focus:outline-none focus:border-[#2a9ed1] text-sm"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      class="block text-sm font-semibold mb-2 text-gray-700"
+                      >Sujet</label
+                    >
+                    <input
+                      type="text"
+                      placeholder="Ex: Offre d'alternance..."
+                      class="w-full px-4 py-2 border-2 border-[#34beed] rounded focus:outline-none focus:border-[#2a9ed1] text-sm"
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      class="block text-sm font-semibold mb-2 text-gray-700"
+                      >Message</label
+                    >
+                    <textarea
+                      rows="3"
+                      placeholder="Ex: Offre d'alternance..."
+                      class="w-full px-4 py-2 border-2 border-[#34beed] rounded focus:outline-none focus:border-[#2a9ed1] text-sm"
+                    ></textarea>
+                  </div>
+
+                  <button
+                    type="submit"
+                    class="w-full bg-[#34beed] text-white py-3 rounded-lg font-semibold hover:bg-[#2a9ed1] transition-colors text-base shadow-lg hover:shadow-xl"
+                  >
+                    ENVOYER
+                  </button>
+                </form>
+
+                <!-- SmallBouton Zoom -->
+                <div class="absolute top-1 right-1 z-20">
+                  <SmallBouton type="zoom" size="desktop" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Partie droite - MainBouton Retour -->
+      <div class="contact-right-sidebar flex-shrink-0">
+        <MainBouton type="retour" size="desktop" id="contact-return-button" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .contact-overlay {
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .contact-container {
+    scrollbar-width: thin;
+  }
+
+  .envelope-wrapper-2 {
+    margin: 0 auto;
+  }
+
+  .envelope-2 {
+    width: 800px;
+    height: 400px;
+    margin: 0 auto;
+    background: #ddd;
+    box-shadow:
+      0 0 1px rgba(0, 0, 0, 0.5),
+      0 1px 3px rgba(0, 0, 0, 0.25);
+    position: relative;
+    perspective: 800px;
+  }
+
+  .envelope-2:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border: 0 solid rgba(0, 0, 0, 0.25);
+    border-width: 180px 400px;
+    border-top-color: transparent;
+    z-index: 2;
+  }
+
+  .envelope-2 .flap {
+    position: absolute;
+    width: 100%;
+    height: 0;
+    border: 0 solid transparent;
+    border-width: 200px 400px;
+    z-index: 3;
+  }
+
+  .envelope-2 .flap.front {
+    display: none;
+  }
+
+  .envelope-2 .flap.front:after {
+    display: none;
+  }
+
+  .envelope-2 .flap.top {
+    border-top-width: 220px;
+    border-top-color: #aaa;
+    z-index: 3;
+    animation-duration: 3s;
+    animation-fill-mode: forwards;
+    transform-origin-y: top;
+    perspective: 800;
+    transform-style: preserve-3d;
+  }
+
+  .envelope-2.open .flap.top {
+    animation-name: flip;
+  }
+
+  .envelope-2 .flap.top:after {
+    content: "";
+    position: absolute;
+    left: -400px;
+    top: -220px;
+    width: 100%;
+    height: 0;
+    border: 0 solid transparent;
+    border-width: 216px 400px;
+    border-top-color: #eee;
+  }
+
+  .envelope-2 .letter-2 {
+    position: absolute;
+    width: 776px;
+    height: 336px;
+    background: #fff;
+    top: 32px;
+    left: 12px;
+    border: 2px solid #ccc;
+    z-index: 1;
+    animation-duration: 2s;
+    animation-delay: 1.5s;
+    animation-fill-mode: forwards;
+    transform-style: preserve-3d;
+  }
+
+  .envelope-2.open .letter-2 {
+    animation-name: remove;
+  }
+
+  @keyframes flip {
+    100% {
+      transform: rotateX(180deg);
+      z-index: 1;
+    }
+  }
+
+  @keyframes remove {
+    50% {
+      top: -480px;
+    }
+    100% {
+      top: 32px;
+      z-index: 3;
+    }
+  }
+
+  .envelope-2 .letter-2 {
+    opacity: 0;
+    transition: opacity 0.5s ease-in 3s;
+  }
+
+  .envelope-2.open .letter-2 {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(() => {
+      const envelope = document.querySelector(".envelope-2");
+      if (envelope) {
+        envelope.classList.add("open");
+      }
+    }, 500);
+  });
+</script>
