@@ -6,6 +6,7 @@ export interface Props {
   direction?: "droite" | "gauche" | "haut" | "bas";
   href?: string;
   onClick?: () => void;
+  colorGradient?: { from: string; to: string };
 }
 
 const {
@@ -13,6 +14,7 @@ const {
   direction = "droite",
   href = "#",
   onClick,
+  colorGradient,
 } = Astro.props;
 
 // Tailles dynamiques
@@ -36,6 +38,9 @@ const currentSize = sizes[size] || sizes.desktop;
   >
     <FlecheIcon
       class={`w-full h-full fleche-svg ${direction === "gauche" ? "rotate-180" : direction === "haut" ? "-rotate-90" : direction === "bas" ? "rotate-90" : ""}`}
+      style={colorGradient
+        ? `filter: brightness(0) saturate(100%) invert(84%) sepia(52%) saturate(464%) hue-rotate(358deg) brightness(104%) contrast(99%); stroke: ${colorGradient.to}; stroke-width: 2px;`
+        : ""}
     />
   </a>
 </div>

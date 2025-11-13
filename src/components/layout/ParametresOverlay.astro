@@ -11,68 +11,125 @@ const { isVisible = false, onClose } = Astro.props;
   class="parametres-overlay opacity-0 pointer-events-none fixed inset-0 z-[60]"
   style="transition: opacity 0.3s ease-in-out;"
 >
-  <!-- Backdrop identique aux autres overlays -->
-  <div class="backdrop-blur-sm bg-black/50 fixed inset-0 z-[70]"></div>
+  <!-- Backdrop sans flou -->
+  <div class="bg-black/50 fixed inset-0 z-[70]"></div>
 
   <!-- Container principal -->
   <div
     class="parametres-container fixed inset-0 z-[80] flex items-center justify-center p-8"
+    style="perspective: 1200px;"
   >
     <div
-      class="parametres-content w-full max-w-6xl bg-[#f2f2f2] gaming-border"
-      style="animation: fadeIn 0.3s ease-out; border-radius: 4px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);"
+      class="parametres-content w-full max-w-6xl bg-[#f2f2f2] gaming-border relative overflow-hidden wood-texture"
+      style="animation: fadeIn 0.3s ease-out; border-radius: 12px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -2px 8px rgba(0, 0, 0, 0.05); transform-style: preserve-3d; transition: transform 0.15s ease-out;"
     >
       <!-- Header gaming -->
       <div
-        class="parametres-header flex items-center justify-between border-b-2 border-light-blue bg-[#f2f2f2]"
-        style="padding: 20px 48px;"
+        class="parametres-header relative flex items-center justify-between border-b-3 border-light-blue bg-white/50"
+        style="padding: 24px 48px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 2px rgba(0, 0, 0, 0.05);"
       >
         <div class="flex items-center gap-4">
-          
-          <h2 class="text-2xl font-bold text-text-gray tracking-[0.2em] uppercase">
-            Paramètres
-          </h2>
-        </div>
-        <button
-          id="parametres-close-button"
-          class="cursor-pointer close-button w-12 h-12 border-2 border-light-blue hover:border-light-blue bg-transparent hover:bg-white transition-all duration-300 flex items-center justify-center group"
-          style="border-radius: 4px;"
-        >
           <svg
-            class="w-6 h-6 text-light-blue group-hover:text-light-blue"
+            class="w-8 h-8 text-light-blue"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
           >
             <path
-              stroke-linecap="square"
-              stroke-linejoin="miter"
-              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+            ></path>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+          </svg>
+          <h2
+            class="text-2xl font-bold text-text-gray tracking-[0.15em] uppercase"
+          >
+            Paramètres
+          </h2>
+        </div>
+        <button
+          id="parametres-close-button"
+          class="cursor-pointer close-button w-12 h-12 border-2 border-light-blue hover:border-dark-blue bg-white hover:bg-light-blue/10 transition-all duration-300 flex items-center justify-center"
+          style="border-radius: 6px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8); transition: all 0.2s ease;"
+          onmouseenter="this.style.transform='translateY(-2px) translateZ(5px)'; this.style.boxShadow='0 4px 8px rgba(52, 190, 237, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.9)';"
+          onmouseleave="this.style.transform='translateY(0) translateZ(0)'; this.style.boxShadow='0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8)';"
+        >
+          <svg
+            class="w-6 h-6 text-light-blue"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            stroke-width="2.5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
               d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </button>
       </div>
 
       <!-- Content gaming -->
-      <div class="parametres-body bg-[#f2f2f2]" style="padding: 24px 48px;">
-        <div class="grid grid-cols-2" style="gap: 16px;">
+      <div
+        class="parametres-body relative bg-[#f2f2f2]/80"
+        style="padding: 32px 48px 24px;"
+      >
+        <div class="grid grid-cols-2" style="gap: 24px;">
           <!-- Colonne gauche -->
-          <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div style="display: flex; flex-direction: column; gap: 20px;">
             <!-- Section Audio -->
-            <section class="parametres-section">
-              <div class="flex items-center gap-3" style="margin-bottom: 16px;">
+            <section class="parametres-section relative">
+              <div class="flex items-center gap-3" style="margin-bottom: 20px;">
+                <svg
+                  class="w-5 h-5 text-light-blue"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"
+                  ></path>
+                </svg>
                 <h3
-                  class="text-base font-bold text-light-blue uppercase tracking-[0.15em]"
+                  class="text-base font-bold text-light-blue uppercase tracking-[0.15em] gaming-text"
                 >
                   Audio
                 </h3>
+                <div
+                  class="flex-1 h-px bg-gradient-to-r from-light-blue/50 to-transparent"
+                >
+                </div>
               </div>
 
-              <div style="display: flex; flex-direction: column; gap: 10px;">
+              <div style="display: flex; flex-direction: column; gap: 12px;">
                 <!-- Volume Général -->
-                <div class="gaming-card">
-                  <div class="flex items-center justify-between" style="margin-bottom: 8px;">
-                    <label class="text-sm font-semibold text-text-gray tracking-wide">
+                <div class="gaming-card group">
+                  <div
+                    class="flex items-center justify-between"
+                    style="margin-bottom: 12px;"
+                  >
+                    <label
+                      class="text-sm font-semibold text-text-gray tracking-wide flex items-center gap-2"
+                    >
+                      <svg
+                        class="w-4 h-4 text-light-blue"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          fill-rule="evenodd"
+                          d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z"
+                          clip-rule="evenodd"></path>
+                      </svg>
                       Volume général
                     </label>
                     <div
@@ -92,9 +149,23 @@ const { isVisible = false, onClose } = Astro.props;
                 </div>
 
                 <!-- Musique d'ambiance -->
-                <div class="gaming-card">
-                  <div class="flex items-center justify-between" style="margin-bottom: 8px;">
-                    <label class="text-sm font-semibold text-text-gray tracking-wide">
+                <div class="gaming-card group">
+                  <div
+                    class="flex items-center justify-between"
+                    style="margin-bottom: 12px;"
+                  >
+                    <label
+                      class="text-sm font-semibold text-text-gray tracking-wide flex items-center gap-2"
+                    >
+                      <svg
+                        class="w-4 h-4 text-light-blue"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"
+                        ></path>
+                      </svg>
                       Musique d'ambiance
                     </label>
                     <div
@@ -114,9 +185,23 @@ const { isVisible = false, onClose } = Astro.props;
                 </div>
 
                 <!-- Effets sonores -->
-                <div class="gaming-card">
-                  <div class="flex items-center justify-between" style="margin-bottom: 8px;">
-                    <label class="text-sm font-semibold text-text-gray tracking-wide">
+                <div class="gaming-card group">
+                  <div
+                    class="flex items-center justify-between"
+                    style="margin-bottom: 12px;"
+                  >
+                    <label
+                      class="text-sm font-semibold text-text-gray tracking-wide flex items-center gap-2"
+                    >
+                      <svg
+                        class="w-4 h-4 text-light-blue"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
+                        <path
+                          d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 11-4 0zM12 14c.015-.34.208-.646.477-.859a4 4 0 10-4.954 0c.27.213.462.519.477.859h4z"
+                        ></path>
+                      </svg>
                       Effets sonores
                     </label>
                     <div
@@ -139,28 +224,62 @@ const { isVisible = false, onClose } = Astro.props;
           </div>
 
           <!-- Colonne droite -->
-          <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div style="display: flex; flex-direction: column; gap: 20px;">
             <!-- Section Interface -->
-            <section class="parametres-section">
-              <div class="flex items-center gap-3" style="margin-bottom: 16px;">
+            <section class="parametres-section relative">
+              <div class="flex items-center gap-3" style="margin-bottom: 20px;">
+                <svg
+                  class="w-5 h-5 text-light-blue"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  ></path>
+                </svg>
                 <h3
-                  class="text-base font-bold text-light-blue uppercase tracking-[0.15em]"
+                  class="text-base font-bold text-light-blue uppercase tracking-[0.15em] gaming-text"
                 >
                   Interface
                 </h3>
+                <div
+                  class="flex-1 h-px bg-gradient-to-r from-light-blue/50 to-transparent"
+                >
+                </div>
               </div>
 
-              <div style="display: flex; flex-direction: column; gap: 10px;">
+              <div style="display: flex; flex-direction: column; gap: 12px;">
                 <!-- Curseur Wii -->
-                <div class="gaming-card">
+                <div class="gaming-card group">
                   <div class="flex items-center justify-between">
-                    <div>
-                      <label class="text-sm font-semibold text-text-gray block tracking-wide">
-                        Curseur Wii
-                      </label>
-                      <p class="text-xs text-[#a2a2a2] mt-1">
-                        Pointeur style Wii
-                      </p>
+                    <div class="flex items-center gap-2">
+                      <svg
+                        class="w-4 h-4 text-light-blue/70"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
+                        ></path>
+                      </svg>
+                      <div>
+                        <label
+                          class="text-sm font-semibold text-text-gray block tracking-wide"
+                        >
+                          Curseur Wii
+                        </label>
+                        <p class="text-xs text-text-gray/60 mt-1">
+                          Pointeur style Wii
+                        </p>
+                      </div>
                     </div>
                     <label class="gaming-toggle">
                       <input
@@ -175,61 +294,91 @@ const { isVisible = false, onClose } = Astro.props;
                 </div>
 
                 <!-- Thème -->
-                <div class="gaming-card">
-                  <label class="text-sm font-semibold text-text-gray block tracking-wide" style="margin-bottom: 12px;">
+                <div class="gaming-card group">
+                  <label
+                    class="text-sm font-semibold text-text-gray tracking-wide flex items-center gap-2"
+                    style="margin-bottom: 14px;"
+                  >
+                    <svg
+                      class="w-4 h-4 text-light-blue"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
+                      ></path>
+                    </svg>
                     Thème d'affichage
                   </label>
                   <div class="grid grid-cols-2 gap-3">
                     <button class="gaming-btn active" data-theme="light">
-                      <span class="btn-corner top-left"></span>
-                      <span class="btn-corner top-right"></span>
-                      <span class="btn-corner bottom-left"></span>
-                      <span class="btn-corner bottom-right"></span>
                       Clair
                     </button>
                     <button class="gaming-btn" data-theme="dark">
-                      <span class="btn-corner top-left"></span>
-                      <span class="btn-corner top-right"></span>
-                      <span class="btn-corner bottom-left"></span>
-                      <span class="btn-corner bottom-right"></span>
                       Sombre
                     </button>
                   </div>
                 </div>
 
                 <!-- Langue -->
-                <div class="gaming-card">
-                  <label class="text-sm font-semibold text-text-gray block tracking-wide" style="margin-bottom: 12px;">
+                <div class="gaming-card group">
+                  <label
+                    class="text-sm font-semibold text-text-gray tracking-wide flex items-center gap-2"
+                    style="margin-bottom: 14px;"
+                  >
+                    <svg
+                      class="w-4 h-4 text-light-blue"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"
+                      ></path>
+                    </svg>
                     Langue
                   </label>
                   <div class="grid grid-cols-2 gap-3">
                     <button class="gaming-btn active" data-lang="fr">
-                      <span class="btn-corner top-left"></span>
-                      <span class="btn-corner top-right"></span>
-                      <span class="btn-corner bottom-left"></span>
-                      <span class="btn-corner bottom-right"></span>
                       Français
                     </button>
-                    <button class="gaming-btn" data-lang="en">
-                      <span class="btn-corner top-left"></span>
-                      <span class="btn-corner top-right"></span>
-                      <span class="btn-corner bottom-left"></span>
-                      <span class="btn-corner bottom-right"></span>
-                      English
-                    </button>
+                    <button class="gaming-btn" data-lang="en"> English </button>
                   </div>
                 </div>
 
                 <!-- Animations -->
-                <div class="gaming-card">
+                <div class="gaming-card group">
                   <div class="flex items-center justify-between">
-                    <div>
-                      <label class="text-sm font-semibold text-text-gray block tracking-wide">
-                        Animations
-                      </label>
-                      <p class="text-xs text-[#a2a2a2] mt-1">
-                        Transitions fluides
-                      </p>
+                    <div class="flex items-center gap-2">
+                      <svg
+                        class="w-4 h-4 text-light-blue/70"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                      </svg>
+                      <div>
+                        <label
+                          class="text-sm font-semibold text-text-gray block tracking-wide"
+                        >
+                          Animations
+                        </label>
+                        <p class="text-xs text-text-gray/60 mt-1">
+                          Transitions fluides
+                        </p>
+                      </div>
                     </div>
                     <label class="gaming-toggle">
                       <input
@@ -250,26 +399,51 @@ const { isVisible = false, onClose } = Astro.props;
 
       <!-- Footer gaming -->
       <div
-        class="parametres-footer bg-[#f2f2f2] flex justify-between items-center"
-        style="padding: 20px 48px;"
+        class="parametres-footer relative bg-white/50 border-t-3 border-light-blue flex justify-between items-center"
+        style="padding: 24px 48px; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 2px rgba(0, 0, 0, 0.05);"
       >
         <button
           id="reset-button"
-          class="cursor-pointer reset-btn font-medium text-xs border-2 transition-all duration-300 uppercase tracking-[0.15em] gaming-btn-border"
-          style="border-radius: 4px; padding: 10px 18px; color: var(--color-light-blue); background: transparent; border-color: var(--color-light-blue);"
-          onmouseenter="this.style.color='white'; this.style.background='var(--color-light-blue)'; this.style.borderColor='var(--color-light-blue)';"
-          onmouseleave="this.style.color='var(--color-light-blue)'; this.style.background='transparent'; this.style.borderColor='var(--color-light-blue)';"
+          class="cursor-pointer reset-btn font-bold text-xs border-2 transition-all duration-300 uppercase tracking-[0.15em]"
+          style="border-radius: 6px; padding: 12px 24px; color: var(--color-light-blue); background: white; border-color: var(--color-light-blue);"
         >
-          Réinitialiser
+          <span class="flex items-center gap-2">
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              ></path>
+            </svg>
+            Réinitialiser
+          </span>
         </button>
         <button
           id="apply-button"
-          class="cursor-pointer apply-btn font-medium text-xs border-2 transition-all duration-300 uppercase tracking-[0.15em]"
-          style="border-radius: 4px; padding: 10px 24px; background: var(--color-light-blue); color: #f2f2f2; border-color: var(--color-light-blue);"
-          onmouseenter="this.style.background='#f2f2f2'; this.style.color='var(--color-light-blue)'; this.style.borderColor='var(--color-light-blue)';"
-          onmouseleave="this.style.background='var(--color-light-blue)'; this.style.color='#f2f2f2'; this.style.borderColor='var(--color-light-blue)';"
+          class="cursor-pointer apply-btn font-bold text-xs border-2 transition-all duration-300 uppercase tracking-[0.15em]"
+          style="border-radius: 6px; padding: 12px 32px; background: var(--color-light-blue); color: white; border-color: var(--color-light-blue);"
         >
-          Enregistrer
+          <span class="flex items-center gap-2">
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"></path>
+            </svg>
+            Enregistrer
+          </span>
         </button>
       </div>
     </div>
@@ -277,7 +451,7 @@ const { isVisible = false, onClose } = Astro.props;
 </div>
 
 <style>
-  /* Animation d'entrée gaming */
+  /* Animations simples */
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -289,63 +463,161 @@ const { isVisible = false, onClose } = Astro.props;
     }
   }
 
+  /* Texture bois subtile avec effet de profondeur */
+  .wood-texture {
+    background-image: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        transparent 50%
+      ),
+      linear-gradient(90deg, rgba(139, 90, 43, 0.03) 1px, transparent 1px),
+      linear-gradient(rgba(139, 90, 43, 0.03) 1px, transparent 1px);
+    background-size:
+      100% 100%,
+      20px 20px,
+      20px 20px;
+  }
+
   /* Bordure simple */
   .gaming-border {
-    border: 2px solid rgba(52, 190, 237, 0.3);
+    border: 3px solid var(--color-light-blue);
   }
 
-  /* Cards avec fond clair - sans hover */
+  .border-b-3 {
+    border-bottom-width: 3px;
+  }
+
+  .border-t-3 {
+    border-top-width: 3px;
+  }
+
+  /* Cards avec effet 3D */
   .gaming-card {
-    padding: 16px;
-    background: rgba(255, 255, 255, 0.5);
-    border: 1px solid rgba(52, 190, 237, 0.15);
-    border-radius: 4px;
+    padding: 18px;
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.7) 0%,
+      rgba(255, 255, 255, 0.5) 100%
+    );
+    border: 2px solid rgba(52, 190, 237, 0.3);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.08),
+      0 4px 8px rgba(0, 0, 0, 0.04),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8),
+      inset 0 -1px 2px rgba(0, 0, 0, 0.05);
+    transform-style: preserve-3d;
+    position: relative;
   }
 
-  /* Slider simple */
+  .gaming-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 8px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      transparent 50%,
+      rgba(0, 0, 0, 0.02) 100%
+    );
+    pointer-events: none;
+  }
+
+  .gaming-card:hover {
+    border-color: var(--color-light-blue);
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.85) 0%,
+      rgba(255, 255, 255, 0.65) 100%
+    );
+    transform: translateY(-2px) translateZ(10px);
+    box-shadow:
+      0 6px 12px rgba(52, 190, 237, 0.15),
+      0 10px 20px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      inset 0 -1px 3px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Slider avec effet 3D */
   .gaming-slider {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 4px;
-    background: #e1e2e6;
+    height: 8px;
+    background: linear-gradient(
+      180deg,
+      rgba(200, 200, 200, 0.8) 0%,
+      rgba(230, 230, 235, 0.9) 100%
+    );
     outline: none;
     cursor: pointer;
-    border-radius: 4px;
+    border-radius: 8px;
+    box-shadow:
+      inset 0 2px 4px rgba(0, 0, 0, 0.15),
+      inset 0 -1px 2px rgba(255, 255, 255, 0.5),
+      0 1px 2px rgba(255, 255, 255, 0.8);
   }
 
   .gaming-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 18px;
-    height: 18px;
-    background: var(--color-light-blue);
+    width: 22px;
+    height: 22px;
+    background: linear-gradient(
+      145deg,
+      var(--color-light-blue) 0%,
+      var(--color-dark-blue) 100%
+    );
     cursor: pointer;
-    transition: all 0.3s ease;
-    border-radius: 10px;
+    transition: all 0.2s ease;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow:
+      0 3px 6px rgba(0, 0, 0, 0.2),
+      0 1px 3px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
   }
 
   .gaming-slider::-webkit-slider-thumb:hover {
-    background: var(--color-dark-blue);
-    transform: scale(1.1);
+    transform: scale(1.15) translateZ(5px);
+    box-shadow:
+      0 5px 10px rgba(52, 190, 237, 0.3),
+      0 2px 5px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
   }
 
   .gaming-slider::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
-    background: var(--color-light-blue);
+    width: 22px;
+    height: 22px;
+    background: linear-gradient(
+      145deg,
+      var(--color-light-blue) 0%,
+      var(--color-dark-blue) 100%
+    );
     cursor: pointer;
-    border: none;
-    border-radius: 2px;
-    transition: all 0.3s ease;
+    border: 3px solid white;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    box-shadow:
+      0 3px 6px rgba(0, 0, 0, 0.2),
+      0 1px 3px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
   }
 
   .gaming-slider::-moz-range-thumb:hover {
-    background: var(--color-dark-blue);
-    transform: scale(1.1);
+    transform: scale(1.15) translateZ(5px);
+    box-shadow:
+      0 5px 10px rgba(52, 190, 237, 0.3),
+      0 2px 5px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
   }
 
-  /* Toggle simple */
+  /* Toggle avec effet 3D */
   .gaming-toggle {
     position: relative;
     display: inline-block;
@@ -360,105 +632,171 @@ const { isVisible = false, onClose } = Astro.props;
     left: 0;
     right: 0;
     bottom: 0;
-    background: #e1e2e6;
-    border: 2px solid rgba(52, 190, 237, 0.2);
+    background: linear-gradient(
+      180deg,
+      rgba(200, 200, 200, 0.9) 0%,
+      rgba(230, 230, 235, 1) 100%
+    );
+    border: 2px solid rgba(52, 190, 237, 0.3);
     transition: all 0.3s ease;
     border-radius: 32px;
+    box-shadow:
+      inset 0 2px 4px rgba(0, 0, 0, 0.15),
+      inset 0 -1px 2px rgba(255, 255, 255, 0.5),
+      0 1px 2px rgba(255, 255, 255, 0.8);
   }
 
   .toggle-slider::before {
     content: "";
     position: absolute;
-    height: 18px;
-    width: 18px;
-    left: 3px;
-    top: 3px;
-    background: white;
+    height: 20px;
+    width: 20px;
+    left: 2px;
+    top: 2px;
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(240, 240, 245, 1) 100%
+    );
     transition: all 0.3s ease;
-    border-radius: 32px;
+    border-radius: 50%;
+    box-shadow:
+      0 2px 5px rgba(0, 0, 0, 0.25),
+      0 1px 3px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
   }
 
   .toggle-input:checked + .toggle-slider {
-    background: rgba(255, 255, 255, 0.2);
+    background: linear-gradient(
+      180deg,
+      var(--color-light-blue) 0%,
+      var(--color-dark-blue) 100%
+    );
     border-color: var(--color-light-blue);
+    box-shadow:
+      inset 0 2px 4px rgba(0, 0, 0, 0.2),
+      inset 0 -1px 2px rgba(255, 255, 255, 0.3),
+      0 1px 3px rgba(52, 190, 237, 0.4);
   }
 
   .toggle-input:checked + .toggle-slider::before {
     transform: translateX(28px);
-    background: var(--color-light-blue);
+    box-shadow:
+      0 3px 6px rgba(52, 190, 237, 0.3),
+      0 1px 3px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
   }
 
-  /* Boutons simples avec coins */
+  .toggle-slider:hover {
+    border-color: var(--color-light-blue);
+    transform: translateZ(2px);
+  }
+
+  /* Boutons avec effet 3D */
   .gaming-btn {
-    position: relative;
     width: 100%;
-    padding: 10px 16px;
-    border: 2px solid rgba(52, 190, 237, 0.2);
-    background: rgba(255, 255, 255, 0.3);
+    padding: 12px 16px;
+    border: 2px solid rgba(52, 190, 237, 0.3);
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.7) 0%,
+      rgba(250, 250, 252, 0.5) 100%
+    );
     color: var(--color-text-gray);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    border-radius: 4px;
+    border-radius: 6px;
+    box-shadow:
+      0 2px 4px rgba(0, 0, 0, 0.08),
+      0 1px 2px rgba(0, 0, 0, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8),
+      inset 0 -1px 2px rgba(0, 0, 0, 0.05);
+    position: relative;
   }
 
   .gaming-btn:hover {
-    border-color: rgba(52, 190, 237, 0.4);
+    border-color: var(--color-light-blue);
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(250, 250, 252, 0.7) 100%
+    );
     color: var(--color-light-blue);
+    transform: translateY(-1px) translateZ(3px);
+    box-shadow:
+      0 4px 8px rgba(52, 190, 237, 0.15),
+      0 2px 4px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9),
+      inset 0 -1px 2px rgba(0, 0, 0, 0.08);
   }
 
   .gaming-btn.active {
-    background: rgba(52, 190, 237, 0.1);
+    background: linear-gradient(
+      145deg,
+      rgba(52, 190, 237, 0.2) 0%,
+      rgba(52, 190, 237, 0.1) 100%
+    );
     color: var(--color-light-blue);
     border-color: var(--color-light-blue);
+    box-shadow:
+      inset 0 2px 4px rgba(52, 190, 237, 0.2),
+      inset 0 -1px 2px rgba(255, 255, 255, 0.5),
+      0 2px 4px rgba(52, 190, 237, 0.15);
   }
 
-  /* Coins des boutons */
-  .btn-corner {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    border: 2px solid rgba(52, 190, 237, 0.3);
+  .gaming-btn:active {
+    transform: translateY(0) translateZ(0);
+    box-shadow:
+      inset 0 2px 4px rgba(0, 0, 0, 0.15),
+      0 1px 2px rgba(0, 0, 0, 0.05);
   }
 
-  .btn-corner.top-left {
-    top: -2px;
-    left: -2px;
-    border-right: none;
-    border-bottom: none;
+  /* Boutons du footer avec effet 3D */
+  .reset-btn,
+  .apply-btn {
+    box-shadow:
+      0 3px 6px rgba(0, 0, 0, 0.12),
+      0 1px 3px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transition: all 0.2s ease;
   }
 
-  .btn-corner.top-right {
-    top: -2px;
-    right: -2px;
-    border-left: none;
-    border-bottom: none;
+  .reset-btn:hover {
+    background: var(--color-light-blue) !important;
+    color: white !important;
+    transform: translateY(-2px) translateZ(5px);
+    box-shadow:
+      0 6px 12px rgba(52, 190, 237, 0.25),
+      0 3px 6px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
   }
 
-  .btn-corner.bottom-left {
-    bottom: -2px;
-    left: -2px;
-    border-right: none;
-    border-top: none;
+  .apply-btn {
+    box-shadow:
+      0 4px 8px rgba(52, 190, 237, 0.25),
+      0 2px 4px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
 
-  .btn-corner.bottom-right {
-    bottom: -2px;
-    right: -2px;
-    border-left: none;
-    border-top: none;
+  .apply-btn:hover {
+    background: var(--color-dark-blue) !important;
+    transform: translateY(-2px) translateZ(5px);
+    box-shadow:
+      0 6px 12px rgba(52, 190, 237, 0.35),
+      0 3px 6px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
   }
 
-  .gaming-btn.active .btn-corner {
-    border-color: var(--color-light-blue);
-  }
-
-  /* Bouton avec bordure gaming */
-  .gaming-btn-border {
-    position: relative;
+  .reset-btn:active,
+  .apply-btn:active {
+    transform: translateY(0) translateZ(0);
+    box-shadow:
+      inset 0 2px 4px rgba(0, 0, 0, 0.2),
+      0 1px 2px rgba(0, 0, 0, 0.1);
   }
 
   /* Utils */
@@ -488,17 +826,52 @@ const { isVisible = false, onClose } = Astro.props;
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
+    // Effet 3D immersif au mouvement de la souris
+    const parametresContent = document.querySelector(
+      ".parametres-content"
+    ) as HTMLElement;
+    const parametresContainer = document.querySelector(
+      ".parametres-container"
+    ) as HTMLElement;
+
+    if (parametresContainer && parametresContent) {
+      parametresContainer.addEventListener("mousemove", (e: MouseEvent) => {
+        const rect = parametresContainer.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const rotateX = ((y - centerY) / centerY) * 2;
+        const rotateY = ((x - centerX) / centerX) * 2;
+
+        parametresContent.style.transform = `
+          rotateX(${-rotateX}deg) 
+          rotateY(${rotateY}deg) 
+          translateZ(10px)
+        `;
+      });
+
+      parametresContainer.addEventListener("mouseleave", () => {
+        parametresContent.style.transform = `
+          rotateX(0deg) 
+          rotateY(0deg) 
+          translateZ(0px)
+        `;
+      });
+    }
+
     // Sliders
     const sliders = document.querySelectorAll(
-      ".minimal-slider"
+      ".gaming-slider"
     ) as NodeListOf<HTMLInputElement>;
 
     sliders.forEach((slider) => {
       slider.addEventListener("input", (e) => {
         const target = e.target as HTMLInputElement;
         const value = target.value;
-        const settingRow = target.closest(".setting-row");
-        const valueDisplay = settingRow?.querySelector(
+        const card = target.closest(".gaming-card");
+        const valueDisplay = card?.querySelector(
           ".slider-value"
         ) as HTMLElement;
 
@@ -522,17 +895,17 @@ const { isVisible = false, onClose } = Astro.props;
 
     // Boutons (thème et langue)
     const allButtons = document.querySelectorAll(
-      ".minimal-btn"
+      ".gaming-btn"
     ) as NodeListOf<HTMLButtonElement>;
 
     allButtons.forEach((button) => {
       button.addEventListener("click", (e) => {
         const target = e.target as HTMLButtonElement;
-        const settingRow = target.closest(".setting-row");
+        const card = target.closest(".gaming-card");
 
-        if (settingRow) {
-          settingRow
-            .querySelectorAll(".minimal-btn")
+        if (card) {
+          card
+            .querySelectorAll(".gaming-btn")
             .forEach((btn) => btn.classList.remove("active"));
           target.classList.add("active");
         }
@@ -553,11 +926,18 @@ const { isVisible = false, onClose } = Astro.props;
     if (applyButton) {
       applyButton.addEventListener("click", () => {
         console.log("Paramètres enregistrés");
-        const originalText = applyButton.textContent;
-        applyButton.textContent = "✓ ENREGISTRÉ";
+        const originalHTML = applyButton.innerHTML;
+        applyButton.innerHTML = `
+          <span class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Enregistré !
+          </span>
+        `;
         setTimeout(() => {
-          applyButton.textContent = originalText;
-        }, 1500);
+          applyButton.innerHTML = originalHTML;
+        }, 2000);
       });
     }
 
@@ -581,7 +961,7 @@ const { isVisible = false, onClose } = Astro.props;
         if (masterVolume) {
           masterVolume.value = "50";
           const valueDisplay = masterVolume
-            .closest(".setting-row")
+            .closest(".gaming-card")
             ?.querySelector(".slider-value") as HTMLElement;
           if (valueDisplay) valueDisplay.textContent = "50%";
         }
@@ -589,7 +969,7 @@ const { isVisible = false, onClose } = Astro.props;
         if (musicVolume) {
           musicVolume.value = "40";
           const valueDisplay = musicVolume
-            .closest(".setting-row")
+            .closest(".gaming-card")
             ?.querySelector(".slider-value") as HTMLElement;
           if (valueDisplay) valueDisplay.textContent = "40%";
         }
@@ -597,7 +977,7 @@ const { isVisible = false, onClose } = Astro.props;
         if (sfxVolume) {
           sfxVolume.value = "70";
           const valueDisplay = sfxVolume
-            .closest(".setting-row")
+            .closest(".gaming-card")
             ?.querySelector(".slider-value") as HTMLElement;
           if (valueDisplay) valueDisplay.textContent = "70%";
         }
@@ -609,14 +989,14 @@ const { isVisible = false, onClose } = Astro.props;
         const lightTheme = document.querySelector(
           '[data-theme="light"]'
         ) as HTMLButtonElement;
-        const themeButtons = document.querySelectorAll('[data-theme]');
+        const themeButtons = document.querySelectorAll("[data-theme]");
         themeButtons.forEach((btn) => btn.classList.remove("active"));
         lightTheme?.classList.add("active");
 
         const frLang = document.querySelector(
           '[data-lang="fr"]'
         ) as HTMLButtonElement;
-        const langButtons = document.querySelectorAll('[data-lang]');
+        const langButtons = document.querySelectorAll("[data-lang]");
         langButtons.forEach((btn) => btn.classList.remove("active"));
         frLang?.classList.add("active");
 

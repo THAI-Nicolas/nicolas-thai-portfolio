@@ -1,0 +1,69 @@
+---
+import LayoutPageProjet from "../../layouts/LayoutPageProjet.astro";
+import Fleche from "../../components/ui/Fleche.astro";
+import LargeBouton from "../../components/boutons/LargeBouton.astro";
+import AsaframCover from "../../assets/images/asafram_cover.svg";
+
+const { id } = Astro.params;
+
+const projectsData = {
+  asafram: {
+    name: "ASAFRAM",
+    cover: AsaframCover,
+    bgColor: "#F5E6D3",
+    accentColor: "#FFD13B",
+  },
+};
+
+const project = projectsData.asafram;
+---
+
+<LayoutPageProjet title={`${project.name} - Nicolas THAI`}>
+  <div class="relative w-full h-full flex flex-col">
+    <div
+      class="relative flex-1 flex items-center justify-between w-full overflow-hidden"
+    >
+      <div class="hidden lg:flex items-center justify-center px-20 z-10">
+        <Fleche size="desktop" direction="gauche" href="/" />
+      </div>
+
+      <div
+        class="absolute inset-0 flex items-center justify-center overflow-hidden"
+      >
+        <img
+          src={project.cover.src}
+          alt={project.name}
+          class="w-full object-contain scale-105"
+        />
+      </div>
+
+      <div class="hidden lg:flex items-center justify-center px-20 z-10">
+        <Fleche size="desktop" direction="droite" href="/" />
+      </div>
+    </div>
+
+    <div
+      class="relative w-full border-t-2 border-light-blue bg-gradient-to-b from-[#ffffff] to-[#c0c0c0] py-12 lg:py-12 px-6 lg:px-16 shadow-2xl z-20"
+    >
+      <div
+        class="flex items-center justify-center gap-8 lg:gap-12 max-w-7xl mx-auto"
+      >
+        <div class="lg:hidden">
+          <Fleche size="mobile" direction="gauche" href="/" />
+        </div>
+
+        <LargeBouton href="/" variant="secondary" text="Retour" />
+
+        <LargeBouton
+          href={`/projets/asafram/details`}
+          variant="primary"
+          text="Voir le projet"
+        />
+
+        <div class="lg:hidden">
+          <Fleche size="mobile" direction="droite" href="/" />
+        </div>
+      </div>
+    </div>
+  </div>
+</LayoutPageProjet>

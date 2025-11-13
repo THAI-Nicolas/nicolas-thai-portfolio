@@ -1,0 +1,496 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import Fleche from "../../../components/ui/Fleche.astro";
+import MainBouton from "../../../components/boutons/MainBouton.astro";
+import AsaframCover from "../../../assets/images/asafram_cover.svg";
+import GridLayer from "../../../assets/icones/gridlayer.svg";
+import Nuage1 from "../../../assets/icones/nuage1.svg";
+import Nuage2 from "../../../assets/icones/nuage2.svg";
+import FlecheIcon from "../../../assets/icones/fleche.svg";
+
+const projectData = {
+  year: "2025",
+  title: "Asafram : Retrouver le goût de chez soi",
+  description:
+    "ASAFRAM est une plateforme web conçue pour faciliter l'accès aux produits alimentaires et aux boutiques spécialisées dans les traditions culinaires africaines et maghrébines. Son objectif est d'aider les personnes issues de l'immigration à retrouver les saveurs authentiques de leur pays d'origine, tout en permettant aux amateurs de découvrir de nouvelles cuisines.",
+  context:
+    "Notre plateforme se concentre essentiellement sur les produits d'Asie, d'Afrique d'Amérique du Sud et du Maghreb, en centralisant des catalogues de produits de divers magasins et des adresses internationales représentant leur pays d'origine à travers leurs restaurants et épiceries.",
+  objective:
+    "L'objectif à travers ce projet réside dans l'intuition des saveurs du monde, c'est pourquoi on y retrouve une sélection de recettes de personnes locales. Chez-soi et des espaces d'immutabilité en partages, décharges pour créer un lien fort entre d'usage d'utilisateurs.",
+  technologies: ["HTML", "TailwindCSS", "Astro.js", "PocketBase", "Netlify"],
+  client: {
+    name: "UNIVERSITÉ MMI MONTBÉLIARD",
+    icon: "👨‍🎓",
+  },
+  cadre: {
+    name: "1ÈRE ANNÉE BUT MMI",
+    icon: "🎓",
+  },
+  temps: {
+    name: "5 MOIS",
+    icon: "😊",
+  },
+  mode: {
+    name: "EN GROUPE DE 3 PERSONNES",
+    icon: "👥",
+  },
+  personalContext:
+    "Ce projet s'inscrit dans le cadre de ma 1ère année de BUT MMI à Montbéliard. Il s'agissait de concevoir un projet web complet incluant la gestion d'un dossier de communication marketing, d'une identité visuelle, ainsi qu'un site vitrine pour promouvoir la plateforme. La conception et le développement de nos modules furent réalisés de manière autonome et collaborative.",
+  role: "J'ai été principalement en charge du développement web, de la gestion de l'espace Nation du site et de la newsletter. Cependant, la collaboration étant essentielle, j'ai également contribué au dossier de communication marketing et participe de manière plus légère aux maquettes des sites web.",
+  skills:
+    "Cette expérience m'a permis de renforcer mes compétences techniques tout en développant ma capacité à travailler en autonomie, à gérer mon temps et à m'adapter à différents aspects du projet.",
+  colorGradient: {
+    from: "#FEEEB3",
+    to: "#FDDA5C",
+  },
+  processSteps: [
+    {
+      number: 1,
+      title: "Étude du marché",
+      description:
+        "Analyse des concurrents, des tendances et des attentes des utilisateurs afin de définir une stratégie visuelle différenciante et adaptée au projet.",
+      image: "",
+    },
+    {
+      number: 2,
+      title: "Maquettage",
+      description:
+        "Création des wireframes et prototypes haute-fidélité pour valider l'expérience utilisateur et l'interface.",
+      image: "",
+    },
+    {
+      number: 3,
+      title: "Développement",
+      description:
+        "Intégration front-end avec Astro.js, TailwindCSS et mise en place du backend avec PocketBase.",
+      image: "",
+    },
+  ],
+};
+---
+
+<Layout title={`${projectData.title} - Nicolas THAI`}>
+  <div
+    class="min-h-screen w-full overflow-y-auto overflow-x-hidden projet-page"
+  >
+    <section
+      class="relative w-full h-screen flex items-center justify-center overflow-hidden"
+      style={`background: linear-gradient(135deg, ${projectData.colorGradient.from} 0%, ${projectData.colorGradient.to} 100%);`}
+    >
+      <div class="absolute inset-0 opacity-30">
+        <GridLayer class="w-full h-full" />
+      </div>
+
+      <div class="absolute top-8 left-8 z-50">
+        <a href="/projets/asafram">
+          <MainBouton
+            type="retour"
+            size="desktop"
+            strokeColor={projectData.colorGradient.to}
+          />
+        </a>
+      </div>
+
+      <div
+        class="relative z-10 w-full max-w-2xl lg:max-w-4xl mx-auto px-6 flex flex-col items-center"
+      >
+        <div
+          class="bg-white/90 backdrop-blur-sm rounded-[48px] shadow-2xl p-8 lg:p-12 w-full"
+        >
+          <img
+            src={AsaframCover.src}
+            alt={projectData.title}
+            class="w-full h-auto"
+          />
+        </div>
+      </div>
+
+      <Nuage1
+        class="absolute bottom-20 left-0 w-[200px] lg:w-[300px] opacity-80"
+      />
+      <Nuage2
+        class="absolute bottom-20 right-0 w-[200px] lg:w-[300px] opacity-80"
+      />
+
+      <div
+        class="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 animate-bounce"
+      >
+        <Fleche
+          size="desktop"
+          direction="bas"
+          href="#content"
+          colorGradient={projectData.colorGradient}
+        />
+      </div>
+    </section>
+
+    <div id="content" class="relative w-full bg-white">
+      <Nuage1
+        class="absolute top-20 left-10 w-[150px] lg:w-[250px] opacity-20 pointer-events-none"
+      />
+      <Nuage2
+        class="absolute top-60 right-10 w-[150px] lg:w-[250px] opacity-20 pointer-events-none"
+      />
+      <Nuage1
+        class="absolute bottom-60 right-20 w-[120px] lg:w-[200px] opacity-15 pointer-events-none"
+      />
+      <Nuage2
+        class="absolute bottom-20 left-20 w-[120px] lg:w-[200px] opacity-15 pointer-events-none"
+      />
+
+      <div class="relative w-full px-6 lg:px-20 py-32 lg:pt-20 lg:pb-10">
+        <section class="mb-32 lg:mb-12 max-w-4xl">
+          <span
+            class="inline-block text-text-gray body-2 lg:text-[18px] font-semibold tracking-wider mb-6"
+          >
+            {projectData.year}
+          </span>
+
+          <h1
+            class="project-h1 lg:text-[56px] font-bold text-text-gray mb-10 lg:mb-12"
+          >
+            {projectData.title}
+          </h1>
+
+          <div class="flex flex-wrap gap-3 lg:gap-4">
+            {
+              projectData.technologies.map((tech) => (
+                <span class="px-6 py-2 lg:px-8 lg:py-3 bg-gradient-to-br from-white to-gray-50 rounded-full border-2 border-gray-200 shadow-lg body-2 lg:text-[16px] font-semibold text-text-gray hover:scale-105 transition-transform duration-300">
+                  {tech}
+                </span>
+              ))
+            }
+          </div>
+        </section>
+
+        <section class="mb-32 lg:mb-48">
+          <div
+            class="grid lg:grid-cols-[1fr,350px] gap-12 lg:gap-16 items-start"
+          >
+            <div class="space-y-8 max-w-3xl">
+              <p class="body-1 text-text-gray leading-relaxed">
+                {projectData.description}
+              </p>
+              <p class="body-2 text-text-gray leading-relaxed">
+                {projectData.context}
+              </p>
+              <p class="body-2 text-text-gray leading-relaxed">
+                {projectData.objective}
+              </p>
+            </div>
+
+            <div class="lg:sticky lg:top-32 space-y-4 max-w-[350px]">
+              <div
+                class="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-4 shadow-lg border-2 border-gray-200"
+              >
+                <img
+                  src={AsaframCover.src}
+                  alt="Asafram visuel 1"
+                  class="w-full h-auto rounded-xl object-contain"
+                />
+              </div>
+              <div
+                class="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-4 shadow-lg border-2 border-gray-200"
+              >
+                <img
+                  src={AsaframCover.src}
+                  alt="Asafram visuel 2"
+                  class="w-full h-auto rounded-xl object-contain"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="mb-32 lg:mb-48">
+          <h2 class="project-h2 text-text-gray mb-12 lg:mb-16">
+            Contexte du projet
+          </h2>
+
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-16">
+            <div
+              class="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-6 lg:p-8 text-center shadow-xl hover:scale-105 transition-transform duration-300 border-2 border-gray-200"
+            >
+              <svg
+                class="w-12 h-12 lg:w-16 lg:h-16 mx-auto mb-4 text-gray-700"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                ></path>
+              </svg>
+              <h3 class="h3 text-text-gray mb-2">CLIENT</h3>
+              <p class="body-2 text-text-gray font-semibold">
+                {projectData.client.name}
+              </p>
+            </div>
+
+            <div
+              class="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-6 lg:p-8 text-center shadow-xl hover:scale-105 transition-transform duration-300 border-2 border-gray-200"
+            >
+              <svg
+                class="w-12 h-12 lg:w-16 lg:h-16 mx-auto mb-4 text-gray-700"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"
+                ></path>
+              </svg>
+              <h3 class="h3 text-text-gray mb-2">CADRE</h3>
+              <p class="body-2 text-text-gray font-semibold">
+                {projectData.cadre.name}
+              </p>
+            </div>
+
+            <div
+              class="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-6 lg:p-8 text-center shadow-xl hover:scale-105 transition-transform duration-300 border-2 border-gray-200"
+            >
+              <svg
+                class="w-12 h-12 lg:w-16 lg:h-16 mx-auto mb-4 text-gray-700"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <h3 class="h3 text-text-gray mb-2">TEMPS</h3>
+              <p class="body-2 text-text-gray font-semibold">
+                {projectData.temps.name}
+              </p>
+            </div>
+
+            <div
+              class="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-6 lg:p-8 text-center shadow-xl hover:scale-105 transition-transform duration-300 border-2 border-gray-200"
+            >
+              <svg
+                class="w-12 h-12 lg:w-16 lg:h-16 mx-auto mb-4 text-gray-700"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+                ></path>
+              </svg>
+              <h3 class="h3 text-text-gray mb-2">MODE</h3>
+              <p class="body-2 text-text-gray font-semibold">
+                {projectData.mode.name}
+              </p>
+            </div>
+          </div>
+
+          <div class="space-y-8 max-w-3xl">
+            <p class="body-1 text-text-gray leading-relaxed">
+              {projectData.personalContext}
+            </p>
+            <p class="body-2 text-text-gray leading-relaxed">
+              {projectData.role}
+            </p>
+            <p class="body-2 text-text-gray leading-relaxed">
+              {projectData.skills}
+            </p>
+          </div>
+        </section>
+
+        <section class="mb-32 lg:mb-48">
+          <h2 class="project-h2 text-text-gray mb-16 lg:mb-20">
+            Processus de création
+          </h2>
+
+          <div class="space-y-24 lg:space-y-32">
+            {
+              projectData.processSteps.map((step, index) => (
+                <div
+                  class={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${index % 2 === 1 ? "lg:grid-flow-dense" : ""}`}
+                >
+                  <div
+                    class={`space-y-6 ${index % 2 === 1 ? "lg:col-start-2" : ""}`}
+                  >
+                    <div class="flex items-baseline gap-4">
+                      <span class="text-6xl lg:text-8xl font-bold text-gray-200">
+                        {step.number}
+                      </span>
+                      <h3 class="project-h2 text-text-gray">{step.title}</h3>
+                    </div>
+                    <p class="body-1 text-text-gray leading-relaxed">
+                      {step.description}
+                    </p>
+                  </div>
+
+                  <div
+                    class={
+                      index % 2 === 1 ? "lg:col-start-1 lg:row-start-1" : ""
+                    }
+                  >
+                    <div class="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-8 lg:p-10 border-2 border-gray-200 shadow-2xl aspect-video flex items-center justify-center">
+                      <span class="body-1 text-text-gray opacity-50">
+                        Visuel {step.number}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </section>
+
+        <section class="mb-32 lg:mb-48">
+          <h2 class="project-h2 text-text-gray mb-16 lg:mb-20">
+            Le résultat final
+          </h2>
+
+          <div
+            class="rounded-3xl p-8 lg:p-12 shadow-2xl border-4"
+            style={`background: linear-gradient(135deg, ${projectData.colorGradient.from} 0%, ${projectData.colorGradient.to} 100%); border-color: ${projectData.colorGradient.to};`}
+          >
+            <div
+              class="bg-white rounded-2xl overflow-hidden shadow-inner aspect-video"
+            >
+              <div
+                class="w-full h-full flex items-center justify-center text-text-gray"
+              >
+                <span class="body-1 opacity-50">
+                  Iframe / Aperçu du site final
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <footer class="pt-16 pb-6 border-t-2 border-gray-200">
+          <div
+            class="flex flex-col lg:flex-row justify-between items-center gap-8"
+          >
+            <p class="body-2 text-text-gray">© 2025 Nicolas THAI</p>
+
+            <div class="flex items-center gap-8">
+              <div class="flex gap-6">
+                <a
+                  href="#"
+                  class="body-2 text-text-gray hover:text-dark-blue transition-colors duration-300"
+                >
+                  Mentions légales
+                </a>
+                <a
+                  href="#"
+                  class="body-2 text-text-gray hover:text-dark-blue transition-colors duration-300"
+                >
+                  Contact
+                </a>
+                <a
+                  href="#"
+                  class="body-2 text-text-gray hover:text-dark-blue transition-colors duration-300"
+                >
+                  Crédits
+                </a>
+              </div>
+
+              <div class="flex gap-4 items-center">
+                <a
+                  href="https://github.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-text-gray hover:text-dark-blue transition-all duration-300 hover:scale-110"
+                >
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                    ></path>
+                  </svg>
+                </a>
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-text-gray hover:text-dark-blue transition-all duration-300 hover:scale-110"
+                >
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                    ></path>
+                  </svg>
+                </a>
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-text-gray hover:text-dark-blue transition-all duration-300 hover:scale-110"
+                >
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                    ></path>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style define:vars={{ scrollbarColor: projectData.colorGradient.to }}>
+  html,
+  body {
+    overflow: auto !important;
+    scroll-behavior: smooth;
+    height: auto !important;
+  }
+
+  /* Scrollbar personnalisée avec couleur du projet */
+  ::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: var(--scrollbarColor);
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbarColor);
+    filter: brightness(0.9);
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbarColor) #f1f1f1;
+  }
+
+  .shadow-3xl {
+    box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.3);
+  }
+
+  .border-3 {
+    border-width: 3px;
+  }
+</style>

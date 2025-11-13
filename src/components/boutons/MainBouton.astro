@@ -10,9 +10,17 @@ export interface Props {
   href?: string;
   onClick?: () => void;
   id?: string;
+  strokeColor?: string;
 }
 
-const { type, size = "desktop", href = "#", onClick, id } = Astro.props;
+const {
+  type,
+  size = "desktop",
+  href = "#",
+  onClick,
+  id,
+  strokeColor,
+} = Astro.props;
 
 const icons = {
   retour: IconRetour,
@@ -62,6 +70,7 @@ const currentSize = sizes[size] || sizes.desktop;
 >
   <div
     class="w-full h-full rounded-full relative overflow-hidden flex items-center justify-center wii-main-button__circle"
+    style={strokeColor ? `border-color: ${strokeColor};` : ""}
   >
     {/* Forme décorative en arrière-plan */}
     <div
