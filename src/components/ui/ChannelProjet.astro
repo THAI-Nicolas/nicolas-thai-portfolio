@@ -32,28 +32,51 @@ const sizes = {
 const currentSize = sizes[size] || sizes.desktop;
 ---
 
-<div
-  class={`${currentSize.container} cursor-pointer transition-all duration-200 ease-in-out group`}
-  data-onclick={onClick ? "true" : undefined}
->
-  <div
-    class={`relative w-full h-full wii-channel-container ${isEmpty ? "empty-channel" : ""}`}
-  >
-    <ChannelEmpty class="w-full h-full wii-channel-svg" />
-    {
-      !isEmpty && projectCover && (
-        <div class="absolute inset-0 flex items-center justify-center">
-          <img
-            src={projectCover}
-            alt={projectTitle || "Project cover"}
-            class="object-contain wii-project-cover"
-            style="width: calc(100% - 4px); height: calc(100% - 4px);"
-          />
-        </div>
-      )
-    }
-  </div>
-</div>
+{
+  href && href !== "#" ? (
+    <a
+      href={href}
+      class={`block ${currentSize.container} cursor-pointer transition-all duration-200 ease-in-out group`}
+    >
+      <div
+        class={`relative w-full h-full wii-channel-container ${isEmpty ? "empty-channel" : ""}`}
+      >
+        <ChannelEmpty class="w-full h-full wii-channel-svg" />
+        {!isEmpty && projectCover && (
+          <div class="absolute inset-0 flex items-center justify-center">
+            <img
+              src={projectCover}
+              alt={projectTitle || "Project cover"}
+              class="object-contain wii-project-cover"
+              style="width: calc(100% - 4px); height: calc(100% - 4px);"
+            />
+          </div>
+        )}
+      </div>
+    </a>
+  ) : (
+    <div
+      class={`${currentSize.container} cursor-pointer transition-all duration-200 ease-in-out group`}
+      data-onclick={onClick ? "true" : undefined}
+    >
+      <div
+        class={`relative w-full h-full wii-channel-container ${isEmpty ? "empty-channel" : ""}`}
+      >
+        <ChannelEmpty class="w-full h-full wii-channel-svg" />
+        {!isEmpty && projectCover && (
+          <div class="absolute inset-0 flex items-center justify-center">
+            <img
+              src={projectCover}
+              alt={projectTitle || "Project cover"}
+              class="object-contain wii-project-cover"
+              style="width: calc(100% - 4px); height: calc(100% - 4px);"
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
 
 <style>
   /* Container avec texture VHS */

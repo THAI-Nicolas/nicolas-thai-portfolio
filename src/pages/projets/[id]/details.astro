@@ -2,91 +2,55 @@
 import Layout from "../../../layouts/Layout.astro";
 import Fleche from "../../../components/ui/Fleche.astro";
 import MainBouton from "../../../components/boutons/MainBouton.astro";
-import AsaframCover from "../../../assets/images/asafram_cover.svg";
 import GridLayer from "../../../assets/icones/gridlayer.svg";
 import Nuage1 from "../../../assets/icones/nuage1.svg";
 import Nuage2 from "../../../assets/icones/nuage2.svg";
-import FlecheIcon from "../../../assets/icones/fleche.svg";
+import { ProjetsService } from "../../../../backend/services/projets.service";
 
-const projectData = {
-  year: "2025",
-  title: "Asafram : Retrouver le goût de chez soi",
-  description:
-    "ASAFRAM est une plateforme web conçue pour faciliter l'accès aux produits alimentaires et aux boutiques spécialisées dans les traditions culinaires africaines et maghrébines. Son objectif est d'aider les personnes issues de l'immigration à retrouver les saveurs authentiques de leur pays d'origine, tout en permettant aux amateurs de découvrir de nouvelles cuisines.",
-  context:
-    "Notre plateforme se concentre essentiellement sur les produits d'Asie, d'Afrique d'Amérique du Sud et du Maghreb, en centralisant des catalogues de produits de divers magasins et des adresses internationales représentant leur pays d'origine à travers leurs restaurants et épiceries.",
-  objective:
-    "L'objectif à travers ce projet réside dans l'intuition des saveurs du monde, c'est pourquoi on y retrouve une sélection de recettes de personnes locales. Chez-soi et des espaces d'immutabilité en partages, décharges pour créer un lien fort entre d'usage d'utilisateurs.",
-  technologies: ["HTML", "TailwindCSS", "Astro.js", "PocketBase", "Netlify"],
-  client: {
-    name: "UNIVERSITÉ MMI MONTBÉLIARD",
-    icon: "👨‍🎓",
-  },
-  cadre: {
-    name: "1ÈRE ANNÉE BUT MMI",
-    icon: "🎓",
-  },
-  temps: {
-    name: "5 MOIS",
-    icon: "😊",
-  },
-  mode: {
-    name: "EN GROUPE DE 3 PERSONNES",
-    icon: "👥",
-  },
-  personalContext:
-    "Ce projet s'inscrit dans le cadre de ma 1ère année de BUT MMI à Montbéliard. Il s'agissait de concevoir un projet web complet incluant la gestion d'un dossier de communication marketing, d'une identité visuelle, ainsi qu'un site vitrine pour promouvoir la plateforme. La conception et le développement de nos modules furent réalisés de manière autonome et collaborative.",
-  role: "J'ai été principalement en charge du développement web, de la gestion de l'espace Nation du site et de la newsletter. Cependant, la collaboration étant essentielle, j'ai également contribué au dossier de communication marketing et participe de manière plus légère aux maquettes des sites web.",
-  skills:
-    "Cette expérience m'a permis de renforcer mes compétences techniques tout en développant ma capacité à travailler en autonomie, à gérer mon temps et à m'adapter à différents aspects du projet.",
-  colorGradient: {
-    from: "#FEEEB3",
-    to: "#FDDA5C",
-  },
-  processSteps: [
-    {
-      number: 1,
-      title: "Étude du marché",
-      description:
-        "Analyse des concurrents, des tendances et des attentes des utilisateurs afin de définir une stratégie visuelle différenciante et adaptée au projet.",
-      image: "",
-    },
-    {
-      number: 2,
-      title: "Maquettage",
-      description:
-        "Création des wireframes et prototypes haute-fidélité pour valider l'expérience utilisateur et l'interface.",
-      image: "",
-    },
-    {
-      number: 3,
-      title: "Développement",
-      description:
-        "Intégration front-end avec Astro.js, TailwindCSS et mise en place du backend avec PocketBase.",
-      image: "",
-    },
-  ],
+const { id } = Astro.params;
+
+if (!id) {
+  return Astro.redirect("/");
+}
+
+const projet = await ProjetsService.getBySlug(id);
+
+if (!projet) {
+  return Astro.redirect("/");
+}
+
+const coverUrl = ProjetsService.getCoverUrl(projet);
+const visuelUrls = ProjetsService.getVisuelUrls(projet);
+
+const technologies = projet.expand?.technologies || [];
+const processusEtapes = (projet.expand?.processus || []).sort(
+  (a, b) => a.numero - b.numero
+);
+
+const colorGradient = {
+  from: projet.color_from,
+  to: projet.color_to,
 };
 ---
 
-<Layout title={`${projectData.title} - Nicolas THAI`}>
+<Layout title={`${projet.titre} - Nicolas THAI`}>
   <div
     class="min-h-screen w-full overflow-y-auto overflow-x-hidden projet-page"
   >
     <section
       class="relative w-full h-screen flex items-center justify-center overflow-hidden"
-      style={`background: linear-gradient(135deg, ${projectData.colorGradient.from} 0%, ${projectData.colorGradient.to} 100%);`}
+      style={`background: linear-gradient(135deg, ${colorGradient.from} 0%, ${colorGradient.to} 100%);`}
     >
       <div class="absolute inset-0 opacity-30">
         <GridLayer class="w-full h-full" />
       </div>
 
       <div class="absolute top-8 left-8 z-50">
-        <a href="/projets/asafram">
+        <a href={`/projets/${projet.slug}`}>
           <MainBouton
             type="retour"
             size="desktop"
-            strokeColor={projectData.colorGradient.to}
+            strokeColor={colorGradient.to}
           />
         </a>
       </div>
@@ -97,11 +61,7 @@ const projectData = {
         <div
           class="bg-white/90 backdrop-blur-sm rounded-[48px] shadow-2xl p-8 lg:p-12 w-full"
         >
-          <img
-            src={AsaframCover.src}
-            alt={projectData.title}
-            class="w-full h-auto"
-          />
+          <img src={coverUrl} alt={projet.titre} class="w-full h-auto" />
         </div>
       </div>
 
@@ -119,7 +79,7 @@ const projectData = {
           size="desktop"
           direction="bas"
           href="#content"
-          colorGradient={projectData.colorGradient}
+          colorGradient={colorGradient}
         />
       </div>
     </section>
@@ -143,20 +103,20 @@ const projectData = {
           <span
             class="inline-block text-text-gray body-2 lg:text-[18px] font-semibold tracking-wider mb-6"
           >
-            {projectData.year}
+            {projet.annee}
           </span>
 
           <h1
             class="project-h1 lg:text-[56px] font-bold text-text-gray mb-10 lg:mb-12"
           >
-            {projectData.title}
+            {projet.titre}
           </h1>
 
           <div class="flex flex-wrap gap-3 lg:gap-4">
             {
-              projectData.technologies.map((tech) => (
+              technologies.map((tech) => (
                 <span class="px-6 py-2 lg:px-8 lg:py-3 bg-gradient-to-br from-white to-gray-50 rounded-full border-2 border-gray-200 shadow-lg body-2 lg:text-[16px] font-semibold text-text-gray hover:scale-105 transition-transform duration-300">
-                  {tech}
+                  {tech.nom}
                 </span>
               ))
             }
@@ -168,36 +128,28 @@ const projectData = {
             class="grid lg:grid-cols-[1fr,350px] gap-12 lg:gap-16 items-start"
           >
             <div class="space-y-8 max-w-3xl">
-              <p class="body-1 text-text-gray leading-relaxed">
-                {projectData.description}
-              </p>
-              <p class="body-2 text-text-gray leading-relaxed">
-                {projectData.context}
-              </p>
-              <p class="body-2 text-text-gray leading-relaxed">
-                {projectData.objective}
-              </p>
+              <div
+                class="body-1 text-text-gray leading-relaxed"
+                set:html={projet.description}
+              />
+              <div
+                class="body-2 text-text-gray leading-relaxed"
+                set:html={projet.contexte}
+              />
             </div>
 
             <div class="lg:sticky lg:top-32 space-y-4 max-w-[350px]">
-              <div
-                class="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-4 shadow-lg border-2 border-gray-200"
-              >
-                <img
-                  src={AsaframCover.src}
-                  alt="Asafram visuel 1"
-                  class="w-full h-auto rounded-xl object-contain"
-                />
-              </div>
-              <div
-                class="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-4 shadow-lg border-2 border-gray-200"
-              >
-                <img
-                  src={AsaframCover.src}
-                  alt="Asafram visuel 2"
-                  class="w-full h-auto rounded-xl object-contain"
-                />
-              </div>
+              {
+                visuelUrls.slice(0, 2).map((url) => (
+                  <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-4 shadow-lg border-2 border-gray-200">
+                    <img
+                      src={url}
+                      alt={`${projet.titre} visuel`}
+                      class="w-full h-auto rounded-xl object-contain"
+                    />
+                  </div>
+                ))
+              }
             </div>
           </div>
         </section>
@@ -226,7 +178,7 @@ const projectData = {
               </svg>
               <h3 class="h3 text-text-gray mb-2">CLIENT</h3>
               <p class="body-2 text-text-gray font-semibold">
-                {projectData.client.name}
+                {projet.client}
               </p>
             </div>
 
@@ -253,7 +205,7 @@ const projectData = {
               </svg>
               <h3 class="h3 text-text-gray mb-2">CADRE</h3>
               <p class="body-2 text-text-gray font-semibold">
-                {projectData.cadre.name}
+                {projet.cadre}
               </p>
             </div>
 
@@ -274,7 +226,7 @@ const projectData = {
               </svg>
               <h3 class="h3 text-text-gray mb-2">TEMPS</h3>
               <p class="body-2 text-text-gray font-semibold">
-                {projectData.temps.name}
+                {projet.temps}
               </p>
             </div>
 
@@ -296,88 +248,96 @@ const projectData = {
               </svg>
               <h3 class="h3 text-text-gray mb-2">MODE</h3>
               <p class="body-2 text-text-gray font-semibold">
-                {projectData.mode.name}
+                {projet.mode}
               </p>
             </div>
           </div>
-
-          <div class="space-y-8 max-w-3xl">
-            <p class="body-1 text-text-gray leading-relaxed">
-              {projectData.personalContext}
-            </p>
-            <p class="body-2 text-text-gray leading-relaxed">
-              {projectData.role}
-            </p>
-            <p class="body-2 text-text-gray leading-relaxed">
-              {projectData.skills}
-            </p>
-          </div>
         </section>
 
-        <section class="mb-32 lg:mb-48">
-          <h2 class="project-h2 text-text-gray mb-16 lg:mb-20">
-            Processus de création
-          </h2>
+        {
+          processusEtapes.length > 0 && (
+            <section class="mb-32 lg:mb-48">
+              <h2 class="project-h2 text-text-gray mb-16 lg:mb-20">
+                Processus de création
+              </h2>
 
-          <div class="space-y-24 lg:space-y-32">
-            {
-              projectData.processSteps.map((step, index) => (
-                <div
-                  class={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${index % 2 === 1 ? "lg:grid-flow-dense" : ""}`}
-                >
+              <div class="space-y-24 lg:space-y-32">
+                {processusEtapes.map((etape, index) => (
                   <div
-                    class={`space-y-6 ${index % 2 === 1 ? "lg:col-start-2" : ""}`}
+                    class={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${index % 2 === 1 ? "lg:grid-flow-dense" : ""}`}
                   >
-                    <div class="flex items-baseline gap-4">
-                      <span class="text-6xl lg:text-8xl font-bold text-gray-200">
-                        {step.number}
-                      </span>
-                      <h3 class="project-h2 text-text-gray">{step.title}</h3>
+                    <div
+                      class={`space-y-6 ${index % 2 === 1 ? "lg:col-start-2" : ""}`}
+                    >
+                      <div class="flex items-baseline gap-4">
+                        <span class="text-6xl lg:text-8xl font-bold text-gray-200">
+                          {etape.numero}
+                        </span>
+                        <h3 class="project-h2 text-text-gray">{etape.titre}</h3>
+                      </div>
+                      <div
+                        class="body-1 text-text-gray leading-relaxed"
+                        set:html={etape.description}
+                      />
                     </div>
-                    <p class="body-1 text-text-gray leading-relaxed">
-                      {step.description}
-                    </p>
-                  </div>
 
-                  <div
-                    class={
-                      index % 2 === 1 ? "lg:col-start-1 lg:row-start-1" : ""
-                    }
-                  >
-                    <div class="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-8 lg:p-10 border-2 border-gray-200 shadow-2xl aspect-video flex items-center justify-center">
-                      <span class="body-1 text-text-gray opacity-50">
-                        Visuel {step.number}
-                      </span>
+                    <div
+                      class={
+                        index % 2 === 1 ? "lg:col-start-1 lg:row-start-1" : ""
+                      }
+                    >
+                      <div class="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-8 lg:p-10 border-2 border-gray-200 shadow-2xl aspect-video flex items-center justify-center">
+                        {etape.image ? (
+                          <img
+                            src={ProjetsService.getFileUrl(etape, etape.image)}
+                            alt={etape.titre}
+                            class="w-full h-full object-cover rounded-2xl"
+                          />
+                        ) : (
+                          <span class="body-1 text-text-gray opacity-50">
+                            Visuel {etape.numero}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
-            }
-          </div>
-        </section>
-
-        <section class="mb-32 lg:mb-48">
-          <h2 class="project-h2 text-text-gray mb-16 lg:mb-20">
-            Le résultat final
-          </h2>
-
-          <div
-            class="rounded-3xl p-8 lg:p-12 shadow-2xl border-4"
-            style={`background: linear-gradient(135deg, ${projectData.colorGradient.from} 0%, ${projectData.colorGradient.to} 100%); border-color: ${projectData.colorGradient.to};`}
-          >
-            <div
-              class="bg-white rounded-2xl overflow-hidden shadow-inner aspect-video"
-            >
-              <div
-                class="w-full h-full flex items-center justify-center text-text-gray"
-              >
-                <span class="body-1 opacity-50">
-                  Iframe / Aperçu du site final
-                </span>
+                ))}
               </div>
-            </div>
-          </div>
-        </section>
+            </section>
+          )
+        }
+
+        {
+          (projet.resultat_url || projet.resultat_iframe) && (
+            <section class="mb-32 lg:mb-48">
+              <h2 class="project-h2 text-text-gray mb-16 lg:mb-20">
+                Le résultat final
+              </h2>
+
+              <div
+                class="rounded-3xl p-8 lg:p-12 shadow-2xl border-4"
+                style={`background: linear-gradient(135deg, ${colorGradient.from} 0%, ${colorGradient.to} 100%); border-color: ${colorGradient.to};`}
+              >
+                <div class="bg-white rounded-2xl overflow-hidden shadow-inner aspect-video">
+                  {projet.resultat_iframe ? (
+                    <div
+                      class="w-full h-full"
+                      set:html={projet.resultat_iframe}
+                    />
+                  ) : projet.resultat_url ? (
+                    <iframe
+                      src={projet.resultat_url}
+                      title={`${projet.titre} - Résultat final`}
+                      class="w-full h-full"
+                      frameborder="0"
+                      allowfullscreen
+                    />
+                  ) : null}
+                </div>
+              </div>
+            </section>
+          )
+        }
 
         <footer class="pt-16 pb-6 border-t-2 border-gray-200">
           <div
@@ -453,7 +413,7 @@ const projectData = {
   </div>
 </Layout>
 
-<style define:vars={{ scrollbarColor: projectData.colorGradient.to }}>
+<style define:vars={{ scrollbarColor: colorGradient.to }}>
   html,
   body {
     overflow: auto !important;
@@ -461,7 +421,6 @@ const projectData = {
     height: auto !important;
   }
 
-  /* Scrollbar personnalisée avec couleur du projet */
   ::-webkit-scrollbar {
     width: 12px;
   }
@@ -480,7 +439,6 @@ const projectData = {
     filter: brightness(0.9);
   }
 
-  /* Firefox */
   * {
     scrollbar-width: thin;
     scrollbar-color: var(--scrollbarColor) #f1f1f1;

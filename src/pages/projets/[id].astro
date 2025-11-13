@@ -2,23 +2,24 @@
 import LayoutPageProjet from "../../layouts/LayoutPageProjet.astro";
 import Fleche from "../../components/ui/Fleche.astro";
 import LargeBouton from "../../components/boutons/LargeBouton.astro";
-import AsaframCover from "../../assets/images/asafram_cover.svg";
+import { ProjetsService } from "../../../backend/services/projets.service";
 
 const { id } = Astro.params;
 
-const projectsData = {
-  asafram: {
-    name: "ASAFRAM",
-    cover: AsaframCover,
-    bgColor: "#F5E6D3",
-    accentColor: "#FFD13B",
-  },
-};
+if (!id) {
+  return Astro.redirect("/");
+}
 
-const project = projectsData.asafram;
+const projet = await ProjetsService.getBySlug(id);
+
+if (!projet) {
+  return Astro.redirect("/");
+}
+
+const coverUrl = ProjetsService.getCoverUrl(projet);
 ---
 
-<LayoutPageProjet title={`${project.name} - Nicolas THAI`}>
+<LayoutPageProjet title={`${projet.titre} - Nicolas THAI`}>
   <div class="relative w-full h-full flex flex-col">
     <div
       class="relative flex-1 flex items-center justify-between w-full overflow-hidden"
@@ -31,8 +32,8 @@ const project = projectsData.asafram;
         class="absolute inset-0 flex items-center justify-center overflow-hidden"
       >
         <img
-          src={project.cover.src}
-          alt={project.name}
+          src={coverUrl}
+          alt={projet.titre}
           class="w-full object-contain scale-105"
         />
       </div>
@@ -55,7 +56,7 @@ const project = projectsData.asafram;
         <LargeBouton href="/" variant="secondary" text="Retour" />
 
         <LargeBouton
-          href={`/projets/asafram/details`}
+          href={`/projets/${projet.slug}/details`}
           variant="primary"
           text="Voir le projet"
         />
