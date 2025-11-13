@@ -20,13 +20,13 @@ const { isVisible = false, onClose } = Astro.props;
     style="perspective: 1200px;"
   >
     <div
-      class="parametres-content w-full max-w-6xl bg-[#f2f2f2] gaming-border relative overflow-hidden wood-texture"
+      class="parametres-content w-full max-w-6xl bg-background gaming-border relative overflow-hidden wood-texture"
       style="animation: fadeIn 0.3s ease-out; border-radius: 12px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -2px 8px rgba(0, 0, 0, 0.05); transform-style: preserve-3d; transition: transform 0.15s ease-out;"
     >
       <!-- Header gaming -->
       <div
-        class="parametres-header relative flex items-center justify-between border-b-3 border-light-blue bg-white/50"
-        style="padding: 24px 48px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 2px rgba(0, 0, 0, 0.05);"
+        class="parametres-header relative flex items-center justify-between border-b-3 border-light-blue"
+        style="padding: 24px 48px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 2px rgba(0, 0, 0, 0.05); background-color: color-mix(in srgb, var(--color-background) 80%, white);"
       >
         <div class="flex items-center gap-4">
           <svg
@@ -77,7 +77,7 @@ const { isVisible = false, onClose } = Astro.props;
 
       <!-- Content gaming -->
       <div
-        class="parametres-body relative bg-[#f2f2f2]/80"
+        class="parametres-body relative bg-background/80"
         style="padding: 32px 48px 24px;"
       >
         <div class="grid grid-cols-2" style="gap: 24px;">
@@ -219,6 +219,78 @@ const { isVisible = false, onClose } = Astro.props;
                     class="gaming-slider"
                   />
                 </div>
+              </div>
+            </section>
+
+            <!-- Section Thème -->
+            <section class="parametres-section relative">
+              <div class="flex items-center gap-3" style="margin-bottom: 20px;">
+                <svg
+                  class="w-5 h-5 text-light-blue"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
+                  ></path>
+                </svg>
+                <h3
+                  class="text-base font-bold text-light-blue uppercase tracking-[0.15em] gaming-text"
+                >
+                  Thème
+                </h3>
+                <div
+                  class="flex-1 h-px bg-gradient-to-r from-light-blue/50 to-transparent"
+                >
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <!-- Thème Wii -->
+                <button
+                  id="theme-wii"
+                  class="theme-button gaming-card group cursor-pointer active"
+                  data-theme="wii"
+                  style="padding: 16px; min-height: 80px;"
+                >
+                  <div class="flex flex-col items-center gap-2">
+                    <svg
+                      class="w-8 h-8 text-light-blue"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+                      ></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    <span class="text-sm font-bold text-text-gray">WII</span>
+                  </div>
+                </button>
+
+                <!-- Thème Dark -->
+                <button
+                  id="theme-dark"
+                  class="theme-button gaming-card group cursor-pointer"
+                  data-theme="dark"
+                  style="padding: 16px; min-height: 80px;"
+                >
+                  <div class="flex flex-col items-center gap-2">
+                    <svg
+                      class="w-8 h-8 text-light-blue"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"
+                      ></path>
+                    </svg>
+                    <span class="text-sm font-bold text-text-gray">DARK</span>
+                  </div>
+                </button>
               </div>
             </section>
           </div>
@@ -399,8 +471,8 @@ const { isVisible = false, onClose } = Astro.props;
 
       <!-- Footer gaming -->
       <div
-        class="parametres-footer relative bg-white/50 border-t-3 border-light-blue flex justify-between items-center"
-        style="padding: 24px 48px; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 2px rgba(0, 0, 0, 0.05);"
+        class="parametres-footer relative border-t-3 border-light-blue flex justify-between items-center"
+        style="padding: 24px 48px; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 2px rgba(0, 0, 0, 0.05); background-color: color-mix(in srgb, var(--color-background) 80%, white);"
       >
         <button
           id="reset-button"
@@ -822,10 +894,69 @@ const { isVisible = false, onClose } = Astro.props;
       grid-template-columns: 1fr;
     }
   }
+
+  /* Boutons de thème */
+  .theme-button {
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+  }
+
+  .theme-button.active {
+    border-color: var(--color-light-blue);
+    background: linear-gradient(
+      145deg,
+      rgba(52, 190, 237, 0.15) 0%,
+      rgba(52, 190, 237, 0.05) 100%
+    ) !important;
+    box-shadow:
+      0 0 0 1px var(--color-light-blue),
+      0 4px 12px rgba(52, 190, 237, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  }
+
+  .theme-button.active svg {
+    color: var(--color-dark-blue);
+  }
+
+  .theme-button:hover {
+    border-color: var(--color-light-blue);
+  }
 </style>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
+    // Gestion des thèmes
+    const themeButtons = document.querySelectorAll(".theme-button");
+
+    // Initialiser le bouton actif selon le thème actuel
+    const currentTheme = window.portfolioTheme?.getTheme() || "wii";
+    console.log("Thème actuel au chargement:", currentTheme);
+
+    themeButtons.forEach((btn) => {
+      const btnTheme = btn.getAttribute("data-theme");
+      if (btnTheme === currentTheme) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+
+    // Gérer les clics sur les boutons de thème
+    themeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const theme = button.getAttribute("data-theme");
+        console.log("Bouton cliqué, thème:", theme);
+
+        if (theme && window.portfolioTheme) {
+          window.portfolioTheme.setTheme(theme);
+
+          // Mettre à jour les classes actives
+          themeButtons.forEach((btn) => btn.classList.remove("active"));
+          button.classList.add("active");
+        }
+      });
+    });
+
     // Effet 3D immersif au mouvement de la souris
     const parametresContent = document.querySelector(
       ".parametres-content"

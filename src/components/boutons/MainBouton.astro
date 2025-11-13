@@ -108,9 +108,11 @@ const currentSize = sizes[size] || sizes.desktop;
     {
       type === "presentation" && (
         <div
-          class={`bg-gray-300 rounded-full flex items-center justify-center relative z-10 ${currentSize.icon}`}
+          class={`bg-[var(--color-light-gray)] rounded-full flex items-center justify-center relative z-10 ${currentSize.icon}`}
         >
-          <span class={`text-gray-600 ${currentSize.text}`}>Mii</span>
+          <span class={`text-[var(--color-dark-gray)] ${currentSize.text}`}>
+            Mii
+          </span>
         </div>
       )
     }

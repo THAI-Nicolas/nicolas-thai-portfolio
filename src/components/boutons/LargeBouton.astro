@@ -9,8 +9,9 @@ const { href, variant = "primary", text } = Astro.props;
 
 const variantClasses = {
   primary:
-    "bg-white/90 backdrop-blur-sm border-4 border-light-blue hover:bg-white",
-  secondary: "bg-transparent border-4 border-white hover:bg-transparent",
+    "bg-white/90 backdrop-blur-sm border-4 border-light-blue hover:bg-white large-bouton-primary",
+  secondary:
+    "bg-transparent border-4 border-white hover:bg-transparent large-bouton-secondary",
 };
 
 const textClasses = {
@@ -39,3 +40,17 @@ const textClasses = {
     {text}
   </span>
 </a>
+
+<style>
+  [data-theme="dark"] .large-bouton-primary {
+    background-color: rgba(75, 85, 99, 0.9);
+  }
+
+  [data-theme="dark"] .large-bouton-primary:hover {
+    background-color: rgb(75, 85, 99);
+  }
+
+  [data-theme="dark"] .large-bouton-secondary {
+    border-color: var(--color-light-blue);
+  }
+</style>

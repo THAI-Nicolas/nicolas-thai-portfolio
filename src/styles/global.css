@@ -8,7 +8,27 @@ body {
 }
 
 :root {
-  /* Couleurs personnalisées pour Tailwind */
+  /* Thème Wii (par défaut) */
+  --color-light-blue: #34beed;
+  --color-dark-blue: #008cff;
+  --color-light-gray: #e1e2e6;
+  --color-text-gray: #383e3f;
+  --color-dark-gray: #a2a2a2;
+  --color-background: #f2f2f2;
+}
+
+/* Thème Dark - STRICTEMENT MONOCHROME */
+[data-theme="dark"] {
+  --color-light-blue: #d4d4d4;
+  --color-dark-blue: #a8a8a8;
+  --color-light-gray: #3a3a3a;
+  --color-text-gray: #f5f5f5;
+  --color-dark-gray: #8a8a8a;
+  --color-background: #1c1c1c;
+}
+
+/* Thème Wii (explicite) */
+[data-theme="wii"] {
   --color-light-blue: #34beed;
   --color-dark-blue: #008cff;
   --color-light-gray: #e1e2e6;
@@ -61,7 +81,7 @@ body {
   font-family: "fot-rodin-pron", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
-  color: #000000;
+  color: var(--color-text-gray);
   font-size: 20px;
 }
 
@@ -70,7 +90,7 @@ body {
   font-family: "raleway", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
-  color: #000000;
+  color: var(--color-text-gray);
   font-size: 16px;
 }
 
@@ -79,7 +99,7 @@ body {
   font-family: "raleway", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
-  color: #000000;
+  color: var(--color-text-gray);
   font-size: 10px;
 }
 
@@ -87,7 +107,7 @@ body {
 .body-1 {
   font-family: "raleway", sans-serif;
   font-weight: 400;
-  color: #000000;
+  color: var(--color-text-gray);
   font-size: 16px;
 }
 
@@ -95,7 +115,7 @@ body {
 .body-2 {
   font-family: "raleway", sans-serif;
   font-weight: 400;
-  color: #000000;
+  color: var(--color-text-gray);
   font-size: 14px;
 }
 
@@ -103,7 +123,7 @@ body {
 .project-h1 {
   font-family: "hagrid", sans-serif;
   font-weight: 400;
-  color: #000000;
+  color: var(--color-text-gray);
   font-size: 28px;
 }
 
@@ -111,7 +131,7 @@ body {
 .project-h2 {
   font-family: "hagrid", sans-serif;
   font-weight: 400;
-  color: #000000;
+  color: var(--color-text-gray);
   font-size: 20px;
 }
 

@@ -20,6 +20,9 @@ const coverUrl = ProjetsService.getCoverUrl(projet);
 ---
 
 <LayoutPageProjet title={`${projet.titre} - Nicolas THAI`}>
+  <script is:inline>
+    document.documentElement.setAttribute("data-theme", "wii");
+  </script>
   <div class="relative w-full h-full flex flex-col">
     <div
       class="relative flex-1 flex items-center justify-between w-full overflow-hidden"
@@ -44,7 +47,7 @@ const coverUrl = ProjetsService.getCoverUrl(projet);
     </div>
 
     <div
-      class="relative w-full border-t-2 border-light-blue bg-gradient-to-b from-[#ffffff] to-[#c0c0c0] py-12 lg:py-12 px-6 lg:px-16 shadow-2xl z-20"
+      class="relative w-full border-t-2 border-light-blue cover-footer py-12 lg:py-12 px-6 lg:px-16 shadow-2xl z-20"
     >
       <div
         class="flex items-center justify-center gap-8 lg:gap-12 max-w-7xl mx-auto"
@@ -68,3 +71,13 @@ const coverUrl = ProjetsService.getCoverUrl(projet);
     </div>
   </div>
 </LayoutPageProjet>
+
+<style>
+  .cover-footer {
+    background: linear-gradient(
+      to bottom,
+      var(--color-background),
+      var(--color-light-gray)
+    );
+  }
+</style>

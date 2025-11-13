@@ -88,12 +88,17 @@ const currentSize = sizes[size] || sizes.desktop;
   /* SVG avec bordure visible et hover effect */
   .wii-channel-svg {
     transition: color 0.2s ease-in-out;
-    color: rgb(119, 117, 117);
+    color: var(--color-dark-gray);
     z-index: 3;
     background: transparent !important;
-    stroke: rgb(119, 117, 117) !important;
+    stroke: var(--color-dark-gray) !important;
     stroke-width: 2px !important;
     fill: transparent !important;
+  }
+
+  [data-theme="dark"] .wii-channel-svg {
+    color: var(--color-light-blue);
+    stroke: var(--color-light-blue) !important;
   }
 
   /* Hover effect sur les bordures */

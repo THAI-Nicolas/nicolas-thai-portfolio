@@ -33,96 +33,221 @@ const { isVisible = false, onClose } = Astro.props;
         <ContactBouton type="instagram" />
       </div>
 
-      <!-- Partie centre - Enveloppe avec formulaire -->
-      <div class="contact-center flex justify-center items-center">
-        <div class="envelope-wrapper-2 w-[800px] h-[600px]">
-          <!-- Enveloppe -->
-          <div class="envelope-2">
-            <div class="flap front"></div>
-            <div class="flap top"></div>
-            <div class="letter-2">
-              <!-- Contenu du formulaire -->
-              <div class="form-content p-12 relative h-full">
-                <h2 class="text-4xl font-bold text-[#34beed] mb-6">
+      <!-- Partie centre - Pancarte avec formulaire -->
+      <div class="contact-center flex justify-center items-start pt-4">
+        <div class="sign-wrapper relative">
+          <!-- Chaînes de suspension gauche -->
+          <div class="chain chain-left"></div>
+          <!-- Chaînes de suspension droite -->
+          <div class="chain chain-right"></div>
+
+          <!-- Pancarte style jeu vidéo -->
+          <div class="gaming-sign" id="gaming-sign">
+            <!-- Crochets pour les chaînes -->
+            <div class="hook hook-left"></div>
+            <div class="hook hook-right"></div>
+
+            <!-- Contenu de la pancarte -->
+            <div class="sign-content">
+              <div class="sign-header">
+                <h2
+                  class="text-3xl font-bold text-light-blue tracking-wider uppercase"
+                >
                   FORMULAIRE
                 </h2>
-
-                <form class="space-y-3 text-sm">
-                  <div>
-                    <label
-                      class="block text-sm font-semibold mb-2 text-gray-700"
-                      >Prénom</label
-                    >
-                    <input
-                      type="text"
-                      placeholder="Ex: Xavier"
-                      class="w-full px-4 py-2 border-2 border-[#34beed] rounded focus:outline-none focus:border-[#2a9ed1] text-sm"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      class="block text-sm font-semibold mb-2 text-gray-700"
-                      >Nom</label
-                    >
-                    <input
-                      type="text"
-                      placeholder="Ex: Dupont-de-Ligones"
-                      class="w-full px-4 py-2 border-2 border-[#34beed] rounded focus:outline-none focus:border-[#2a9ed1] text-sm"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      class="block text-sm font-semibold mb-2 text-gray-700"
-                      >Email</label
-                    >
-                    <input
-                      type="email"
-                      placeholder="Ex: jesuisenfuitegz@outlook.fr"
-                      class="w-full px-4 py-2 border-2 border-[#34beed] rounded focus:outline-none focus:border-[#2a9ed1] text-sm"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      class="block text-sm font-semibold mb-2 text-gray-700"
-                      >Sujet</label
-                    >
-                    <input
-                      type="text"
-                      placeholder="Ex: Offre d'alternance..."
-                      class="w-full px-4 py-2 border-2 border-[#34beed] rounded focus:outline-none focus:border-[#2a9ed1] text-sm"
-                    />
-                  </div>
-
-                  <div>
-                    <label
-                      class="block text-sm font-semibold mb-2 text-gray-700"
-                      >Message</label
-                    >
-                    <textarea
-                      rows="3"
-                      placeholder="Ex: Offre d'alternance..."
-                      class="w-full px-4 py-2 border-2 border-[#34beed] rounded focus:outline-none focus:border-[#2a9ed1] text-sm"
-                    ></textarea>
-                  </div>
-
-                  <button
-                    type="submit"
-                    class="w-full bg-[#34beed] text-white py-3 rounded-lg font-semibold hover:bg-[#2a9ed1] transition-colors text-base shadow-lg hover:shadow-xl"
-                  >
-                    ENVOYER
-                  </button>
-                </form>
-
-                <!-- SmallBouton Zoom -->
-                <div class="absolute top-1 right-1 z-20">
-                  <SmallBouton type="zoom" size="desktop" />
+                <!-- Bouton Zoom -->
+                <div class="zoom-btn-wrapper">
+                  <SmallBouton type="zoom" size="desktop" id="zoom-button" />
                 </div>
               </div>
+
+              <form class="sign-form" id="contact-form">
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label
+                      class="block text-sm font-bold mb-2 text-text-gray tracking-wide"
+                    >
+                      Prénom
+                    </label>
+                    <input
+                      type="text"
+                      name="prenom"
+                      data-sync="prenom"
+                      placeholder="Ex: Xavier"
+                      class="gaming-input w-full px-4 py-3 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label
+                      class="block text-sm font-bold mb-2 text-text-gray tracking-wide"
+                    >
+                      Nom
+                    </label>
+                    <input
+                      type="text"
+                      name="nom"
+                      data-sync="nom"
+                      placeholder="Ex: Dupont-de-Ligones"
+                      class="gaming-input w-full px-4 py-3 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-sm"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label
+                    class="block text-sm font-bold mb-2 text-text-gray tracking-wide"
+                  >
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    data-sync="email"
+                    placeholder="Ex: jesuisenfuite@outlook.fr"
+                    class="gaming-input w-full px-4 py-3 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    class="block text-sm font-bold mb-2 text-text-gray tracking-wide"
+                  >
+                    Sujet
+                  </label>
+                  <input
+                    type="text"
+                    name="sujet"
+                    data-sync="sujet"
+                    placeholder="Ex: Offre d'alternance..."
+                    class="gaming-input w-full px-4 py-3 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    class="block text-sm font-bold mb-2 text-text-gray tracking-wide"
+                  >
+                    Message
+                  </label>
+                  <textarea
+                    rows="3"
+                    name="message"
+                    data-sync="message"
+                    placeholder="Ex: Offre d'alternance en dev web..."
+                    class="gaming-input w-full px-4 py-3 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-sm resize-none"
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  class="gaming-submit-btn w-full bg-light-blue text-white border-2 border-light-blue py-4 rounded-xl font-bold transition-all duration-300 text-base uppercase tracking-widest hover:bg-white hover:text-light-blue hover:border-light-blue"
+                >
+                  ENVOYER
+                </button>
+              </form>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Feuille de papier zoomée qui sort du bas -->
+      <div class="paper-sheet" id="paper-sheet">
+        <div class="paper-content">
+          <div class="paper-header">
+            <h2
+              class="text-4xl font-bold text-light-blue tracking-wider uppercase"
+            >
+              FORMULAIRE
+            </h2>
+            <div class="dezoom-btn-wrapper">
+              <SmallBouton type="dezoom" size="desktop" id="dezoom-button" />
+            </div>
+          </div>
+
+          <form class="paper-form" id="paper-form">
+            <div class="grid grid-cols-2 gap-6">
+              <div>
+                <label
+                  class="block text-base font-bold mb-3 text-text-gray tracking-wide"
+                >
+                  Prénom
+                </label>
+                <input
+                  type="text"
+                  name="prenom"
+                  data-sync="prenom"
+                  placeholder="Ex: Xavier"
+                  class="paper-input w-full px-5 py-4 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-lg"
+                />
+              </div>
+              <div>
+                <label
+                  class="block text-base font-bold mb-3 text-text-gray tracking-wide"
+                >
+                  Nom
+                </label>
+                <input
+                  type="text"
+                  name="nom"
+                  data-sync="nom"
+                  placeholder="Ex: Dupont-de-Ligones"
+                  class="paper-input w-full px-5 py-4 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-lg"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label
+                class="block text-base font-bold mb-3 text-text-gray tracking-wide"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                data-sync="email"
+                placeholder="Ex: jesuisenfuite@outlook.fr"
+                class="paper-input w-full px-5 py-4 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-lg"
+              />
+            </div>
+
+            <div>
+              <label
+                class="block text-base font-bold mb-3 text-text-gray tracking-wide"
+              >
+                Sujet
+              </label>
+              <input
+                type="text"
+                name="sujet"
+                data-sync="sujet"
+                placeholder="Ex: Offre d'alternance..."
+                class="paper-input w-full px-5 py-4 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-lg"
+              />
+            </div>
+
+            <div>
+              <label
+                class="block text-base font-bold mb-3 text-text-gray tracking-wide"
+              >
+                Message
+              </label>
+              <textarea
+                rows="8"
+                name="message"
+                data-sync="message"
+                placeholder="Ex: Offre d'alternance en dev web..."
+                class="paper-input w-full px-5 py-4 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-lg resize-none"
+              ></textarea>
+            </div>
+
+            <button
+              type="submit"
+              class="paper-submit-btn w-full bg-light-blue text-white border-2 border-light-blue py-5 rounded-xl font-bold transition-all duration-300 text-lg uppercase tracking-widest hover:bg-white hover:text-light-blue hover:border-light-blue"
+            >
+              ENVOYER
+            </button>
+          </form>
         </div>
       </div>
 
@@ -143,132 +268,414 @@ const { isVisible = false, onClose } = Astro.props;
     scrollbar-width: thin;
   }
 
-  .envelope-wrapper-2 {
-    margin: 0 auto;
+  /* Wrapper de la pancarte */
+  .sign-wrapper {
+    width: 850px;
+    perspective: 1000px;
   }
 
-  .envelope-2 {
-    width: 800px;
-    height: 400px;
-    margin: 0 auto;
-    background: #ddd;
+  /* Chaînes de suspension */
+  .chain {
+    position: absolute;
+    width: 8px;
+    height: 120px;
+    top: -120px;
+    background: repeating-linear-gradient(
+      0deg,
+      #8a8a8a 0px,
+      #8a8a8a 8px,
+      transparent 8px,
+      transparent 12px
+    );
     box-shadow:
-      0 0 1px rgba(0, 0, 0, 0.5),
-      0 1px 3px rgba(0, 0, 0, 0.25);
+      inset 2px 0 4px rgba(0, 0, 0, 0.3),
+      2px 0 4px rgba(0, 0, 0, 0.2);
+    animation: chain-swing 3s ease-in-out infinite;
+  }
+
+  .chain-left {
+    left: 80px;
+    animation-delay: 0s;
+  }
+
+  .chain-right {
+    right: 80px;
+    animation-delay: 0.15s;
+  }
+
+  /* Pancarte style jeu vidéo */
+  .gaming-sign {
+    width: 100%;
+    background: linear-gradient(145deg, #d4a574 0%, #b8926a 50%, #a17d58 100%);
+    border: 6px solid #8b6f47;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow:
+      0 25px 60px rgba(0, 0, 0, 0.4),
+      inset 0 2px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -4px 12px rgba(0, 0, 0, 0.2);
     position: relative;
-    perspective: 800px;
-  }
-
-  .envelope-2:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    border: 0 solid rgba(0, 0, 0, 0.25);
-    border-width: 180px 400px;
-    border-top-color: transparent;
-    z-index: 2;
-  }
-
-  .envelope-2 .flap {
-    position: absolute;
-    width: 100%;
-    height: 0;
-    border: 0 solid transparent;
-    border-width: 200px 400px;
-    z-index: 3;
-  }
-
-  .envelope-2 .flap.front {
-    display: none;
-  }
-
-  .envelope-2 .flap.front:after {
-    display: none;
-  }
-
-  .envelope-2 .flap.top {
-    border-top-width: 220px;
-    border-top-color: #aaa;
-    z-index: 3;
-    animation-duration: 3s;
-    animation-fill-mode: forwards;
-    transform-origin-y: top;
-    perspective: 800;
-    transform-style: preserve-3d;
-  }
-
-  .envelope-2.open .flap.top {
-    animation-name: flip;
-  }
-
-  .envelope-2 .flap.top:after {
-    content: "";
-    position: absolute;
-    left: -400px;
-    top: -220px;
-    width: 100%;
-    height: 0;
-    border: 0 solid transparent;
-    border-width: 216px 400px;
-    border-top-color: #eee;
-  }
-
-  .envelope-2 .letter-2 {
-    position: absolute;
-    width: 776px;
-    height: 336px;
-    background: #fff;
-    top: 32px;
-    left: 12px;
-    border: 2px solid #ccc;
-    z-index: 1;
-    animation-duration: 2s;
-    animation-delay: 1.5s;
-    animation-fill-mode: forwards;
-    transform-style: preserve-3d;
-  }
-
-  .envelope-2.open .letter-2 {
-    animation-name: remove;
-  }
-
-  @keyframes flip {
-    100% {
-      transform: rotateX(180deg);
-      z-index: 1;
-    }
-  }
-
-  @keyframes remove {
-    50% {
-      top: -480px;
-    }
-    100% {
-      top: 32px;
-      z-index: 3;
-    }
-  }
-
-  .envelope-2 .letter-2 {
+    transform-origin: top center;
     opacity: 0;
-    transition: opacity 0.5s ease-in 3s;
+    transform: translateY(-150px) rotateX(-15deg);
+    transition:
+      transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
+      box-shadow 0.6s ease;
   }
 
-  .envelope-2.open .letter-2 {
-    opacity: 1;
+  .gaming-sign.show {
+    animation:
+      sign-drop 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+      sign-sway 4s ease-in-out 2s infinite;
+  }
+
+  .gaming-sign::before {
+    content: "";
+    position: absolute;
+    inset: 12px;
+    border: 3px solid rgba(139, 111, 71, 0.4);
+    border-radius: 14px;
+    pointer-events: none;
+  }
+
+  /* Crochets pour les chaînes */
+  .hook {
+    position: absolute;
+    top: -6px;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle, #6a6a6a 0%, #4a4a4a 100%);
+    border: 3px solid #3a3a3a;
+    border-radius: 50%;
+    box-shadow:
+      0 4px 8px rgba(0, 0, 0, 0.4),
+      inset 0 2px 4px rgba(255, 255, 255, 0.2);
+  }
+
+  .hook::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: #2a2a2a;
+    border-radius: 50%;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+  }
+
+  .hook-left {
+    left: 74px;
+  }
+
+  .hook-right {
+    right: 74px;
+  }
+
+  /* Contenu de la pancarte */
+  .sign-content {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    border: 4px solid var(--color-light-blue);
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+
+  .sign-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 4px solid var(--color-light-blue);
+  }
+
+  .zoom-btn-wrapper {
+    position: relative;
+    z-index: 500;
+    transition: transform 0.2s ease;
+  }
+
+  .zoom-btn-wrapper:hover {
+    transform: scale(1.15) rotate(5deg);
+  }
+
+  .zoom-btn-wrapper:active {
+    transform: scale(1.05) rotate(3deg);
+  }
+
+  .sign-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .gaming-input {
+    background: white;
+    font-family: "raleway", sans-serif;
+    transition: all 0.2s ease;
+  }
+
+  .gaming-input:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 190, 237, 0.3);
+  }
+
+  /* Feuille de papier qui sort du bas */
+  .paper-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 100%);
+    width: 900px;
+    max-height: 90vh;
+    background: white;
+    border-radius: 20px 20px 0 0;
+    box-shadow:
+      0 -20px 60px rgba(0, 0, 0, 0.4),
+      inset 0 2px 0 rgba(255, 255, 255, 0.9);
+    border: 4px solid var(--color-light-blue);
+    border-bottom: none;
+    z-index: 300;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+  }
+
+  .paper-sheet.show {
+    transform: translate(-50%, 0);
+  }
+
+  .paper-content {
+    padding: 40px 50px;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .paper-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    padding-bottom: 20px;
+    border-bottom: 4px solid var(--color-light-blue);
+  }
+
+  .dezoom-btn-wrapper {
+    position: relative;
+    z-index: 500;
+    transition: transform 0.2s ease;
+  }
+
+  .dezoom-btn-wrapper:hover {
+    transform: scale(1.15) rotate(-5deg);
+  }
+
+  .paper-form {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .paper-input {
+    background: white;
+    font-family: "raleway", sans-serif;
+    transition: all 0.2s ease;
+  }
+
+  .paper-input:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(52, 190, 237, 0.3);
+  }
+
+  /* Scrollbar pour la feuille */
+  .paper-content::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .paper-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+
+  .paper-content::-webkit-scrollbar-thumb {
+    background: var(--color-light-blue);
+    border-radius: 10px;
+  }
+
+  .paper-content::-webkit-scrollbar-thumb:hover {
+    background: var(--color-dark-blue);
+  }
+
+  /* Hover des boutons submit */
+  .gaming-submit-btn:hover,
+  .paper-submit-btn:hover {
+    background: white !important;
+    color: var(--color-light-blue) !important;
+    border-color: var(--color-light-blue) !important;
+  }
+
+  /* Animations */
+  @keyframes sign-drop {
+    0% {
+      opacity: 0;
+      transform: translateY(-150px) rotateX(-15deg);
+    }
+    60% {
+      opacity: 1;
+      transform: translateY(8px) rotateX(3deg);
+    }
+    80% {
+      transform: translateY(-4px) rotateX(-2deg);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) rotateX(0deg);
+    }
+  }
+
+  @keyframes sign-sway {
+    0%,
+    100% {
+      transform: rotate(0deg);
+    }
+    25% {
+      transform: rotate(1deg);
+    }
+    75% {
+      transform: rotate(-1deg);
+    }
+  }
+
+  @keyframes chain-swing {
+    0%,
+    100% {
+      transform: rotate(0deg);
+      transform-origin: top center;
+    }
+    25% {
+      transform: rotate(1deg);
+    }
+    75% {
+      transform: rotate(-1deg);
+    }
   }
 </style>
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(() => {
-      const envelope = document.querySelector(".envelope-2");
-      if (envelope) {
-        envelope.classList.add("open");
+<script is:inline>
+  // Initialisation quand l'overlay s'ouvre
+  function initContactOverlay() {
+    const contactOverlay = document.querySelector(".contact-overlay");
+    const gamingSign = document.getElementById("gaming-sign");
+    const zoomButton = document.getElementById("zoom-button");
+
+    if (!contactOverlay || !gamingSign || !zoomButton) {
+      console.log("Elements not found, retrying...");
+      setTimeout(initContactOverlay, 100);
+      return;
+    }
+
+    console.log("Contact overlay elements found!");
+
+    // Récupérer la feuille de papier
+    const paperSheet = document.getElementById("paper-sheet");
+
+    // Observer pour détecter l'ouverture de l'overlay
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.attributeName === "class" ||
+          mutation.attributeName === "style"
+        ) {
+          const isVisible = !contactOverlay.classList.contains("opacity-0");
+
+          if (isVisible && !gamingSign.classList.contains("show")) {
+            console.log("Overlay opened, launching animation!");
+            gamingSign.classList.add("show");
+          } else if (!isVisible && gamingSign.classList.contains("show")) {
+            gamingSign.classList.remove("show");
+            if (paperSheet) {
+              paperSheet.classList.remove("show");
+            }
+          }
+        }
+      });
+    });
+
+    observer.observe(contactOverlay, {
+      attributes: true,
+      attributeFilter: ["class", "style"],
+    });
+
+    // Gestionnaire de la feuille de papier
+    document.addEventListener("click", (e) => {
+      const target = e.target;
+
+      // Ouvrir la feuille de papier
+      if (
+        target &&
+        (target.id === "zoom-button" || target.closest("#zoom-button"))
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("Opening paper sheet!");
+
+        if (paperSheet) {
+          paperSheet.classList.add("show");
+        }
       }
-    }, 500);
-  });
+
+      // Fermer la feuille de papier
+      if (
+        target &&
+        (target.id === "dezoom-button" || target.closest("#dezoom-button"))
+      ) {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log("Closing paper sheet!");
+
+        if (paperSheet) {
+          paperSheet.classList.remove("show");
+        }
+      }
+    });
+
+    // Synchronisation des formulaires
+    function syncForms() {
+      const allInputs = document.querySelectorAll("[data-sync]");
+
+      allInputs.forEach((input) => {
+        input.addEventListener("input", (e) => {
+          const syncKey = e.target.getAttribute("data-sync");
+          const value = e.target.value;
+
+          // Trouver tous les champs avec le même syncKey et mettre à jour leur valeur
+          const otherInputs = document.querySelectorAll(
+            `[data-sync="${syncKey}"]`
+          );
+
+          otherInputs.forEach((otherInput) => {
+            if (otherInput !== e.target) {
+              otherInput.value = value;
+            }
+          });
+        });
+      });
+
+      console.log("Forms synchronized!");
+    }
+
+    // Lancer la synchronisation après un petit délai pour être sûr que tout est chargé
+    setTimeout(syncForms, 200);
+
+    console.log("Contact overlay initialized!");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initContactOverlay);
+  } else {
+    initContactOverlay();
+  }
 </script>

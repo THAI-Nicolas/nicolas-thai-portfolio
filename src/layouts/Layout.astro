@@ -26,8 +26,43 @@ const {
 
     <!-- Chargement des polices Adobe Fonts -->
     <FontLoader />
+
+    <!-- Initialisation du thème (inline pour éviter le flash) -->
+    <script is:inline>
+      const THEME_KEY = "portfolio-theme";
+      const storedTheme = localStorage.getItem(THEME_KEY);
+      const theme =
+        storedTheme === "dark" || storedTheme === "wii" ? storedTheme : "wii";
+      document.documentElement.setAttribute("data-theme", theme);
+    </script>
   </head>
   <body>
     <slot />
+
+    <script is:inline>
+      // Gestionnaire de thème global
+      window.portfolioTheme = {
+        current: localStorage.getItem("portfolio-theme") || "wii",
+
+        setTheme: function (theme) {
+          if (theme !== "wii" && theme !== "dark") return;
+
+          this.current = theme;
+          localStorage.setItem("portfolio-theme", theme);
+          document.documentElement.setAttribute("data-theme", theme);
+
+          // Dispatch event
+          window.dispatchEvent(
+            new CustomEvent("themeChange", { detail: { theme } })
+          );
+
+          console.log("Thème changé:", theme);
+        },
+
+        getTheme: function () {
+          return this.current;
+        },
+      };
+    </script>
   </body>
 </html>

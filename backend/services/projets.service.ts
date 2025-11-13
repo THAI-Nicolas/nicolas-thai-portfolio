@@ -1,31 +1,35 @@
-import pb from '../pb';
-import type { ProjetsResponse } from '../pocketbase-types';
+import pb from "../pb";
+import type {
+  ProjetsResponse,
+  ProcessusEtapesRecord,
+} from "../pocketbase-types";
 
 export class ProjetsService {
-  private static COLLECTION = 'projets';
+  private static COLLECTION = "projets";
 
   static async getAll(): Promise<ProjetsResponse[]> {
     try {
-      const records = await pb.collection(this.COLLECTION).getFullList<ProjetsResponse>({
-        sort: 'ordre',
-        filter: 'visible = true',
-        expand: 'technologies,processus',
-      });
+      const records = await pb
+        .collection(this.COLLECTION)
+        .getFullList<ProjetsResponse>({
+          sort: "ordre",
+          filter: "visible = true",
+          expand: "technologies,processus",
+        });
       return records;
     } catch (error) {
-      console.error('Erreur lors de la récupération des projets:', error);
+      console.error("Erreur lors de la récupération des projets:", error);
       return [];
     }
   }
 
   static async getBySlug(slug: string): Promise<ProjetsResponse | null> {
     try {
-      const record = await pb.collection(this.COLLECTION).getFirstListItem<ProjetsResponse>(
-        `slug = "${slug}"`,
-        {
-          expand: 'technologies,processus',
-        }
-      );
+      const record = await pb
+        .collection(this.COLLECTION)
+        .getFirstListItem<ProjetsResponse>(`slug = "${slug}"`, {
+          expand: "technologies,processus",
+        });
       return record;
     } catch (error) {
       console.error(`Erreur lors de la récupération du projet ${slug}:`, error);
@@ -35,9 +39,11 @@ export class ProjetsService {
 
   static async getById(id: string): Promise<ProjetsResponse | null> {
     try {
-      const record = await pb.collection(this.COLLECTION).getOne<ProjetsResponse>(id, {
-        expand: 'technologies,processus',
-      });
+      const record = await pb
+        .collection(this.COLLECTION)
+        .getOne<ProjetsResponse>(id, {
+          expand: "technologies,processus",
+        });
       return record;
     } catch (error) {
       console.error(`Erreur lors de la récupération du projet ${id}:`, error);
@@ -45,7 +51,10 @@ export class ProjetsService {
     }
   }
 
-  static getFileUrl(record: ProjetsResponse, filename: string): string {
+  static getFileUrl(
+    record: ProjetsResponse | ProcessusEtapesRecord | any,
+    filename: string
+  ): string {
     return pb.files.getUrl(record, filename);
   }
 
@@ -57,4 +66,3 @@ export class ProjetsService {
     return record.visuels.map((filename) => this.getFileUrl(record, filename));
   }
 }
-
