@@ -28,6 +28,9 @@ const sizes = {
 };
 
 const currentSize = sizes[size] || sizes.desktop;
+
+const arrowColor = colorGradient?.to || "#62D6FF";
+const arrowStrokeColor = colorGradient?.to || "#24479B";
 ---
 
 <div class={`${currentSize.container} relative`}>
@@ -36,9 +39,35 @@ const currentSize = sizes[size] || sizes.desktop;
     class="fleche cursor-pointer transition-all duration-200 hover:scale-110 block origin-center absolute inset-0"
     data-onclick={onClick ? "true" : undefined}
   >
-    <FlecheIcon
+    <svg
       class={`w-full h-full fleche-svg ${direction === "gauche" ? "rotate-180" : direction === "haut" ? "-rotate-90" : direction === "bas" ? "rotate-90" : ""} ${colorGradient ? "colored-arrow" : ""}`}
-    />
+      viewBox="0 0 61 112"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M3.46201 2.2401L58.2341 54.73C58.6792 55.1566 58.6792 55.8682 58.2341 56.2948L3.46201 108.785C2.71111 109.504 1.47613 108.856 1.64254 107.829L10.1227 55.5124L1.64254 3.19588C1.47613 2.16923 2.71111 1.52049 3.46201 2.2401Z"
+        fill={colorGradient ? arrowColor : "url(#paint0_radial_911_1110)"}
+        stroke={arrowStrokeColor}
+        stroke-width="3.25095"></path>
+      {
+        !colorGradient && (
+          <defs>
+            <radialGradient
+              id="paint0_radial_911_1110"
+              cx="0"
+              cy="0"
+              r="1"
+              gradientUnits="userSpaceOnUse"
+              gradientTransform="translate(26.1122 55.5124) rotate(-180) scale(51.6791 34.605)"
+            >
+              <stop stop-color="#CBF6FF" />
+              <stop offset="1" stop-color="#62D6FF" />
+            </radialGradient>
+          </defs>
+        )
+      }
+    </svg>
   </a>
 </div>
 
@@ -74,9 +103,7 @@ const currentSize = sizes[size] || sizes.desktop;
   }
 
   .colored-arrow {
-    filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.3))
-      drop-shadow(0 0 1px rgba(0, 0, 0, 0.5)) brightness(0) saturate(100%)
-      invert(84%) sepia(52%) saturate(464%) hue-rotate(358deg) brightness(104%)
-      contrast(99%) !important;
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.4))
+      drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)) !important;
   }
 </style>

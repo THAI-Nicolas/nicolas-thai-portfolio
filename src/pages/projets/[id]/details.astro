@@ -127,10 +127,8 @@ const colorGradient = {
         </section>
 
         <section class="mb-32 lg:mb-48">
-          <div
-            class="grid lg:grid-cols-[1fr,400px] gap-12 lg:gap-20 items-start"
-          >
-            <div class="space-y-8 max-w-3xl order-2 lg:order-1">
+          <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+            <div class="col-span-12 lg:col-span-7 space-y-8">
               <div
                 class="body-1 text-text-gray leading-relaxed"
                 set:html={projet.description}
@@ -138,7 +136,7 @@ const colorGradient = {
             </div>
 
             <div
-              class="lg:sticky lg:top-32 space-y-6 w-full order-1 lg:order-2"
+              class="col-span-12 lg:col-span-5 lg:sticky lg:top-32 space-y-6"
             >
               {
                 visuelUrls.slice(0, 2).map((url) => (
@@ -331,23 +329,47 @@ const colorGradient = {
                   style={`background: linear-gradient(135deg, ${colorGradient.from} 0%, ${colorGradient.to} 100%); border-color: ${colorGradient.to};`}
                 >
                   <div
-                    class="bg-white rounded-2xl overflow-hidden shadow-inner w-full"
+                    class="bg-white rounded-2xl overflow-hidden shadow-inner w-full relative iframe-container"
                     style="height: 800px;"
+                    id="iframe-container"
                   >
                     {projet.resultat_iframe ? (
                       <div
-                        class="w-full h-full"
+                        class="w-full h-full iframe-content"
                         set:html={projet.resultat_iframe}
                       />
                     ) : projet.resultat_url ? (
                       <iframe
                         src={projet.resultat_url}
                         title={`${projet.titre} - Résultat final`}
-                        class="w-full h-full"
+                        class="w-full h-full iframe-content"
                         frameborder="0"
                         allowfullscreen
                       />
                     ) : null}
+                    <div
+                      class="iframe-overlay absolute inset-0 bg-black/30 flex items-center justify-center cursor-pointer transition-opacity duration-300"
+                      id="iframe-overlay"
+                    >
+                      <div class="text-white text-center bg-black/60 px-8 py-4 rounded-2xl backdrop-blur-sm border-2 border-white/30">
+                        <svg
+                          class="w-16 h-16 mx-auto mb-3"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
+                          />
+                        </svg>
+                        <p class="text-lg font-bold">
+                          Cliquez pour activer le scroll
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -435,6 +457,12 @@ const colorGradient = {
     overflow: auto !important;
     scroll-behavior: smooth;
     height: auto !important;
+    scroll-snap-type: y proximity;
+  }
+
+  .iframe-container {
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
   }
 
   ::-webkit-scrollbar {
@@ -495,4 +523,40 @@ const colorGradient = {
   .animate-float-right {
     animation: float-right 8s ease-in-out infinite;
   }
+
+  .iframe-content {
+    pointer-events: none;
+  }
+
+  .iframe-container.active .iframe-content {
+    pointer-events: auto;
+  }
+
+  .iframe-container.active .iframe-overlay {
+    opacity: 0;
+    pointer-events: none;
+  }
 </style>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    const iframeOverlay = document.getElementById("iframe-overlay");
+    const iframeContainer = document.getElementById("iframe-container");
+
+    if (iframeOverlay && iframeContainer) {
+      iframeOverlay.addEventListener("click", () => {
+        iframeContainer.classList.add("active");
+      });
+
+      // Réactiver l'overlay si on clique en dehors de l'iframe
+      document.addEventListener("click", (e) => {
+        if (
+          iframeContainer.classList.contains("active") &&
+          !iframeContainer.contains(e.target)
+        ) {
+          iframeContainer.classList.remove("active");
+        }
+      });
+    }
+  });
+</script>
