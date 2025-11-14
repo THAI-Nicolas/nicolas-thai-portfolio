@@ -7,6 +7,7 @@ import FooterAccueilMobile from "../components/layout/FooterAccueilMobile.astro"
 import CvOverlay from "../components/layout/CvOverlay.astro";
 import ContactOverlay from "../components/layout/ContactOverlay.astro";
 import ParametresOverlay from "../components/layout/ParametresOverlay.astro";
+import PresentationOverlay from "../components/layout/PresentationOverlay.astro";
 ---
 
 <Layout
@@ -120,6 +121,9 @@ import ParametresOverlay from "../components/layout/ParametresOverlay.astro";
 
   <!-- ParametresOverlay -->
   <ParametresOverlay client:load />
+
+  <!-- PresentationOverlay -->
+  <PresentationOverlay client:load />
 </Layout>
 
 <script>
@@ -132,6 +136,7 @@ import ParametresOverlay from "../components/layout/ParametresOverlay.astro";
     let cvOverlayVisible = false;
     let contactOverlayVisible = false;
     let parametresOverlayVisible = false;
+    let presentationOverlayVisible = false;
 
     function openParametresOverlay() {
       console.log("Ouverture des Paramètres");
@@ -215,6 +220,37 @@ import ParametresOverlay from "../components/layout/ParametresOverlay.astro";
       }
     }
 
+    function openPresentationOverlay() {
+      console.log("Ouverture de la Présentation");
+      presentationOverlayVisible = true;
+      const presentationOverlay = document.querySelector(
+        ".presentation-overlay"
+      );
+      if (presentationOverlay) {
+        presentationOverlay.classList.remove(
+          "opacity-0",
+          "pointer-events-none",
+          "hidden"
+        );
+        presentationOverlay.classList.add("opacity-100", "pointer-events-auto");
+      }
+    }
+
+    function closePresentationOverlay() {
+      console.log("Fermeture de la Présentation");
+      presentationOverlayVisible = false;
+      const presentationOverlay = document.querySelector(
+        ".presentation-overlay"
+      );
+      if (presentationOverlay) {
+        presentationOverlay.classList.add("opacity-0", "pointer-events-none");
+        presentationOverlay.classList.remove(
+          "opacity-100",
+          "pointer-events-auto"
+        );
+      }
+    }
+
     document.addEventListener("click", (e) => {
       const target = e.target as HTMLElement;
       if (target.closest(".card-cv")) {
@@ -241,6 +277,11 @@ import ParametresOverlay from "../components/layout/ParametresOverlay.astro";
         target.closest("#parametres-close-button button")
       ) {
         closeParametresOverlay();
+      } else if (target.closest('button[data-type="presentation"]')) {
+        e.preventDefault();
+        openPresentationOverlay();
+      } else if (target.closest("#presentation-return-button")) {
+        closePresentationOverlay();
       }
     });
 

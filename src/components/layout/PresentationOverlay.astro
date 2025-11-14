@@ -1,0 +1,1326 @@
+---
+import MainBouton from "../boutons/MainBouton.astro";
+
+export interface Props {
+  isVisible?: boolean;
+  onClose?: () => void;
+}
+
+const { isVisible = false, onClose } = Astro.props;
+---
+
+<div
+  class="presentation-overlay opacity-0 pointer-events-none fixed inset-0 z-[60]"
+  style="transition: opacity 0.3s ease-in-out;"
+>
+  <div class="bg-black/50 fixed inset-0 z-[70]"></div>
+
+  <div
+    class="presentation-container fixed inset-0 z-[80] flex items-center justify-center p-8"
+  >
+    <!-- Bouton Retour -->
+    <div class="absolute top-8 left-8 z-[100]">
+      <MainBouton
+        type="retour"
+        size="desktop"
+        id="presentation-return-button"
+      />
+    </div>
+
+    <!-- Carte Livre Portfolio -->
+    <div class="book-card" id="book-card">
+      <!-- Page 1 (Couverture) -->
+      <div class="book-page page-1" data-page="1">
+        <div class="page-front">
+          <div class="cover-content">
+            <div class="cover-ornament">✦</div>
+            <h2 class="cover-subtitle">PORTFOLIO</h2>
+            <h1 class="cover-main-title">
+              NICOLAS<br />
+              <span class="name">THAI</span>
+            </h1>
+            <div class="cover-ornament">✦</div>
+            <p class="cover-tagline">Développeur Web & Designer</p>
+          </div>
+        </div>
+        <div class="page-back">
+          <!-- Dos de la page 1 -->
+        </div>
+      </div>
+
+      <!-- Page 2 -->
+      <div class="book-page page-2" data-page="2">
+        <div class="page-front">
+          <div class="page-content-empty">
+            <!-- Contenu vide -->
+          </div>
+        </div>
+        <div class="page-back">
+          <!-- Dos de la page 2 -->
+        </div>
+      </div>
+
+      <!-- Page 3 -->
+      <div class="book-page page-3" data-page="3">
+        <div class="page-front">
+          <div class="page-content-empty">
+            <!-- Contenu vide -->
+          </div>
+        </div>
+        <div class="page-back">
+          <!-- Dos de la page 3 -->
+        </div>
+      </div>
+
+      <!-- Page 4 -->
+      <div class="book-page page-4" data-page="4">
+        <div class="page-front">
+          <div class="page-content-empty">
+            <!-- Contenu vide -->
+          </div>
+        </div>
+        <div class="page-back">
+          <!-- Dos de la page 4 -->
+        </div>
+      </div>
+    </div>
+
+    <!-- OLD - Pages intérieures cachées -->
+    <div style="display: none;">
+      <!-- TEMPORAIREMENT CACHÉ POUR TEST -->
+      <!-- Page 1 : Profil -->
+      <div class="full-page page-1" data-page="1">
+        <div class="page-box">
+          <div class="page-bark"></div>
+          <div class="page-content-wrapper">
+            <div class="full-page-left">
+              <h2 class="page-main-title">
+                <span class="icon-deco">✦</span>
+                SALUT, JE SUIS NICO !
+                <span class="icon-deco">✦</span>
+              </h2>
+
+              <div class="mii-zone">
+                <div class="mii-placeholder-box">
+                  <div class="mii-text">[ MII CHARACTER ]</div>
+                  <div class="mii-subtitle">À venir...</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="full-page-right">
+              <div class="info-card">
+                <div class="card-header">
+                  <span class="emoji-icon">📋</span>
+                  <h3>MON PROFIL</h3>
+                </div>
+                <p>
+                  Je suis un étudiant en 2ème année de BUT MMI à Montbéliard, je
+                  me forme actuellement pour devenir un développeur polyvalent,
+                  capable d'allié code, design (UX/UI, prototypages), marketing
+                  et gestion de projet.
+                </p>
+                <p>
+                  Curieux et autodidacte, j'aime apprendre par moi-même,
+                  participer à de nouvelles idées et mettre mes compétences au
+                  service de projets innovants.
+                </p>
+              </div>
+
+              <div class="welcome-card">
+                <h4>BIENVENUE SUR MON PORTFOLIO !</h4>
+                <p>
+                  Vous êtes ici pour découvrir mes projets, mes compétences et
+                  ma façon de travailler.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 2 : Développement -->
+      <div class="full-page page-2" data-page="2">
+        <div class="page-box">
+          <div class="page-bark"></div>
+          <div class="page-content-wrapper">
+            <div class="full-page-content">
+              <div class="competence-section">
+                <div class="competence-header dev">
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path
+                        d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                    </svg>
+                  </div>
+                  <h2>DÉVELOPPEMENT</h2>
+                </div>
+
+                <div class="competence-list">
+                  <div class="comp-item">
+                    <span class="comp-badge frontend">FRONTEND</span>
+                    <h4>Sites statiques modernes</h4>
+                    <p>
+                      Je réalise des sites statiques modernes avec Astro,
+                      Tailwind CSS et JavaScript, en ajoutant des animations et
+                      des interactions pour rendre l'expérience utilisateur
+                      vivante.
+                    </p>
+                  </div>
+
+                  <div class="comp-item">
+                    <span class="comp-badge backend">BACKEND</span>
+                    <h4>Sites dynamiques</h4>
+                    <p>
+                      Je conçois des sites dynamiques capables de gérer des
+                      bases de données avec MySQL, PocketBase ou PhpMyAdmin.
+                    </p>
+                  </div>
+
+                  <div class="comp-item">
+                    <span class="comp-badge cms">CMS</span>
+                    <h4>WordPress</h4>
+                    <p>
+                      Je suis capable de créer et personnaliser des sites sur
+                      WordPress, en développant des thèmes et plugins.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page 3 : Design -->
+      <div class="full-page page-3" data-page="3">
+        <div class="page-box">
+          <div class="page-bark"></div>
+          <div class="page-content-wrapper">
+            <div class="full-page-content">
+              <div class="competence-section">
+                <div class="competence-header design">
+                  <div class="icon-circle">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                      <path
+                        d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"></path>
+                    </svg>
+                  </div>
+                  <h2>DESIGN</h2>
+                </div>
+
+                <div class="competence-list">
+                  <div class="comp-item">
+                    <span class="comp-badge design-badge">MAQUETTAGE</span>
+                    <h4>Maquettes et prototypes</h4>
+                    <p>
+                      Je conçois des maquettes et prototypes de sites web et
+                      d'applications mobiles sur Figma.
+                    </p>
+                  </div>
+
+                  <div class="comp-item">
+                    <span class="comp-badge design-badge">3D</span>
+                    <h4>Modèles 3D</h4>
+                    <p>
+                      Je crée des modèles 3D, principalement des personnages,
+                      avec Blender et Mixamo.
+                    </p>
+                  </div>
+
+                  <div class="comp-item">
+                    <span class="comp-badge design-badge">COMMUNICATION</span>
+                    <h4>Communication visuelle</h4>
+                    <p>
+                      Je réalise des dossiers de communication, visuels et
+                      flyers sur Canva.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- FIN OLD -->
+</div>
+
+<style>
+  .presentation-overlay {
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .presentation-container {
+    perspective: 2000px;
+    perspective-origin: center center;
+  }
+
+  /* ========== CARTE LIVRE PORTFOLIO ========== */
+  .book-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 600px;
+    height: 800px;
+    transform-style: preserve-3d;
+    transform: translate(-50%, -50%) perspective(2000px);
+    cursor: pointer;
+    transition: transform 0.6s ease-out;
+  }
+
+  /* Centrage automatique quand le livre est ouvert */
+  .book-card.opened {
+    transform: translate(calc(-50% + 280px), -50%) perspective(2000px);
+  }
+
+  /* Épaisseur haut */
+  .book-card::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: #bac1ba;
+    transform-origin: bottom;
+    transform: skewX(-45deg);
+    z-index: 100;
+  }
+
+  /* Épaisseur droite */
+  .book-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -5px;
+    width: 5px;
+    height: 100%;
+    background: #92a29c;
+    transform-origin: left;
+    transform: skewY(-45deg);
+    z-index: 100;
+  }
+
+  /* Pages individuelles */
+  .book-page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transform-style: preserve-3d;
+    transform-origin: left;
+    transition: transform 0.7s ease-out;
+  }
+
+  .page-1 {
+    z-index: 4;
+  }
+  .page-2 {
+    z-index: 3;
+  }
+  .page-3 {
+    z-index: 2;
+  }
+  .page-4 {
+    z-index: 1;
+  }
+
+  /* Face avant de la page - Couverture */
+  .page-1 .page-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    background: var(--color-light-blue);
+    border-radius: 8px;
+    border: 4px solid var(--color-light-blue);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Face avant de la page - Pages intérieures blanches */
+  .page-2 .page-front,
+  .page-3 .page-front,
+  .page-4 .page-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    background: white;
+    border-radius: 8px;
+    border: 4px solid var(--color-light-blue);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Contenu vide des pages blanches */
+  .page-content-empty {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Face arrière de la page */
+  .page-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    background: white;
+    border-radius: 8px;
+    border: 4px solid var(--color-light-blue);
+    transform: rotateY(180deg);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Animation de tournement */
+  .book-page.flipped {
+    transform: rotateY(-180deg);
+  }
+
+  /* Contenu couverture */
+  .cover-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    padding: 60px 40px;
+  }
+
+  .cover-ornament {
+    font-size: 3rem;
+    color: white;
+    margin: 20px 0;
+  }
+
+  .cover-subtitle {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: 0.5em;
+    margin-bottom: 30px;
+  }
+
+  .cover-main-title {
+    font-size: 6rem;
+    font-weight: 900;
+    color: white;
+    line-height: 0.9;
+    margin-bottom: 30px;
+  }
+
+  .cover-main-title .name {
+    font-size: 3.5rem;
+    display: block;
+    margin-top: 20px;
+    font-weight: 800;
+    letter-spacing: 0.4em;
+  }
+
+  .cover-tagline {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: white;
+    letter-spacing: 0.15em;
+  }
+
+  /* Contenu pages intérieures */
+  .page-content {
+    width: 100%;
+    height: 100%;
+    padding: 60px 50px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .page-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: white;
+    text-align: center;
+    letter-spacing: 0.2em;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .text-block {
+    margin-bottom: 25px;
+  }
+
+  .text-block p {
+    font-size: 1.3rem;
+    line-height: 1.8;
+    margin: 8px 0;
+  }
+
+  .skill-section {
+    margin-bottom: 30px;
+  }
+
+  .skill-category {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 15px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .skill-section p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    margin: 8px 0;
+    padding-left: 15px;
+  }
+  /* ========== FIN CARTE LIVRE PORTFOLIO ========== */
+
+  /* OLD STYLES - Cachés */
+  .book-wrapper {
+    display: none;
+  }
+
+  /* Livre 3D */
+  .book-3d {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+    animation: book-entrance 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  .book-3d.opened {
+    transform: translate3d(0, 0, 100px) rotateY(-20deg);
+  }
+
+  /* Couverture */
+  .book-cover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      135deg,
+      #1565c0 0%,
+      var(--color-light-blue) 50%,
+      #1565c0 100%
+    );
+    border: 8px solid #0d47a1;
+    border-radius: 12px;
+    transform-style: preserve-3d;
+    transform-origin: left center;
+    transition: transform 1.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+    z-index: 100;
+    box-shadow:
+      0 30px 80px rgba(0, 0, 0, 0.5),
+      inset 0 2px 0 rgba(255, 255, 255, 0.2),
+      inset 0 -4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .book-cover.open {
+    transform: rotateY(-165deg);
+  }
+
+  .cover-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 60px 40px;
+  }
+
+  .cover-decoration-lines {
+    position: absolute;
+    inset: 30px;
+    border: 4px solid rgba(255, 255, 255, 0.25);
+    border-radius: 8px;
+    pointer-events: none;
+  }
+
+  .cover-decoration-lines::before,
+  .cover-decoration-lines::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 3px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.5),
+      transparent
+    );
+  }
+
+  .cover-decoration-lines::before {
+    top: 0;
+  }
+
+  .cover-decoration-lines::after {
+    bottom: 0;
+  }
+
+  .cover-ornament-top,
+  .cover-ornament-bottom {
+    font-size: 3rem;
+    color: white;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+    animation: ornament-glow 3s ease-in-out infinite;
+  }
+
+  .cover-ornament-top {
+    margin-bottom: 20px;
+  }
+
+  .cover-ornament-bottom {
+    margin-top: 20px;
+  }
+
+  .cover-subtitle {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 0.5em;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .cover-title {
+    font-size: 5rem;
+    font-weight: 900;
+    color: white;
+    text-align: center;
+    line-height: 0.9;
+    text-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.5),
+      0 0 30px rgba(255, 255, 255, 0.3);
+    margin-bottom: 15px;
+  }
+
+  .cover-title .highlight {
+    color: #ffeb3b;
+    text-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.5),
+      0 0 40px rgba(255, 235, 59, 0.8);
+  }
+
+  .cover-name {
+    font-size: 2.5rem;
+    display: block;
+    margin-top: 10px;
+    font-weight: 800;
+    letter-spacing: 0.3em;
+  }
+
+  .cover-open-btn {
+    margin-top: 40px;
+    padding: 18px 50px;
+    background: white;
+    color: var(--color-dark-blue);
+    border: 4px solid white;
+    border-radius: 50px;
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+
+  .cover-open-btn:hover {
+    background: #ffeb3b;
+    color: var(--color-dark-blue);
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 32px rgba(255, 235, 59, 0.5);
+  }
+
+  .cover-open-btn .arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .cover-open-btn:hover .arrow {
+    transform: translateX(5px);
+  }
+
+  /* Tranche (épaisseur) */
+  .book-spine {
+    position: absolute;
+    left: -50px;
+    top: 0;
+    width: 50px;
+    height: 100%;
+    background: linear-gradient(90deg, #0a3a5a 0%, #1565c0 50%, #0a3a5a 100%);
+    border-radius: 8px 0 0 8px;
+    box-shadow:
+      inset 4px 0 12px rgba(0, 0, 0, 0.5),
+      -6px 0 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .book-spine::after {
+    content: "NICOLAS THAI - PORTFOLIO";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-90deg);
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    white-space: nowrap;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Pages intérieures */
+  .book-pages {
+    position: absolute;
+    inset: 8px;
+    background: #fafafa;
+    border-radius: 6px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease 0.6s;
+    transform-style: preserve-3d;
+  }
+
+  .book-pages.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Pages complètes - Structure CodePen */
+  .full-page {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transform-style: preserve-3d;
+  }
+
+  /* Effet d'épaisseur sur le haut de la page (CodePen) */
+  .full-page::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: #bac1ba;
+    transform-origin: bottom;
+    transform: skewX(-45deg);
+    z-index: 10;
+  }
+
+  /* Effet d'épaisseur sur le côté droit (CodePen) */
+  .full-page::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -5px;
+    width: 5px;
+    height: 100%;
+    background: #92a29c;
+    transform-origin: left;
+    transform: skewY(-45deg);
+    z-index: 10;
+  }
+
+  .page-1 {
+    z-index: 3;
+  }
+  .page-2 {
+    z-index: 2;
+  }
+  .page-3 {
+    z-index: 1;
+  }
+
+  /* Page Box - Équivalent de .imgBox du CodePen */
+  .page-box {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-origin: left;
+    transition: transform 0.7s ease-out;
+    transform-style: preserve-3d;
+    box-shadow:
+      inset 300px 0 50px rgba(0, 0, 0, 0.5),
+      20px 0 60px rgba(0, 0, 0, 0.5);
+  }
+
+  .full-page.flipped .page-box {
+    transform: rotateY(-135deg);
+    box-shadow:
+      inset 20px 0 50px rgba(0, 0, 0, 0.5),
+      0 10px 100px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Bark - Dos de la page (comme dans le CodePen) */
+  .page-bark {
+    position: absolute;
+    background: #e0e1dc;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.6s;
+  }
+
+  .full-page.flipped .page-bark {
+    opacity: 1;
+    box-shadow: 300px 200px 100px rgba(0, 0, 0, 0.4) inset;
+  }
+
+  /* Content Wrapper - Contient le contenu visible */
+  .page-content-wrapper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  /* Layout des pages */
+  .full-page-left,
+  .full-page-right {
+    width: 50%;
+    height: 100%;
+    float: left;
+    background: linear-gradient(145deg, #fefefe 0%, #f8f8f8 100%);
+    padding: 50px 40px 70px;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  .full-page-left {
+    border-right: 2px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .full-page-left::before,
+  .full-page-right::before {
+    content: "";
+    position: absolute;
+    inset: 20px;
+    border: 3px solid rgba(52, 190, 237, 0.15);
+    border-radius: 12px;
+    pointer-events: none;
+  }
+
+  .full-page-content {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(145deg, #fefefe 0%, #f8f8f8 100%);
+    padding: 50px 60px 70px;
+    overflow-y: auto;
+    position: relative;
+  }
+
+  .full-page-content::before {
+    content: "";
+    position: absolute;
+    inset: 30px;
+    border: 3px solid rgba(52, 190, 237, 0.15);
+    border-radius: 12px;
+    pointer-events: none;
+  }
+
+  .page-main-title {
+    font-size: 2.25rem;
+    font-weight: 900;
+    color: var(--color-light-blue);
+    text-align: center;
+    margin-bottom: 35px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .icon-deco {
+    font-size: 1.8rem;
+    color: var(--color-dark-blue);
+    animation: icon-pulse 2s ease-in-out infinite;
+  }
+
+  .mii-zone {
+    display: flex;
+    justify-content: center;
+    margin: 30px 0;
+  }
+
+  .mii-placeholder-box {
+    width: 180px;
+    height: 180px;
+    background: linear-gradient(135deg, #e8e8e8 0%, #d0d0d0 100%);
+    border: 4px dashed var(--color-light-blue);
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    animation: mii-float 3s ease-in-out infinite;
+  }
+
+  .mii-text {
+    font-size: 0.875rem;
+    font-weight: 800;
+    color: var(--color-dark-gray);
+    letter-spacing: 0.1em;
+  }
+
+  .mii-subtitle {
+    font-size: 0.75rem;
+    color: var(--color-text-gray);
+    font-style: italic;
+  }
+
+  .info-card {
+    background: linear-gradient(
+      145deg,
+      rgba(52, 190, 237, 0.12) 0%,
+      rgba(52, 190, 237, 0.06) 100%
+    );
+    border: 4px solid var(--color-light-blue);
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0 6px 20px rgba(52, 190, 237, 0.15);
+  }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+  }
+
+  .emoji-icon {
+    font-size: 1.75rem;
+  }
+
+  .card-header h3 {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--color-dark-blue);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .info-card p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-text-gray);
+    margin-bottom: 12px;
+  }
+
+  .welcome-card {
+    background: white;
+    border: 4px solid var(--color-dark-blue);
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+
+  .welcome-card h4 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--color-light-blue);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .welcome-card p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--color-text-gray);
+  }
+
+  .competence-section {
+    height: 100%;
+  }
+
+  .competence-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 25px;
+    border-radius: 16px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  }
+
+  .competence-header.dev {
+    background: linear-gradient(
+      135deg,
+      var(--color-light-blue) 0%,
+      var(--color-dark-blue) 100%
+    );
+  }
+
+  .competence-header.design {
+    background: linear-gradient(135deg, #8e24aa 0%, #5e35b1 100%);
+  }
+
+  .icon-circle {
+    width: 60px;
+    height: 60px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .icon-circle svg {
+    width: 35px;
+    height: 35px;
+    color: var(--color-light-blue);
+  }
+
+  .competence-header.design .icon-circle svg {
+    color: #8e24aa;
+  }
+
+  .competence-header h2 {
+    font-size: 2rem;
+    font-weight: 900;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .competence-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .comp-item {
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(248, 248, 248, 0.95) 100%
+    );
+    border: 4px solid var(--color-light-blue);
+    border-radius: 16px;
+    padding: 20px;
+    transition: all 0.3s ease;
+  }
+
+  .comp-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(52, 190, 237, 0.25);
+  }
+
+  .comp-badge {
+    display: inline-block;
+    padding: 6px 16px;
+    background: var(--color-light-blue);
+    color: white;
+    border-radius: 25px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+    box-shadow: 0 3px 8px rgba(52, 190, 237, 0.4);
+  }
+
+  .comp-badge.design-badge {
+    background: #8e24aa;
+    box-shadow: 0 3px 8px rgba(142, 36, 170, 0.4);
+  }
+
+  .comp-item h4 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--color-dark-blue);
+    margin-bottom: 10px;
+  }
+
+  .comp-item p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--color-text-gray);
+  }
+
+  /* Côtés (épaisseur visible) */
+  .book-side {
+    position: absolute;
+    background: linear-gradient(135deg, #0a3a5a 0%, #1565c0 50%, #0a3a5a 100%);
+  }
+
+  .book-side-right {
+    right: -50px;
+    top: 0;
+    width: 50px;
+    height: 100%;
+    border-radius: 0 8px 8px 0;
+    box-shadow: inset -4px 0 12px rgba(0, 0, 0, 0.5);
+  }
+
+  .book-side-left {
+    left: 0;
+    top: 0;
+    width: 8px;
+    height: 100%;
+  }
+
+  .book-side-top {
+    top: -8px;
+    left: 0;
+    right: 0;
+    height: 8px;
+  }
+
+  .book-side-bottom {
+    bottom: -8px;
+    left: 0;
+    right: 0;
+    height: 8px;
+  }
+
+  /* Navigation */
+  .book-navigation {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    background: linear-gradient(
+      135deg,
+      var(--color-dark-blue) 0%,
+      var(--color-light-blue) 100%
+    );
+    padding: 18px 45px;
+    border-radius: 70px;
+    border: 5px solid white;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease 0.8s;
+  }
+
+  .book-navigation.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nav-button {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: white;
+    border: 4px solid var(--color-light-blue);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .nav-button svg {
+    width: 30px;
+    height: 30px;
+    color: var(--color-light-blue);
+  }
+
+  .nav-button:hover {
+    background: var(--color-light-blue);
+    transform: scale(1.15);
+    box-shadow: 0 6px 20px rgba(52, 190, 237, 0.5);
+  }
+
+  .nav-button:hover svg {
+    color: white;
+  }
+
+  .nav-button:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .page-indicator {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: white;
+    letter-spacing: 0.1em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Scrollbar */
+  .full-page-left::-webkit-scrollbar,
+  .full-page-right::-webkit-scrollbar,
+  .full-page-content::-webkit-scrollbar,
+  .page-content-wrapper::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .full-page-left::-webkit-scrollbar-track,
+  .full-page-right::-webkit-scrollbar-track,
+  .full-page-content::-webkit-scrollbar-track,
+  .page-content-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+
+  .full-page-left::-webkit-scrollbar-thumb,
+  .full-page-right::-webkit-scrollbar-thumb,
+  .full-page-content::-webkit-scrollbar-thumb,
+  .page-content-wrapper::-webkit-scrollbar-thumb {
+    background: var(--color-light-blue);
+    border-radius: 10px;
+  }
+
+  /* Animations */
+  @keyframes book-entrance {
+    0% {
+      opacity: 0;
+      transform: scale(0.85) translateY(50px) rotateY(-20deg);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1) translateY(0) rotateY(0deg);
+    }
+  }
+
+  @keyframes ornament-glow {
+    0%,
+    100% {
+      text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+    }
+    50% {
+      text-shadow: 0 0 40px rgba(255, 255, 255, 0.9);
+    }
+  }
+
+  @keyframes icon-pulse {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+  }
+
+  @keyframes mii-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+</style>
+
+<script is:inline>
+  function initPresentationOverlay() {
+    const overlay = document.querySelector(".presentation-overlay");
+    const bookCard = document.getElementById("book-card");
+    const pages = document.querySelectorAll(".book-page");
+
+    if (!overlay || !bookCard) {
+      setTimeout(initPresentationOverlay, 100);
+      return;
+    }
+
+    let currentPage = 0;
+    const totalPages = pages.length;
+    let isOpened = false;
+
+    // Tourner la page suivante
+    function nextPage() {
+      if (currentPage < totalPages) {
+        // Au premier clic, centrer le livre ET tourner la première page
+        if (currentPage === 0) {
+          bookCard.classList.add("opened");
+          isOpened = true;
+          pages[0].classList.add("flipped");
+          currentPage++;
+          console.log(
+            `Page actuelle: ${currentPage}/${totalPages} (ouverture + première page)`
+          );
+        } else {
+          // Pour les pages suivantes
+          pages[currentPage - 1].classList.add("flipped");
+          currentPage++;
+          console.log(`Page actuelle: ${currentPage}/${totalPages}`);
+        }
+      } else {
+        // Retour au début
+        pages.forEach((page) => page.classList.remove("flipped"));
+        bookCard.classList.remove("opened");
+        currentPage = 0;
+        isOpened = false;
+        console.log("Retour à la couverture");
+      }
+    }
+
+    // Observer pour réinitialiser quand l'overlay se ferme
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.attributeName === "class" ||
+          mutation.attributeName === "style"
+        ) {
+          const isVisible = !overlay.classList.contains("opacity-0");
+
+          if (!isVisible && currentPage > 0) {
+            // Réinitialiser toutes les pages
+            pages.forEach((page) => page.classList.remove("flipped"));
+            bookCard.classList.remove("opened");
+            currentPage = 0;
+            isOpened = false;
+          }
+        }
+      });
+    });
+
+    observer.observe(overlay, {
+      attributes: true,
+      attributeFilter: ["class", "style"],
+    });
+
+    // Clic sur la carte pour tourner les pages
+    bookCard.addEventListener("click", (e) => {
+      e.stopPropagation();
+      nextPage();
+    });
+
+    console.log("Presentation overlay initialized!");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initPresentationOverlay);
+  } else {
+    initPresentationOverlay();
+  }
+</script>
