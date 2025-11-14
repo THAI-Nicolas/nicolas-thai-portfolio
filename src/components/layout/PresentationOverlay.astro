@@ -1,5 +1,6 @@
 ---
 import MainBouton from "../boutons/MainBouton.astro";
+import TechnologiesPresentation from "../ui/TechnologiesPresentation.astro";
 
 export interface Props {
   isVisible?: boolean;
@@ -7,6 +8,17 @@ export interface Props {
 }
 
 const { isVisible = false, onClose } = Astro.props;
+
+const technologiesFrontend = [
+  { nom: "Astro", logo: "/logos/astro_logo.webp" },
+  { nom: "TailwindCSS", logo: "/logos/tailwind_logo.webp" },
+  { nom: "Javascript", logo: "/logos/js_logo.webp" },
+];
+
+const technologiesBackend = [
+  { nom: "PocketBase", logo: "/logos/pocketbase_logo.webp" },
+  { nom: "MySQL", logo: "/logos/mysql_logo.webp" },
+];
 ---
 
 <div
@@ -44,15 +56,132 @@ const { isVisible = false, onClose } = Astro.props;
           </div>
         </div>
         <div class="page-back">
-          <!-- Dos de la page 1 -->
+          <div class="presentation-card-container hidden">
+            <div class="presentation-card">
+              <div class="card-frame">
+                <div class="card-image-container">
+                  <img
+                    src="/src/assets/images/image_mii_nico.png"
+                    alt="Nicolas THAI"
+                    class="card-avatar"
+                  />
+                </div>
+              </div>
+
+              <h3 class="card-name">Nicolas THAI (20 ans)</h3>
+
+              <div class="card-info-list">
+                <div class="card-info-item">
+                  <svg
+                    class="card-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <path
+                      d="M12 21C15.5 17.4 19 14.1764 19 10.2C19 6.22355 15.866 3 12 3C8.13401 3 5 6.22355 5 10.2C5 14.1764 8.5 17.4 12 21Z"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"></path>
+                    <circle cx="12" cy="10" r="3" stroke-width="2"></circle>
+                  </svg>
+                  <span>Audincourt (25400), France</span>
+                </div>
+
+                <div class="card-info-item">
+                  <svg
+                    class="card-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <path
+                      d="M3 8L10.89 13.26C11.2187 13.4793 11.6049 13.5963 12 13.5963C12.3951 13.5963 12.7813 13.4793 13.11 13.26L21 8M5 19H19C19.5304 19 20.0391 18.7893 20.4142 18.4142C20.7893 18.0391 21 17.5304 21 17V7C21 6.46957 20.7893 5.96086 20.4142 5.58579C20.0391 5.21071 19.5304 5 19 5H5C4.46957 5 3.96086 5.21071 3.58579 5.58579C3.21071 5.96086 3 6.46957 3 7V17C3 17.5304 3.21071 18.0391 3.58579 18.4142C3.96086 18.7893 4.46957 19 5 19Z"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"></path>
+                  </svg>
+                  <span>Thainicolas06@gmail.com</span>
+                </div>
+
+                <div class="card-info-item">
+                  <svg
+                    class="card-icon"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                    ></path>
+                  </svg>
+                  <span>Nicolas THAI</span>
+                </div>
+
+                <div class="card-info-item">
+                  <svg
+                    class="card-icon"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"
+                    ></path>
+                  </svg>
+                  <span>THAI-Nicolas</span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
       <!-- Page 2 -->
       <div class="book-page page-2" data-page="2">
         <div class="page-front">
-          <div class="page-content-empty">
-            <!-- Contenu vide -->
+          <div class="page-right-content">
+            <div class="intro-section">
+              <h2 class="intro-title">SALUT, JE SUIS NICO !</h2>
+
+              <div class="profile-card">
+                <h3 class="profile-title">MON PROFIL</h3>
+                <p>
+                  Je suis un étudiant en 2ème année de BUT MMI à Montbéliard, je
+                  me forme actuellement pour devenir un développeur polyvalent,
+                  capable d'allié code, design (UX/UI, prototypages), marketing
+                  et gestion de projet.
+                </p>
+                <p>
+                  Curieux et autodidacte, j'aime apprendre par moi-même,
+                  participer à de nouvelles idées et mettre mes compétences au
+                  service de projets innovants.
+                </p>
+              </div>
+
+              <div class="welcome-section">
+                <h3 class="welcome-title">BIENVENUE SUR MON PORTFOLIO !</h3>
+                <p>
+                  Vous êtes ici pour découvrir mes projets, mes compétences et
+                  ma façon de travailler. Vous y trouverez des réalisations qui
+                  reflètent ma curiosité, ma créativité et ma passion pour le
+                  développement et le design.
+                </p>
+                <button class="discover-button">
+                  DÉCOUVRE MES COMPÉTENCES
+                  <svg
+                    class="arrow-icon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <path
+                      d="M5 12h14M12 5l7 7-7 7"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
         <div class="page-back">
@@ -63,8 +192,26 @@ const { isVisible = false, onClose } = Astro.props;
       <!-- Page 3 -->
       <div class="book-page page-3" data-page="3">
         <div class="page-front">
-          <div class="page-content-empty">
-            <!-- Contenu vide -->
+          <div
+            class="technologies-page-content tech-hidden w-full h-full bg-white p-12 flex flex-col gap-8"
+          >
+            <h2
+              class="text-3xl font-black text-black m-0 tracking-wide font-raleway"
+            >
+              MES TECHNOLOGIES
+            </h2>
+
+            <div class="flex flex-col gap-6">
+              <TechnologiesPresentation
+                categorie="Frontend"
+                technologies={technologiesFrontend}
+              />
+
+              <TechnologiesPresentation
+                categorie="Backend"
+                technologies={technologiesBackend}
+              />
+            </div>
           </div>
         </div>
         <div class="page-back">
@@ -395,6 +542,7 @@ const { isVisible = false, onClose } = Astro.props;
     text-align: center;
     color: white;
     padding: 60px 40px;
+    font-family: "Raleway", sans-serif;
   }
 
   .cover-ornament {
@@ -443,6 +591,7 @@ const { isVisible = false, onClose } = Astro.props;
     display: flex;
     flex-direction: column;
     gap: 30px;
+    font-family: "Raleway", sans-serif;
   }
 
   .page-title {
@@ -483,6 +632,224 @@ const { isVisible = false, onClose } = Astro.props;
     line-height: 1.8;
     margin: 8px 0;
     padding-left: 15px;
+  }
+
+  .presentation-card-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    background: linear-gradient(145deg, #fefefe 0%, #f8f8f8 100%);
+    backface-visibility: hidden;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    font-family: "Raleway", sans-serif;
+  }
+
+  .presentation-card-container.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .technologies-page-content {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  .technologies-page-content.tech-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .page-3 .page-front .technologies-page-content:not(.tech-hidden) {
+    opacity: 1 !important;
+    display: flex !important;
+    visibility: visible !important;
+  }
+
+  .presentation-card {
+    width: 100%;
+    max-width: 480px;
+    max-height: 670px;
+    background: #f2f2f2;
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow:
+      0 4px 8px rgba(0, 0, 0, 0.5),
+      0 4px 8px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .card-frame {
+    width: 100%;
+    background: #d9d9d9;
+    border-radius: 4px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .card-image-container {
+    width: 100%;
+    aspect-ratio: 0.91;
+    max-height: 380px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #d9d9d9;
+  }
+
+  .card-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .card-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #000;
+    margin: 0;
+    padding: 0 8px;
+  }
+
+  .card-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 0 8px;
+  }
+
+  .card-info-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .card-icon {
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    color: #878787;
+    flex-shrink: 0;
+  }
+
+  .card-info-item span {
+    font-size: 1.05rem;
+    color: #000;
+    line-height: 1.4;
+  }
+
+  .page-right-content {
+    width: 100%;
+    height: 100%;
+    background: white;
+    padding: 60px 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    backface-visibility: hidden;
+    font-family: "Raleway", sans-serif;
+  }
+
+  .intro-section {
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+  }
+
+  .intro-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #000;
+    text-align: left;
+    letter-spacing: 0.05em;
+    margin: 0;
+    font-family: "Raleway", sans-serif;
+  }
+
+  .profile-card {
+    background: white;
+    padding: 25px;
+  }
+
+  .profile-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #000;
+    margin: 0 0 15px 0;
+    letter-spacing: 0.05em;
+    font-family: "Raleway", sans-serif;
+  }
+
+  .profile-card p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #333;
+    margin: 0 0 12px 0;
+    font-family: "Raleway", sans-serif;
+  }
+
+  .profile-card p:last-child {
+    margin-bottom: 0;
+  }
+
+  .welcome-section {
+    background: white;
+    padding: 25px;
+  }
+
+  .welcome-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #000;
+    margin: 0 0 15px 0;
+    letter-spacing: 0.05em;
+    font-family: "Raleway", sans-serif;
+  }
+
+  .welcome-section p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #333;
+    margin: 0 0 20px 0;
+    font-family: "Raleway", sans-serif;
+  }
+
+  .discover-button {
+    background: transparent;
+    border: none;
+    color: #000;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0;
+    transition: all 0.3s ease;
+    font-family: "Raleway", sans-serif;
+  }
+
+  .discover-button:hover {
+    color: var(--color-light-blue);
+  }
+
+  .discover-button:hover .arrow-icon {
+    transform: translateX(5px);
+  }
+
+  .arrow-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
   }
   /* ========== FIN CARTE LIVRE PORTFOLIO ========== */
 
@@ -1246,6 +1613,12 @@ const { isVisible = false, onClose } = Astro.props;
     const overlay = document.querySelector(".presentation-overlay");
     const bookCard = document.getElementById("book-card");
     const pages = document.querySelectorAll(".book-page");
+    const presentationContainer = document.querySelector(
+      ".presentation-card-container"
+    );
+    const technologiesContainer = document.querySelector(
+      ".technologies-page-content"
+    );
 
     if (!overlay || !bookCard) {
       setTimeout(initPresentationOverlay, 100);
@@ -1265,13 +1638,49 @@ const { isVisible = false, onClose } = Astro.props;
           isOpened = true;
           pages[0].classList.add("flipped");
           currentPage++;
+          if (presentationContainer) {
+            presentationContainer.classList.remove("hidden");
+          }
           console.log(
             `Page actuelle: ${currentPage}/${totalPages} (ouverture + première page)`
           );
         } else {
+          // Cacher le contenu avant de tourner la page
+          if (presentationContainer && currentPage === 1) {
+            presentationContainer.classList.add("hidden");
+          }
           // Pour les pages suivantes
-          pages[currentPage - 1].classList.add("flipped");
+          const pageToFlip = pages[currentPage];
+          pageToFlip.classList.add("flipped");
           currentPage++;
+
+          // Gérer la visibilité des technologies après la fin de l'animation
+          setTimeout(() => {
+            console.log(
+              `Gestion visibilité - currentPage: ${currentPage}, technologiesContainer:`,
+              technologiesContainer
+            );
+            if (technologiesContainer) {
+              if (currentPage === 3) {
+                console.log(
+                  "Retrait de tech-hidden pour afficher les technologies"
+                );
+                technologiesContainer.classList.remove("tech-hidden");
+                console.log(
+                  "Classes après retrait:",
+                  technologiesContainer.className
+                );
+              } else {
+                console.log(
+                  "Ajout de tech-hidden pour cacher les technologies"
+                );
+                technologiesContainer.classList.add("tech-hidden");
+              }
+            } else {
+              console.log("technologiesContainer est null!");
+            }
+          }, 750);
+
           console.log(`Page actuelle: ${currentPage}/${totalPages}`);
         }
       } else {
@@ -1280,6 +1689,12 @@ const { isVisible = false, onClose } = Astro.props;
         bookCard.classList.remove("opened");
         currentPage = 0;
         isOpened = false;
+        if (presentationContainer) {
+          presentationContainer.classList.add("hidden");
+        }
+        if (technologiesContainer) {
+          technologiesContainer.classList.add("tech-hidden");
+        }
         console.log("Retour à la couverture");
       }
     }
@@ -1299,6 +1714,12 @@ const { isVisible = false, onClose } = Astro.props;
             bookCard.classList.remove("opened");
             currentPage = 0;
             isOpened = false;
+            if (presentationContainer) {
+              presentationContainer.classList.add("hidden");
+            }
+            if (technologiesContainer) {
+              technologiesContainer.classList.add("tech-hidden");
+            }
           }
         }
       });

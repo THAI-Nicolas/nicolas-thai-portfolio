@@ -1,0 +1,40 @@
+---
+export interface Props {
+  categorie: string;
+  technologies: Array<{
+    nom: string;
+    logo: string;
+  }>;
+}
+
+const { categorie, technologies } = Astro.props;
+---
+
+<div
+  class="inline-flex flex-col p-4 border-2 border-[var(--color-light-blue)] rounded-lg bg-transparent gap-4 font-raleway"
+>
+  <h3
+    class="text-lg font-bold text-[var(--color-light-blue)] m-0 tracking-wider uppercase"
+  >
+    {categorie}
+  </h3>
+
+  <div class="flex items-center gap-6 flex-wrap">
+    {
+      technologies.map((tech) => (
+        <div class="flex flex-col items-center gap-2">
+          <div class="w-10 h-10 flex items-center justify-center">
+            <img
+              src={tech.logo}
+              alt={tech.nom}
+              class="w-full h-full object-contain"
+            />
+          </div>
+          <p class="text-sm font-medium text-black m-0 text-center whitespace-nowrap">
+            {tech.nom}
+          </p>
+        </div>
+      ))
+    }
+  </div>
+</div>
