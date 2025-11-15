@@ -1,6 +1,7 @@
 ---
 import MainBouton from "../boutons/MainBouton.astro";
 import TechnologiesPresentation from "../ui/TechnologiesPresentation.astro";
+import { TechnologiesService } from "../../../backend/services/technologies.service";
 
 export interface Props {
   isVisible?: boolean;
@@ -9,16 +10,20 @@ export interface Props {
 
 const { isVisible = false, onClose } = Astro.props;
 
-const technologiesFrontend = [
-  { nom: "Astro", logo: "/logos/astro_logo.webp" },
-  { nom: "TailwindCSS", logo: "/logos/tailwind_logo.webp" },
-  { nom: "Javascript", logo: "/logos/js_logo.webp" },
-];
+const allTechnologies = await TechnologiesService.getAll();
+const formattedTechnologies =
+  TechnologiesService.formatTechnologiesForPresentation(allTechnologies);
 
-const technologiesBackend = [
-  { nom: "PocketBase", logo: "/logos/pocketbase_logo.webp" },
-  { nom: "MySQL", logo: "/logos/mysql_logo.webp" },
-];
+const frontendNames = ["Astro", "TailwindCSS", "Javascript"];
+const backendNames = ["PocketBase", "MySQL"];
+
+const technologiesFrontend = formattedTechnologies.filter((tech) =>
+  frontendNames.includes(tech.nom)
+);
+
+const technologiesBackend = formattedTechnologies.filter((tech) =>
+  backendNames.includes(tech.nom)
+);
 ---
 
 <div

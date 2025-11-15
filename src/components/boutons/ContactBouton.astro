@@ -23,32 +23,32 @@ const IconComponent = icons[type];
 ---
 
 <button
-  class="relative cursor-pointer transition-transform duration-200 ease-in-out border-none bg-none p-0 w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 hover:scale-105"
+  class="relative cursor-pointer transition-transform duration-200 ease-in-out border-none bg-none p-0 w-20 h-20 md:w-24 md:h-24 lg:w-26 lg:h-26 hover:scale-105 flex items-center justify-center"
   data-type={type}
   data-onclick={onClick ? "true" : undefined}
 >
   <div
-    class="w-24 h-24 rounded-2xl relative overflow-hidden flex items-center justify-center wii-contact-button__container"
+    class="w-full h-full rounded-2xl relative overflow-hidden flex items-center justify-center wii-contact-button__container"
   >
     {/* Icônes */}
     {
       type === "email" && (
-        <IconEnveloppe class="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 wii-contact-button__icon" />
+        <IconEnveloppe class="w-8 h-8 md:w-10 md:h-10 lg:w-13 lg:h-13 wii-contact-button__icon" />
       )
     }
     {
       type === "github" && (
-        <IconGithub class="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 wii-contact-button__icon" />
+        <IconGithub class="w-8 h-8 md:w-10 md:h-10 lg:w-13 lg:h-13 wii-contact-button__icon" />
       )
     }
     {
       type === "linkedin" && (
-        <IconLinkedin class="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 wii-contact-button__icon" />
+        <IconLinkedin class="w-8 h-8 md:w-10 md:h-10 lg:w-13 lg:h-13 wii-contact-button__icon" />
       )
     }
     {
       type === "instagram" && (
-        <IconInstagram class="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12 wii-contact-button__icon" />
+        <IconInstagram class="w-8 h-8 md:w-10 md:h-10 lg:w-13 lg:h-13 wii-contact-button__icon" />
       )
     }
   </div>

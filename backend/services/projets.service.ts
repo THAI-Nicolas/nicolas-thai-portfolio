@@ -55,7 +55,7 @@ export class ProjetsService {
     record: ProjetsResponse | ProcessusEtapesRecord | any,
     filename: string
   ): string {
-    return pb.files.getUrl(record, filename);
+    return pb.files.getURL(record, filename);
   }
 
   static getCoverUrl(record: ProjetsResponse): string {

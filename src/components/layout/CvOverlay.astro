@@ -21,21 +21,18 @@ const { isVisible = false, onClose } = Astro.props;
   <div class="bg-black/50 fixed inset-0 z-[70] overflow-hidden"></div>
 
   <div
-    class="cv-container fixed inset-0 z-[80] flex items-center"
+    class="cv-container fixed inset-0 z-[80] flex items-center justify-start"
     style="padding-left: 80px; padding-right: 80px;"
   >
-    <div class="cv-content-wrapper flex items-center gap-12">
-      <!-- Partie gauche - Boutons -->
+    <div class="flex items-stretch gap-12">
+      <!-- Partie 1 : MainBouton retour + Boutons Contact -->
       <div
-        class="cv-left-sidebar flex flex-col gap-62 items-start flex-shrink-0 ml-8 mt-20"
+        class="flex flex-col items-center justify-between flex-shrink-0 mt-8 mb-4 ml-8"
       >
-        <!-- MainBouton Retour -->
-        <div id="cv-return-button" style="margin-top: 34px;">
+        <div id="cv-return-button">
           <MainBouton type="retour" size="desktop" />
         </div>
-
-        <!-- 4 ContactBoutons verticaux -->
-        <div class="flex flex-col gap-4">
+        <div class="flex flex-col items-center gap-8">
           <ContactBouton type="email" />
           <ContactBouton type="github" />
           <ContactBouton type="linkedin" />
@@ -43,66 +40,54 @@ const { isVisible = false, onClose } = Astro.props;
         </div>
       </div>
 
-      <!-- Partie centre - CV -->
-      <div class="cv-center relative flex-shrink-0">
-        <div class="cv-wrapper relative w-[600px]">
-          <!-- SmallBouton Téléchargement en haut à droite -->
-          <div class="absolute top-2 right-2 z-10">
+      <!-- Partie 2 : CV + SmallBouton téléchargement -->
+      <div class="relative flex-shrink-0 flex items-start ml-12">
+        <div class="relative w-[600px]">
+          <div class="absolute top-10 right-4 z-10">
             <SmallBouton type="telechargement" size="desktop" />
           </div>
-
-          <!-- CV -->
           <Cv />
         </div>
       </div>
 
-      <!-- Partie droite - Mii -->
+      <!-- Partie 3 : Socle + Mii -->
       <div
-        class="cv-right-sidebar relative w-96 h-96 flex flex-col items-center justify-center ml-16"
+        class="relative flex-shrink-0 flex items-center justify-center -ml-12"
       >
-        <!-- Cercle néon -->
-        <div
-          class="neon-circle-outer absolute top-40 left-125 transform -translate-x-1/2 -translate-y-1/2 w-[784px] h-[784px]"
-        >
-        </div>
-
-        <!-- Container pour les flèches -->
-        <div
-          class="absolute bottom-55 left-125 transform -translate-x-1/2 scale-130 flex gap-96 items-center cursor-pointer"
-        >
-          <!-- Flèche gauche -->
-          <div>
-            <Fleche direction="gauche" size="mobile" />
+        <div class="relative w-96 h-96">
+          <div
+            class="neon-circle-outer absolute top-40 left-125 transform -translate-x-1/2 -translate-y-1/2 w-[784px] h-[784px]"
+          >
           </div>
 
-          <!-- Flèche droite -->
-          <div>
-            <Fleche direction="droite" size="mobile" />
-          </div>
-        </div>
-
-        <!-- Mii (espace réservé) -->
-        <div
-          class="mii-container absolute top-0 left-1/2 transform -translate-x-1/2 z-10 flex items-center justify-center w-32 h-32"
-        >
-          <!-- Ici on mettra le Mii plus tard -->
-        </div>
-
-        <!-- Socle avec ombre -->
-        <div
-          class="socle-with-shadow absolute top-100 left-50 z-20"
-          style="width: 600px; height: 100px;"
-        >
-          <div class="relative w-full h-full">
-            <!-- Ombre du socle -->
-            <div
-              class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-4 bg-black/30 blur-md rounded-full"
-            >
+          <div
+            class="absolute bottom-55 left-125 transform -translate-x-1/2 scale-130 flex gap-96 items-center cursor-pointer"
+          >
+            <div>
+              <Fleche direction="gauche" size="mobile" />
             </div>
+            <div>
+              <Fleche direction="droite" size="mobile" />
+            </div>
+          </div>
 
-            <!-- Socle -->
-            <div class="relative z-10 w-full h-full">
-              <Socle />
+          <div
+            class="mii-container absolute top-0 left-1/2 transform -translate-x-1/2 z-10 flex items-center justify-center w-32 h-32"
+          >
+          </div>
+
+          <div
+            class="socle-with-shadow absolute top-100 left-50 z-20"
+            style="width: 600px; height: 100px;"
+          >
+            <div class="relative w-full h-full">
+              <div
+                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-4 bg-black/30 blur-md rounded-full"
+              >
+              </div>
+              <div class="relative z-10 w-full h-full">
+                <Socle />
+              </div>
             </div>
           </div>
         </div>
@@ -132,14 +117,12 @@ const { isVisible = false, onClose } = Astro.props;
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const returnButton = document.getElementById("cv-return-button");
-    const cardCvLinks = document.querySelectorAll(".card-cv");
+    const cvOverlay = document.querySelector(".cv-overlay");
 
-    if (returnButton) {
+    if (returnButton && cvOverlay) {
       returnButton.addEventListener("click", () => {
-        const cvOverlay = document.querySelector(".cv-overlay");
-        if (cvOverlay) {
-          cvOverlay.classList.add("hidden");
-        }
+        cvOverlay.classList.add("opacity-0", "pointer-events-none");
+        cvOverlay.classList.remove("opacity-100", "pointer-events-auto");
       });
     }
   });
