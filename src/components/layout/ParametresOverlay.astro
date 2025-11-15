@@ -12,7 +12,7 @@ const { isVisible = false, onClose } = Astro.props;
   style="transition: opacity 0.3s ease-in-out;"
 >
   <!-- Backdrop sans flou -->
-  <div class="bg-black/50 fixed inset-0 z-[70]"></div>
+  <div class="bg-black/50 fixed inset-0 z-[70]" style="pointer-events: none;"></div>
 
   <!-- Container principal -->
   <div
@@ -121,7 +121,7 @@ const { isVisible = false, onClose } = Astro.props;
                       class="text-sm font-semibold text-text-gray tracking-wide flex items-center gap-2"
                     >
                       <svg
-                        class="w-4 h-4 text-light-blue"
+                        class="w-4 h-4 text-text-gray"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -158,7 +158,7 @@ const { isVisible = false, onClose } = Astro.props;
                       class="text-sm font-semibold text-text-gray tracking-wide flex items-center gap-2"
                     >
                       <svg
-                        class="w-4 h-4 text-light-blue"
+                        class="w-4 h-4 text-text-gray"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -194,7 +194,7 @@ const { isVisible = false, onClose } = Astro.props;
                       class="text-sm font-semibold text-text-gray tracking-wide flex items-center gap-2"
                     >
                       <svg
-                        class="w-4 h-4 text-light-blue"
+                        class="w-4 h-4 text-text-gray"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                       >
@@ -222,75 +222,18 @@ const { isVisible = false, onClose } = Astro.props;
               </div>
             </section>
 
-            <!-- Section Thème -->
-            <section class="parametres-section relative">
+            <!-- Espace pour maintenir la hauteur -->
+            <section class="parametres-section relative" style="opacity: 0; pointer-events: none; user-select: none;">
               <div class="flex items-center gap-3" style="margin-bottom: 20px;">
-                <svg
-                  class="w-5 h-5 text-light-blue"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
-                  ></path>
-                </svg>
-                <h3
-                  class="text-base font-bold text-light-blue uppercase tracking-[0.15em] gaming-text"
-                >
-                  Thème
+                <div class="w-5 h-5"></div>
+                <h3 class="text-base font-bold uppercase tracking-[0.15em]">
+                  &nbsp;
                 </h3>
-                <div
-                  class="flex-1 h-px bg-gradient-to-r from-light-blue/50 to-transparent"
-                >
-                </div>
+                <div class="flex-1 h-px"></div>
               </div>
-
               <div class="grid grid-cols-2 gap-3">
-                <!-- Thème Wii -->
-                <button
-                  id="theme-wii"
-                  class="theme-button gaming-card group cursor-pointer active"
-                  data-theme="wii"
-                  style="padding: 16px; min-height: 80px;"
-                >
-                  <div class="flex flex-col items-center gap-2">
-                    <svg
-                      class="w-8 h-8 text-light-blue"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
-                      ></path>
-                      <circle cx="12" cy="12" r="3"></circle>
-                    </svg>
-                    <span class="text-sm font-bold text-text-gray">WII</span>
-                  </div>
-                </button>
-
-                <!-- Thème Dark -->
-                <button
-                  id="theme-dark"
-                  class="theme-button gaming-card group cursor-pointer"
-                  data-theme="dark"
-                  style="padding: 16px; min-height: 80px;"
-                >
-                  <div class="flex flex-col items-center gap-2">
-                    <svg
-                      class="w-8 h-8 text-light-blue"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"
-                      ></path>
-                    </svg>
-                    <span class="text-sm font-bold text-text-gray">DARK</span>
-                  </div>
-                </button>
+                <div style="padding: 16px; min-height: 80px;"></div>
+                <div style="padding: 16px; min-height: 80px;"></div>
               </div>
             </section>
           </div>
@@ -372,7 +315,7 @@ const { isVisible = false, onClose } = Astro.props;
                     style="margin-bottom: 14px;"
                   >
                     <svg
-                      class="w-4 h-4 text-light-blue"
+                      class="w-4 h-4 text-text-gray"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -403,7 +346,7 @@ const { isVisible = false, onClose } = Astro.props;
                     style="margin-bottom: 14px;"
                   >
                     <svg
-                      class="w-4 h-4 text-light-blue"
+                      class="w-4 h-4 text-text-gray"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -425,44 +368,7 @@ const { isVisible = false, onClose } = Astro.props;
                   </div>
                 </div>
 
-                <!-- Animations -->
-                <div class="gaming-card group">
-                  <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                      <svg
-                        class="w-4 h-4 text-light-blue/70"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                      </svg>
-                      <div>
-                        <label
-                          class="text-sm font-semibold text-text-gray block tracking-wide"
-                        >
-                          Animations
-                        </label>
-                        <p class="text-xs text-text-gray/60 mt-1">
-                          Transitions fluides
-                        </p>
-                      </div>
-                    </div>
-                    <label class="gaming-toggle">
-                      <input
-                        type="checkbox"
-                        class="toggle-input sr-only"
-                        id="animations-toggle"
-                        checked
-                      />
-                      <span class="toggle-slider"></span>
-                    </label>
-                  </div>
-                </div>
+                
               </div>
             </section>
           </div>
@@ -643,7 +549,7 @@ const { isVisible = false, onClose } = Astro.props;
     background: linear-gradient(
       145deg,
       var(--color-light-blue) 0%,
-      var(--color-dark-blue) 100%
+      var(--color-light-blue) 100%
     );
     cursor: pointer;
     transition: all 0.2s ease;
@@ -669,7 +575,7 @@ const { isVisible = false, onClose } = Astro.props;
     background: linear-gradient(
       145deg,
       var(--color-light-blue) 0%,
-      var(--color-dark-blue) 100%
+      var(--color-light-blue) 100%
     );
     cursor: pointer;
     border: 3px solid white;
@@ -742,7 +648,7 @@ const { isVisible = false, onClose } = Astro.props;
     background: linear-gradient(
       180deg,
       var(--color-light-blue) 0%,
-      var(--color-dark-blue) 100%
+      var(--color-light-blue) 100%
     );
     border-color: var(--color-light-blue);
     box-shadow:
@@ -926,35 +832,19 @@ const { isVisible = false, onClose } = Astro.props;
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     // Gestion des thèmes
-    const themeButtons = document.querySelectorAll(".theme-button");
-
     // Initialiser le bouton actif selon le thème actuel
     const currentTheme = window.portfolioTheme?.getTheme() || "wii";
     console.log("Thème actuel au chargement:", currentTheme);
 
-    themeButtons.forEach((btn) => {
+    // Initialiser les boutons gaming-btn de thème (dans la section Interface)
+    const gamingThemeButtons = document.querySelectorAll('.gaming-btn[data-theme]');
+    gamingThemeButtons.forEach((btn) => {
       const btnTheme = btn.getAttribute("data-theme");
       if (btnTheme === currentTheme) {
         btn.classList.add("active");
       } else {
         btn.classList.remove("active");
       }
-    });
-
-    // Gérer les clics sur les boutons de thème
-    themeButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const theme = button.getAttribute("data-theme");
-        console.log("Bouton cliqué, thème:", theme);
-
-        if (theme && window.portfolioTheme) {
-          window.portfolioTheme.setTheme(theme);
-
-          // Mettre à jour les classes actives
-          themeButtons.forEach((btn) => btn.classList.remove("active"));
-          button.classList.add("active");
-        }
-      });
     });
 
     // Effet 3D immersif au mouvement de la souris
@@ -1044,7 +934,13 @@ const { isVisible = false, onClose } = Astro.props;
         const theme = target.dataset.theme;
         const lang = target.dataset.lang;
 
-        if (theme) console.log("Theme:", theme);
+        if (theme) {
+          console.log("Theme:", theme);
+          // Changer le thème si c'est un bouton de thème
+          if (window.portfolioTheme) {
+            window.portfolioTheme.setTheme(theme as "wii" | "dark");
+          }
+        }
         if (lang) console.log("Language:", lang);
       });
     });
@@ -1117,12 +1013,18 @@ const { isVisible = false, onClose } = Astro.props;
           toggle.checked = true;
         });
 
-        const lightTheme = document.querySelector(
-          '[data-theme="light"]'
+        // Réinitialiser le thème vers Wii (thème par défaut)
+        const wiiTheme = document.querySelector(
+          '.gaming-btn[data-theme="light"]'
         ) as HTMLButtonElement;
-        const themeButtons = document.querySelectorAll("[data-theme]");
+        const themeButtons = document.querySelectorAll('.gaming-btn[data-theme]');
         themeButtons.forEach((btn) => btn.classList.remove("active"));
-        lightTheme?.classList.add("active");
+        wiiTheme?.classList.add("active");
+        
+        // Changer aussi le thème dans l'application
+        if (window.portfolioTheme) {
+          window.portfolioTheme.setTheme("wii");
+        }
 
         const frLang = document.querySelector(
           '[data-lang="fr"]'

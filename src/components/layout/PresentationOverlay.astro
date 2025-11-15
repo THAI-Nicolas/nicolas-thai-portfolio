@@ -33,15 +33,11 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
   <div class="bg-black/50 fixed inset-0 z-[70]"></div>
 
   <div
-    class="presentation-container fixed inset-0 z-[80] flex items-center justify-center p-8"
+    class="presentation-container fixed inset-0 z-[80] flex items-center justify-center"
   >
     <!-- Bouton Retour -->
-    <div class="absolute top-8 left-8 z-[100]">
-      <MainBouton
-        type="retour"
-        size="desktop"
-        id="presentation-return-button"
-      />
+    <div class="absolute top-16 left-28 z-[100]" id="presentation-return-button">
+      <MainBouton type="retour" size="desktop" />
     </div>
 
     <!-- Carte Livre Portfolio -->
@@ -417,20 +413,17 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
 
   /* ========== CARTE LIVRE PORTFOLIO ========== */
   .book-card {
-    position: absolute;
-    top: 50%;
-    left: 50%;
+    position: relative;
     width: 600px;
     height: 800px;
     transform-style: preserve-3d;
-    transform: translate(-50%, -50%) perspective(2000px);
     cursor: pointer;
     transition: transform 0.6s ease-out;
   }
 
   /* Centrage automatique quand le livre est ouvert */
   .book-card.opened {
-    transform: translate(calc(-50% + 280px), -50%) perspective(2000px);
+    transform: translateX(300px);
   }
 
   /* Épaisseur haut */
@@ -1740,6 +1733,15 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
       e.stopPropagation();
       nextPage();
     });
+
+    // Bouton retour
+    const returnButton = document.getElementById("presentation-return-button");
+    if (returnButton) {
+      returnButton.addEventListener("click", () => {
+        overlay.classList.add("opacity-0", "pointer-events-none");
+        overlay.classList.remove("opacity-100", "pointer-events-auto");
+      });
+    }
 
     console.log("Presentation overlay initialized!");
   }

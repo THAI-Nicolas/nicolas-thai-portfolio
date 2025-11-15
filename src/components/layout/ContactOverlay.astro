@@ -282,7 +282,7 @@ const { isVisible = false, onClose } = Astro.props;
     position: absolute;
     width: 8px;
     height: 350px;
-    top: -250px;
+    top: -338px;
     background: #8a8a8a;
     background-image: repeating-linear-gradient(
       0deg,
@@ -294,17 +294,22 @@ const { isVisible = false, onClose } = Astro.props;
     box-shadow:
       inset 2px 0 4px rgba(0, 0, 0, 0.3),
       2px 0 4px rgba(0, 0, 0, 0.2);
-    animation: chain-swing 3s ease-in-out infinite;
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+
+  .chain.show {
+    animation: 
+      chain-drop 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+      chain-swing 4s ease-in-out 2s infinite;
   }
 
   .chain-left {
-    left: 80px;
-    animation-delay: 0s;
+    left: 90px;
   }
 
   .chain-right {
-    right: 80px;
-    animation-delay: 0s;
+    right: 90px;
     box-shadow:
       inset -2px 0 4px rgba(0, 0, 0, 0.3),
       -2px 0 4px rgba(0, 0, 0, 0.2);
@@ -331,7 +336,7 @@ const { isVisible = false, onClose } = Astro.props;
   }
 
   .gaming-sign.show {
-    animation:
+    animation: 
       sign-drop 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
       sign-sway 4s ease-in-out 2s infinite;
   }
@@ -544,29 +549,61 @@ const { isVisible = false, onClose } = Astro.props;
   }
 
   @keyframes sign-sway {
-    0%,
-    100% {
+    0% {
       transform: rotate(0deg);
     }
     25% {
-      transform: rotate(1deg);
+      transform: rotate(1.5deg);
+    }
+    50% {
+      transform: rotate(0deg);
     }
     75% {
-      transform: rotate(-1deg);
+      transform: rotate(-1.5deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  @keyframes chain-drop {
+    0% {
+      opacity: 0;
+      transform: translateY(-100px);
+    }
+    60% {
+      opacity: 1;
+      transform: translateY(8px);
+    }
+    80% {
+      transform: translateY(-4px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 
   @keyframes chain-swing {
-    0%,
-    100% {
+    0% {
       transform: rotate(0deg);
       transform-origin: top center;
     }
     25% {
-      transform: rotate(1deg);
+      transform: rotate(0.6deg);
+      transform-origin: top center;
+    }
+    50% {
+      transform: rotate(0deg);
+      transform-origin: top center;
     }
     75% {
-      transform: rotate(-1deg);
+      transform: rotate(-0.6deg);
+      transform-origin: top center;
+    }
+    100% {
+      transform: rotate(0deg);
+      transform-origin: top center;
     }
   }
 </style>
@@ -612,8 +649,17 @@ const { isVisible = false, onClose } = Astro.props;
           if (isVisible && !gamingSign.classList.contains("show")) {
             console.log("Overlay opened, launching animation!");
             gamingSign.classList.add("show");
+            
+            // Ajouter la classe show aux chaînes aussi
+            const chains = document.querySelectorAll(".chain");
+            chains.forEach(chain => chain.classList.add("show"));
           } else if (!isVisible && gamingSign.classList.contains("show")) {
             gamingSign.classList.remove("show");
+            
+            // Retirer la classe show des chaînes
+            const chains = document.querySelectorAll(".chain");
+            chains.forEach(chain => chain.classList.remove("show"));
+            
             if (paperSheet) {
               paperSheet.classList.remove("show");
             }
