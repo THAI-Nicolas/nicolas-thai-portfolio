@@ -1,8 +1,8 @@
-import pb from "../../src/utils/pb";
+import pb from "../utils/pb";
 import type {
   ProjetsResponse,
   ProcessusEtapesRecord,
-} from "../pocketbase-types";
+} from "../../backend/pocketbase-types";
 
 export class ProjetsService {
   private static COLLECTION = "projets";
