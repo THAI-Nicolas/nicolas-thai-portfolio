@@ -37,7 +37,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22009
           source: "dist/*"
-          target: "/var/www/dossier_portfolio/"
+          target: "/var/www/dossier_portfolio/server"
           strip_components: 1
           rm: false
           overwrite: true
