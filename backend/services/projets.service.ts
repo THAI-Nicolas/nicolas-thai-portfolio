@@ -1,4 +1,4 @@
-import pb from "../pb";
+import pb from "../../src/utils/pb";
 import type {
   ProjetsResponse,
   ProcessusEtapesRecord,

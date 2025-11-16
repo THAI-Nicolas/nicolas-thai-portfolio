@@ -1,6 +1,11 @@
-import PocketBase from 'pocketbase';
+import PocketBase from "pocketbase";
 
-const PB_URL = import.meta.env.PUBLIC_POCKETBASE_URL || 'http://127.0.0.1:8090';
+let PB_URL = "";
+if (import.meta.env.MODE === "development") {
+  PB_URL = "http://localhost:8090";
+} else {
+  PB_URL = "https://nicolas-thai.fr:443";
+}
 
 class PocketBaseClient {
   private static instance: PocketBase;
@@ -19,4 +24,3 @@ class PocketBaseClient {
 export const pb = PocketBaseClient.getInstance();
 
 export default pb;
-

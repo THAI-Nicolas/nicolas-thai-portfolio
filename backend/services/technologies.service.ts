@@ -1,4 +1,4 @@
-import pb from "../pb";
+import pb from "../../src/utils/pb";
 import type { TechnologiesRecord } from "../pocketbase-types";
 import { ProjetsService } from "./projets.service";
 
@@ -41,4 +41,3 @@ export class TechnologiesService {
       .filter((tech): tech is { nom: string; logo: string } => tech !== null);
   }
 }
-
