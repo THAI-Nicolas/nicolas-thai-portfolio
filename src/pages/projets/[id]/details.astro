@@ -2,6 +2,8 @@
 import Layout from "../../../layouts/Layout.astro";
 import Fleche from "../../../components/ui/Fleche.astro";
 import MainBouton from "../../../components/boutons/MainBouton.astro";
+import TechnologiesUtilisees from "../../../components/ui/TechnologieUtilisees.astro";
+import CardContexte from "../../../components/ui/CardContexte.astro";
 import GridLayer from "../../../assets/icones/gridlayer.svg";
 import Nuage1 from "../../../assets/icones/nuage1.svg";
 import Nuage2 from "../../../assets/icones/nuage2.svg";
@@ -48,7 +50,7 @@ const colorGradient = {
         <GridLayer class="w-full h-full" />
       </div>
 
-      <div class="absolute top-8 left-8 z-50">
+      <div class="absolute top-12 left-28 z-50">
         <a href={`/projets/${projet.slug}`}>
           <MainBouton
             type="retour"
@@ -76,7 +78,7 @@ const colorGradient = {
       />
 
       <div
-        class="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 animate-bounce"
+        class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 animate-bounce"
       >
         <Fleche
           size="desktop"
@@ -102,167 +104,118 @@ const colorGradient = {
       />
 
       <div class="relative w-full px-6 lg:px-20 py-32 lg:pt-20 lg:pb-10">
-        <section class="mb-32 lg:mb-12 max-w-4xl">
-          <span
-            class="inline-block text-text-gray body-2 lg:text-[18px] font-semibold tracking-wider mb-6"
-          >
-            {projet.annee}
-          </span>
+        <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+          <div class="col-span-12 lg:col-span-7">
+            <section class="mb-16 lg:mb-12 max-w-4xl">
+              <span
+                class="inline-block text-text-gray body-2 lg:text-[18px] font-semibold tracking-wider mb-6"
+              >
+                {projet.annee}
+              </span>
 
-          <h1
-            class="project-h1 lg:text-[56px] font-bold text-text-gray mb-10 lg:mb-12"
-          >
-            {projet.titre}
-          </h1>
+              <h1
+                class="project-h1 lg:text-6xl font-bold text-text-gray mb-10 lg:mb-10"
+              >
+                {projet.titre}
+              </h1>
 
-          <div class="flex flex-wrap gap-3 lg:gap-4">
+              <TechnologiesUtilisees technologies={technologies} />
+            </section>
+
+            <section class="space-y-8">
+              <div
+                class="body-1 text-text-gray leading-relaxed space-y-6"
+                set:html={projet.description}
+              />
+              
+              <h2 class="project-h2 text-text-gray mt-20">
+                Contexte du projet
+              </h2>
+
+              <div class="flex justify-center gap-4 lg:gap-12 mt-12 mb-20">
+                <CardContexte
+                  title="CLIENT"
+                  value={projet.client}
+                  icon="client"
+                  borderColor={colorGradient.to}
+                />
+                <CardContexte
+                  title="CADRE"
+                  value={projet.cadre}
+                  icon="cadre"
+                  borderColor={colorGradient.to}
+                />
+                <CardContexte
+                  title="TEMPS"
+                  value={projet.temps}
+                  icon="temps"
+                  borderColor={colorGradient.to}
+                />
+                <CardContexte
+                  title="MODE"
+                  value={projet.mode}
+                  icon="mode"
+                  borderColor={colorGradient.to}
+                />
+              </div>
+
+              <div class="space-y-8">
+                <div
+                  class="body-1 text-text-gray leading-relaxed space-y-6"
+                  set:html={projet.contexte}
+                />
+              </div>
+            </section>
+          </div>
+
+          <div class="col-span-12 lg:col-span-5 space-y-20 mt-16">
             {
-              technologies.map((tech) => (
-                <span class="px-6 py-2 lg:px-8 lg:py-3 bg-gradient-to-br from-white to-gray-50 rounded-full border-2 border-gray-200 shadow-lg body-2 lg:text-[16px] font-semibold text-text-gray hover:scale-105 transition-transform duration-300">
-                  {tech.nom}
-                </span>
+              visuelUrls.slice(0, 4).map((url, index) => (
+                <div 
+                  class="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-4 shadow-lg border-2 border-gray-200 cursor-pointer hover:shadow-xl transition-shadow duration-300"
+                  onclick={`document.getElementById('modal-${index}').style.display='flex'`}
+                >
+                  <img
+                    src={url}
+                    alt={`${projet.titre} visuel ${index + 1}`}
+                    class="w-full h-auto rounded-xl object-contain"
+                  />
+                </div>
               ))
             }
           </div>
-        </section>
+        </div>
 
-        <section class="mb-32 lg:mb-48">
-          <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
-            <div class="col-span-12 lg:col-span-7 space-y-8">
-              <div
-                class="body-1 text-text-gray leading-relaxed"
-                set:html={projet.description}
-              />
-            </div>
-
-            <div
-              class="col-span-12 lg:col-span-5 lg:sticky lg:top-32 space-y-6"
+        <!-- Modals pour afficher les images en grand -->
+        {
+          visuelUrls.slice(0, 4).map((url, index) => (
+            <div 
+              id={`modal-${index}`}
+              class="modal-image fixed inset-0 bg-black/90 z-[9999] items-center justify-center p-4"
+              onclick={`document.getElementById('modal-${index}').classList.remove('flex'); document.getElementById('modal-${index}').style.display='none'`}
             >
-              {
-                visuelUrls.slice(0, 2).map((url) => (
-                  <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-4 shadow-lg border-2 border-gray-200">
-                    <img
-                      src={url}
-                      alt={`${projet.titre} visuel`}
-                      class="w-full h-auto rounded-xl object-contain"
-                    />
-                  </div>
-                ))
-              }
+              <div class="relative max-w-7xl max-h-full">
+                <button 
+                  class="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors cursor-pointer"
+                  onclick={`document.getElementById('modal-${index}').classList.remove('flex'); document.getElementById('modal-${index}').style.display='none'`}
+                >
+                  <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                  </svg>
+                </button>
+                <img
+                  src={url}
+                  alt={`${projet.titre} visuel ${index + 1}`}
+                  class="max-w-full max-h-[90vh] object-contain rounded-xl"
+                />
+              </div>
             </div>
-          </div>
-        </section>
-
-        <section class="mb-32 lg:mb-48">
-          <h2 class="project-h2 text-text-gray mb-12 lg:mb-16">
-            Contexte du projet
-          </h2>
-
-          <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 mb-16">
-            <div
-              class="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-6 lg:p-8 text-center shadow-xl hover:scale-105 transition-transform duration-300 border-2 border-gray-200"
-            >
-              <svg
-                class="w-12 h-12 lg:w-16 lg:h-16 mx-auto mb-4 text-gray-700"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                ></path>
-              </svg>
-              <h3 class="h3 text-text-gray mb-2">CLIENT</h3>
-              <p class="body-2 text-text-gray font-semibold">
-                {projet.client}
-              </p>
-            </div>
-
-            <div
-              class="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-6 lg:p-8 text-center shadow-xl hover:scale-105 transition-transform duration-300 border-2 border-gray-200"
-            >
-              <svg
-                class="w-12 h-12 lg:w-16 lg:h-16 mx-auto mb-4 text-gray-700"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 14l9-5-9-5-9 5 9 5z"></path>
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"
-                ></path>
-              </svg>
-              <h3 class="h3 text-text-gray mb-2">CADRE</h3>
-              <p class="body-2 text-text-gray font-semibold">
-                {projet.cadre}
-              </p>
-            </div>
-
-            <div
-              class="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-6 lg:p-8 text-center shadow-xl hover:scale-105 transition-transform duration-300 border-2 border-gray-200"
-            >
-              <svg
-                class="w-12 h-12 lg:w-16 lg:h-16 mx-auto mb-4 text-gray-700"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              <h3 class="h3 text-text-gray mb-2">TEMPS</h3>
-              <p class="body-2 text-text-gray font-semibold">
-                {projet.temps}
-              </p>
-            </div>
-
-            <div
-              class="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-6 lg:p-8 text-center shadow-xl hover:scale-105 transition-transform duration-300 border-2 border-gray-200"
-            >
-              <svg
-                class="w-12 h-12 lg:w-16 lg:h-16 mx-auto mb-4 text-gray-700"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                ></path>
-              </svg>
-              <h3 class="h3 text-text-gray mb-2">MODE</h3>
-              <p class="body-2 text-text-gray font-semibold">
-                {projet.mode}
-              </p>
-            </div>
-          </div>
-
-          <div class="space-y-8 max-w-3xl mt-16">
-            <div
-              class="body-1 text-text-gray leading-relaxed"
-              set:html={projet.contexte}
-            />
-          </div>
-        </section>
+          ))
+        }
 
         {
           processusEtapes.length > 0 && (
-            <section class="mb-32 lg:mb-48">
+            <section class="mb-32 lg:mb-48 mt-36">
               <h2 class="project-h2 text-text-gray mb-16 lg:mb-20">
                 Processus de création
               </h2>
@@ -535,6 +488,14 @@ const colorGradient = {
   .iframe-container.active .iframe-overlay {
     opacity: 0;
     pointer-events: none;
+  }
+
+  .modal-image {
+    display: none;
+  }
+
+  .modal-image.flex {
+    display: flex;
   }
 </style>
 

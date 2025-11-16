@@ -15,6 +15,7 @@ body {
   --color-text-gray: #383e3f;
   --color-dark-gray: #a2a2a2;
   --color-background: #f2f2f2;
+  --color-text-dark: #1f1f1f;
 }
 
 /* Thème Dark - STRICTEMENT MONOCHROME */
@@ -81,7 +82,7 @@ body {
   font-family: "fot-rodin-pron", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
-  color: var(--color-text-gray);
+  color: var(--color-text-dark);
   font-size: 20px;
 }
 
@@ -90,7 +91,7 @@ body {
   font-family: "raleway", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
-  color: var(--color-text-gray);
+  color: var(--color-text-dark);
   font-size: 16px;
 }
 
@@ -99,7 +100,7 @@ body {
   font-family: "raleway", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
-  color: var(--color-text-gray);
+  color: var(--color-text-dark);
   font-size: 10px;
 }
 
@@ -107,7 +108,7 @@ body {
 .body-1 {
   font-family: "raleway", sans-serif;
   font-weight: 400;
-  color: var(--color-text-gray);
+  color: var(--color-text-dark);
   font-size: 16px;
 }
 
@@ -115,7 +116,7 @@ body {
 .body-2 {
   font-family: "raleway", sans-serif;
   font-weight: 400;
-  color: var(--color-text-gray);
+  color: var(--color-text-dark);
   font-size: 14px;
 }
 
@@ -123,7 +124,7 @@ body {
 .project-h1 {
   font-family: "hagrid", sans-serif;
   font-weight: 400;
-  color: var(--color-text-gray);
+  color: var(--color-text-dark);
   font-size: 28px;
 }
 
@@ -131,7 +132,7 @@ body {
 .project-h2 {
   font-family: "hagrid", sans-serif;
   font-weight: 400;
-  color: var(--color-text-gray);
+  color: var(--color-text-dark);
   font-size: 20px;
 }
 

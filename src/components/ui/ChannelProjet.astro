@@ -1,6 +1,4 @@
 ---
-import ChannelEmpty from "../../assets/icones/channel-bloc.svg";
-
 export interface Props {
   isEmpty?: boolean;
   projectCover?: string;
@@ -25,7 +23,7 @@ const sizes = {
     container: "w-[295px] h-[160px]",
   },
   desktop: {
-    container: "w-[380px] h-[190px]",
+    container: "w-[350px] h-[190px]",
   },
 };
 
@@ -36,80 +34,137 @@ const currentSize = sizes[size] || sizes.desktop;
   href && href !== "#" ? (
     <a
       href={href}
-      class={`block ${currentSize.container} cursor-pointer transition-all duration-200 ease-in-out group`}
+      class={`block ${currentSize.container} cursor-pointer group relative`}
     >
-      <div
-        class={`relative w-full h-full wii-channel-container ${isEmpty ? "empty-channel" : ""}`}
-      >
-        <ChannelEmpty class="w-full h-full wii-channel-svg" />
-        {!isEmpty && projectCover && (
-          <div class="absolute inset-0 flex items-center justify-center">
+      {/* Container principal style Wii Channel */}
+      <div class="relative w-full h-full wii-channel-container overflow-hidden flex items-center justify-center">
+        {/* Fond avec effet bruit TV */}
+        <div class={`absolute inset-0 ${isEmpty ? 'wii-channel-bg' : 'wii-channel-bg-static'}`}></div>
+        
+        {/* Bordure */}
+        <div class="absolute inset-0 wii-channel-border pointer-events-none"></div>
+        
+        {/* Zone de contenu (image) */}
+        <div class="absolute inset-[6px] z-10 flex items-center justify-center overflow-hidden rounded-[24px_/_46px]">
+          {!isEmpty && projectCover && (
             <img
               src={projectCover}
               alt={projectTitle || "Project cover"}
-              class="object-contain wii-project-cover"
-              style="width: calc(100% - 4px); height: calc(100% - 4px);"
+              class="w-full h-full object-cover scale-100 transition-transform duration-300 ease-out group-hover:scale-105"
             />
-          </div>
-        )}
+          )}
+        </div>
       </div>
+      
+      {/* Bulle de titre au survol (style Wii) */}
+      {!isEmpty && projectTitle && (
+        <div class="wii-title-bubble absolute -bottom-14 left-1/2 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 ease-out group-hover:translate-y-0 translate-y-2 z-50" style="transform: translateX(-50%); width: 380px;">
+          <div class="relative bg-white dark:bg-gray-800 rounded-full px-6 py-3 border-2" style="border-color: #d1d5db; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.1);">
+            <span class="font-['raleway'] relative z-10 text-text-gray dark:text-white font-medium text-lg tracking-wide text-center block truncate">
+              {projectTitle}
+            </span>
+          </div>
+        </div>
+      )}
     </a>
   ) : (
     <div
-      class={`${currentSize.container} cursor-pointer transition-all duration-200 ease-in-out group`}
+      class={`${currentSize.container} cursor-pointer group relative`}
       data-onclick={onClick ? "true" : undefined}
     >
-      <div
-        class={`relative w-full h-full wii-channel-container ${isEmpty ? "empty-channel" : ""}`}
-      >
-        <ChannelEmpty class="w-full h-full wii-channel-svg" />
-        {!isEmpty && projectCover && (
-          <div class="absolute inset-0 flex items-center justify-center">
+      {/* Container principal style Wii Channel */}
+      <div class="relative w-full h-full wii-channel-container overflow-hidden flex items-center justify-center">
+        {/* Fond avec effet bruit TV */}
+        <div class={`absolute inset-0 ${isEmpty ? 'wii-channel-bg' : 'wii-channel-bg-static'}`}></div>
+        
+        {/* Bordure */}
+        <div class="absolute inset-0 wii-channel-border pointer-events-none"></div>
+        
+        {/* Zone de contenu (image) */}
+        <div class="absolute inset-[2px] z-10 flex items-center justify-center overflow-hidden rounded-[26px_/_48px]">
+          {!isEmpty && projectCover && (
             <img
               src={projectCover}
               alt={projectTitle || "Project cover"}
-              class="object-contain wii-project-cover"
-              style="width: calc(100% - 4px); height: calc(100% - 4px);"
+              class="w-full h-full object-cover scale-100 transition-transform duration-300 ease-out group-hover:scale-105"
             />
-          </div>
-        )}
+          )}
+        </div>
       </div>
+      
+      {/* Bulle de titre au survol (style Wii) */}
+      {!isEmpty && projectTitle && (
+        <div class="wii-title-bubble absolute -bottom-14 left-1/2 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 ease-out group-hover:translate-y-0 translate-y-2 z-50" style="transform: translateX(-50%); width: 380px;">
+          <div class="relative bg-white dark:bg-gray-800 rounded-full px-6 py-3 border-2" style="border-color: #d1d5db; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.1);">
+            <span class="font-['raleway'] relative z-10 text-[#5f6263] dark:text-white font-medium text-xl tracking-wide text-center block truncate">
+              {projectTitle}
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
 
 <style>
-  /* Container avec texture VHS */
+  /* Container principal style Wii */
   .wii-channel-container {
     position: relative;
-    background: transparent !important;
+    border-radius: 28px / 50px;
   }
 
-  /* SVG avec bordure visible et hover effect */
-  .wii-channel-svg {
-    transition: color 0.2s ease-in-out;
-    color: var(--color-dark-gray);
-    z-index: 3;
-    background: transparent !important;
-    stroke: var(--color-dark-gray) !important;
-    stroke-width: 2px !important;
-    fill: transparent !important;
+  /* Fond gris lisse pour tous les blocs */
+  .wii-channel-bg-static,
+  .wii-channel-bg {
+    background-color: #CBCBCB;
+    border-radius: 28px / 50px;
   }
 
-  [data-theme="dark"] .wii-channel-svg {
-    color: var(--color-light-blue);
-    stroke: var(--color-light-blue) !important;
+  /* Bordure style Wii - forme bombée TV */
+  .wii-channel-border {
+    box-shadow: inset 0 0 0 1.4px #a2a2a2;
+    transition: box-shadow 0.2s ease-out;
+    border-radius: 28px / 50px;
   }
 
-  /* Hover effect sur les bordures */
-  .group:hover .wii-channel-svg {
-    color: var(--color-light-blue) !important;
-    stroke: var(--color-light-blue) !important;
+  /* Hover effect sur la bordure - plus épaisse et light blue */
+  .group:hover .wii-channel-border {
+    box-shadow: inset 0 0 0 3px var(--color-light-blue);
   }
 
-  /* Style pour l'image du projet */
-  .wii-project-cover {
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  /* Thème sombre */
+  [data-theme="dark"] .wii-channel-bg,
+  [data-theme="dark"] .wii-channel-bg-static {
+    background-color: #3a3a3a;
+  }
+
+  [data-theme="dark"] .wii-channel-border {
+    border-color: var(--color-light-blue);
+  }
+
+  /* Bulle de titre style Wii */
+  .wii-title-bubble {
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+  }
+
+  /* Délai d'apparition au survol */
+  .group:hover .wii-title-bubble {
+    transition-delay: 0.1s;
+  }
+
+  /* Animation de pulsation subtile pour la bulle */
+  @keyframes bubble-pulse {
+    0%, 100% {
+      transform: translateX(-50%) scale(1);
+    }
+    50% {
+      transform: translateX(-50%) scale(1.02);
+    }
+  }
+
+  .group:hover .wii-title-bubble {
+    animation: bubble-pulse 2.5s ease-in-out infinite;
+    animation-delay: 0.5s;
   }
 
   /* Focus ring supprimé */

@@ -24,7 +24,7 @@ import PresentationOverlay from "../components/layout/PresentationOverlay.astro"
         <div class="absolute left-40 top-88 transform -translate-y-1/2">
           <div
             id="carousel-grid"
-            class="grid grid-cols-9 gap-x-[0px] gap-y-[10px] w-[3330px] transition-transform duration-800 ease-in-out"
+            class="grid grid-cols-9 gap-x-[0px] gap-y-[10px] w-[3330px] transition-transform duration-800 ease-in-out ml-8"
           >
             <!-- Ligne 1 - Channels 1-9 -->
             <ChannelProjet
@@ -56,7 +56,13 @@ import PresentationOverlay from "../components/layout/PresentationOverlay.astro"
               href="#"
             />
             <ChannelProjet isEmpty={true} size="desktop" />
-            <ChannelProjet isEmpty={true} size="desktop" />
+            <ChannelProjet 
+              isEmpty={false}
+              projectCover="/src/assets/images/test-img.jpeg"
+              projectTitle="Test Image"
+              size="desktop"
+              href="#"
+            />
             <ChannelProjet isEmpty={true} size="desktop" />
             <ChannelProjet isEmpty={true} size="desktop" />
             <ChannelProjet isEmpty={true} size="desktop" />
@@ -87,7 +93,7 @@ import PresentationOverlay from "../components/layout/PresentationOverlay.astro"
 
         <!-- Flèche de navigation à droite -->
         <div
-          class="absolute right-24 top-90 transform -translate-y-1/2 z-30 cursor-pointer"
+          class="absolute right-24 top-90 z-30 cursor-pointer"
           id="arrow-right"
         >
           <Fleche direction="droite" size="desktop" />
@@ -330,3 +336,21 @@ import PresentationOverlay from "../components/layout/PresentationOverlay.astro"
     });
   });
 </script>
+
+<style>
+  @keyframes bounce-right {
+    0%, 100% {
+      transform: translateX(0) translateY(-50%);
+      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+    }
+    50% {
+      transform: translateX(25%) translateY(-50%);
+      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    }
+  }
+
+  #arrow-right {
+    animation: bounce-right 1.5s infinite;
+    transform: translateY(-50%);
+  }
+</style>

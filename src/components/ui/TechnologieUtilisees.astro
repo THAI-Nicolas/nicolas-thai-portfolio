@@ -1,0 +1,29 @@
+---
+import { TechnologiesService } from "../../../backend/services/technologies.service";
+
+interface Props {
+  technologies: any[];
+}
+
+const { technologies } = Astro.props;
+---
+
+<div class="flex flex-wrap gap-3 lg:gap-4">
+  {
+    technologies.map((tech) => {
+      const logoUrl = TechnologiesService.getLogoUrl(tech);
+      return (
+        <div class="inline-flex items-center gap-3 px-5 py-2.5 bg-white rounded-full border border-text-gray shadow-md hover:scale-105 transition-transform duration-300">
+          <img
+            src={logoUrl}
+            alt={`${tech.nom} logo`}
+            class="w-5 h-5 object-contain"
+          />
+          <span class="body-2 lg:text-[16px] font-semibold text-text-gray whitespace-nowrap">
+            {tech.nom}
+          </span>
+        </div>
+      );
+    })
+  }
+</div>
