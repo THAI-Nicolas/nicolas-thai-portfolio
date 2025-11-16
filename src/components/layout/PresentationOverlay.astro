@@ -42,7 +42,144 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
 
     <!-- Carte Livre Portfolio -->
     <div class="book-card" id="book-card">
-      <!-- Page 1 (Couverture) -->
+      
+      <!-- OVERLAY DÉVELOPPEMENT (page de gauche) -->
+      <div class="page-2-back-overlay" id="page-2-back-overlay">
+        <div class="page-2-back-overlay-content">
+          <div class="competence-header dev">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+            <h2>DÉVELOPPEMENT</h2>
+          </div>
+
+          <div class="competence-list">
+            <div class="comp-item">
+              <span class="comp-badge frontend">FRONTEND</span>
+              <h4>Sites statiques modernes</h4>
+              <p>Je réalise des sites statiques modernes avec Astro, Tailwind CSS et JavaScript, en ajoutant des animations et des interactions pour rendre l'expérience utilisateur vivante.</p>
+            </div>
+
+            <div class="comp-item">
+              <span class="comp-badge backend">BACKEND</span>
+              <h4>Sites dynamiques</h4>
+              <p>Je conçois des sites dynamiques capables de gérer des bases de données avec MySQL, PocketBase ou PhpMyAdmin.</p>
+            </div>
+
+            <div class="comp-item">
+              <span class="comp-badge cms">CMS</span>
+              <h4>WordPress</h4>
+              <p>Je suis capable de créer et personnaliser des sites sur WordPress, en développant des thèmes et plugins.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OVERLAY DESIGN (page de droite) -->
+      <div class="page-2-back-overlay-right" id="page-2-back-overlay-right">
+        <div class="page-2-back-overlay-right-content">
+          <div class="competence-header design">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+            <h2>DESIGN</h2>
+          </div>
+
+          <div class="competence-list">
+            <div class="comp-item">
+              <span class="comp-badge design-badge">MAQUETTAGE</span>
+              <h4>Maquettes et prototypes</h4>
+              <p>Je conçois des maquettes et prototypes de sites web et d'applications mobiles sur Figma.</p>
+            </div>
+
+            <div class="comp-item">
+              <span class="comp-badge design-badge">3D</span>
+              <h4>Modèles 3D</h4>
+              <p>Je crée des modèles 3D, principalement des personnages, avec Blender et Mixamo.</p>
+            </div>
+
+            <div class="comp-item">
+              <span class="comp-badge design-badge">COMMUNICATION</span>
+              <h4>Communication visuelle</h4>
+              <p>Je réalise des dossiers de communication, visuels et flyers sur Canva.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OVERLAY GESTION DE PROJET (page de gauche) -->
+      <div class="page-3-back-overlay" id="page-3-back-overlay">
+        <div class="page-3-back-overlay-content">
+          <div class="competence-header project">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+            <h2>GESTION DE PROJET</h2>
+          </div>
+
+          <div class="competence-list">
+            <div class="comp-item">
+              <span class="comp-badge project-badge">MÉTHODOLOGIE</span>
+              <h4>Méthodes agiles</h4>
+              <p>Je maîtrise les méthodes agiles (Scrum, Kanban) pour organiser et gérer efficacement les projets de développement.</p>
+            </div>
+
+            <div class="comp-item">
+              <span class="comp-badge project-badge">OUTILS</span>
+              <h4>Gestion collaborative</h4>
+              <p>J'utilise des outils comme Trello, Notion et GitHub Projects pour coordonner les équipes et suivre l'avancement des projets.</p>
+            </div>
+
+            <div class="comp-item">
+              <span class="comp-badge project-badge">ANALYSE</span>
+              <h4>Cahier des charges</h4>
+              <p>Je sais analyser les besoins clients et rédiger des cahiers des charges détaillés pour cadrer les projets.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- OVERLAY AUDIOVISUEL (page de droite) -->
+      <div class="page-3-back-overlay-right" id="page-3-back-overlay-right">
+        <div class="page-3-back-overlay-right-content">
+          <div class="competence-header audiovisual">
+            <div class="icon-circle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </div>
+            <h2>AUDIOVISUEL</h2>
+          </div>
+
+          <div class="competence-list">
+            <div class="comp-item">
+              <span class="comp-badge audiovisual-badge">MONTAGE</span>
+              <h4>Montage vidéo</h4>
+              <p>Je réalise des montages vidéo sur Adobe Premiere Pro et DaVinci Resolve pour créer du contenu dynamique et engageant.</p>
+            </div>
+
+            <div class="comp-item">
+              <span class="comp-badge audiovisual-badge">MOTION DESIGN</span>
+              <h4>Animations</h4>
+              <p>Je crée des animations et du motion design sur After Effects pour donner vie aux projets visuels.</p>
+            </div>
+
+            <div class="comp-item">
+              <span class="comp-badge audiovisual-badge">SON</span>
+              <h4>Prise de son et mixage</h4>
+              <p>Je m'occupe de la prise de son et du mixage audio sur Audacity pour des productions de qualité professionnelle.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PAGE DE GARDE (Couverture) -->
       <div class="book-page page-1" data-page="1">
         <div class="page-front">
           <div class="cover-content">
@@ -57,6 +194,7 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
           </div>
         </div>
         <div class="page-back">
+          <!-- CARD CV (dos de la couverture) -->
           <div class="presentation-card-container hidden">
             <div class="presentation-card">
               <div class="card-frame">
@@ -136,7 +274,7 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
         </div>
       </div>
 
-      <!-- Page 2 -->
+      <!-- PAGE PRÉSENTATION "Salut je suis Nico" -->
       <div class="book-page page-2" data-page="2">
         <div class="page-front">
           <div class="page-right-content">
@@ -186,49 +324,21 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
           </div>
         </div>
         <div class="page-back">
-          <!-- Dos de la page 2 -->
+          <div class="page-2-back-content">
+            
+          </div>
         </div>
       </div>
 
-      <!-- Page 3 -->
+      <!-- PAGE 3 (Compétences Gestion de projet et Audiovisuel) -->
       <div class="book-page page-3" data-page="3">
         <div class="page-front">
-          <div
-            class="technologies-page-content tech-hidden w-full h-full bg-white p-12 flex flex-col gap-8"
-          >
-            <h2
-              class="text-3xl font-black text-black m-0 tracking-wide font-raleway"
-            >
-              MES TECHNOLOGIES
-            </h2>
-
-            <div class="flex flex-col gap-6">
-              <TechnologiesPresentation
-                categorie="Frontend"
-                technologies={technologiesFrontend}
-              />
-
-              <TechnologiesPresentation
-                categorie="Backend"
-                technologies={technologiesBackend}
-              />
-            </div>
+          <div class="page-content-empty">
+            <!-- Contenu vide - géré par les overlays -->
           </div>
         </div>
         <div class="page-back">
           <!-- Dos de la page 3 -->
-        </div>
-      </div>
-
-      <!-- Page 4 -->
-      <div class="book-page page-4" data-page="4">
-        <div class="page-front">
-          <div class="page-content-empty">
-            <!-- Contenu vide -->
-          </div>
-        </div>
-        <div class="page-back">
-          <!-- Dos de la page 4 -->
         </div>
       </div>
     </div>
@@ -467,15 +577,12 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
   }
 
   .page-1 {
-    z-index: 4;
-  }
-  .page-2 {
     z-index: 3;
   }
-  .page-3 {
+  .page-2 {
     z-index: 2;
   }
-  .page-4 {
+  .page-3 {
     z-index: 1;
   }
 
@@ -493,8 +600,7 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
 
   /* Face avant de la page - Pages intérieures blanches */
   .page-2 .page-front,
-  .page-3 .page-front,
-  .page-4 .page-front {
+  .page-3 .page-front {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -522,6 +628,173 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
     border: 4px solid var(--color-light-blue);
     transform: rotateY(180deg);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  /* ========== OVERLAYS DOS DE PAGES - SOLUTION ALTERNATIVE ========== */
+  
+  /* Overlay Développement (page de gauche) */
+  .page-2-back-overlay {
+    position: absolute;
+    width: 600px;
+    height: 800px;
+    top: 0;
+    left: -600px;
+    background: white;
+    border-radius: 8px;
+    border: 4px solid var(--color-light-blue);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 500;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+
+  /* Quand le livre est ouvert, suivre le translateX */
+  .book-card.opened .page-2-back-overlay {
+    left: -600px; /* À gauche du livre */
+  }
+
+  .page-2-back-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .page-2-back-overlay-content {
+    width: 100%;
+    height: 100%;
+    padding: 60px 50px;
+    font-family: "Raleway", sans-serif;
+  }
+
+  .page-2-back-overlay-content p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #333;
+  }
+
+  /* Ancien contenu page 2 - on le garde vide pour pas casser l'animation */
+  .page-2-back-content {
+    width: 100%;
+    height: 100%;
+    padding: 60px 50px;
+    font-family: "Raleway", sans-serif;
+  }
+
+  /* Overlay Design (page de droite) */
+  .page-2-back-overlay-right {
+    position: absolute;
+    width: 600px;
+    height: 800px;
+    top: 0;
+    left: 0;
+    background: white;
+    border-radius: 8px;
+    border: 4px solid var(--color-light-blue);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 500;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .book-card.opened .page-2-back-overlay-right {
+    left: 0;
+  }
+
+  .page-2-back-overlay-right.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .page-2-back-overlay-right-content {
+    width: 100%;
+    height: 100%;
+    padding: 60px 50px;
+    font-family: "Raleway", sans-serif;
+  }
+
+  .page-2-back-overlay-right-content p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #333;
+  }
+
+  /* Overlay Gestion de projet (page de gauche) */
+  .page-3-back-overlay {
+    position: absolute;
+    width: 600px;
+    height: 800px;
+    top: 0;
+    left: -600px;
+    background: white;
+    border-radius: 8px;
+    border: 4px solid var(--color-light-blue);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 500;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+
+  .book-card.opened .page-3-back-overlay {
+    left: -600px;
+  }
+
+  .page-3-back-overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .page-3-back-overlay-content {
+    width: 100%;
+    height: 100%;
+    padding: 60px 50px;
+    font-family: "Raleway", sans-serif;
+  }
+
+  .page-3-back-overlay-content p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #333;
+  }
+
+  /* Overlay Audiovisuel (page de droite) */
+  .page-3-back-overlay-right {
+    position: absolute;
+    width: 600px;
+    height: 800px;
+    top: 0;
+    left: 0;
+    background: white;
+    border-radius: 8px;
+    border: 4px solid var(--color-light-blue);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 500;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .book-card.opened .page-3-back-overlay-right {
+    left: 0;
+  }
+
+  .page-3-back-overlay-right.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .page-3-back-overlay-right-content {
+    width: 100%;
+    height: 100%;
+    padding: 60px 50px;
+    font-family: "Raleway", sans-serif;
+  }
+
+  .page-3-back-overlay-right-content p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #333;
   }
 
   /* Animation de tournement */
@@ -1419,6 +1692,47 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
     box-shadow: 0 3px 8px rgba(142, 36, 170, 0.4);
   }
 
+  .comp-badge.frontend {
+    background: var(--color-light-blue);
+    box-shadow: 0 3px 8px rgba(52, 190, 237, 0.4);
+  }
+
+  .comp-badge.backend {
+    background: #43a047;
+    box-shadow: 0 3px 8px rgba(67, 160, 71, 0.4);
+  }
+
+  .comp-badge.cms {
+    background: #1e88e5;
+    box-shadow: 0 3px 8px rgba(30, 136, 229, 0.4);
+  }
+
+  .comp-badge.project-badge {
+    background: #fb8c00;
+    box-shadow: 0 3px 8px rgba(251, 140, 0, 0.4);
+  }
+
+  .comp-badge.audiovisual-badge {
+    background: #e53935;
+    box-shadow: 0 3px 8px rgba(229, 57, 53, 0.4);
+  }
+
+  .competence-header.project {
+    background: linear-gradient(135deg, #fb8c00 0%, #f57c00 100%);
+  }
+
+  .competence-header.project .icon-circle svg {
+    color: #fb8c00;
+  }
+
+  .competence-header.audiovisual {
+    background: linear-gradient(135deg, #e53935 0%, #c62828 100%);
+  }
+
+  .competence-header.audiovisual .icon-circle svg {
+    color: #e53935;
+  }
+
   .comp-item h4 {
     font-size: 1.2rem;
     font-weight: 800;
@@ -1614,14 +1928,16 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
     const presentationContainer = document.querySelector(
       ".presentation-card-container"
     );
-    const technologiesContainer = document.querySelector(
-      ".technologies-page-content"
-    );
 
     if (!overlay || !bookCard) {
       setTimeout(initPresentationOverlay, 100);
       return;
     }
+
+    const page2BackOverlay = document.getElementById("page-2-back-overlay");
+    const page2BackOverlayRight = document.getElementById("page-2-back-overlay-right");
+    const page3BackOverlay = document.getElementById("page-3-back-overlay");
+    const page3BackOverlayRight = document.getElementById("page-3-back-overlay-right");
 
     let currentPage = 0;
     const totalPages = pages.length;
@@ -1652,32 +1968,51 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
           pageToFlip.classList.add("flipped");
           currentPage++;
 
-          // Gérer la visibilité des technologies après la fin de l'animation
-          setTimeout(() => {
-            console.log(
-              `Gestion visibilité - currentPage: ${currentPage}, technologiesContainer:`,
-              technologiesContainer
-            );
-            if (technologiesContainer) {
-              if (currentPage === 3) {
-                console.log(
-                  "Retrait de tech-hidden pour afficher les technologies"
-                );
-                technologiesContainer.classList.remove("tech-hidden");
-                console.log(
-                  "Classes après retrait:",
-                  technologiesContainer.className
-                );
-              } else {
-                console.log(
-                  "Ajout de tech-hidden pour cacher les technologies"
-                );
-                technologiesContainer.classList.add("tech-hidden");
-              }
-            } else {
-              console.log("technologiesContainer est null!");
-            }
-          }, 750);
+          // Afficher l'overlay page 2 UNIQUEMENT après le flip de la page 2 (pas de la page 1)
+          if (currentPage === 2 && page2BackOverlay) {
+            // La page 2 vient juste de flipper
+            setTimeout(() => {
+              page2BackOverlay.classList.add("visible");
+              console.log("Overlay page 2 back (gauche) affiché");
+            }, 600);
+          } else if (currentPage !== 2 && page2BackOverlay) {
+            // On a quitté la page 2
+            page2BackOverlay.classList.remove("visible");
+            console.log("Overlay page 2 back (gauche) caché");
+          }
+
+          // Afficher l'overlay Design en même temps
+          if (currentPage === 2 && page2BackOverlayRight) {
+            setTimeout(() => {
+              page2BackOverlayRight.classList.add("visible");
+              console.log("Overlay Design (droite) affiché");
+            }, 200);
+          } else if (currentPage !== 2 && page2BackOverlayRight) {
+            page2BackOverlayRight.classList.remove("visible");
+            console.log("Overlay Design (droite) caché");
+          }
+
+          // Afficher l'overlay Gestion de projet
+          if (currentPage === 3 && page3BackOverlay) {
+            setTimeout(() => {
+              page3BackOverlay.classList.add("visible");
+              console.log("Overlay Gestion de projet (gauche) affiché");
+            }, 600);
+          } else if (currentPage !== 3 && page3BackOverlay) {
+            page3BackOverlay.classList.remove("visible");
+            console.log("Overlay Gestion de projet (gauche) caché");
+          }
+
+          // Afficher l'overlay Audiovisuel en même temps
+          if (currentPage === 3 && page3BackOverlayRight) {
+            setTimeout(() => {
+              page3BackOverlayRight.classList.add("visible");
+              console.log("Overlay Audiovisuel (droite) affiché");
+            }, 200);
+          } else if (currentPage !== 3 && page3BackOverlayRight) {
+            page3BackOverlayRight.classList.remove("visible");
+            console.log("Overlay Audiovisuel (droite) caché");
+          }
 
           console.log(`Page actuelle: ${currentPage}/${totalPages}`);
         }
@@ -1690,8 +2025,17 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
         if (presentationContainer) {
           presentationContainer.classList.add("hidden");
         }
-        if (technologiesContainer) {
-          technologiesContainer.classList.add("tech-hidden");
+        if (page2BackOverlay) {
+          page2BackOverlay.classList.remove("visible");
+        }
+        if (page2BackOverlayRight) {
+          page2BackOverlayRight.classList.remove("visible");
+        }
+        if (page3BackOverlay) {
+          page3BackOverlay.classList.remove("visible");
+        }
+        if (page3BackOverlayRight) {
+          page3BackOverlayRight.classList.remove("visible");
         }
         console.log("Retour à la couverture");
       }
@@ -1715,8 +2059,17 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
             if (presentationContainer) {
               presentationContainer.classList.add("hidden");
             }
-            if (technologiesContainer) {
-              technologiesContainer.classList.add("tech-hidden");
+            if (page2BackOverlay) {
+              page2BackOverlay.classList.remove("visible");
+            }
+            if (page2BackOverlayRight) {
+              page2BackOverlayRight.classList.remove("visible");
+            }
+            if (page3BackOverlay) {
+              page3BackOverlay.classList.remove("visible");
+            }
+            if (page3BackOverlayRight) {
+              page3BackOverlayRight.classList.remove("visible");
             }
           }
         }
