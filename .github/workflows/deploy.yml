@@ -52,4 +52,4 @@ jobs:
             npm ci
             npm install astro
             npm install send server-destroy
-            PORT=8087 pm2 restart portfolio || PORT=8087 pm2 start server.mjs --name portfolio
+            PORT=8087 pm2 restart portfolio || PORT=8087 pm2 start entry.mjs --name portfolio
