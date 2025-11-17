@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { ViewTransitions } from "astro:transitions";
 import ChannelProjet from "../components/ui/ChannelProjet.astro";
 import Fleche from "../components/ui/Fleche.astro";
 import FooterAccueil from "../components/layout/FooterAccueil.astro";
@@ -33,6 +34,7 @@ const channels = Array(totalChannels).fill(null).map((_, index) => {
   title="Nicolas THAI - Portfolio Développeur Web"
   description="Accueil du portfolio de Nicolas THAI"
 >
+  <ViewTransitions />
   <!-- Version Desktop -->
   <div class="hidden md:block">
     <!-- Zone principale avec grille de channels -->
@@ -62,7 +64,7 @@ const channels = Array(totalChannels).fill(null).map((_, index) => {
           class="absolute right-24 top-90 z-30 cursor-pointer"
           id="arrow-right"
         >
-          <Fleche direction="droite" size="desktop" />
+          <Fleche direction="droite" size="desktop" disableTransition={true} />
         </div>
 
         <!-- Flèche de navigation à gauche -->
@@ -70,7 +72,7 @@ const channels = Array(totalChannels).fill(null).map((_, index) => {
           class="absolute left-24 top-90 transform -translate-y-1/2 z-30 cursor-pointer opacity-0"
           id="arrow-left"
         >
-          <Fleche direction="gauche" size="desktop" />
+          <Fleche direction="gauche" size="desktop" disableTransition={true} />
         </div>
       </div>
     </main>
@@ -98,12 +100,22 @@ const channels = Array(totalChannels).fill(null).map((_, index) => {
   <PresentationOverlay client:load />
 </Layout>
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
+<script is:inline>
+  function initCarousel() {
+    // Vérifier qu'on est sur la page d'accueil
+    if (window.location.pathname !== '/') return;
+    
     let currentPage = 1;
-    const carouselGrid = document.getElementById("carousel-grid");
-    const arrowRight = document.getElementById("arrow-right");
-    const arrowLeft = document.getElementById("arrow-left");
+    let carouselGrid = document.getElementById("carousel-grid");
+    let arrowRight = document.getElementById("arrow-right");
+    let arrowLeft = document.getElementById("arrow-left");
+
+    if (!carouselGrid || !arrowRight || !arrowLeft) {
+      console.log("Elements du carousel non trouvés");
+      return;
+    }
+
+    console.log("Initialisation du carousel");
 
     let cvOverlayVisible = false;
     let contactOverlayVisible = false;
@@ -224,7 +236,7 @@ const channels = Array(totalChannels).fill(null).map((_, index) => {
     }
 
     document.addEventListener("click", (e) => {
-      const target = e.target as HTMLElement;
+      const target = e.target;
       if (target.closest(".card-cv")) {
         e.preventDefault();
         openCvOverlay();
@@ -258,7 +270,7 @@ const channels = Array(totalChannels).fill(null).map((_, index) => {
     });
 
     // Fonction pour changer de page
-    function switchPage(pageNumber: number) {
+    function switchPage(pageNumber) {
       console.log("Changement vers la page:", pageNumber);
       if (pageNumber === 1) {
         if (carouselGrid) carouselGrid.style.transform = "translateX(0)";
@@ -276,21 +288,28 @@ const channels = Array(totalChannels).fill(null).map((_, index) => {
     }
 
     // Initialisation - Page 1 active par défaut
-    if (arrowLeft) {
-      arrowLeft.style.opacity = "0";
-    }
-    if (arrowRight) {
-      arrowRight.addEventListener("click", () => {
-        switchPage(2);
-      });
-    }
+    arrowLeft.style.opacity = "0";
+    
+    // Nettoyer les anciens listeners en clonant les éléments
+    const newArrowRight = arrowRight.cloneNode(true);
+    arrowRight.parentNode.replaceChild(newArrowRight, arrowRight);
+    arrowRight = newArrowRight;
+    
+    const newArrowLeft = arrowLeft.cloneNode(true);
+    arrowLeft.parentNode.replaceChild(newArrowLeft, arrowLeft);
+    arrowLeft = newArrowLeft;
+    
+    // Ajouter les nouveaux listeners
+    arrowRight.addEventListener("click", () => {
+      console.log("Click sur flèche droite");
+      switchPage(2);
+    });
 
     // Navigation vers la page 1 (flèche gauche)
-    if (arrowLeft) {
-      arrowLeft.addEventListener("click", () => {
-        switchPage(1);
-      });
-    }
+    arrowLeft.addEventListener("click", () => {
+      console.log("Click sur flèche gauche");
+      switchPage(1);
+    });
 
     // Navigation au clavier
     document.addEventListener("keydown", (e) => {
@@ -300,7 +319,13 @@ const channels = Array(totalChannels).fill(null).map((_, index) => {
         switchPage(1);
       }
     });
-  });
+  }
+
+  // Init au chargement
+  document.addEventListener("DOMContentLoaded", initCarousel);
+  
+  // Réinit après transition Astro
+  document.addEventListener("astro:after-swap", initCarousel);
 </script>
 
 <style>

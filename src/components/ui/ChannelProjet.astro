@@ -45,12 +45,12 @@ const currentSize = sizes[size] || sizes.desktop;
         <div class="absolute inset-0 wii-channel-border pointer-events-none"></div>
         
         {/* Zone de contenu (image) */}
-        <div class="absolute inset-[6px] z-10 flex items-center justify-center overflow-hidden rounded-[24px_/_46px]">
+        <div class="absolute inset-[2px] z-10 flex items-center justify-center overflow-hidden rounded-[26px_/_48px] bg-[#CBCBCB]">
           {!isEmpty && projectCover && (
             <img
               src={projectCover}
               alt={projectTitle || "Project cover"}
-              class="w-full h-full object-cover scale-100 transition-transform duration-300 ease-out group-hover:scale-105"
+              class="w-full h-full object-cover scale-[1.02] transition-transform duration-300 ease-out group-hover:scale-105"
             />
           )}
         </div>
@@ -81,12 +81,12 @@ const currentSize = sizes[size] || sizes.desktop;
         <div class="absolute inset-0 wii-channel-border pointer-events-none"></div>
         
         {/* Zone de contenu (image) */}
-        <div class="absolute inset-[2px] z-10 flex items-center justify-center overflow-hidden rounded-[26px_/_48px]">
+        <div class="absolute inset-[2px] z-10 flex items-center justify-center overflow-hidden rounded-[26px_/_48px] bg-[#CBCBCB]">
           {!isEmpty && projectCover && (
             <img
               src={projectCover}
               alt={projectTitle || "Project cover"}
-              class="w-full h-full object-cover scale-100 transition-transform duration-300 ease-out group-hover:scale-105"
+              class="w-full h-full object-cover scale-[1.02] transition-transform duration-300 ease-out group-hover:scale-105"
             />
           )}
         </div>
@@ -107,6 +107,88 @@ const currentSize = sizes[size] || sizes.desktop;
 }
 
 <style>
+  /* Animations de lévitation aléatoires pour les covers de projets */
+  @keyframes float-up {
+    0%, 100% { transform: scale(1) translateY(0); }
+    50% { transform: scale(1) translateY(-3px); }
+  }
+
+  @keyframes float-down {
+    0%, 100% { transform: scale(1) translateY(0); }
+    50% { transform: scale(1) translateY(3px); }
+  }
+
+  @keyframes float-left {
+    0%, 100% { transform: scale(1) translateX(0); }
+    50% { transform: scale(1) translateX(-3px); }
+  }
+
+  @keyframes float-right {
+    0%, 100% { transform: scale(1) translateX(0); }
+    50% { transform: scale(1) translateX(3px); }
+  }
+
+  @keyframes float-diagonal-tl {
+    0%, 100% { transform: scale(1) translate(0, 0); }
+    50% { transform: scale(1) translate(-2px, -2px); }
+  }
+
+  @keyframes float-diagonal-tr {
+    0%, 100% { transform: scale(1) translate(0, 0); }
+    50% { transform: scale(1) translate(2px, -2px); }
+  }
+
+  @keyframes float-diagonal-bl {
+    0%, 100% { transform: scale(1) translate(0, 0); }
+    50% { transform: scale(1) translate(-2px, 2px); }
+  }
+
+  @keyframes float-diagonal-br {
+    0%, 100% { transform: scale(1) translate(0, 0); }
+    50% { transform: scale(1) translate(2px, 2px); }
+  }
+
+  /* Appliquer l'animation uniquement aux images de projets (non-empty) */
+  .group:not(:has(.wii-channel-bg)) img {
+    animation-duration: 5s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+
+  /* Directions aléatoires pour chaque channel */
+  .group:nth-child(1) img { animation-name: float-up; animation-delay: 0s; }
+  .group:nth-child(2) img { animation-name: float-right; animation-delay: 0.5s; }
+  .group:nth-child(3) img { animation-name: float-diagonal-tl; animation-delay: 1s; }
+  .group:nth-child(4) img { animation-name: float-left; animation-delay: 1.5s; }
+  .group:nth-child(5) img { animation-name: float-down; animation-delay: 2s; }
+  .group:nth-child(6) img { animation-name: float-diagonal-br; animation-delay: 2.5s; }
+  .group:nth-child(7) img { animation-name: float-up; animation-delay: 3s; }
+  .group:nth-child(8) img { animation-name: float-diagonal-tr; animation-delay: 3.5s; }
+  .group:nth-child(9) img { animation-name: float-right; animation-delay: 4s; }
+  .group:nth-child(10) img { animation-name: float-diagonal-bl; animation-delay: 0.3s; }
+  .group:nth-child(11) img { animation-name: float-left; animation-delay: 0.8s; }
+  .group:nth-child(12) img { animation-name: float-up; animation-delay: 1.3s; }
+  .group:nth-child(13) img { animation-name: float-down; animation-delay: 1.8s; }
+  .group:nth-child(14) img { animation-name: float-diagonal-tr; animation-delay: 2.3s; }
+  .group:nth-child(15) img { animation-name: float-right; animation-delay: 2.8s; }
+  .group:nth-child(16) img { animation-name: float-diagonal-bl; animation-delay: 3.3s; }
+  .group:nth-child(17) img { animation-name: float-left; animation-delay: 3.8s; }
+  .group:nth-child(18) img { animation-name: float-up; animation-delay: 4.3s; }
+  .group:nth-child(19) img { animation-name: float-diagonal-br; animation-delay: 0.6s; }
+  .group:nth-child(20) img { animation-name: float-down; animation-delay: 1.1s; }
+  .group:nth-child(21) img { animation-name: float-right; animation-delay: 1.6s; }
+  .group:nth-child(22) img { animation-name: float-diagonal-tl; animation-delay: 2.1s; }
+  .group:nth-child(23) img { animation-name: float-left; animation-delay: 2.6s; }
+  .group:nth-child(24) img { animation-name: float-up; animation-delay: 3.1s; }
+  .group:nth-child(25) img { animation-name: float-diagonal-tr; animation-delay: 3.6s; }
+  .group:nth-child(26) img { animation-name: float-down; animation-delay: 4.1s; }
+  .group:nth-child(27) img { animation-name: float-diagonal-bl; animation-delay: 4.6s; }
+
+  /* Pause de l'animation idle au hover */
+  .group:hover img {
+    animation-play-state: paused;
+  }
+
   /* Container principal style Wii */
   .wii-channel-container {
     position: relative;

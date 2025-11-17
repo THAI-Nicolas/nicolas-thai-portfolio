@@ -1,5 +1,6 @@
 ---
 import Layout from "./Layout.astro";
+import { ViewTransitions } from "astro:transitions";
 
 export interface Props {
   title?: string;
@@ -11,6 +12,7 @@ const { title = "Nicolas THAI - Projet", description = "Découvrez ce projet" } 
 ---
 
 <Layout title={title} description={description}>
+  <ViewTransitions />
   <main class="w-full h-screen overflow-hidden">
     <slot />
   </main>

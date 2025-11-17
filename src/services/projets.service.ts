@@ -59,7 +59,10 @@ export class ProjetsService {
     try {
       return pb.files.getURL(record, filename);
     } catch (error) {
-      console.error(`Erreur lors de la récupération du fichier ${filename}:`, error);
+      console.error(
+        `Erreur lors de la récupération du fichier ${filename}:`,
+        error
+      );
       return "";
     }
   }

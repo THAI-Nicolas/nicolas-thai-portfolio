@@ -1,5 +1,6 @@
 ---
 import Layout from "../../../layouts/Layout.astro";
+import { ViewTransitions } from "astro:transitions";
 import Fleche from "../../../components/ui/Fleche.astro";
 import MainBouton from "../../../components/boutons/MainBouton.astro";
 import TechnologiesUtilisees from "../../../components/ui/TechnologieUtilisees.astro";
@@ -36,6 +37,7 @@ const colorGradient = {
 ---
 
 <Layout title={`${projet.titre} - Nicolas THAI`}>
+  <ViewTransitions />
   <script is:inline>
     document.documentElement.setAttribute("data-theme", "wii");
   </script>

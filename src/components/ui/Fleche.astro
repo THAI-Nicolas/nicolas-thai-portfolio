@@ -10,6 +10,7 @@ export interface Props {
   neonColor?: string;
   strokeColor?: string;
   fillColor?: string;
+  disableTransition?: boolean;
 }
 
 const {
@@ -21,6 +22,7 @@ const {
   neonColor,
   strokeColor,
   fillColor,
+  disableTransition = false,
 } = Astro.props;
 
 // Tailles dynamiques
@@ -48,8 +50,9 @@ const styleVars = [
 <div class={`${currentSize.container} relative`}>
   <a
     href={href}
-    class="fleche cursor-pointer transition-all duration-200 hover:scale-110 block origin-center absolute inset-0"
+    class="fleche cursor-pointer transition-all duration-200 hover:scale-110 active:scale-95 block origin-center absolute inset-0"
     data-onclick={onClick ? "true" : undefined}
+    data-astro-reload={disableTransition ? true : undefined}
     style={styleVars || undefined}
   >
     <svg

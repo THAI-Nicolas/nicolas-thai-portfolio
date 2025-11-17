@@ -16,6 +16,20 @@ if (!projet) {
   return Astro.redirect("/");
 }
 
+// Récupérer tous les projets pour la navigation
+const tousProjets = await ProjetsService.getAll();
+const currentIndex = tousProjets.findIndex(p => p.slug === id);
+
+// Projet précédent (boucle vers le dernier si on est au premier)
+const projetPrecedent = currentIndex > 0 
+  ? tousProjets[currentIndex - 1] 
+  : tousProjets[tousProjets.length - 1];
+
+// Projet suivant (boucle vers le premier si on est au dernier)
+const projetSuivant = currentIndex < tousProjets.length - 1 
+  ? tousProjets[currentIndex + 1] 
+  : tousProjets[0];
+
 const coverUrl = ProjetsService.getCoverUrl(projet);
 
 const colorGradient = {
@@ -33,21 +47,22 @@ const colorGradient = {
       class="relative flex-1 flex items-center justify-between w-full overflow-hidden"
     >
       <div class="hidden lg:flex items-center justify-center px-20 z-10">
-        <Fleche size="desktop" direction="gauche" href="/" neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
+        <Fleche size="desktop" direction="gauche" href={`/projets/${projetPrecedent.slug}`} neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
       </div>
 
       <div
         class="absolute inset-0 flex items-center justify-center overflow-hidden"
+        style="view-transition-name: project-cover;"
       >
         <img
           src={coverUrl}
           alt={projet.titre}
-          class="w-full object-contain scale-105"
+          class="w-full object-contain scale-105 float-idle-cover"
         />
       </div>
 
       <div class="hidden lg:flex items-center justify-center px-20 z-10">
-        <Fleche size="desktop" direction="droite" href="/" neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
+        <Fleche size="desktop" direction="droite" href={`/projets/${projetSuivant.slug}`} neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
       </div>
     </div>
 
@@ -59,7 +74,7 @@ const colorGradient = {
         class="flex items-center justify-center gap-8 lg:gap-12 max-w-7xl mx-auto"
       >
         <div class="lg:hidden">
-          <Fleche size="mobile" direction="gauche" href="/" neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
+          <Fleche size="mobile" direction="gauche" href={`/projets/${projetPrecedent.slug}`} neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
         </div>
 
         <LargeBouton href="/" variant="secondary" text="Retour" borderColor={colorGradient.to} backgroundColor="transparent" textColor="var(--color-text-gray)" hoverTextColor="var(--color-text-gray)" />
@@ -74,7 +89,7 @@ const colorGradient = {
         />
 
         <div class="lg:hidden">
-          <Fleche size="mobile" direction="droite" href="/" neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
+          <Fleche size="mobile" direction="droite" href={`/projets/${projetSuivant.slug}`} neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
         </div>
       </div>
     </div>
@@ -91,9 +106,66 @@ const colorGradient = {
     }
   }
 
+  @keyframes float-cover-up {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(0, -8px); }
+  }
+
+  @keyframes float-cover-down {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(0, 8px); }
+  }
+
+  @keyframes float-cover-left {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-8px, 0); }
+  }
+
+  @keyframes float-cover-right {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(8px, 0); }
+  }
+
+  @keyframes float-cover-diagonal-tl {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-6px, -6px); }
+  }
+
+  @keyframes float-cover-diagonal-tr {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(6px, -6px); }
+  }
+
+  @keyframes float-cover-diagonal-bl {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-6px, 6px); }
+  }
+
+  @keyframes float-cover-diagonal-br {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(6px, 6px); }
+  }
+
   .footer-border-neon {
     animation: border-neon-pulse 2s ease-in-out infinite;
   }
+
+  .float-idle-cover {
+    /* Animation aléatoire sélectionnée au chargement */
+    animation-duration: 3s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+  }
+
+  /* Sélection aléatoire de la direction via nth-of-type (basé sur l'ordre du projet) */
+  img.float-idle-cover:nth-of-type(8n+1) { animation-name: float-cover-up; }
+  img.float-idle-cover:nth-of-type(8n+2) { animation-name: float-cover-right; }
+  img.float-idle-cover:nth-of-type(8n+3) { animation-name: float-cover-diagonal-tl; }
+  img.float-idle-cover:nth-of-type(8n+4) { animation-name: float-cover-left; }
+  img.float-idle-cover:nth-of-type(8n+5) { animation-name: float-cover-down; }
+  img.float-idle-cover:nth-of-type(8n+6) { animation-name: float-cover-diagonal-br; }
+  img.float-idle-cover:nth-of-type(8n+7) { animation-name: float-cover-diagonal-tr; }
+  img.float-idle-cover:nth-of-type(8n) { animation-name: float-cover-diagonal-bl; }
 
   .cover-footer {
     background: linear-gradient(

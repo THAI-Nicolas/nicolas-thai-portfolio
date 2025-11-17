@@ -9,6 +9,7 @@ export interface Props {
   hoverTextColor?: string;
   hoverBackgroundColor?: string;
   hoverBorderColor?: string;
+  disableTransition?: boolean;
 }
 
 const { 
@@ -20,7 +21,8 @@ const {
   textColor,
   hoverTextColor,
   hoverBackgroundColor,
-  hoverBorderColor
+  hoverBorderColor,
+  disableTransition = false
 } = Astro.props;
 
 const variantClasses = {
@@ -38,6 +40,7 @@ const textClasses = {
 
 <a
   href={href}
+  data-astro-reload={disableTransition ? true : undefined}
   class={`group relative px-14 lg:px-32 py-5 lg:py-10 rounded-full shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl active:scale-95 overflow-hidden border-4 ${variantClasses[variant]}`}
   style={`
     ${borderColor ? `border-color: ${borderColor}; --border-color: ${borderColor};` : variant === 'primary' ? 'border-color: var(--color-light-blue); --border-color: var(--color-light-blue);' : 'border-color: white; --border-color: white;'}
