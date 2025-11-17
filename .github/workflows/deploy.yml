@@ -51,8 +51,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22009
           script: |
-            cd /var/www/dossier_portfolio/server
-            npm ci
-            npm install astro
-            npm install send server-destroy
-            PORT=8087 pm2 restart portfolio || PORT=8087 pm2 start entry.mjs --name portfolio
+            cd /var/www/dossier_portfolio
+            npm ci --omit=dev
+            PORT=8087 HOST=0.0.0.0 pm2 restart portfolio || PORT=8087 HOST=0.0.0.0 pm2 start server/entry.mjs --name portfolio
