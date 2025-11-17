@@ -22,9 +22,12 @@ jobs:
         run: npm ci
 
       - name: Build project
+        run: npm run build
+
+      - name: Prepare deployment files
         run: |
-          npm run build
-          cp package.json dist/server/
+          cp package.json dist/
+          cp package-lock.json dist/
 
       - name: Deploy to VPS via SCP
         uses: appleboy/scp-action@v0.1.3
