@@ -13,6 +13,10 @@ export interface Props {
 
 const { type, href = "#", size = "desktop", onClick, id } = Astro.props;
 
+// Lien de téléchargement du CV si type = telechargement
+const downloadHref = type === "telechargement" ? "/cv_nicolas_thai.pdf" : href;
+const isDownload = type === "telechargement";
+
 // Tailles dynamiques
 const sizes = {
   mobile: {
@@ -37,52 +41,70 @@ const icons = {
   zoom: IconZoom,
   dezoom: null, // Géré séparément car c'est un .webp
 };
+
+const Element = isDownload ? 'a' : 'button';
 ---
 
-<button
-  class={`relative cursor-pointer transition-all duration-200 ease-in-out border-none bg-none p-0 ${currentSize.button}`}
-  data-type={type}
-  data-onclick={onClick ? "true" : undefined}
-  id={id}
->
-  <div
-    class="w-full h-full rounded-full relative overflow-hidden flex items-center justify-center wii-button__circle"
+{isDownload ? (
+  <a
+    href={downloadHref}
+    download="CV_Nicolas_THAI.pdf"
+    class={`relative cursor-pointer transition-all duration-200 ease-in-out border-none bg-none p-0 ${currentSize.button} block`}
+    data-type={type}
+    id={id}
   >
-    {
-      type === "parametres" && (
-        <IconParametres
-          class={`transition-colors duration-200 wii-button__icon ${currentSize.icon}`}
-        />
-      )
-    }
-    {
-      type === "telechargement" && (
-        <IconTelechargement
-          class={`transition-colors duration-200 wii-button__icon ${currentSize.icon}`}
-        />
-      )
-    }
-    {
-      type === "zoom" && (
-        <IconZoom
-          class={`transition-colors duration-200 wii-button__icon ${currentSize.icon}`}
-        />
-      )
-    }
-    {
-      type === "dezoom" && (
-        <img
-          src="/src/assets/icones/dezoom.webp"
-          class={`transition-colors duration-200 wii-button__icon ${currentSize.icon}`}
-          alt="Dézoom"
-        />
-      )
-    }
-  </div>
-</button>
+    <div
+      class="w-full h-full rounded-full relative overflow-hidden flex items-center justify-center wii-button__circle"
+    >
+      {
+        type === "telechargement" && (
+          <IconTelechargement
+            class={`transition-colors duration-200 wii-button__icon ${currentSize.icon}`}
+          />
+        )
+      }
+    </div>
+  </a>
+) : (
+  <button
+    class={`relative cursor-pointer transition-all duration-200 ease-in-out border-none bg-none p-0 ${currentSize.button}`}
+    data-type={type}
+    data-onclick={onClick ? "true" : undefined}
+    id={id}
+  >
+    <div
+      class="w-full h-full rounded-full relative overflow-hidden flex items-center justify-center wii-button__circle"
+    >
+      {
+        type === "parametres" && (
+          <IconParametres
+            class={`transition-colors duration-200 wii-button__icon ${currentSize.icon}`}
+          />
+        )
+      }
+      {
+        type === "zoom" && (
+          <IconZoom
+            class={`transition-colors duration-200 wii-button__icon ${currentSize.icon}`}
+          />
+        )
+      }
+      {
+        type === "dezoom" && (
+          <img
+            src="/src/assets/icones/dezoom.webp"
+            class={`transition-colors duration-200 wii-button__icon ${currentSize.icon}`}
+            alt="Dézoom"
+          />
+        )
+      }
+    </div>
+  </button>
+)}
 
 <style>
   /* Focus ring personnalisé */
+  a:focus,
   button:focus {
     outline: none;
     box-shadow: none;
@@ -115,6 +137,7 @@ const icons = {
   }
 
   /* État hover avec effet néon */
+  a:hover .wii-button__circle,
   button:hover .wii-button__circle {
     background-color: var(--color-light-blue);
     border-color: var(--color-light-blue);
@@ -144,10 +167,12 @@ const icons = {
     }
   }
 
+  a:hover .wii-button__icon,
   button:hover .wii-button__icon {
     color: white;
   }
 
+  a:hover .wii-button__icon[src],
   button:hover .wii-button__icon[src] {
     filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%)
       hue-rotate(0deg) brightness(100%) contrast(100%);

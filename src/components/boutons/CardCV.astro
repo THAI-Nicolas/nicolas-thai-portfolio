@@ -47,13 +47,3 @@ const currentSize = sizes[size] || sizes.desktop;
   }
 </style>
 
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const cardCV = document.querySelector("a[data-onclick='true']");
-    if (cardCV) {
-      cardCV.addEventListener("click", () => {
-        console.log("Card CV cliqué");
-      });
-    }
-  });
-</script>

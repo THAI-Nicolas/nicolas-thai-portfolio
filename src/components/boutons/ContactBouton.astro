@@ -10,7 +10,17 @@ export interface Props {
   onClick?: () => void;
 }
 
-const { type, href = "#", onClick } = Astro.props;
+const { type, href, onClick } = Astro.props;
+
+// Génération automatique des liens selon le type
+const defaultLinks = {
+  email: "mailto:thainicolas06@gmail.com",
+  github: "https://github.com/THAI-Nicolas",
+  linkedin: "https://www.linkedin.com/in/nicolas-thai-21539a294/",
+  instagram: "https://www.instagram.com/nicowh6/",
+};
+
+const finalHref = href || defaultLinks[type];
 
 const icons = {
   email: IconEnveloppe,
@@ -22,13 +32,16 @@ const icons = {
 const IconComponent = icons[type];
 ---
 
-<button
+<a
+  href={finalHref}
+  target={type !== "email" ? "_blank" : undefined}
+  rel={type !== "email" ? "noopener noreferrer" : undefined}
   class="relative cursor-pointer transition-transform duration-200 ease-in-out border-none bg-none p-0 w-20 h-20 md:w-24 md:h-24 lg:w-26 lg:h-26 hover:scale-105 flex items-center justify-center"
   data-type={type}
-  data-onclick={onClick ? "true" : undefined}
 >
   <div
     class="w-full h-full rounded-2xl relative overflow-hidden flex items-center justify-center wii-contact-button__container"
+    style="pointer-events: none;"
   >
     {/* Icônes */}
     {
@@ -52,11 +65,11 @@ const IconComponent = icons[type];
       )
     }
   </div>
-</button>
+</a>
 
 <style>
   /* Focus ring supprimé */
-  button:focus {
+  a:focus {
     outline: none;
     box-shadow: none;
   }
@@ -81,7 +94,7 @@ const IconComponent = icons[type];
   }
 
   /* Effet néon au hover */
-  button:hover .wii-contact-button__container {
+  a:hover .wii-contact-button__container {
     box-shadow:
       6px 4px 8px rgba(52, 190, 237, 0.1),
       0 8px 8px rgba(0, 0, 0, 0.25),
@@ -115,30 +128,3 @@ const IconComponent = icons[type];
     filter: drop-shadow(0 2px 2px rgba(29, 29, 29, 0.25));
   }
 </style>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const buttons = document.querySelectorAll('button[data-onclick="true"]');
-
-    buttons.forEach((button) => {
-      button.addEventListener("click", (e) => {
-        const type = button.getAttribute("data-type");
-
-        switch (type) {
-          case "email":
-            console.log("Email cliqué");
-            break;
-          case "github":
-            console.log("GitHub cliqué");
-            break;
-          case "linkedin":
-            console.log("LinkedIn cliqué");
-            break;
-          case "instagram":
-            console.log("Instagram cliqué");
-            break;
-        }
-      });
-    });
-  });
-</script>
