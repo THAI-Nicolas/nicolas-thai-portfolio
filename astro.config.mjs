@@ -7,6 +7,9 @@ import node from "@astrojs/node";
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
+    ssr: {
+      noExternal: ['pocketbase'],
+    },
   },
   output: "server",
   adapter: node({
