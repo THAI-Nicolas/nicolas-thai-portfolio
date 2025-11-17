@@ -8,6 +8,25 @@ import CvOverlay from "../components/layout/CvOverlay.astro";
 import ContactOverlay from "../components/layout/ContactOverlay.astro";
 import ParametresOverlay from "../components/layout/ParametresOverlay.astro";
 import PresentationOverlay from "../components/layout/PresentationOverlay.astro";
+import { ProjetsService } from "../services/projets.service";
+
+// Récupérer tous les projets visibles depuis PocketBase
+const projets = await ProjetsService.getAll();
+const totalChannels = 27; // 3 lignes de 9 channels
+
+// Créer un tableau de 27 channels
+const channels = Array(totalChannels).fill(null).map((_, index) => {
+  const projet = projets[index];
+  if (projet) {
+    return {
+      isEmpty: false,
+      projectCover: ProjetsService.getCoverUrl(projet),
+      projectTitle: projet.titre,
+      href: `/projets/${projet.slug}`
+    };
+  }
+  return { isEmpty: true };
+});
 ---
 
 <Layout
@@ -26,68 +45,15 @@ import PresentationOverlay from "../components/layout/PresentationOverlay.astro"
             id="carousel-grid"
             class="grid grid-cols-9 gap-x-[0px] gap-y-[10px] w-[3330px] transition-transform duration-800 ease-in-out ml-8"
           >
-            <!-- Ligne 1 - Channels 1-9 -->
-            <ChannelProjet
-              isEmpty={false}
-              projectCover="/src/assets/images/asafram_cover.svg"
-              projectTitle="ASAFRAM"
-              size="desktop"
-              href="/projets/asafram"
-            />
-            <ChannelProjet
-              isEmpty={false}
-              projectCover="/src/assets/images/rba_cover.svg"
-              projectTitle="Réseau Biodiversité pour les Abeilles"
-              size="desktop"
-              href="#"
-            />
-            <ChannelProjet
-              isEmpty={false}
-              projectCover="/src/assets/images/mysubs_cover.svg"
-              projectTitle="MySubs"
-              size="desktop"
-              href="#"
-            />
-            <ChannelProjet
-              isEmpty={false}
-              projectCover="/src/assets/images/mmi_soccer_cover.svg"
-              projectTitle="MMI Soccer"
-              size="desktop"
-              href="#"
-            />
-            <ChannelProjet isEmpty={true} size="desktop" />
-            <ChannelProjet 
-              isEmpty={false}
-              projectCover="/src/assets/images/test-img.jpeg"
-              projectTitle="Test Image"
-              size="desktop"
-              href="#"
-            />
-            <ChannelProjet isEmpty={true} size="desktop" />
-            <ChannelProjet isEmpty={true} size="desktop" />
-            <ChannelProjet isEmpty={true} size="desktop" />
-
-            <!-- Ligne 2 - Channels 10-18 -->
-            <ChannelProjet isEmpty={true} size="desktop" />
-            <ChannelProjet isEmpty={true} size="desktop" />
-            <ChannelProjet isEmpty={true} size="desktop" />
-            <ChannelProjet isEmpty={true} size="desktop" />
-            <ChannelProjet isEmpty={true} size="desktop" />
-            <ChannelProjet isEmpty={true} size="desktop" />
-            <ChannelProjet isEmpty={true} size="desktop" />
-            <ChannelProjet isEmpty={true} size="desktop" />
-            <ChannelProjet isEmpty={true} size="desktop" />
-
-            <!-- Ligne 3 - Channels 19-27 -->
-            <ChannelProjet isEmpty={true} size="desktop" />
-            <ChannelProjet isEmpty={true} size="desktop" />
-            <ChannelProjet isEmpty={true} size="desktop" />
-            <ChannelProjet isEmpty={true} size="desktop" />
-            <ChannelProjet isEmpty={true} size="desktop" />
-            <ChannelProjet isEmpty={true} size="desktop" />
-            <ChannelProjet isEmpty={true} size="desktop" />
-            <ChannelProjet isEmpty={true} size="desktop" />
-            <ChannelProjet isEmpty={true} size="desktop" />
+            {channels.map((channel) => (
+              <ChannelProjet
+                isEmpty={channel.isEmpty}
+                projectCover={channel.isEmpty ? undefined : channel.projectCover}
+                projectTitle={channel.isEmpty ? undefined : channel.projectTitle}
+                href={channel.isEmpty ? undefined : channel.href}
+                size="desktop"
+              />
+            ))}
           </div>
         </div>
 

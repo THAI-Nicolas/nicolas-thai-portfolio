@@ -55,10 +55,17 @@ export class ProjetsService {
     record: ProjetsResponse | ProcessusEtapesRecord | any,
     filename: string
   ): string {
-    return pb.files.getURL(record, filename);
+    if (!filename) return "";
+    try {
+      return pb.files.getURL(record, filename);
+    } catch (error) {
+      console.error(`Erreur lors de la récupération du fichier ${filename}:`, error);
+      return "";
+    }
   }
 
   static getCoverUrl(record: ProjetsResponse): string {
+    if (!record?.cover_image) return "";
     return this.getFileUrl(record, record.cover_image);
   }
 
