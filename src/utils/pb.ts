@@ -4,7 +4,7 @@ let PB_URL = "";
 if (import.meta.env.MODE === "development") {
   PB_URL = "http://localhost:8090";
 } else {
-  PB_URL = "https://portfolio.nicolas-thai.fr:443";
+  PB_URL = "https://portfolio.nicolas-thai.fr/api";
 }
 
 class PocketBaseClient {
