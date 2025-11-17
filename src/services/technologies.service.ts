@@ -1,5 +1,5 @@
 import pb from "../utils/pb";
-import type { TechnologiesRecord } from "../../backend/pocketbase-types";
+import type { TechnologiesRecord } from "../types/pocketbase-types";
 import { ProjetsService } from "./projets.service";
 
 export class TechnologiesService {
