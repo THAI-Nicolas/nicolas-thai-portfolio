@@ -2104,4 +2104,6 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
   } else {
     initPresentationOverlay();
   }
+
+  document.addEventListener("astro:page-load", initPresentationOverlay);
 </script>

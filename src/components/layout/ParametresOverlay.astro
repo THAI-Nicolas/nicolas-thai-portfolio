@@ -830,7 +830,7 @@ const { isVisible = false, onClose } = Astro.props;
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+  function initParametresOverlay() {
     // Gestion des thèmes
     // Initialiser le bouton actif selon le thème actuel
     const currentTheme = window.portfolioTheme?.getTheme() || "wii";
@@ -1036,5 +1036,26 @@ const { isVisible = false, onClose } = Astro.props;
         console.log("Paramètres réinitialisés");
       });
     }
-  });
+
+    // Bouton de fermeture (croix)
+    const closeButton = document.getElementById("parametres-close-button");
+    const parametresOverlay = document.querySelector(".parametres-overlay");
+    
+    if (closeButton && parametresOverlay) {
+      closeButton.addEventListener("click", () => {
+        parametresOverlay.classList.add("opacity-0", "pointer-events-none");
+        parametresOverlay.classList.remove("opacity-100", "pointer-events-auto");
+      });
+    }
+
+    console.log("Parametres overlay initialized!");
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initParametresOverlay);
+  } else {
+    initParametresOverlay();
+  }
+
+  document.addEventListener("astro:page-load", initParametresOverlay);
 </script>

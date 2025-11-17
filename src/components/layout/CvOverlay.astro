@@ -115,7 +115,7 @@ const { isVisible = false, onClose } = Astro.props;
 </style>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+  function initCvOverlay() {
     const returnButton = document.getElementById("cv-return-button");
     const cvOverlay = document.querySelector(".cv-overlay");
 
@@ -125,5 +125,8 @@ const { isVisible = false, onClose } = Astro.props;
         cvOverlay.classList.remove("opacity-100", "pointer-events-auto");
       });
     }
-  });
+  }
+
+  document.addEventListener("DOMContentLoaded", initCvOverlay);
+  document.addEventListener("astro:page-load", initCvOverlay);
 </script>

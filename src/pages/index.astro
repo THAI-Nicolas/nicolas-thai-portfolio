@@ -88,16 +88,16 @@ const channels = Array(totalChannels).fill(null).map((_, index) => {
   </div>
 
   <!-- CvOverlay -->
-  <CvOverlay client:load />
+  <CvOverlay />
 
   <!-- ContactOverlay -->
-  <ContactOverlay client:load />
+  <ContactOverlay />
 
   <!-- ParametresOverlay -->
-  <ParametresOverlay client:load />
+  <ParametresOverlay />
 
   <!-- PresentationOverlay -->
-  <PresentationOverlay client:load />
+  <PresentationOverlay />
 </Layout>
 
 <script is:inline>
@@ -117,171 +117,19 @@ const channels = Array(totalChannels).fill(null).map((_, index) => {
 
     console.log("Initialisation du carousel");
 
-    let cvOverlayVisible = false;
-    let contactOverlayVisible = false;
-    let parametresOverlayVisible = false;
-    let presentationOverlayVisible = false;
-
-    function openParametresOverlay() {
-      console.log("Ouverture des Paramètres");
-      parametresOverlayVisible = true;
-      const parametresOverlay = document.querySelector(".parametres-overlay");
-      if (parametresOverlay) {
-        parametresOverlay.classList.remove(
-          "opacity-0",
-          "pointer-events-none",
-          "hidden"
-        );
-        parametresOverlay.classList.add("opacity-100", "pointer-events-auto");
-      }
-    }
-
-    function closeParametresOverlay() {
-      console.log("Fermeture des Paramètres");
-      parametresOverlayVisible = false;
-      const parametresOverlay = document.querySelector(".parametres-overlay");
-      if (parametresOverlay) {
-        parametresOverlay.classList.add("opacity-0", "pointer-events-none");
-        parametresOverlay.classList.remove(
-          "opacity-100",
-          "pointer-events-auto"
-        );
-      }
-    }
-
-    function openContactOverlay() {
-      console.log("Ouverture du Contact");
-      contactOverlayVisible = true;
-      const contactOverlay = document.querySelector(".contact-overlay");
-      if (contactOverlay) {
-        contactOverlay.classList.remove(
-          "opacity-0",
-          "pointer-events-none",
-          "hidden"
-        );
-        contactOverlay.classList.add("opacity-100", "pointer-events-auto");
-      }
-    }
-
-    function closeContactOverlay() {
-      console.log("closeContactOverlay appelée");
-      contactOverlayVisible = false;
-      const contactOverlay = document.querySelector(".contact-overlay");
-      if (contactOverlay) {
-        console.log("Overlay trouvé, fermeture...");
-        contactOverlay.classList.add("opacity-0", "pointer-events-none");
-        contactOverlay.classList.remove("opacity-100", "pointer-events-auto");
-        console.log("Classes après fermeture:", contactOverlay.className);
-      } else {
-        console.log("Overlay non trouvé!");
-      }
-    }
-
-    function openCvOverlay() {
-      console.log("Ouverture du CV");
-      cvOverlayVisible = true;
-      const cvOverlay = document.querySelector(".cv-overlay");
-      if (cvOverlay) {
-        console.log("CV Overlay trouvé, ouverture...");
-        cvOverlay.classList.remove(
-          "opacity-0",
-          "pointer-events-none",
-          "hidden"
-        );
-        cvOverlay.classList.add("opacity-100", "pointer-events-auto");
-        console.log("Classes:", cvOverlay.className);
-      } else {
-        console.log("CV Overlay non trouvé !");
-      }
-    }
-
-    function closeCvOverlay() {
-      cvOverlayVisible = false;
-      const cvOverlay = document.querySelector(".cv-overlay");
-      if (cvOverlay) {
-        cvOverlay.classList.add("opacity-0", "pointer-events-none");
-        cvOverlay.classList.remove("opacity-100", "pointer-events-auto");
-      }
-    }
-
-    function openPresentationOverlay() {
-      console.log("Ouverture de la Présentation");
-      presentationOverlayVisible = true;
-      const presentationOverlay = document.querySelector(
-        ".presentation-overlay"
-      );
-      if (presentationOverlay) {
-        presentationOverlay.classList.remove(
-          "opacity-0",
-          "pointer-events-none",
-          "hidden"
-        );
-        presentationOverlay.classList.add("opacity-100", "pointer-events-auto");
-      }
-    }
-
-    function closePresentationOverlay() {
-      console.log("Fermeture de la Présentation");
-      presentationOverlayVisible = false;
-      const presentationOverlay = document.querySelector(
-        ".presentation-overlay"
-      );
-      if (presentationOverlay) {
-        presentationOverlay.classList.add("opacity-0", "pointer-events-none");
-        presentationOverlay.classList.remove(
-          "opacity-100",
-          "pointer-events-auto"
-        );
-      }
-    }
-
-    document.addEventListener("click", (e) => {
-      const target = e.target;
-      if (target.closest(".card-cv")) {
-        e.preventDefault();
-        openCvOverlay();
-      } else if (
-        target.closest("#cv-return-button") ||
-        target.closest("#cv-close-button")
-      ) {
-        closeCvOverlay();
-      } else if (target.closest(".cv-overlay > div")) {
-        closeCvOverlay();
-      } else if (target.closest("#contact-button")) {
-        e.preventDefault();
-        openContactOverlay();
-      } else if (target.closest("#contact-return-button")) {
-        console.log("Fermeture du Contact");
-        closeContactOverlay();
-      } else if (target.closest("#parametres-button")) {
-        e.preventDefault();
-        openParametresOverlay();
-      } else if (
-        target.closest("#parametres-close-button") ||
-        target.closest("#parametres-close-button button")
-      ) {
-        closeParametresOverlay();
-      } else if (target.closest('button[data-type="presentation"]')) {
-        e.preventDefault();
-        openPresentationOverlay();
-      } else if (target.closest("#presentation-return-button")) {
-        closePresentationOverlay();
-      }
-    });
-
     // Fonction pour changer de page
     function switchPage(pageNumber) {
       console.log("Changement vers la page:", pageNumber);
       if (pageNumber === 1) {
-        if (carouselGrid) carouselGrid.style.transform = "translateX(0)";
-        if (arrowRight) arrowRight.style.opacity = "1";
-        if (arrowLeft) arrowLeft.style.opacity = "0";
+        carouselGrid.style.transform = "translateX(0)";
+        arrowRight.style.opacity = "1";
+        arrowLeft.style.opacity = "0";
         currentPage = 1;
         console.log("Page 1 active");
       } else if (pageNumber === 2) {
-        if (carouselGrid) carouselGrid.style.transform = "translateX(-1890px)"; // Décalage de 4.5 colonnes (9 channels)
-        if (arrowRight) arrowRight.style.opacity = "0";
-        if (arrowLeft) arrowLeft.style.opacity = "1";
+        carouselGrid.style.transform = "translateX(-1890px)";
+        arrowRight.style.opacity = "0";
+        arrowLeft.style.opacity = "1";
         currentPage = 2;
         console.log("Page 2 active");
       }
@@ -326,6 +174,66 @@ const channels = Array(totalChannels).fill(null).map((_, index) => {
   
   // Réinit après transition Astro
   document.addEventListener("astro:after-swap", initCarousel);
+</script>
+
+<script is:inline>
+  function initOverlayButtons() {
+    // Vérifier qu'on est sur la page d'accueil
+    if (window.location.pathname !== '/') return;
+    
+    // Bouton Contact
+    const contactButton = document.getElementById("contact-button");
+    const contactOverlay = document.querySelector(".contact-overlay");
+    
+    if (contactButton && contactOverlay) {
+      contactButton.addEventListener("click", () => {
+        contactOverlay.classList.remove("opacity-0", "pointer-events-none");
+        contactOverlay.classList.add("opacity-100", "pointer-events-auto");
+      });
+    }
+    
+    // Bouton Présentation (Mii)
+    const presentationButton = document.querySelector('[data-type="presentation"]');
+    const presentationOverlay = document.querySelector(".presentation-overlay");
+    
+    if (presentationButton && presentationOverlay) {
+      presentationButton.addEventListener("click", () => {
+        presentationOverlay.classList.remove("opacity-0", "pointer-events-none");
+        presentationOverlay.classList.add("opacity-100", "pointer-events-auto");
+      });
+    }
+    
+    // Bouton CV
+    const cvButton = document.querySelector("a.card-cv");
+    const cvOverlay = document.querySelector(".cv-overlay");
+    
+    if (cvButton && cvOverlay) {
+      cvButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        cvOverlay.classList.remove("opacity-0", "pointer-events-none");
+        cvOverlay.classList.add("opacity-100", "pointer-events-auto");
+      });
+    }
+    
+    // Bouton Paramètres
+    const parametresButton = document.getElementById("parametres-button");
+    const parametresOverlay = document.querySelector(".parametres-overlay");
+    
+    if (parametresButton && parametresOverlay) {
+      parametresButton.addEventListener("click", () => {
+        parametresOverlay.classList.remove("opacity-0", "pointer-events-none");
+        parametresOverlay.classList.add("opacity-100", "pointer-events-auto");
+      });
+    }
+    
+    console.log("Overlay buttons initialized!");
+  }
+  
+  // Init au chargement
+  document.addEventListener("DOMContentLoaded", initOverlayButtons);
+  
+  // Réinit après transition Astro
+  document.addEventListener("astro:page-load", initOverlayButtons);
 </script>
 
 <style>

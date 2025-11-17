@@ -742,4 +742,6 @@ const { isVisible = false, onClose } = Astro.props;
   } else {
     initContactOverlay();
   }
+
+  document.addEventListener("astro:page-load", initContactOverlay);
 </script>
