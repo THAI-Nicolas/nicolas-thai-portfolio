@@ -7,6 +7,9 @@ export interface Props {
   href?: string;
   onClick?: () => void;
   colorGradient?: { from: string; to: string };
+  neonColor?: string;
+  strokeColor?: string;
+  fillColor?: string;
 }
 
 const {
@@ -15,6 +18,9 @@ const {
   href = "#",
   onClick,
   colorGradient,
+  neonColor,
+  strokeColor,
+  fillColor,
 } = Astro.props;
 
 // Tailles dynamiques
@@ -29,8 +35,14 @@ const sizes = {
 
 const currentSize = sizes[size] || sizes.desktop;
 
-const arrowColor = colorGradient?.to || "#e1e2e6";
-const arrowStrokeColor = colorGradient?.to || "var(--color-light-blue)";
+const arrowColor = fillColor || colorGradient?.to || "#e1e2e6";
+const arrowStrokeColor = strokeColor || colorGradient?.to || "var(--color-light-blue)";
+
+const styleVars = [
+  neonColor ? `--neon-color: ${neonColor}` : "",
+  colorGradient?.to ? `--arrow-color: ${colorGradient.to}` : "",
+  colorGradient?.to ? `--arrow-stroke: ${colorGradient.to}` : "",
+].filter(Boolean).join("; ");
 ---
 
 <div class={`${currentSize.container} relative`}>
@@ -38,6 +50,7 @@ const arrowStrokeColor = colorGradient?.to || "var(--color-light-blue)";
     href={href}
     class="fleche cursor-pointer transition-all duration-200 hover:scale-110 block origin-center absolute inset-0"
     data-onclick={onClick ? "true" : undefined}
+    style={styleVars || undefined}
   >
     <svg
       class={`w-full h-full fleche-svg ${direction === "gauche" ? "rotate-180" : direction === "haut" ? "-rotate-90" : direction === "bas" ? "rotate-90" : ""}`}
@@ -46,17 +59,18 @@ const arrowStrokeColor = colorGradient?.to || "var(--color-light-blue)";
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
+        class="fleche-path"
         d="M3.46201 2.2401L58.2341 54.73C58.6792 55.1566 58.6792 55.8682 58.2341 56.2948L3.46201 108.785C2.71111 109.504 1.47613 108.856 1.64254 107.829L10.1227 55.5124L1.64254 3.19588C1.47613 2.16923 2.71111 1.52049 3.46201 2.2401Z"
         fill={arrowColor}
         stroke={arrowStrokeColor}
-        stroke-width="1"
+        stroke-width="2"
         stroke-linejoin="round"
         stroke-linecap="round"></path>
     </svg>
   </a>
 </div>
 
-<script>
+<script define:vars={{ neonColorProp: neonColor }}>
   document.addEventListener("DOMContentLoaded", () => {
     const fleche = document.querySelector("a[data-onclick='true']");
     if (fleche) {
@@ -64,20 +78,77 @@ const arrowStrokeColor = colorGradient?.to || "var(--color-light-blue)";
         console.log("Fleche cliquée");
       });
     }
+
+    // Applique les effets néon avec la couleur personnalisée sur les flèches
+    document.querySelectorAll('.fleche[style*="--neon-color"]').forEach((fleche) => {
+      const neonColor = getComputedStyle(fleche).getPropertyValue('--neon-color').trim();
+      
+      if (neonColor) {
+        const svg = fleche.querySelector('.fleche-svg');
+        if (svg) {
+          // Néon au repos avec effet de pulsation
+          svg.style.filter = `drop-shadow(0 0 8px rgba(0, 0, 0, 0.4)) drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)) drop-shadow(0 0 3px ${neonColor}) drop-shadow(0 0 6px ${neonColor})`;
+        }
+        
+        fleche.addEventListener('mouseenter', () => {
+          const svg = fleche.querySelector('.fleche-svg');
+          if (svg) {
+            svg.style.filter = `drop-shadow(0 0 8px rgba(0, 0, 0, 0.4)) drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)) drop-shadow(0 0 6px ${neonColor}) drop-shadow(0 0 12px ${neonColor})`;
+          }
+        });
+        
+        fleche.addEventListener('mouseleave', () => {
+          const svg = fleche.querySelector('.fleche-svg');
+          if (svg) {
+            svg.style.filter = `drop-shadow(0 0 8px rgba(0, 0, 0, 0.4)) drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)) drop-shadow(0 0 3px ${neonColor}) drop-shadow(0 0 6px ${neonColor})`;
+          }
+        });
+      }
+    });
   });
 </script>
 
 <style>
+  @keyframes neon-pulse {
+    0%, 100% {
+      filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.4))
+        drop-shadow(0 0 3px rgba(0, 0, 0, 0.3))
+        drop-shadow(0 0 3px var(--neon-color, rgba(52, 190, 237, 0.6)))
+        drop-shadow(0 0 6px var(--neon-color, rgba(52, 190, 237, 0.4)));
+    }
+    50% {
+      filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.4))
+        drop-shadow(0 0 3px rgba(0, 0, 0, 0.3))
+        drop-shadow(0 0 4px var(--neon-color, rgba(52, 190, 237, 0.7)))
+        drop-shadow(0 0 8px var(--neon-color, rgba(52, 190, 237, 0.5)));
+    }
+  }
+
+  .fleche-path {
+    transition: fill 0.3s ease, stroke 0.3s ease;
+  }
+
   .fleche-svg {
     transition: filter 0.3s ease;
     filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.4))
       drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
   }
 
+  .fleche[style*="--neon-color"] .fleche-svg {
+    animation: neon-pulse 2s ease-in-out infinite;
+  }
+
   .fleche:hover .fleche-svg {
     filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.4))
       drop-shadow(0 0 3px rgba(0, 0, 0, 0.3))
-      drop-shadow(0 0 15px color-mix(in srgb, var(--color-light-blue) 80%, transparent));
+      drop-shadow(0 0 6px rgba(52, 190, 237, 0.6))
+      drop-shadow(0 0 12px rgba(52, 190, 237, 0.4));
+  }
+
+  .fleche[style*="--neon-color"]:hover .fleche-svg {
+    animation: none;
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.4))
+      drop-shadow(0 0 3px rgba(0, 0, 0, 0.3));
   }
 
   [data-theme="dark"] .fleche-svg {
@@ -88,7 +159,8 @@ const arrowStrokeColor = colorGradient?.to || "var(--color-light-blue)";
 
   [data-theme="dark"] .fleche:hover .fleche-svg {
     filter: grayscale(100%) brightness(3.2) invert(1) contrast(0.9)
-      drop-shadow(0 0 15px rgba(212, 212, 212, 0.8))
+      drop-shadow(0 0 8px rgba(212, 212, 212, 0.8))
+      drop-shadow(0 0 12px rgba(212, 212, 212, 0.6))
       drop-shadow(0 0 8px rgba(0, 0, 0, 0.4))
       drop-shadow(0 0 3px rgba(0, 0, 0, 0.3)) !important;
   }

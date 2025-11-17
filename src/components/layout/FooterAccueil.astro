@@ -10,7 +10,7 @@ import FondFooter from "../../assets/icones/footer_fond.svg";
   class="footer-wii relative w-full h-80 overflow-hidden bottom-66 left-0 right-0"
 >
   <!-- Fond ondulé -->
-  <div class="absolute inset-0 w-full h-full z-0">
+  <div class="absolute inset-0 w-full h-full z-0 footer-glow">
     <FondFooter class="w-full h-full object-cover footer-svg" />
   </div>
 
@@ -25,22 +25,22 @@ import FondFooter from "../../assets/icones/footer_fond.svg";
   </div>
 
   <!-- MainBouton Mii à gauche -->
-  <div class="absolute left-28 top-33 transform -translate-y-1/2 z-20">
+  <div class="absolute left-28 top-33 transform -translate-y-1/2 z-20 test-footer-color">
     <MainBouton type="presentation" size="footer" />
   </div>
 
   <!-- MainBouton Enveloppe à droite -->
-  <div class="absolute right-29 top-34 transform -translate-y-1/2 z-20">
+  <div class="absolute right-29 top-34 transform -translate-y-1/2 z-20 test-footer-color">
     <MainBouton type="contact" size="footer" />
   </div>
 
   <!-- CardCV à droite du MainBouton Mii -->
-  <div class="absolute left-95 top-45 transform -translate-y-1/2 z-20">
+  <div class="absolute left-95 top-45 transform -translate-y-1/2 z-20 test-footer-color">
     <CardCV size="desktop" />
   </div>
 
   <!-- SmallBouton Paramètres à gauche du MainBouton Enveloppe -->
-  <div class="absolute right-95 top-45 transform -translate-y-1/2 z-20">
+  <div class="absolute right-95 top-45 transform -translate-y-1/2 z-20 test-footer-color">
     <SmallBouton type="parametres" size="footer" id="parametres-button" />
   </div>
 
@@ -68,8 +68,84 @@ import FondFooter from "../../assets/icones/footer_fond.svg";
     transition: filter 0.3s ease;
   }
 
+  /* Effet néon ultra léger sur la bordure du footer uniquement */
+  .footer-glow {
+    filter: drop-shadow(0 -1px 1px rgba(52, 190, 237, 0.3));
+  }
+
   [data-theme="dark"] .footer-svg {
     filter: grayscale(100%) brightness(0.2) contrast(2) invert(0.05) !important;
+  }
+  
+  [data-theme="dark"] .footer-glow {
+    filter: drop-shadow(0 -1px 2px rgba(52, 190, 237, 0.3));
+  }
+
+  /* Test de couleur footer sur les boutons de l'accueil uniquement */
+  .test-footer-color :deep(.wii-main-button__circle::after),
+  .test-footer-color :deep(.wii-button__circle),
+  .test-footer-color :deep(.card-cv) {
+    --color-light-blue: #34beed;
+  }
+  
+  .test-footer-color :deep(.wii-main-button__circle::after) {
+    box-shadow:
+      0 0 3px rgba(52, 190, 237, 0.5),
+      0 0 6px rgba(52, 190, 237, 0.4) !important;
+  }
+  
+  .test-footer-color :deep(button:hover .wii-main-button__circle) {
+    box-shadow:
+      inset -4px -4px 9.5px rgba(0, 0, 0, 0.26),
+      5.8px 8.7px 0px rgba(186, 188, 193, 1),
+      0 0 6px rgba(52, 190, 237, 0.3),
+      0 0 12px rgba(52, 190, 237, 0.3) !important;
+  }
+  
+  .test-footer-color :deep(.wii-button__circle) {
+    border-color: rgba(52, 190, 237, 0.5);
+    box-shadow:
+      inset 0 5px 5px rgba(0, 0, 0, 0.25),
+      0 5px 5px rgba(0, 0, 0, 0.25),
+      0 0 2px rgba(52, 190, 237, 0.3),
+      0 0 4px rgba(52, 190, 237, 0.3) !important;
+  }
+  
+  .test-footer-color :deep(button:hover .wii-button__circle) {
+    background-color: #34beed;
+    border-color: #34beed;
+    box-shadow:
+      inset 0 5px 5px rgba(0, 0, 0, 0.25),
+      0 5px 5px rgba(0, 0, 0, 0.25),
+      0 0 6px rgba(52, 190, 237, 0.3),
+      0 0 12px rgba(52, 190, 237, 0.3) !important;
+  }
+  
+  .test-footer-color :deep(.animate-cv-glow) {
+    animation: cv-glow-footer 2.5s ease-in-out infinite;
+  }
+  
+  @keyframes cv-glow-footer {
+    0%, 100% {
+      filter: drop-shadow(0 0 2px rgba(52, 190, 237, 0.3));
+    }
+    50% {
+      filter: drop-shadow(0 0 5px rgba(52, 190, 237, 0.3)) drop-shadow(0 0 8px rgba(52, 190, 237, 0.3));
+    }
+  }
+  
+  /* Animation spécifique pour MainBouton avec plus d'intensité */
+  .test-footer-color :deep(@keyframes button-glow-pulse) {
+    0%, 100% {
+      box-shadow:
+        0 0 3px rgba(52, 190, 237, 0.5),
+        0 0 6px rgba(52, 190, 237, 0.4);
+    }
+    50% {
+      box-shadow:
+        0 0 6px rgba(52, 190, 237, 0.7),
+        0 0 12px rgba(52, 190, 237, 0.5);
+    }
   }
 </style>
 

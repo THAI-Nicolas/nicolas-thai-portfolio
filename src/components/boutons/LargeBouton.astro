@@ -3,45 +3,110 @@ export interface Props {
   href: string;
   variant?: "primary" | "secondary";
   text: string;
+  borderColor?: string;
+  backgroundColor?: string;
+  textColor?: string;
+  hoverTextColor?: string;
+  hoverBackgroundColor?: string;
+  hoverBorderColor?: string;
 }
 
-const { href, variant = "primary", text } = Astro.props;
+const { 
+  href, 
+  variant = "primary", 
+  text, 
+  borderColor, 
+  backgroundColor,
+  textColor,
+  hoverTextColor,
+  hoverBackgroundColor,
+  hoverBorderColor
+} = Astro.props;
 
 const variantClasses = {
   primary:
-    "bg-white/90 backdrop-blur-sm border-4 border-light-blue hover:bg-white large-bouton-primary",
+    "bg-white/90 backdrop-blur-sm hover:bg-white large-bouton-primary",
   secondary:
-    "bg-transparent border-4 border-white hover:bg-transparent large-bouton-secondary",
+    "bg-transparent hover:bg-transparent large-bouton-secondary",
 };
 
 const textClasses = {
-  primary: "text-text-gray group-hover:text-dark-blue",
+  primary: "text-text-gray",
   secondary: "text-white",
 };
 ---
 
 <a
   href={href}
-  class={`group relative px-14 lg:px-32 py-5 lg:py-10 rounded-full shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl active:scale-95 overflow-hidden ${variantClasses[variant]}`}
+  class={`group relative px-14 lg:px-32 py-5 lg:py-10 rounded-full shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl active:scale-95 overflow-hidden border-4 ${variantClasses[variant]}`}
+  style={`
+    ${borderColor ? `border-color: ${borderColor}; --border-color: ${borderColor};` : variant === 'primary' ? 'border-color: var(--color-light-blue); --border-color: var(--color-light-blue);' : 'border-color: white; --border-color: white;'}
+    ${backgroundColor ? `background-color: ${backgroundColor};` : ''}
+    ${textColor ? `--text-color: ${textColor};` : ''}
+    ${hoverTextColor ? `--hover-text-color: ${hoverTextColor};` : ''}
+    ${hoverBackgroundColor ? `--hover-bg-color: ${hoverBackgroundColor};` : ''}
+    ${hoverBorderColor ? `--hover-border-color: ${hoverBorderColor};` : ''}
+    ${backgroundColor && variant === 'primary' ? `--hover-bg: ${backgroundColor};` : ''}
+  `}
 >
-  {
-    variant === "primary" && (
-      <div class="absolute inset-0 bg-light-blue transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500 ease-out rounded-full" />
-    )
-  }
-
   {
     variant === "secondary" && (
       <div class="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
     )
   }
 
-  <span class={`h2 font-bold relative z-10 ${textClasses[variant]}`}>
+  <span class={`h2 font-bold relative z-10 transition-colors duration-300 ${textClasses[variant]} button-text`}>
     {text}
   </span>
 </a>
 
 <style>
+  @keyframes button-neon-pulse {
+    0%, 100% {
+      box-shadow: 0 0 1px currentColor,
+        0 0 2px currentColor,
+        0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+    50% {
+      box-shadow: 0 0 2px currentColor,
+        0 0 4px currentColor,
+        0 20px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+  }
+
+  a {
+    animation: button-neon-pulse 2s ease-in-out infinite;
+    color: var(--border-color, var(--color-light-blue));
+  }
+
+  /* Couleur du texte dynamique */
+  a .button-text {
+    color: var(--text-color, inherit);
+  }
+
+  a:hover {
+    animation: none;
+    box-shadow: 0 0 2px currentColor,
+      0 0 4px currentColor,
+      0 0 6px currentColor,
+      0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+    border-color: var(--hover-border-color, inherit) !important;
+  }
+
+  a:hover .button-text {
+    color: var(--hover-text-color, white);
+  }
+
+  .primary-hover-bg {
+    background-color: var(--hover-bg, var(--color-light-blue));
+  }
+  
+  a:hover span {
+    color: var(--hover-text-color, white);
+  }
+  
   [data-theme="dark"] .large-bouton-primary {
     background-color: rgba(75, 85, 99, 0.9);
   }

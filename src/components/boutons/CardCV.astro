@@ -25,12 +25,27 @@ const currentSize = sizes[size] || sizes.desktop;
 <div class={`${currentSize.container} relative`}>
   <a
     href={href}
-    class="card-cv cursor-pointer transition-transform duration-200 hover:scale-110 block origin-center absolute inset-0"
+    class="card-cv cursor-pointer transition-transform duration-200 hover:scale-110 block origin-center absolute inset-0 animate-cv-glow"
     data-onclick={onClick ? "true" : undefined}
   >
     <CardCVIcon class="w-full h-full" />
   </a>
 </div>
+
+<style>
+  @keyframes cv-glow {
+    0%, 100% {
+      filter: drop-shadow(0 0 2px rgba(52, 190, 237, 0.6));
+    }
+    50% {
+      filter: drop-shadow(0 0 5px rgba(52, 190, 237, 0.7)) drop-shadow(0 0 8px rgba(52, 190, 237, 0.5));
+    }
+  }
+
+  .animate-cv-glow {
+    animation: cv-glow 2.5s ease-in-out infinite;
+  }
+</style>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {

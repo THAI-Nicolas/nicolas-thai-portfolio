@@ -11,6 +11,7 @@ export interface Props {
   onClick?: () => void;
   id?: string;
   strokeColor?: string;
+  neonColor?: string;
 }
 
 const {
@@ -20,6 +21,7 @@ const {
   onClick,
   id,
   strokeColor,
+  neonColor = "var(--color-light-blue)",
 } = Astro.props;
 
 const icons = {
@@ -70,7 +72,7 @@ const currentSize = sizes[size] || sizes.desktop;
 >
   <div
     class="w-full h-full rounded-full relative overflow-hidden flex items-center justify-center wii-main-button__circle"
-    style={strokeColor ? `border-color: ${strokeColor};` : ""}
+    style={`--neon-color: ${neonColor};${strokeColor ? ` border-color: ${strokeColor};` : ""}`}
   >
     {/* Forme décorative en arrière-plan */}
     <div
@@ -129,12 +131,26 @@ const currentSize = sizes[size] || sizes.desktop;
   .wii-main-button__circle {
     /* État normal */
     background-color: var(--color-light-gray); /* Couleur du Figma */
-    border: 3px solid var(--color-light-blue);
+    border-color: var(--neon-color, var(--color-light-blue));
+    border-width: 3px;
+    border-style: solid;
 
-    /* Ombres du Figma */
+    /* Ombres du Figma + effet néon ultra léger permanent */
     box-shadow:
       inset -4px -4px 9.5px rgba(0, 0, 0, 0.26),
       5.8px 8.7px 0px rgba(186, 188, 193, 1);
+    
+    transition: box-shadow 0.3s ease-out;
+  }
+
+  /* Animation de pulsation subtile sur le néon uniquement */
+  .wii-main-button__circle::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    animation: button-glow-pulse 3s ease-in-out infinite;
   }
 
   .wii-main-button__icon {
@@ -155,7 +171,7 @@ const currentSize = sizes[size] || sizes.desktop;
   }
 </style>
 
-<script>
+<script define:vars={{ neonColorProp: neonColor }}>
   document.addEventListener("DOMContentLoaded", () => {
     const buttons = document.querySelectorAll('button[data-onclick="true"]');
 
@@ -178,6 +194,47 @@ const currentSize = sizes[size] || sizes.desktop;
             break;
         }
       });
+    });
+
+    // Applique les effets néon avec la couleur personnalisée
+    document.querySelectorAll('.wii-main-button__circle').forEach((circle) => {
+      const neonColor = getComputedStyle(circle).getPropertyValue('--neon-color').trim();
+      
+      if (neonColor && !neonColor.includes('--color-light-blue')) {
+        // Créer une keyframe dynamique pour cette couleur
+        const styleSheet = document.styleSheets[0];
+        const keyframeName = `button-glow-pulse-${Math.random().toString(36).substr(2, 9)}`;
+        
+        const keyframes = `
+          @keyframes ${keyframeName} {
+            0%, 100% {
+              box-shadow: 0 0 2px ${neonColor}, 0 0 4px ${neonColor};
+            }
+            50% {
+              box-shadow: 0 0 4px ${neonColor}, 0 0 8px ${neonColor};
+            }
+          }
+        `;
+        
+        try {
+          styleSheet.insertRule(keyframes, styleSheet.cssRules.length);
+          const afterElement = circle.querySelector('::after') || circle;
+          circle.style.setProperty('animation-name', keyframeName);
+          
+          // Applique aussi le hover dynamique
+          const parent = circle.closest('button');
+          if (parent) {
+            parent.addEventListener('mouseenter', () => {
+              circle.style.boxShadow = `inset -4px -4px 9.5px rgba(0, 0, 0, 0.26), 5.8px 8.7px 0px rgba(186, 188, 193, 1), 0 0 6px ${neonColor}, 0 0 12px ${neonColor}`;
+            });
+            parent.addEventListener('mouseleave', () => {
+              circle.style.boxShadow = '';
+            });
+          }
+        } catch (e) {
+          console.warn('Could not create dynamic keyframe:', e);
+        }
+      }
     });
   });
 </script>

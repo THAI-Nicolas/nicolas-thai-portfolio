@@ -17,6 +17,11 @@ if (!projet) {
 }
 
 const coverUrl = ProjetsService.getCoverUrl(projet);
+
+const colorGradient = {
+  from: projet.color_from,
+  to: projet.color_to,
+};
 ---
 
 <LayoutPageProjet title={`${projet.titre} - Nicolas THAI`}>
@@ -28,7 +33,7 @@ const coverUrl = ProjetsService.getCoverUrl(projet);
       class="relative flex-1 flex items-center justify-between w-full overflow-hidden"
     >
       <div class="hidden lg:flex items-center justify-center px-20 z-10">
-        <Fleche size="desktop" direction="gauche" href="/" />
+        <Fleche size="desktop" direction="gauche" href="/" neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
       </div>
 
       <div
@@ -42,30 +47,34 @@ const coverUrl = ProjetsService.getCoverUrl(projet);
       </div>
 
       <div class="hidden lg:flex items-center justify-center px-20 z-10">
-        <Fleche size="desktop" direction="droite" href="/" />
+        <Fleche size="desktop" direction="droite" href="/" neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
       </div>
     </div>
 
     <div
-      class="relative w-full border-t-2 border-light-blue cover-footer py-12 lg:py-12 px-6 lg:px-16 shadow-2xl z-20"
+      class="relative w-full cover-footer py-12 lg:py-12 px-6 lg:px-16 shadow-2xl z-20 footer-border-neon"
+      style={`border-top: 4px solid ${colorGradient.to}; --border-color: ${colorGradient.to};`}
     >
       <div
         class="flex items-center justify-center gap-8 lg:gap-12 max-w-7xl mx-auto"
       >
         <div class="lg:hidden">
-          <Fleche size="mobile" direction="gauche" href="/" />
+          <Fleche size="mobile" direction="gauche" href="/" neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
         </div>
 
-        <LargeBouton href="/" variant="secondary" text="Retour" />
+        <LargeBouton href="/" variant="secondary" text="Retour" borderColor={colorGradient.to} backgroundColor="transparent" textColor="var(--color-text-gray)" hoverTextColor="var(--color-dark-gray)" />
 
         <LargeBouton
           href={`/projets/${projet.slug}/details`}
           variant="primary"
           text="Voir le projet"
+          borderColor={colorGradient.to}
+          backgroundColor={colorGradient.to}
+          textColor="white"
         />
 
         <div class="lg:hidden">
-          <Fleche size="mobile" direction="droite" href="/" />
+          <Fleche size="mobile" direction="droite" href="/" neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
         </div>
       </div>
     </div>
@@ -73,6 +82,19 @@ const coverUrl = ProjetsService.getCoverUrl(projet);
 </LayoutPageProjet>
 
 <style>
+  @keyframes border-neon-pulse {
+    0%, 100% {
+      filter: drop-shadow(0 -1px 1px var(--border-color));
+    }
+    50% {
+      filter: drop-shadow(0 -1px 2px var(--border-color));
+    }
+  }
+
+  .footer-border-neon {
+    animation: border-neon-pulse 2s ease-in-out infinite;
+  }
+
   .cover-footer {
     background: linear-gradient(
       to bottom,

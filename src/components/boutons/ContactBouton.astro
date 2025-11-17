@@ -69,10 +69,43 @@ const IconComponent = icons[type];
     background-clip: padding-box;
     position: relative;
 
-    /* Ombres du Figma */
+    /* Ombres + effet néon ultra léger permanent */
     box-shadow:
       6px 4px 8px rgba(52, 190, 237, 0.1),
-      0 8px 8px rgba(0, 0, 0, 0.25);
+      0 8px 8px rgba(0, 0, 0, 0.25),
+      0 0 2px rgba(52, 190, 237, 0.6),
+      0 0 4px rgba(52, 190, 237, 0.5);
+    
+    transition: box-shadow 0.3s ease-out;
+    animation: button-glow-pulse 3s ease-in-out infinite;
+  }
+
+  /* Effet néon au hover */
+  button:hover .wii-contact-button__container {
+    box-shadow:
+      6px 4px 8px rgba(52, 190, 237, 0.1),
+      0 8px 8px rgba(0, 0, 0, 0.25),
+      0 0 8px var(--color-light-blue),
+      0 0 12px var(--color-light-blue);
+    animation: none;
+  }
+
+  /* Animation de pulsation subtile */
+  @keyframes button-glow-pulse {
+    0%, 100% {
+      box-shadow:
+        6px 4px 8px rgba(52, 190, 237, 0.1),
+        0 8px 8px rgba(0, 0, 0, 0.25),
+        0 0 2px rgba(52, 190, 237, 0.6),
+        0 0 4px rgba(52, 190, 237, 0.5);
+    }
+    50% {
+      box-shadow:
+        6px 4px 8px rgba(52, 190, 237, 0.1),
+        0 8px 8px rgba(0, 0, 0, 0.25),
+        0 0 4px rgba(52, 190, 237, 0.7),
+        0 0 8px rgba(52, 190, 237, 0.6);
+    }
   }
 
   .wii-contact-button__icon {
