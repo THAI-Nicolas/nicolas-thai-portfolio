@@ -8,7 +8,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
     ssr: {
-      noExternal: ['pocketbase'],
+      noExternal: ["pocketbase"],
     },
   },
   output: "server",
