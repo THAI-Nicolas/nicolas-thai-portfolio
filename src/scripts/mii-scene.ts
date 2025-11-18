@@ -60,8 +60,6 @@ export class MiiScene {
     });
     this.renderer.setSize(container.clientWidth, container.clientHeight);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(this.renderer.domElement);
 
     // Ajout des lumières
@@ -75,25 +73,22 @@ export class MiiScene {
   }
 
   private setupLights(): void {
-    // Lumière ambiante
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    // Lumière ambiante plus forte
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.2);
     this.scene.add(ambientLight);
 
     // Lumière directionnelle principale
-    const mainLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    const mainLight = new THREE.DirectionalLight(0xffffff, 0.6);
     mainLight.position.set(5, 10, 5);
-    mainLight.castShadow = true;
-    mainLight.shadow.mapSize.width = 2048;
-    mainLight.shadow.mapSize.height = 2048;
     this.scene.add(mainLight);
 
     // Lumière de remplissage
-    const fillLight = new THREE.DirectionalLight(0xffffff, 0.3);
+    const fillLight = new THREE.DirectionalLight(0xffffff, 0.4);
     fillLight.position.set(-5, 5, -5);
     this.scene.add(fillLight);
 
     // Lumière arrière (rim light)
-    const backLight = new THREE.DirectionalLight(0x34beed, 0.4);
+    const backLight = new THREE.DirectionalLight(0x34beed, 0.3);
     backLight.position.set(0, 3, -5);
     this.scene.add(backLight);
   }
@@ -109,8 +104,8 @@ export class MiiScene {
         // Configuration du modèle
         this.model.traverse((child) => {
           if ((child as THREE.Mesh).isMesh) {
-            child.castShadow = true;
-            child.receiveShadow = true;
+            const mesh = child as THREE.Mesh;
+            // Désactiver les ombres pour un rendu plus clair
           }
         });
 

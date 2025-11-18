@@ -110,11 +110,10 @@ const currentSize = sizes[size] || sizes.desktop;
     {
       type === "presentation" && (
         <div
-          class={`bg-[var(--color-light-gray)] rounded-full flex items-center justify-center relative z-10 ${currentSize.icon}`}
+          id="mii-button-container"
+          class="relative z-10 rounded-full overflow-hidden"
+          style="width: 100%; height: 100%; pointer-events: none;"
         >
-          <span class={`text-[var(--color-dark-gray)] ${currentSize.text}`}>
-            Mii
-          </span>
         </div>
       )
     }
@@ -171,7 +170,34 @@ const currentSize = sizes[size] || sizes.desktop;
   }
 </style>
 
-<script define:vars={{ neonColorProp: neonColor }}>
+<script>
+  import { MiiButton } from '../../scripts/mii-button';
+  
+  let miiButtonInstance = null;
+  
+  function initMiiButton() {
+    console.log("Initialisation du Mii Button");
+    
+    // Initialiser le Mii 3D dans les boutons de présentation
+    const presentationButtons = document.querySelectorAll('[data-type="presentation"]');
+    console.log("Boutons présentation trouvés:", presentationButtons.length);
+    
+    presentationButtons.forEach((button) => {
+      const container = button.querySelector('#mii-button-container');
+      console.log("Container trouvé:", container);
+      
+      if (container && !miiButtonInstance) {
+        console.log("Création du Mii Button...");
+        try {
+          miiButtonInstance = new MiiButton(container);
+          console.log("Mii Button créé avec succès!");
+        } catch (error) {
+          console.error("Erreur lors de la création du Mii Button:", error);
+        }
+      }
+    });
+  }
+  
   document.addEventListener("DOMContentLoaded", () => {
     const buttons = document.querySelectorAll('button[data-onclick="true"]');
 
@@ -196,6 +222,9 @@ const currentSize = sizes[size] || sizes.desktop;
       });
     });
 
+    // Initialiser le Mii après un court délai
+    setTimeout(initMiiButton, 100);
+
     // Applique les effets néon avec la couleur personnalisée
     document.querySelectorAll('.wii-main-button__circle').forEach((circle) => {
       const neonColor = getComputedStyle(circle).getPropertyValue('--neon-color').trim();
@@ -218,7 +247,6 @@ const currentSize = sizes[size] || sizes.desktop;
         
         try {
           styleSheet.insertRule(keyframes, styleSheet.cssRules.length);
-          const afterElement = circle.querySelector('::after') || circle;
           circle.style.setProperty('animation-name', keyframeName);
           
           // Applique aussi le hover dynamique
@@ -236,5 +264,18 @@ const currentSize = sizes[size] || sizes.desktop;
         }
       }
     });
+  });
+  
+  // Réinitialiser après les transitions Astro
+  document.addEventListener("astro:page-load", () => {
+    setTimeout(initMiiButton, 100);
+  });
+  
+  // Nettoyer lors du déchargement
+  window.addEventListener('beforeunload', () => {
+    if (miiButtonInstance) {
+      miiButtonInstance.destroy();
+      miiButtonInstance = null;
+    }
   });
 </script>
