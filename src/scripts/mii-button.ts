@@ -1,6 +1,5 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { GUI } from "dat.gui";
 
 export class MiiButton {
   private container: HTMLElement;
@@ -11,9 +10,8 @@ export class MiiButton {
   private mixer: THREE.AnimationMixer | null = null;
   private clock: THREE.Clock;
   private animationFrameId: number | null = null;
-  private gui: GUI | null = null;
 
-  // Paramètres ajustables pour le bouton
+  // Paramètres fixes pour le bouton
   private params = {
     // Caméra - vue plus proche pour voir la tête
     cameraX: 0,
@@ -29,29 +27,6 @@ export class MiiButton {
     modelScaleY: 0.18,
     modelScaleZ: 0.18,
     modelRotationY: 0,
-    // Actions
-    logValues: () => {
-      console.log("=== VALEURS ACTUELLES MII BUTTON ===");
-      console.log("Camera position:", {
-        x: this.params.cameraX,
-        y: this.params.cameraY,
-        z: this.params.cameraZ,
-      });
-      console.log("Camera FOV:", this.params.cameraFOV);
-      console.log("Camera lookAt Y:", this.params.lookAtY);
-      console.log("Model position:", {
-        x: this.params.modelX,
-        y: this.params.modelY,
-        z: this.params.modelZ,
-      });
-      console.log("Model scale:", {
-        x: this.params.modelScaleX,
-        y: this.params.modelScaleY,
-        z: this.params.modelScaleZ,
-      });
-      console.log("Model rotation Y:", this.params.modelRotationY);
-      console.log("=======================");
-    },
   };
 
   constructor(container: HTMLElement) {
@@ -99,9 +74,6 @@ export class MiiButton {
 
     // Chargement du modèle
     this.loadModel();
-
-    // Initialisation du GUI
-    this.setupGUI();
 
     // Gestion du resize
     window.addEventListener("resize", this.handleResize.bind(this));
@@ -237,48 +209,6 @@ export class MiiButton {
     this.renderer.render(this.scene, this.camera);
   }
 
-  private setupGUI(): void {
-    this.gui = new GUI({ width: 350 });
-
-    // Dossier Caméra
-    const cameraFolder = this.gui.addFolder("📷 Caméra");
-    cameraFolder.add(this.params, "cameraX", -2, 2, 0.05).name("Position X");
-    cameraFolder.add(this.params, "cameraY", -2, 2, 0.05).name("Position Y");
-    cameraFolder.add(this.params, "cameraZ", 0.1, 3, 0.05).name("Position Z");
-    cameraFolder.add(this.params, "cameraFOV", 20, 120, 1).name("FOV");
-    cameraFolder.add(this.params, "lookAtY", -2, 2, 0.05).name("Look At Y");
-    cameraFolder.open();
-
-    // Dossier Position du modèle
-    const positionFolder = this.gui.addFolder("📍 Position Modèle");
-    positionFolder.add(this.params, "modelX", -1, 1, 0.01).name("X");
-    positionFolder.add(this.params, "modelY", -1, 1, 0.01).name("Y");
-    positionFolder.add(this.params, "modelZ", -1, 1, 0.01).name("Z");
-    positionFolder.open();
-
-    // Dossier Échelle du modèle
-    const scaleFolder = this.gui.addFolder("📏 Échelle Modèle");
-    scaleFolder.add(this.params, "modelScaleX", 0.1, 2, 0.05).name("Scale X");
-    scaleFolder.add(this.params, "modelScaleY", 0.1, 2, 0.05).name("Scale Y");
-    scaleFolder.add(this.params, "modelScaleZ", 0.1, 2, 0.05).name("Scale Z");
-    scaleFolder.open();
-
-    // Dossier Rotation du modèle
-    const rotationFolder = this.gui.addFolder("🔄 Rotation Modèle");
-    rotationFolder
-      .add(this.params, "modelRotationY", 0, Math.PI * 2, 0.01)
-      .name("Rotation Y (rad)");
-    rotationFolder.open();
-
-    // Bouton pour logger les valeurs
-    this.gui.add(this.params, "logValues").name("📋 Copier les valeurs");
-
-    // Style personnalisé pour le GUI
-    if (this.gui.domElement.parentElement) {
-      this.gui.domElement.parentElement.style.zIndex = "9999";
-    }
-  }
-
   private handleResize(): void {
     if (!this.container) return;
 
@@ -294,12 +224,6 @@ export class MiiButton {
     // Arrêter l'animation
     if (this.animationFrameId !== null) {
       cancelAnimationFrame(this.animationFrameId);
-    }
-
-    // Nettoyer le GUI
-    if (this.gui) {
-      this.gui.destroy();
-      this.gui = null;
     }
 
     // Nettoyer les événements

@@ -266,16 +266,48 @@ const currentSize = sizes[size] || sizes.desktop;
     });
   });
   
-  // Réinitialiser après les transitions Astro
+  // Réinitialiser après les transitions Astro (navigation de page)
   document.addEventListener("astro:page-load", () => {
+    console.log('astro:page-load - Réinitialisation du Mii Button');
     setTimeout(initMiiButton, 100);
   });
   
-  // Nettoyer lors du déchargement
-  window.addEventListener('beforeunload', () => {
+  // Réinitialiser avant les transitions Astro
+  document.addEventListener("astro:before-swap", () => {
+    console.log('astro:before-swap - Nettoyage du Mii Button');
     if (miiButtonInstance) {
       miiButtonInstance.destroy();
       miiButtonInstance = null;
     }
+  });
+  
+  // Observer les overlays pour réinitialiser le Mii après fermeture
+  const observeOverlays = () => {
+    const overlays = document.querySelectorAll('[id$="-overlay"]');
+    overlays.forEach((overlay) => {
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.attributeName === 'class') {
+            const classList = (mutation.target as HTMLElement).classList;
+            // Si l'overlay est fermé (n'a plus la classe 'open')
+            if (!classList.contains('open') && miiButtonInstance) {
+              console.log('Overlay fermé, réinitialisation du Mii Button');
+              // Réinitialiser le Mii après un court délai
+              setTimeout(initMiiButton, 200);
+            }
+          }
+        });
+      });
+      
+      observer.observe(overlay, {
+        attributes: true,
+        attributeFilter: ['class']
+      });
+    });
+  };
+  
+  // Lancer l'observation après le chargement
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(observeOverlays, 500);
   });
 </script>

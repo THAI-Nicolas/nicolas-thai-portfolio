@@ -2,6 +2,7 @@
 import CardCV from "../boutons/CardCV.astro";
 import MainBouton from "../boutons/MainBouton.astro";
 import SmallBouton from "../boutons/SmallBouton.astro";
+import MiiDialogue from "../ui/MiiDialogue.astro";
 import FondBouton from "../../assets/icones/bouton_fond.svg";
 import FondFooter from "../../assets/icones/footer_fond.svg";
 ---
@@ -62,6 +63,11 @@ import FondFooter from "../../assets/icones/footer_fond.svg";
     </div>
   </div>
 </footer>
+
+<!-- Dialogue Mii positionné en dehors du footer pour éviter le overflow -->
+<div class="absolute left-16 bottom-[230px] z-30" style="width: 155px;">
+  <MiiDialogue />
+</div>
 
 <style>
   .footer-svg {
