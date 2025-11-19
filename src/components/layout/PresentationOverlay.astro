@@ -1,6 +1,10 @@
 ---
 import MainBouton from "../boutons/MainBouton.astro";
 import TechnologiesPresentation from "../ui/TechnologiesPresentation.astro";
+import IconDev from "../../assets/icones/presentation_dev.svg" ;
+import IconDesign from "../../assets/icones/presentation_design.svg" ;
+import IconGestionDeProjet from "../../assets/icones/presentation_gestion_projet.svg" ;
+import IconAudiovisuel from "../../assets/icones/presentation_audiovisuel.svg" ;
 import { TechnologiesService } from "../../services/technologies.service";
 
 export interface Props {
@@ -14,8 +18,10 @@ const allTechnologies = await TechnologiesService.getAll();
 const formattedTechnologies =
   TechnologiesService.formatTechnologiesForPresentation(allTechnologies);
 
+// Développement
 const frontendNames = ["Astro", "TailwindCSS", "Javascript"];
 const backendNames = ["PocketBase", "MySQL"];
+const cmsNames = ["Wordpress"];
 
 const technologiesFrontend = formattedTechnologies.filter((tech) =>
   frontendNames.includes(tech.nom)
@@ -23,6 +29,10 @@ const technologiesFrontend = formattedTechnologies.filter((tech) =>
 
 const technologiesBackend = formattedTechnologies.filter((tech) =>
   backendNames.includes(tech.nom)
+);
+
+const technologiesCMS = formattedTechnologies.filter((tech) =>
+  cmsNames.includes(tech.nom)
 );
 ---
 
@@ -46,32 +56,64 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
       <!-- OVERLAY DÉVELOPPEMENT (page de gauche) -->
       <div class="page-2-back-overlay" id="page-2-back-overlay">
         <div class="page-2-back-overlay-content">
-          <div class="competence-header dev">
-            <div class="icon-circle">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-            </div>
-            <h2>DÉVELOPPEMENT</h2>
+          <!-- En-tête avec icône -->
+          <div class="dev-header">
+            <img src={IconDev.src} alt="Développement" class="dev-icon" />
+            <h2 class="dev-title">DÉVELOPPEMENT</h2>
           </div>
 
-          <div class="competence-list">
-            <div class="comp-item">
-              <span class="comp-badge frontend">FRONTEND</span>
-              <h4>Sites statiques modernes</h4>
-              <p>Je réalise des sites statiques modernes avec Astro, Tailwind CSS et JavaScript, en ajoutant des animations et des interactions pour rendre l'expérience utilisateur vivante.</p>
-            </div>
+    <!-- Composants Technologies séparés -->
+    <div class="dev-technologies-container">
+      <div class="dev-technologies">
+        <TechnologiesPresentation 
+          categorie="FRONTEND"
+          technologies={technologiesFrontend} 
+        />
+      </div>
 
-            <div class="comp-item">
-              <span class="comp-badge backend">BACKEND</span>
-              <h4>Sites dynamiques</h4>
-              <p>Je conçois des sites dynamiques capables de gérer des bases de données avec MySQL, PocketBase ou PhpMyAdmin.</p>
-            </div>
+      <div class="dev-technologies">
+        <TechnologiesPresentation 
+          categorie="BACKEND"
+          technologies={technologiesBackend} 
+        />
+      </div>
 
-            <div class="comp-item">
-              <span class="comp-badge cms">CMS</span>
-              <h4>WordPress</h4>
-              <p>Je suis capable de créer et personnaliser des sites sur WordPress, en développant des thèmes et plugins.</p>
+      <div class="dev-technologies">
+        <TechnologiesPresentation 
+          categorie="CMS"
+          technologies={technologiesCMS} 
+        />
+      </div>
+    </div>          <!-- Titre de section -->
+          <h3 class="dev-section-title">MON EXPERTISE EN DÉVELOPPEMENT WEB</h3>
+
+          <!-- Bloc 1: Texte - Image -->
+          <div class="dev-content-block">
+            <div class="dev-text-wrapper">
+              <p class="dev-paragraph">Je réalise des sites statiques modernes avec Astro, Tailwind CSS et JavaScript. Chaque site est pensé pour être fluide, intuitif et entièrement responsive.</p>
+            </div>
+            <div class="dev-image-placeholder">
+              <!-- Rectangle gris temporaire -->
+            </div>
+          </div>
+
+          <!-- Bloc 2: Image - Texte (IMAGE À GAUCHE) -->
+          <div class="dev-content-block">
+            <div class="dev-image-placeholder">
+              <!-- Rectangle gris temporaire -->
+            </div>
+            <div class="dev-text-wrapper">
+              <p class="dev-paragraph">Je conçois des sites dynamiques capables de gérer des bases de données avec MySQL, PocketBase ou PhpMyAdmin. Je crée des fonctionnalités interactives pour offrir une expérience utilisateur riche.</p>
+            </div>
+          </div>
+
+          <!-- Bloc 3: Texte - Image -->
+          <div class="dev-content-block">
+            <div class="dev-text-wrapper">
+              <p class="dev-paragraph">Je suis capable de créer et personnaliser des sites sur WordPress, en développant des thèmes, en intégrant des plugins et en adaptant le design selon les besoins du projet.</p>
+            </div>
+            <div class="dev-image-placeholder">
+              <!-- Rectangle gris temporaire -->
             </div>
           </div>
         </div>
@@ -80,32 +122,50 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
       <!-- OVERLAY DESIGN (page de droite) -->
       <div class="page-2-back-overlay-right" id="page-2-back-overlay-right">
         <div class="page-2-back-overlay-right-content">
-          <div class="competence-header design">
-            <div class="icon-circle">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-            </div>
-            <h2>DESIGN</h2>
+          <!-- En-tête avec icône -->
+          <div class="dev-header">
+            <img src={IconDesign.src} alt="Design" class="dev-icon" />
+            <h2 class="dev-title">DESIGN</h2>
           </div>
 
-          <div class="competence-list">
-            <div class="comp-item">
-              <span class="comp-badge design-badge">MAQUETTAGE</span>
-              <h4>Maquettes et prototypes</h4>
-              <p>Je conçois des maquettes et prototypes de sites web et d'applications mobiles sur Figma.</p>
-            </div>
+          <!-- Composant Technologies -->
+          <div class="dev-technologies">
+            <TechnologiesPresentation 
+              categorie="OUTILS DE DESIGN"
+              technologies={formattedTechnologies.filter(t => ["Figma", "Blender", "Canva"].includes(t.nom))} 
+            />
+          </div>
 
-            <div class="comp-item">
-              <span class="comp-badge design-badge">3D</span>
-              <h4>Modèles 3D</h4>
-              <p>Je crée des modèles 3D, principalement des personnages, avec Blender et Mixamo.</p>
-            </div>
+          <!-- Titre de section -->
+          <h3 class="dev-section-title">MON EXPERTISE EN DESIGN</h3>
 
-            <div class="comp-item">
-              <span class="comp-badge design-badge">COMMUNICATION</span>
-              <h4>Communication visuelle</h4>
-              <p>Je réalise des dossiers de communication, visuels et flyers sur Canva.</p>
+          <!-- Bloc 1: Image - Texte (IMAGE À GAUCHE) -->
+          <div class="dev-content-block">
+            <div class="dev-image-placeholder">
+              <!-- Rectangle gris temporaire -->
+            </div>
+            <div class="dev-text-wrapper">
+              <p class="dev-paragraph">Je conçois des maquettes et prototypes de sites web et d'applications mobiles sur Figma. Chaque design est pensé pour offrir une expérience utilisateur optimale et intuitive.</p>
+            </div>
+          </div>
+
+          <!-- Bloc 2: Texte - Image -->
+          <div class="dev-content-block">
+            <div class="dev-text-wrapper">
+              <p class="dev-paragraph">Je crée des modèles 3D, principalement des personnages, avec Blender et Mixamo. Je donne vie à des univers visuels en 3D pour enrichir vos projets créatifs.</p>
+            </div>
+            <div class="dev-image-placeholder">
+              <!-- Rectangle gris temporaire -->
+            </div>
+          </div>
+
+          <!-- Bloc 3: Image - Texte (IMAGE À GAUCHE) -->
+          <div class="dev-content-block">
+            <div class="dev-image-placeholder">
+              <!-- Rectangle gris temporaire -->
+            </div>
+            <div class="dev-text-wrapper">
+              <p class="dev-paragraph">Je réalise des dossiers de communication, visuels et flyers sur Canva. J'assure une identité visuelle cohérente et impactante pour tous vos supports de communication.</p>
             </div>
           </div>
         </div>
@@ -114,32 +174,50 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
       <!-- OVERLAY GESTION DE PROJET (page de gauche) -->
       <div class="page-3-back-overlay" id="page-3-back-overlay">
         <div class="page-3-back-overlay-content">
-          <div class="competence-header project">
-            <div class="icon-circle">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-            </div>
-            <h2>GESTION DE PROJET</h2>
+          <!-- En-tête avec icône -->
+          <div class="dev-header">
+            <img src={IconGestionDeProjet.src} alt="Gestion de projet" class="dev-icon" />
+            <h2 class="dev-title">GESTION DE PROJET</h2>
           </div>
 
-          <div class="competence-list">
-            <div class="comp-item">
-              <span class="comp-badge project-badge">MÉTHODOLOGIE</span>
-              <h4>Méthodes agiles</h4>
-              <p>Je maîtrise les méthodes agiles (Scrum, Kanban) pour organiser et gérer efficacement les projets de développement.</p>
-            </div>
+          <!-- Composant Technologies -->
+          <div class="dev-technologies">
+            <TechnologiesPresentation 
+              categorie="OUTILS DE GESTION"
+              technologies={formattedTechnologies.filter(t => ["Trello", "Notion", "GitHub"].includes(t.nom))} 
+            />
+          </div>
 
-            <div class="comp-item">
-              <span class="comp-badge project-badge">OUTILS</span>
-              <h4>Gestion collaborative</h4>
-              <p>J'utilise des outils comme Trello, Notion et GitHub Projects pour coordonner les équipes et suivre l'avancement des projets.</p>
-            </div>
+          <!-- Titre de section -->
+          <h3 class="dev-section-title">MON EXPERTISE EN GESTION DE PROJET</h3>
 
-            <div class="comp-item">
-              <span class="comp-badge project-badge">ANALYSE</span>
-              <h4>Cahier des charges</h4>
-              <p>Je sais analyser les besoins clients et rédiger des cahiers des charges détaillés pour cadrer les projets.</p>
+          <!-- Bloc 1: Texte - Image -->
+          <div class="dev-content-block">
+            <div class="dev-text-wrapper">
+              <p class="dev-paragraph">Je maîtrise les méthodes agiles (Scrum, Kanban) pour organiser et gérer efficacement les projets de développement. J'assure une communication fluide et une livraison progressive.</p>
+            </div>
+            <div class="dev-image-placeholder">
+              <!-- Rectangle gris temporaire -->
+            </div>
+          </div>
+
+          <!-- Bloc 2: Image - Texte (IMAGE À GAUCHE) -->
+          <div class="dev-content-block">
+            <div class="dev-image-placeholder">
+              <!-- Rectangle gris temporaire -->
+            </div>
+            <div class="dev-text-wrapper">
+              <p class="dev-paragraph">J'utilise des outils comme Trello, Notion et GitHub Projects pour coordonner les équipes et suivre l'avancement des projets. Je garantis une organisation optimale à chaque étape.</p>
+            </div>
+          </div>
+
+          <!-- Bloc 3: Texte - Image -->
+          <div class="dev-content-block">
+            <div class="dev-text-wrapper">
+              <p class="dev-paragraph">Je sais analyser les besoins clients et rédiger des cahiers des charges détaillés pour cadrer les projets. Je transforme les idées en plans d'action concrets et réalisables.</p>
+            </div>
+            <div class="dev-image-placeholder">
+              <!-- Rectangle gris temporaire -->
             </div>
           </div>
         </div>
@@ -148,32 +226,50 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
       <!-- OVERLAY AUDIOVISUEL (page de droite) -->
       <div class="page-3-back-overlay-right" id="page-3-back-overlay-right">
         <div class="page-3-back-overlay-right-content">
-          <div class="competence-header audiovisual">
-            <div class="icon-circle">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-              </svg>
-            </div>
-            <h2>AUDIOVISUEL</h2>
+          <!-- En-tête avec icône -->
+          <div class="dev-header">
+            <img src={IconAudiovisuel.src} alt="Audiovisuel" class="dev-icon" />
+            <h2 class="dev-title">AUDIOVISUEL</h2>
           </div>
 
-          <div class="competence-list">
-            <div class="comp-item">
-              <span class="comp-badge audiovisual-badge">MONTAGE</span>
-              <h4>Montage vidéo</h4>
-              <p>Je réalise des montages vidéo sur Adobe Premiere Pro et DaVinci Resolve pour créer du contenu dynamique et engageant.</p>
-            </div>
+          <!-- Composant Technologies -->
+          <div class="dev-technologies">
+            <TechnologiesPresentation 
+              categorie="OUTILS AUDIOVISUELS"
+              technologies={formattedTechnologies.filter(t => ["Premiere Pro", "After Effects", "Audacity"].includes(t.nom))} 
+            />
+          </div>
 
-            <div class="comp-item">
-              <span class="comp-badge audiovisual-badge">MOTION DESIGN</span>
-              <h4>Animations</h4>
-              <p>Je crée des animations et du motion design sur After Effects pour donner vie aux projets visuels.</p>
-            </div>
+          <!-- Titre de section -->
+          <h3 class="dev-section-title">MON EXPERTISE EN AUDIOVISUEL</h3>
 
-            <div class="comp-item">
-              <span class="comp-badge audiovisual-badge">SON</span>
-              <h4>Prise de son et mixage</h4>
-              <p>Je m'occupe de la prise de son et du mixage audio sur Audacity pour des productions de qualité professionnelle.</p>
+          <!-- Bloc 1: Image - Texte (IMAGE À GAUCHE) -->
+          <div class="dev-content-block">
+            <div class="dev-image-placeholder">
+              <!-- Rectangle gris temporaire -->
+            </div>
+            <div class="dev-text-wrapper">
+              <p class="dev-paragraph">Je réalise des montages vidéo sur Adobe Premiere Pro et DaVinci Resolve pour créer du contenu dynamique et engageant. Chaque production est soignée pour captiver votre audience.</p>
+            </div>
+          </div>
+
+          <!-- Bloc 2: Texte - Image -->
+          <div class="dev-content-block">
+            <div class="dev-text-wrapper">
+              <p class="dev-paragraph">Je crée des animations et du motion design sur After Effects pour donner vie aux projets visuels. J'apporte une dimension créative et professionnelle à vos contenus animés.</p>
+            </div>
+            <div class="dev-image-placeholder">
+              <!-- Rectangle gris temporaire -->
+            </div>
+          </div>
+
+          <!-- Bloc 3: Image - Texte (IMAGE À GAUCHE) -->
+          <div class="dev-content-block">
+            <div class="dev-image-placeholder">
+              <!-- Rectangle gris temporaire -->
+            </div>
+            <div class="dev-text-wrapper">
+              <p class="dev-paragraph">Je m'occupe de la prise de son et du mixage audio sur Audacity pour des productions de qualité professionnelle. Un son impeccable pour valoriser tous vos projets audiovisuels.</p>
             </div>
           </div>
         </div>
@@ -240,7 +336,7 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
                       stroke-linecap="round"
                       stroke-linejoin="round"></path>
                   </svg>
-                  <span>Thainicolas06@gmail.com</span>
+                  <span>thainicolas06@gmail.com</span>
                 </div>
 
                 <div class="card-info-item">
@@ -662,14 +758,83 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
   .page-2-back-overlay-content {
     width: 100%;
     height: 100%;
-    padding: 60px 50px;
+    padding: 40px 50px;
     font-family: "Raleway", sans-serif;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
   }
 
-  .page-2-back-overlay-content p {
-    font-size: 1.2rem;
-    line-height: 1.8;
-    color: #333;
+  /* Styles pour la section Développement */
+  .dev-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+
+  .dev-icon {
+    width: 45px;
+    height: 45px;
+  }
+
+  .dev-title {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #000;
+    margin: 0;
+    letter-spacing: 0.1em;
+  }
+
+  .dev-technologies-container {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    margin-bottom: -15px;
+    align-items: flex-start;
+  }
+
+  .dev-technologies {
+    transform: scale(0.7);
+    transform-origin: left top;
+    margin-top: -10px;
+  }
+
+  .dev-section-title {
+    font-size: 0.875rem;
+    font-weight: 800;
+    color: #000;
+    margin: 0 0 12px 0;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .dev-content-block {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .dev-text-wrapper {
+    flex: 1;
+  }
+
+  .dev-paragraph {
+    font-size: 0.8rem !important;
+    line-height: 1.4 !important;
+    color: #1a202c !important;
+    margin: 0 !important;
+  }
+
+  .dev-image-placeholder {
+    flex: 0 0 200px;
+    width: 200px;
+    height: 150px;
+    background: #d9d9d9;
+    border-radius: 8px;
   }
 
   /* Ancien contenu page 2 - on le garde vide pour pas casser l'animation */
@@ -709,14 +874,13 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
   .page-2-back-overlay-right-content {
     width: 100%;
     height: 100%;
-    padding: 60px 50px;
+    padding: 40px 50px;
     font-family: "Raleway", sans-serif;
-  }
-
-  .page-2-back-overlay-right-content p {
-    font-size: 1.2rem;
-    line-height: 1.8;
-    color: #333;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
   }
 
   /* Overlay Gestion de projet (page de gauche) */
@@ -748,14 +912,13 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
   .page-3-back-overlay-content {
     width: 100%;
     height: 100%;
-    padding: 60px 50px;
+    padding: 40px 50px;
     font-family: "Raleway", sans-serif;
-  }
-
-  .page-3-back-overlay-content p {
-    font-size: 1.2rem;
-    line-height: 1.8;
-    color: #333;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
   }
 
   /* Overlay Audiovisuel (page de droite) */
@@ -787,14 +950,13 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
   .page-3-back-overlay-right-content {
     width: 100%;
     height: 100%;
-    padding: 60px 50px;
+    padding: 40px 50px;
     font-family: "Raleway", sans-serif;
-  }
-
-  .page-3-back-overlay-right-content p {
-    font-size: 1.2rem;
-    line-height: 1.8;
-    color: #333;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
   }
 
   /* Animation de tournement */
@@ -959,7 +1121,7 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
     width: 100%;
     background: #d9d9d9;
     border-radius: 4px;
-    padding: 14px;
+    padding: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1021,7 +1183,7 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
     width: 100%;
     height: 100%;
     background: white;
-    padding: 60px 50px;
+    padding: 60px 25px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1032,16 +1194,17 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
   .intro-section {
     display: flex;
     flex-direction: column;
-    gap: 35px;
+    gap: 14px;
   }
 
   .intro-title {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: 900;
     color: #000;
     text-align: left;
     letter-spacing: 0.05em;
     margin: 0;
+    padding: 0 25px;
     font-family: "Raleway", sans-serif;
   }
 
@@ -1089,7 +1252,7 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
     font-size: 1rem;
     line-height: 1.7;
     color: #333;
-    margin: 0 0 20px 0;
+    margin: 0 0 30px 0;
     font-family: "Raleway", sans-serif;
   }
 
@@ -1097,7 +1260,7 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
     background: transparent;
     border: none;
     color: #000;
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 700;
     letter-spacing: 0.05em;
     cursor: pointer;
