@@ -254,27 +254,22 @@ const { isVisible = false, onClose } = Astro.props;
 
               <div style="display: flex; flex-direction: column; gap: 12px;">
                 <!-- Curseur Wii -->
-                <div style="background: white; border: 2px solid var(--color-light-blue); border-radius: 8px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                  <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px;">
-                    <div>
-                      <div style="font-weight: 600; color: var(--color-text-gray); margin-bottom: 4px;">
-                        🖱️ Curseur Wii
-                      </div>
-                      <div style="font-size: 12px; color: var(--color-text-gray); opacity: 0.7;">
-                        Activer le pointeur style Wii
-                      </div>
+                <button
+                  id="cursor-toggle-btn"
+                  type="button"
+                  class="gaming-card group cursor-pointer text-left"
+                  style="transition: all 0.2s ease;"
+                >
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="flex items-center gap-2">
+                      <svg class="w-4 h-4 text-text-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/>
+                      </svg>
+                      <span class="text-sm font-semibold text-text-gray tracking-wide">Curseur Wii</span>
                     </div>
-                    <button
-                      id="cursor-right-toggle"
-                      type="button"
-                      style="min-width: 60px; padding: 8px 16px; background: var(--color-light-blue); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; transition: all 0.2s;"
-                      onmouseover="this.style.background='var(--color-dark-blue)'"
-                      onmouseout="this.style.background='var(--color-light-blue)'"
-                    >
-                      ON
-                    </button>
+                    <span id="cursor-status" class="text-sm font-bold text-light-blue">ON</span>
                   </div>
-                </div>
+                </button>
 
                 <!-- Thème -->
                 <div style="background: white; border: 2px solid var(--color-light-blue); border-radius: 8px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
@@ -804,38 +799,33 @@ const { isVisible = false, onClose } = Astro.props;
     // Recréer le gestionnaire de paramètres à chaque fois pour éviter les références DOM obsolètes
     parametresManager = new ParametresManager();
     
-    // Gestion du curseur Wii (droite)
-    const cursorRightButton = document.getElementById('cursor-right-toggle') as HTMLButtonElement;
+    // Gestion du curseur Wii avec bouton simple
+    const cursorToggleBtn = document.getElementById('cursor-toggle-btn') as HTMLButtonElement;
+    const cursorStatus = document.getElementById('cursor-status') as HTMLSpanElement;
     
     // Charger la préférence sauvegardée
     const savedCursor = localStorage.getItem('wiiCursor');
     let cursorEnabled = savedCursor !== 'disabled'; // Par défaut ON
     
-    // Fonction pour mettre à jour le bouton
-    function updateCursorButton(enabled: boolean) {
-      const bg = enabled ? 'var(--color-light-blue)' : '#ccc';
-      const text = enabled ? 'ON' : 'OFF';
-      
-      if (cursorRightButton) {
-        cursorRightButton.textContent = text;
-        cursorRightButton.style.background = bg;
-      }
-      
+    // Fonction pour mettre à jour le curseur et l'affichage
+    function updateCursor(enabled: boolean) {
       if (enabled) {
-        document.body.classList.add('custom-cursor');
+        document.documentElement.classList.add('custom-cursor');
+        if (cursorStatus) cursorStatus.textContent = 'ON';
       } else {
-        document.body.classList.remove('custom-cursor');
+        document.documentElement.classList.remove('custom-cursor');
+        if (cursorStatus) cursorStatus.textContent = 'OFF';
       }
     }
     
     // Initialiser l'état
-    updateCursorButton(cursorEnabled);
+    updateCursor(cursorEnabled);
     
     // Gestionnaire du bouton
-    if (cursorRightButton) {
-      cursorRightButton.addEventListener('click', () => {
+    if (cursorToggleBtn) {
+      cursorToggleBtn.addEventListener('click', () => {
         cursorEnabled = !cursorEnabled;
-        updateCursorButton(cursorEnabled);
+        updateCursor(cursorEnabled);
         localStorage.setItem('wiiCursor', cursorEnabled ? 'enabled' : 'disabled');
       });
     }

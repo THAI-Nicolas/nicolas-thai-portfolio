@@ -8,7 +8,7 @@
  * - L'envoi d'emails via EmailJS
  */
 
-import emailjs from '@emailjs/browser';
+import emailjs from "@emailjs/browser";
 import {
   CONTACT_IDS,
   CONTACT_SELECTORS,
@@ -181,41 +181,41 @@ export class ContactFormManager {
     const templateId = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID;
     const publicKey = import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY;
 
-    console.log('📧 EmailJS Config:', {
-      serviceId: serviceId ? '✓' : '✗',
-      templateId: templateId ? '✓' : '✗',
-      publicKey: publicKey ? '✓' : '✗',
+    console.log("📧 EmailJS Config:", {
+      serviceId: serviceId ? "✓" : "✗",
+      templateId: templateId ? "✓" : "✗",
+      publicKey: publicKey ? "✓" : "✗",
       hasContactForm: !!this.contactForm,
-      hasPaperForm: !!this.paperForm
+      hasPaperForm: !!this.paperForm,
     });
 
     if (!serviceId || !templateId || !publicKey) {
-      console.error('❌ EmailJS non configuré. Variables manquantes:', {
+      console.error("❌ EmailJS non configuré. Variables manquantes:", {
         serviceId,
         templateId,
-        publicKey
+        publicKey,
       });
       return;
     }
 
     // Initialiser EmailJS avec la clé publique
     emailjs.init(publicKey);
-    console.log('✅ EmailJS initialisé avec succès');
+    console.log("✅ EmailJS initialisé avec succès");
 
     // Gérer la soumission du formulaire de la pancarte
     if (this.contactForm) {
-      onEvent(this.contactForm, 'submit', async (e) => {
+      onEvent(this.contactForm, "submit", async (e) => {
         e.preventDefault();
-        console.log('📤 Soumission du formulaire pancarte');
+        console.log("📤 Soumission du formulaire pancarte");
         await this.handleSubmit(this.contactForm!, serviceId, templateId);
       });
     }
 
     // Gérer la soumission du formulaire de la feuille
     if (this.paperForm) {
-      onEvent(this.paperForm, 'submit', async (e) => {
+      onEvent(this.paperForm, "submit", async (e) => {
         e.preventDefault();
-        console.log('📤 Soumission du formulaire feuille');
+        console.log("📤 Soumission du formulaire feuille");
         await this.handleSubmit(this.paperForm!, serviceId, templateId);
       });
     }
@@ -226,65 +226,74 @@ export class ContactFormManager {
   /**
    * Gère l'envoi du formulaire
    */
-  private async handleSubmit(form: HTMLFormElement, serviceId: string, templateId: string): Promise<void> {
-    const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+  private async handleSubmit(
+    form: HTMLFormElement,
+    serviceId: string,
+    templateId: string
+  ): Promise<void> {
+    const submitButton = form.querySelector(
+      'button[type="submit"]'
+    ) as HTMLButtonElement;
     const originalText = submitButton.textContent;
 
-    console.log('🚀 Début envoi email...');
+    console.log("🚀 Début envoi email...");
 
     try {
       // Désactiver le bouton et afficher un loader
       submitButton.disabled = true;
-      submitButton.textContent = 'ENVOI EN COURS...';
-      submitButton.style.opacity = '0.7';
+      submitButton.textContent = "ENVOI EN COURS...";
+      submitButton.style.opacity = "0.7";
 
       // Préparer les données du formulaire
       const formData = new FormData(form);
       const templateParams = {
-        from_name: `${formData.get('prenom')} ${formData.get('nom')}`,
-        from_email: formData.get('email'),
-        subject: formData.get('sujet'),
-        message: formData.get('message'),
-        prenom: formData.get('prenom'),
-        nom: formData.get('nom'),
+        from_name: `${formData.get("prenom")} ${formData.get("nom")}`,
+        from_email: formData.get("email"),
+        subject: formData.get("sujet"),
+        message: formData.get("message"),
+        prenom: formData.get("prenom"),
+        nom: formData.get("nom"),
       };
 
-      console.log('📋 Données du formulaire:', templateParams);
+      console.log("📋 Données du formulaire:", templateParams);
 
       // Envoyer via EmailJS
-      const response = await emailjs.send(serviceId, templateId, templateParams);
+      const response = await emailjs.send(
+        serviceId,
+        templateId,
+        templateParams
+      );
 
-      console.log('✅ Email envoyé avec succès!', response);
+      console.log("✅ Email envoyé avec succès!", response);
 
       // Message de succès
-      submitButton.textContent = '✓ MESSAGE ENVOYÉ !';
-      submitButton.style.background = '#10b981';
-      submitButton.style.borderColor = '#10b981';
+      submitButton.textContent = "✓ MESSAGE ENVOYÉ !";
+      submitButton.style.background = "#10b981";
+      submitButton.style.borderColor = "#10b981";
 
       // Réinitialiser le formulaire après 2 secondes
       await delay(() => {
         this.reset();
-        submitButton.textContent = originalText || 'ENVOYER';
-        submitButton.style.background = '';
-        submitButton.style.borderColor = '';
-        submitButton.style.opacity = '';
+        submitButton.textContent = originalText || "ENVOYER";
+        submitButton.style.background = "";
+        submitButton.style.borderColor = "";
+        submitButton.style.opacity = "";
         submitButton.disabled = false;
       }, 2000);
-
     } catch (error) {
-      console.error('❌ Erreur lors de l\'envoi:', error);
+      console.error("❌ Erreur lors de l'envoi:", error);
 
       // Message d'erreur
-      submitButton.textContent = '✗ ERREUR D\'ENVOI';
-      submitButton.style.background = '#ef4444';
-      submitButton.style.borderColor = '#ef4444';
+      submitButton.textContent = "✗ ERREUR D'ENVOI";
+      submitButton.style.background = "#ef4444";
+      submitButton.style.borderColor = "#ef4444";
 
       // Réinitialiser après 2 secondes
       await delay(() => {
-        submitButton.textContent = originalText || 'ENVOYER';
-        submitButton.style.background = '';
-        submitButton.style.borderColor = '';
-        submitButton.style.opacity = '';
+        submitButton.textContent = originalText || "ENVOYER";
+        submitButton.style.background = "";
+        submitButton.style.borderColor = "";
+        submitButton.style.opacity = "";
         submitButton.disabled = false;
       }, 2000);
     }

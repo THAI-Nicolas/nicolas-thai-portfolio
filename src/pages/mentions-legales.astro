@@ -1,0 +1,317 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { ViewTransitions } from "astro:transitions";
+import MainBouton from "../components/boutons/MainBouton.astro";
+
+const seoDescription = "Mentions légales du portfolio de Nicolas THAI - Informations sur l'hébergement, la propriété intellectuelle et les conditions d'utilisation du site.";
+---
+
+<Layout 
+  title="Mentions légales | Nicolas THAI - Portfolio"
+  description={seoDescription}
+  keywords="mentions légales, portfolio, Nicolas THAI, hébergement, propriété intellectuelle"
+>
+  <ViewTransitions />
+  
+  <article class="min-h-screen w-full bg-white">
+    <!-- Header -->
+    <header class="relative w-full py-16 lg:py-24 px-6 lg:px-20 border-b-2 border-gray-200">
+      <nav class="absolute top-8 left-8 lg:top-12 lg:left-28 z-50" aria-label="Retour à l'accueil">
+        <a href="/">
+          <MainBouton
+            type="retour"
+            size="desktop"
+            strokeColor="var(--color-light-blue)"
+            neonColor="var(--color-light-blue)"
+          />
+        </a>
+      </nav>
+
+      <div class="max-w-4xl mx-auto text-center">
+        <h1 class="font-hagrid text-4xl lg:text-6xl font-bold text-text-gray mb-6">
+          Mentions légales
+        </h1>
+        <p class="font-raleway text-base lg:text-xl text-text-gray/70">
+          Informations légales et conditions d'utilisation
+        </p>
+      </div>
+    </header>
+
+    <!-- Contenu -->
+    <main class="relative w-full px-6 lg:px-20 py-16 lg:py-24">
+      <div class="max-w-4xl mx-auto space-y-16">
+        
+        <!-- Section 1: Éditeur du site -->
+        <section aria-labelledby="editeur">
+          <h2 id="editeur" class="font-hagrid text-2xl lg:text-4xl font-bold text-text-gray mb-6">
+            1. Éditeur du site
+          </h2>
+          <div class="font-raleway text-base lg:text-lg text-text-gray space-y-4 leading-relaxed">
+            <p>
+              Le présent site web est édité par :
+            </p>
+            <ul class="list-none space-y-2 pl-6">
+              <li><strong>Nom :</strong> Nicolas THAI</li>
+              <li><strong>Statut :</strong> Étudiant</li>
+              <li><strong>Email :</strong> <a href="mailto:thainicolas06@gmail.com" class="text-light-blue hover:text-dark-blue transition-colors underline">thainicolas06@gmail.com</a></li>
+              <li><strong>Établissement :</strong> BUT MMI Montbéliard, 4 Pl. Lucien Tharradin, 25200 Montbéliard </li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Section 2: Hébergement -->
+        <section aria-labelledby="hebergement">
+          <h2 id="hebergement" class="font-hagrid text-2xl lg:text-4xl font-bold text-text-gray mb-6">
+            2. Hébergement
+          </h2>
+          <div class="font-raleway text-base lg:text-lg text-text-gray space-y-4 leading-relaxed">
+            <p>
+              Le site est hébergé par :
+            </p>
+            <ul class="list-none space-y-2 pl-6">
+              <li><strong>Hébergeur :</strong> Infomaniak Network SA</li>
+              <li><strong>Adresse :</strong> Rue Eugène-Marziano 25, 1227 Genève, Suisse</li>
+              <li><strong>Site web :</strong> <a href="https://www.infomaniak.com" target="_blank" rel="noopener noreferrer" class="text-light-blue hover:text-dark-blue transition-colors underline">infomaniak.com</a></li>
+            </ul>
+            <p class="mt-4">
+              Base de données hébergée par :
+            </p>
+            <ul class="list-none space-y-2 pl-6">
+              <li><strong>Hébergeur :</strong> VPS personnalisé</li>
+              <li><strong>Solution :</strong> PocketBase (Base de données SQLite)</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Section 3: Propriété intellectuelle -->
+        <section aria-labelledby="propriete">
+          <h2 id="propriete" class="font-hagrid text-2xl lg:text-4xl font-bold text-text-gray mb-6">
+            3. Propriété intellectuelle
+          </h2>
+          <div class="font-raleway text-base lg:text-lg text-text-gray space-y-4 leading-relaxed">
+            <h3 class="font-hagrid text-xl lg:text-2xl font-semibold text-text-gray mt-8 mb-4">
+              3.1 Nature du projet
+            </h3>
+            <p>
+              Ce portfolio est un <strong>projet étudiant à but non commercial</strong>, réalisé dans le cadre de ma formation en développement web et multimédia. Il s'agit d'une création personnelle inspirée de l'univers visuel et de l'expérience utilisateur de la Nintendo Wii, en guise d'hommage à cette console emblématique.
+            </p>
+            <p class="bg-light-blue/10 border-l-4 border-light-blue p-4 rounded-r-lg">
+              <strong>Important :</strong> Ce site est une réinterprétation artistique et éducative. Il ne s'agit en aucun cas d'une utilisation commerciale ou d'une appropriation des droits de Nintendo. Tous les éléments visuels inspirés de la Wii sont utilisés dans un cadre pédagogique et créatif, sans intention de porter atteinte aux droits de propriété intellectuelle de Nintendo.
+            </p>
+
+            <h3 class="font-hagrid text-xl lg:text-2xl font-semibold text-text-gray mt-8 mb-4">
+              3.2 Contenus originaux
+            </h3>
+            <p>
+              L'ensemble du code source, de la structure, des textes et des créations graphiques personnelles présents sur ce site sont la propriété exclusive de Nicolas THAI, sauf mention contraire. Toute reproduction, distribution ou utilisation sans autorisation préalable est interdite.
+            </p>
+
+            <h3 class="font-hagrid text-xl lg:text-2xl font-semibold text-text-gray mt-8 mb-4">
+              3.3 Éléments tiers et inspirations
+            </h3>
+            <p>
+              Les éléments suivants ne sont pas ma propriété et sont utilisés dans le respect des droits de leurs propriétaires :
+            </p>
+            <ul class="list-disc list-inside space-y-2 pl-6">
+              <li><strong>Inspiration visuelle :</strong> L'interface utilisateur est inspirée de la Nintendo Wii, propriété de Nintendo Co., Ltd.</li>
+              <li><strong>Polices de caractères :</strong> Utilisation de polices sous licence Adobe Fonts et Google Fonts</li>
+              <li><strong>Bibliothèques open-source :</strong> Astro, Three.js, TailwindCSS et autres dépendances listées dans le fichier <code>package.json</code></li>
+              <li><strong>Icônes et assets :</strong> Créations personnelles et ressources libres de droits</li>
+            </ul>
+
+            <h3 class="font-hagrid text-xl lg:text-2xl font-semibold text-text-gray mt-8 mb-4">
+              3.4 Respect des marques
+            </h3>
+            <p>
+              Les marques, logos et noms commerciaux mentionnés ou représentés sur ce site appartiennent à leurs propriétaires respectifs. Leur présence sur ce portfolio s'inscrit uniquement dans un cadre de présentation de projets académiques et professionnels, sans aucune affiliation ou endorsement.
+            </p>
+            <p class="italic text-text-gray/70">
+              Nintendo, Wii, et tous les logos associés sont des marques déposées de Nintendo Co., Ltd. Ce site n'est ni affilié, ni approuvé, ni sponsorisé par Nintendo.
+            </p>
+          </div>
+        </section>
+
+        <!-- Section 4: Protection des données -->
+        <section aria-labelledby="donnees">
+          <h2 id="donnees" class="font-hagrid text-2xl lg:text-4xl font-bold text-text-gray mb-6">
+            4. Protection des données personnelles
+          </h2>
+          <div class="font-raleway text-base lg:text-lg text-text-gray space-y-4 leading-relaxed">
+            <h3 class="font-hagrid text-xl lg:text-2xl font-semibold text-text-gray mt-8 mb-4">
+              4.1 Collecte de données
+            </h3>
+            <p>
+              Ce site collecte un minimum de données personnelles :
+            </p>
+            <ul class="list-disc list-inside space-y-2 pl-6">
+              <li><strong>Formulaire de contact :</strong> Nom, prénom, email et message (traité via EmailJS)</li>
+              <li><strong>Préférences utilisateur :</strong> Paramètres d'interface stockés localement dans le navigateur (localStorage)</li>
+              <li><strong>Données de navigation :</strong> Aucun cookie de tracking ou analytics n'est utilisé</li>
+            </ul>
+
+            <h3 class="font-hagrid text-xl lg:text-2xl font-semibold text-text-gray mt-8 mb-4">
+              4.2 Utilisation des données
+            </h3>
+            <p>
+              Les données collectées via le formulaire de contact sont utilisées exclusivement pour répondre à vos demandes. Elles ne sont jamais partagées avec des tiers, vendues ou utilisées à des fins commerciales.
+            </p>
+
+            <h3 class="font-hagrid text-xl lg:text-2xl font-semibold text-text-gray mt-8 mb-4">
+              4.3 Vos droits
+            </h3>
+            <p>
+              Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données personnelles. Pour exercer ces droits, contactez-moi à l'adresse : <a href="mailto:thainicolas06@gmail.com" class="text-light-blue hover:text-dark-blue transition-colors underline">thainicolas06@gmail.com</a>
+            </p>
+          </div>
+        </section>
+
+        <!-- Section 5: Cookies et stockage local -->
+        <section aria-labelledby="cookies">
+          <h2 id="cookies" class="font-hagrid text-2xl lg:text-4xl font-bold text-text-gray mb-6">
+            5. Cookies et stockage local
+          </h2>
+          <div class="font-raleway text-base lg:text-lg text-text-gray space-y-4 leading-relaxed">
+            <p>
+              Ce site utilise le <strong>stockage local du navigateur (localStorage)</strong> pour sauvegarder vos préférences d'interface, telles que :
+            </p>
+            <ul class="list-disc list-inside space-y-2 pl-6">
+              <li>Activation ou désactivation du curseur Wii personnalisé</li>
+              <li>Paramètres audio (volume de la musique et des effets sonores)</li>
+              <li>Choix du thème et de la langue (si applicable)</li>
+            </ul>
+            <p>
+              Ces données sont stockées uniquement sur votre appareil et ne sont jamais transmises à des serveurs externes. Vous pouvez les supprimer à tout moment en vidant le cache de votre navigateur.
+            </p>
+            <p class="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
+              <strong>Aucun cookie de suivi ou analytics</strong> n'est utilisé sur ce site. Votre navigation est entièrement privée.
+            </p>
+          </div>
+        </section>
+
+        <!-- Section 6: Responsabilité -->
+        <section aria-labelledby="responsabilite">
+          <h2 id="responsabilite" class="font-hagrid text-2xl lg:text-4xl font-bold text-text-gray mb-6">
+            6. Limitation de responsabilité
+          </h2>
+          <div class="font-raleway text-base lg:text-lg text-text-gray space-y-4 leading-relaxed">
+            <p>
+              L'éditeur s'efforce de fournir des informations aussi précises que possible. Toutefois, il ne pourra être tenu responsable des omissions, inexactitudes ou carences dans la mise à jour du site.
+            </p>
+            <p>
+              Les liens hypertextes présents sur ce site peuvent renvoyer vers d'autres sites web. L'éditeur décline toute responsabilité quant au contenu de ces sites externes.
+            </p>
+          </div>
+        </section>
+
+        <!-- Section 7: Crédits et technologies -->
+        <section aria-labelledby="credits">
+          <h2 id="credits" class="font-hagrid text-2xl lg:text-4xl font-bold text-text-gray mb-6">
+            7. Crédits et technologies
+          </h2>
+          <div class="font-raleway text-base lg:text-lg text-text-gray space-y-4 leading-relaxed">
+            <h3 class="font-hagrid text-xl lg:text-2xl font-semibold text-text-gray mt-8 mb-4">
+              7.1 Technologies utilisées
+            </h3>
+            <ul class="list-disc list-inside space-y-2 pl-6">
+              <li><strong>Framework :</strong> Astro (générateur de sites statiques)</li>
+              <li><strong>Base de données :</strong> PocketBase (SQLite)</li>
+              <li><strong>3D et animations :</strong> Three.js & Mixamo</li>
+              <li><strong>Styles :</strong> TailwindCSS & CSS Pur</li>
+              <li><strong>Email :</strong> EmailJS</li>
+              <li><strong>Hébergement :</strong> Infomaniak</li>
+            </ul>
+
+            <h3 class="font-hagrid text-xl lg:text-2xl font-semibold text-text-gray mt-8 mb-4">
+              7.2 Remerciements
+            </h3>
+            <p>
+              Un grand merci à Nintendo pour avoir créé l'univers inspirant de la Wii, qui a marqué toute une génération de joueurs et de créatifs. Ce portfolio est un hommage sincère à cette console emblématique et à son interface utilisateur révolutionnaire.
+            </p>
+          </div>
+        </section>
+
+        <!-- Section 8: Contact -->
+        <section aria-labelledby="contact-legal">
+          <h2 id="contact-legal" class="font-hagrid text-2xl lg:text-4xl font-bold text-text-gray mb-6">
+            8. Contact
+          </h2>
+          <div class="font-raleway text-base lg:text-lg text-text-gray space-y-4 leading-relaxed">
+            <p>
+              Pour toute question concernant ces mentions légales, les conditions d'utilisation du site, ou pour exercer vos droits relatifs à vos données personnelles, vous pouvez me contacter :
+            </p>
+            <ul class="list-none space-y-2 pl-6">
+              <li><strong>Par email :</strong> <a href="mailto:thainicolas06@gmail.com" class="text-light-blue hover:text-dark-blue transition-colors underline">thainicolas06@gmail.com</a></li>
+              <li><strong>Via le formulaire de contact</strong> disponible sur la page d'accueil</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- Section 9: Mise à jour -->
+        <section aria-labelledby="maj">
+          <h2 id="maj" class="font-hagrid text-2xl lg:text-4xl font-bold text-text-gray mb-6">
+            9. Mise à jour des mentions légales
+          </h2>
+          <div class="font-raleway text-base lg:text-lg text-text-gray space-y-4 leading-relaxed">
+            <p>
+              Les présentes mentions légales peuvent être modifiées à tout moment. Il est recommandé de les consulter régulièrement.
+            </p>
+            <p class="text-text-gray/70 italic">
+              Dernière mise à jour : Novembre 2025
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative w-full bg-white pt-16 pb-6 border-t-2 border-gray-200 px-6 lg:px-20 mt-24">
+      <div class="max-w-4xl mx-auto flex flex-col lg:flex-row justify-between items-center gap-8">
+        <p class="font-raleway text-sm lg:text-base text-text-gray">© 2025 Nicolas THAI</p>
+
+        <nav class="flex items-center gap-8" aria-label="Liens utiles">
+          <a
+            href="/"
+            class="font-raleway text-sm lg:text-base text-text-gray hover:text-dark-blue transition-colors duration-300"
+          >
+            Accueil
+          </a>
+          <a
+            href="/mentions-legales"
+            class="font-raleway text-sm lg:text-base text-light-blue font-semibold"
+            aria-current="page"
+          >
+            Mentions légales
+          </a>
+        </nav>
+      </div>
+    </footer>
+  </article>
+</Layout>
+
+<style>
+  html,
+  body {
+    overflow: auto !important;
+    scroll-behavior: smooth;
+  }
+
+  code {
+    background-color: #f3f4f6;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+  }
+
+  /* Style pour les liens */
+  a:focus {
+    outline: 2px solid var(--color-light-blue);
+    outline-offset: 2px;
+  }
+
+  /* Amélioration de la lisibilité */
+  section {
+    scroll-margin-top: 2rem;
+  }
+</style>

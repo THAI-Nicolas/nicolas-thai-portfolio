@@ -10,6 +10,7 @@ import GridLayer from "../../../assets/icones/gridlayer.svg";
 import Nuage1 from "../../../assets/icones/nuage1.svg";
 import Nuage2 from "../../../assets/icones/nuage2.svg";
 import { ProjetsService } from "../../../services/projets.service";
+import FabProjet from "../../../components/ui/FabProjet.astro";
 
 const { id } = Astro.params;
 
@@ -36,6 +37,26 @@ const colorGradient = {
   to: projet.color_to,
 };
 
+// Fonction pour calculer la luminosité d'une couleur (0-255)
+function getLuminance(hex: string): number {
+  // Convertir hex en RGB
+  const rgb = hex.replace('#', '').match(/.{2}/g);
+  if (!rgb) return 0;
+  
+  const [r, g, b] = rgb.map(x => parseInt(x, 16));
+  
+  // Formule de luminosité perçue (ITU-R BT.709)
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+// Calculer la luminosité moyenne du gradient
+const avgLuminance = (getLuminance(colorGradient.from) + getLuminance(colorGradient.to)) / 2;
+
+// Déterminer la couleur de texte optimale (blanc si fond sombre, noir si fond clair)
+const textColor = avgLuminance > 128 ? '#2D3748' : '#FFFFFF'; // text-gray-800 ou white
+const textOpacity = avgLuminance > 128 ? '0.85' : '0.95';
+const numberOpacity = avgLuminance > 128 ? '0.35' : '0.18'; // Plus visible sur fond clair, plus discret sur fond foncé
+
 // SEO optimisé pour la page détails
 const techNames = technologies.map((t: any) => t.nom).join(', ');
 const etapesCount = processusEtapes.length;
@@ -52,35 +73,53 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
   <ViewTransitions />
   <style is:inline set:html={`
     /* Curseur personnalisé avec couleur du projet */
-    body.custom-cursor,
-    body.custom-cursor * {
+    html.custom-cursor,
+    html.custom-cursor * {
       cursor: url("data:image/svg+xml,%3Csvg width='36' height='53' viewBox='0 0 36 53' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg filter='url(%23filter0_d_4_4)'%3E%3Cpath d='M27.8249 19.4793C27.2242 19.4793 26.6482 19.7192 26.2235 20.1463C25.7987 20.5734 25.5601 21.1526 25.5601 21.7565V22.5142C25.5601 22.5878 25.5311 22.6584 25.4793 22.7104C25.4276 22.7624 25.3574 22.7916 25.2843 22.7916H25.0125C24.9393 22.7916 24.8692 22.7624 24.8174 22.7104C24.7657 22.6584 24.7366 22.5878 24.7366 22.5142V20.5144C24.7366 19.9105 24.498 19.3312 24.0733 18.9042C23.6486 18.4771 23.0725 18.2372 22.4719 18.2372C21.8713 18.2372 21.2952 18.4771 20.8705 18.9042C20.4458 19.3312 20.2072 19.9105 20.2072 20.5144V22.5142C20.2072 22.5507 20.2001 22.5867 20.1862 22.6204C20.1723 22.6541 20.152 22.6846 20.1264 22.7104C20.1008 22.7362 20.0704 22.7566 20.0369 22.7705C20.0034 22.7845 19.9675 22.7916 19.9313 22.7916H19.2478C19.2116 22.7916 19.1757 22.7845 19.1422 22.7705C19.1087 22.7566 19.0783 22.7362 19.0527 22.7104C19.0271 22.6846 19.0068 22.6541 18.9929 22.6204C18.979 22.5867 18.9719 22.5507 18.9719 22.5142V19.4793C18.9719 18.8205 18.7116 18.1886 18.2483 17.7227C17.785 17.2568 17.1566 16.9951 16.5013 16.9951C15.8461 16.9951 15.2177 17.2568 14.7544 17.7227C14.291 18.1886 14.0307 18.8205 14.0307 19.4793V22.506C14.0307 22.5817 14.0008 22.6544 13.9475 22.708C13.8942 22.7615 13.822 22.7916 13.7466 22.7916H13.0796C13.0422 22.7916 13.0053 22.7843 12.9708 22.7699C12.9364 22.7555 12.905 22.7345 12.8787 22.708C12.8523 22.6814 12.8313 22.6499 12.8171 22.6153C12.8028 22.5806 12.7954 22.5435 12.7954 22.506V5.19491C12.7954 4.37133 12.4701 3.58148 11.8909 2.99912C11.3118 2.41676 10.5263 2.0896 9.7072 2.0896C8.88815 2.0896 8.10265 2.41676 7.52349 2.99912C6.94433 3.58148 6.61897 4.37133 6.61897 5.19491V29.1389C6.61897 29.1753 6.61183 29.2114 6.59797 29.2451C6.5841 29.2787 6.56378 29.3093 6.53816 29.3351C6.51254 29.3608 6.48213 29.3812 6.44866 29.3952C6.41519 29.4091 6.37931 29.4163 6.34308 29.4163H5.65955C5.58639 29.4163 5.51621 29.3871 5.46448 29.3351C5.41274 29.283 5.38367 29.2125 5.38367 29.1389V23.8889C5.38367 23.8175 5.35547 23.749 5.30528 23.6986C5.25509 23.6481 5.18701 23.6197 5.11602 23.6197C4.31336 23.6197 3.54356 23.9403 2.97599 24.5111C2.40841 25.0818 2.08955 25.8558 2.08955 26.6629V33.9708C2.08955 39.7673 9.50132 40.5954 9.50132 44.7358V46.5248C9.50132 46.6801 9.62668 46.806 9.78132 46.806H26.1037C26.2583 46.806 26.3837 46.6801 26.3837 46.5248V44.3218C26.3837 40.5954 30.0896 40.5954 30.0896 37.2831V21.7565C30.0896 21.1526 29.8509 20.5734 29.4262 20.1463C29.0015 19.7192 28.4255 19.4793 27.8249 19.4793Z' fill='url(%23paint0_linear_4_4)'/%3E%3Cpath d='M20.0095 24.9567H14.2695V29.4163H16.4772V40.5653H20.0095V24.9567Z' fill='${encodeURIComponent(colorGradient.to)}'/%3E%3Cpath d='M9.70674 1.04468C10.8047 1.04468 11.8569 1.48356 12.6315 2.26245C13.406 3.04118 13.8405 4.09625 13.8405 5.19507V17.1736C13.8958 17.1093 13.9532 17.0466 14.0134 16.9861C14.6722 16.3236 15.5675 15.95 16.5017 15.95C17.4357 15.95 18.3302 16.3237 18.989 16.9861C19.403 17.4024 19.7015 17.9118 19.8669 18.4646C19.9479 18.3609 20.0359 18.262 20.1296 18.1677C20.7498 17.5441 21.5928 17.1921 22.4724 17.1921C23.3518 17.1923 24.1941 17.5442 24.8142 18.1677C25.1463 18.5018 25.3991 18.8996 25.5632 19.3318C26.1748 18.757 26.9827 18.4343 27.8249 18.4343C28.7045 18.4343 29.5465 18.7863 30.1667 19.4099C30.7867 20.0333 31.1345 20.8774 31.1345 21.7566V37.283C31.1345 39.4398 29.852 40.5539 28.9558 41.405C28.0626 42.2533 27.4284 42.9197 27.4284 44.322V46.5251C27.4282 47.253 26.8391 47.8503 26.1032 47.8503H9.78096C9.04526 47.8501 8.45694 47.2529 8.45674 46.5251V44.7361C8.45674 44.0555 8.16649 43.4686 7.57686 42.8318C6.95604 42.1613 6.12871 41.5614 5.15205 40.7976C3.29546 39.3456 1.04463 37.4107 1.04463 33.9705V26.6628C1.04465 25.5805 1.47222 24.5412 2.23506 23.7742C2.99809 23.0069 4.03434 22.575 5.11592 22.575C5.27414 22.575 5.42882 22.6048 5.57393 22.6589V5.19507C5.57393 4.09625 6.00847 3.04118 6.78291 2.26245C7.55744 1.48369 8.60894 1.0448 9.70674 1.04468Z' stroke='${encodeURIComponent(colorGradient.to)}' stroke-width='2.08955'/%3E%3C/g%3E%3Cdefs%3E%3Cfilter id='filter0_d_4_4' x='0' y='0' width='35.5224' height='52.6567' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dx='2.92537' dy='3.34328'/%3E%3CfeGaussianBlur stdDeviation='0.208955'/%3E%3CfeComposite in2='hardAlpha' operator='out'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_4_4'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_4_4' result='shape'/%3E%3C/filter%3E%3ClinearGradient id='paint0_linear_4_4' x1='16.0896' y1='2.0896' x2='16.0896' y2='46.806' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0.649038' stop-color='white'/%3E%3Cstop offset='1' stop-color='%239ED3FF'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E") 5 5, auto !important;
     }
 
-    body.custom-cursor button,
-    body.custom-cursor a,
-    body.custom-cursor input[type="button"],
-    body.custom-cursor input[type="submit"],
-    body.custom-cursor [role="button"] {
+    html.custom-cursor button,
+    html.custom-cursor a,
+    html.custom-cursor input[type="button"],
+    html.custom-cursor input[type="submit"],
+    html.custom-cursor [role="button"] {
       cursor: url("data:image/svg+xml,%3Csvg width='48' height='70' viewBox='0 0 36 53' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg filter='url(%23filter0_d_4_4)'%3E%3Cpath d='M27.8249 19.4793C27.2242 19.4793 26.6482 19.7192 26.2235 20.1463C25.7987 20.5734 25.5601 21.1526 25.5601 21.7565V22.5142C25.5601 22.5878 25.5311 22.6584 25.4793 22.7104C25.4276 22.7624 25.3574 22.7916 25.2843 22.7916H25.0125C24.9393 22.7916 24.8692 22.7624 24.8174 22.7104C24.7657 22.6584 24.7366 22.5878 24.7366 22.5142V20.5144C24.7366 19.9105 24.498 19.3312 24.0733 18.9042C23.6486 18.4771 23.0725 18.2372 22.4719 18.2372C21.8713 18.2372 21.2952 18.4771 20.8705 18.9042C20.4458 19.3312 20.2072 19.9105 20.2072 20.5144V22.5142C20.2072 22.5507 20.2001 22.5867 20.1862 22.6204C20.1723 22.6541 20.152 22.6846 20.1264 22.7104C20.1008 22.7362 20.0704 22.7566 20.0369 22.7705C20.0034 22.7845 19.9675 22.7916 19.9313 22.7916H19.2478C19.2116 22.7916 19.1757 22.7845 19.1422 22.7705C19.1087 22.7566 19.0783 22.7362 19.0527 22.7104C19.0271 22.6846 19.0068 22.6541 18.9929 22.6204C18.979 22.5867 18.9719 22.5507 18.9719 22.5142V19.4793C18.9719 18.8205 18.7116 18.1886 18.2483 17.7227C17.785 17.2568 17.1566 16.9951 16.5013 16.9951C15.8461 16.9951 15.2177 17.2568 14.7544 17.7227C14.291 18.1886 14.0307 18.8205 14.0307 19.4793V22.506C14.0307 22.5817 14.0008 22.6544 13.9475 22.708C13.8942 22.7615 13.822 22.7916 13.7466 22.7916H13.0796C13.0422 22.7916 13.0053 22.7843 12.9708 22.7699C12.9364 22.7555 12.905 22.7345 12.8787 22.708C12.8523 22.6814 12.8313 22.6499 12.8171 22.6153C12.8028 22.5806 12.7954 22.5435 12.7954 22.506V5.19491C12.7954 4.37133 12.4701 3.58148 11.8909 2.99912C11.3118 2.41676 10.5263 2.0896 9.7072 2.0896C8.88815 2.0896 8.10265 2.41676 7.52349 2.99912C6.94433 3.58148 6.61897 4.37133 6.61897 5.19491V29.1389C6.61897 29.1753 6.61183 29.2114 6.59797 29.2451C6.5841 29.2787 6.56378 29.3093 6.53816 29.3351C6.51254 29.3608 6.48213 29.3812 6.44866 29.3952C6.41519 29.4091 6.37931 29.4163 6.34308 29.4163H5.65955C5.58639 29.4163 5.51621 29.3871 5.46448 29.3351C5.41274 29.283 5.38367 29.2125 5.38367 29.1389V23.8889C5.38367 23.8175 5.35547 23.749 5.30528 23.6986C5.25509 23.6481 5.18701 23.6197 5.11602 23.6197C4.31336 23.6197 3.54356 23.9403 2.97599 24.5111C2.40841 25.0818 2.08955 25.8558 2.08955 26.6629V33.9708C2.08955 39.7673 9.50132 40.5954 9.50132 44.7358V46.5248C9.50132 46.6801 9.62668 46.806 9.78132 46.806H26.1037C26.2583 46.806 26.3837 46.6801 26.3837 46.5248V44.3218C26.3837 40.5954 30.0896 40.5954 30.0896 37.2831V21.7565C30.0896 21.1526 29.8509 20.5734 29.4262 20.1463C29.0015 19.7192 28.4255 19.4793 27.8249 19.4793Z' fill='url(%23paint0_linear_4_4)'/%3E%3Cpath d='M20.0095 24.9567H14.2695V29.4163H16.4772V40.5653H20.0095V24.9567Z' fill='${encodeURIComponent(colorGradient.to)}'/%3E%3Cpath d='M9.70674 1.04468C10.8047 1.04468 11.8569 1.48356 12.6315 2.26245C13.406 3.04118 13.8405 4.09625 13.8405 5.19507V17.1736C13.8958 17.1093 13.9532 17.0466 14.0134 16.9861C14.6722 16.3236 15.5675 15.95 16.5017 15.95C17.4357 15.95 18.3302 16.3237 18.989 16.9861C19.403 17.4024 19.7015 17.9118 19.8669 18.4646C19.9479 18.3609 20.0359 18.262 20.1296 18.1677C20.7498 17.5441 21.5928 17.1921 22.4724 17.1921C23.3518 17.1923 24.1941 17.5442 24.8142 18.1677C25.1463 18.5018 25.3991 18.8996 25.5632 19.3318C26.1748 18.757 26.9827 18.4343 27.8249 18.4343C28.7045 18.4343 29.5465 18.7863 30.1667 19.4099C30.7867 20.0333 31.1345 20.8774 31.1345 21.7566V37.283C31.1345 39.4398 29.852 40.5539 28.9558 41.405C28.0626 42.2533 27.4284 42.9197 27.4284 44.322V46.5251C27.4282 47.253 26.8391 47.8503 26.1032 47.8503H9.78096C9.04526 47.8501 8.45694 47.2529 8.45674 46.5251V44.7361C8.45674 44.0555 8.16649 43.4686 7.57686 42.8318C6.95604 42.1613 6.12871 41.5614 5.15205 40.7976C3.29546 39.3456 1.04463 37.4107 1.04463 33.9705V26.6628C1.04465 25.5805 1.47222 24.5412 2.23506 23.7742C2.99809 23.0069 4.03434 22.575 5.11592 22.575C5.27414 22.575 5.42882 22.6048 5.57393 22.6589V5.19507C5.57393 4.09625 6.00847 3.04118 6.78291 2.26245C7.55744 1.48369 8.60894 1.0448 9.70674 1.04468Z' stroke='${encodeURIComponent(colorGradient.to)}' stroke-width='2.08955'/%3E%3C/g%3E%3Cdefs%3E%3Cfilter id='filter0_d_4_4' x='0' y='0' width='35.5224' height='52.6567' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'%3E%3CfeFlood flood-opacity='0' result='BackgroundImageFix'/%3E%3CfeColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/%3E%3CfeOffset dx='2.92537' dy='3.34328'/%3E%3CfeGaussianBlur stdDeviation='0.208955'/%3E%3CfeComposite in2='hardAlpha' operator='out'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0'/%3E%3CfeBlend mode='normal' in2='BackgroundImageFix' result='effect1_dropShadow_4_4'/%3E%3CfeBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_4_4' result='shape'/%3E%3C/filter%3E%3ClinearGradient id='paint0_linear_4_4' x1='16.0896' y1='2.0896' x2='16.0896' y2='46.806' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0.649038' stop-color='white'/%3E%3Cstop offset='1' stop-color='%239ED3FF'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E") 8 8, pointer !important;
     }
   `} />
   <script is:inline define:vars={{ projectColor: colorGradient.to }}>
     function setProjectColor() {
       document.documentElement.setAttribute("data-theme", "wii");
-      // Définir la couleur du projet pour la scrollbar
-      document.documentElement.style.setProperty('--project-color', projectColor);
-      // Forcer le recalcul du style
+      
+      // Supprimer l'ancienne couleur d'abord
+      document.documentElement.style.removeProperty('--project-color');
+      
+      // Force un reflow avant d'appliquer la nouvelle couleur
+      void document.documentElement.offsetHeight;
+      
+      // Définir la nouvelle couleur du projet pour la scrollbar
+      document.documentElement.style.setProperty('--project-color', projectColor, 'important');
+      
+      // Forcer le recalcul complet du style
       document.body.style.display = 'none';
-      document.body.offsetHeight; // Trigger reflow
+      void document.body.offsetHeight;
       document.body.style.display = '';
     }
     
-    // Appliquer au chargement
+    // Appliquer immédiatement (avant le DOM)
     setProjectColor();
+    
+    // Réappliquer au chargement complet
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', setProjectColor);
+    } else {
+      setProjectColor();
+    }
     
     // Réappliquer lors des transitions Astro
     document.addEventListener('astro:page-load', setProjectColor);
+    
+    // Réappliquer avant chaque transition (pour capturer les navigations)
+    document.addEventListener('astro:before-preparation', setProjectColor);
   </script>
   <article
     class="min-h-screen w-full projet-page"
@@ -162,7 +201,7 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
           <div class="col-span-12 lg:col-span-7">
             <section class="mb-16 lg:mb-12 max-w-4xl" aria-labelledby="project-title">
               <span
-                class="inline-block font-raleway text-sm lg:text-lg font-semibold tracking-wider mb-6 text-text-gray"
+                class="inline-block font-raleway text-sm lg:text-2xl font-semibold tracking-wider mb-6 text-text-gray"
               >
                 {projet.annee}
               </span>
@@ -194,25 +233,25 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
                   title="CLIENT"
                   value={projet.client}
                   icon="client"
-                  borderColor={colorGradient.to}
+                  borderColor={colorGradient.from}
                 />
                 <CardContexte
                   title="CADRE"
                   value={projet.cadre}
                   icon="cadre"
-                  borderColor={colorGradient.to}
+                  borderColor={colorGradient.from}
                 />
                 <CardContexte
                   title="TEMPS"
                   value={projet.temps}
                   icon="temps"
-                  borderColor={colorGradient.to}
+                  borderColor={colorGradient.from}
                 />
                 <CardContexte
                   title="MODE"
                   value={projet.mode}
                   icon="mode"
-                  borderColor={colorGradient.to}
+                  borderColor={colorGradient.from}
                 />
               </div>
 
@@ -280,35 +319,51 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
               {/* Grille en fond avec opacité */}
               <div class="absolute inset-0 opacity-15 pointer-events-none grid-background">
                 <GridLayer class="w-full h-full" />
+                <GridLayer class="w-full h-full absolute top-[100vh]" />
+                <GridLayer class="w-full h-full absolute top-[200vh]" />
               </div>
 
-              {/* Nuages décoratifs - réduits et bien espacés */}
+              {/* Nuages décoratifs - positionnés pour éviter les coupures visibles */}
+              {/* Coin supérieur droit */}
               <Nuage1
-                class="absolute top-32 right-[5%] w-[150px] lg:w-[250px] opacity-[0.7] pointer-events-none animate-float-right z-0"
+                class="absolute top-10 -right-10 w-[150px] lg:w-[250px] opacity-[0.7] pointer-events-none animate-float-right-fast z-0"
                 aria-hidden="true"
               />
+              {/* Coin supérieur gauche */}
               <Nuage2
-                class="absolute top-[35%] left-[3%] w-[130px] lg:w-[220px] opacity-[0.65] pointer-events-none animate-float-left z-0"
+                class="absolute top-[30%] -left-8 w-[130px] lg:w-[220px] opacity-[0.65] pointer-events-none z-0 nuage-flipped animate-float-left-slow"
                 aria-hidden="true"
               />
+              {/* Milieu droite */}
+              <Nuage2
+                class="absolute top-[50%] -right-8 w-[100px] lg:w-[180px] opacity-[0.5] pointer-events-none animate-float-right-slow z-0"
+                aria-hidden="true"
+              />
+              {/* Milieu gauche */}
               <Nuage1
-                class="absolute bottom-[35%] right-[8%] w-[120px] lg:w-[200px] opacity-[0.6] pointer-events-none animate-float-right z-0"
+                class="absolute top-[45%] -left-12 w-[110px] lg:w-[190px] opacity-[0.55] pointer-events-none z-0 nuage-flipped animate-float-left-fast"
                 aria-hidden="true"
               />
+              {/* Coin inférieur droit */}
+              <Nuage1
+                class="absolute bottom-[30%] -right-12 w-[120px] lg:w-[200px] opacity-[0.6] pointer-events-none animate-float-right z-0"
+                aria-hidden="true"
+              />
+              {/* Coin inférieur gauche */}
               <Nuage2
-                class="absolute bottom-32 left-[5%] w-[140px] lg:w-[230px] opacity-[0.7] pointer-events-none animate-float-left z-0"
+                class="absolute bottom-10 -left-10 w-[140px] lg:w-[230px] opacity-[0.7] pointer-events-none z-0 nuage-flipped animate-float-left"
                 aria-hidden="true"
               />
 
               <div class="relative z-10">
-                <h2 id="processus-title" class="font-hagrid text-3xl lg:text-5xl font-bold mb-16 lg:mb-20 text-text-gray">
+                <h2 id="processus-title" class="font-hagrid text-3xl lg:text-5xl font-bold mb-16 lg:mb-20" style={`color: ${textColor};`}>
                   Processus de création
                 </h2>
 
                 <div class="space-y-24 lg:space-y-32">
                   {processusEtapes.map((etape, index) => (
                     <article
-                      class={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center processus-etape ${index % 2 === 1 ? "lg:grid-flow-dense" : ""}`}
+                      class={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center processus-etape font-regular ${index % 2 === 1 ? "lg:grid-flow-dense" : ""}`}
                       aria-labelledby={`etape-${etape.numero}-title`}
                       data-etape={index}
                     >
@@ -317,15 +372,17 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
                       >
                         <div class="flex items-baseline gap-4">
                           <span
-                            class="text-6xl lg:text-8xl font-bold text-text-gray opacity-20"
+                            class="text-6xl lg:text-8xl font-bold"
+                            style={`color: ${textColor}; opacity: ${numberOpacity};`}
                             aria-hidden="true"
                           >
                             {etape.numero}
                           </span>
-                          <h3 id={`etape-${etape.numero}-title`} class="font-hagrid text-xl lg:text-3xl font-bold text-text-gray">{etape.titre}</h3>
+                          <h3 id={`etape-${etape.numero}-title`} class="font-hagrid text-xl lg:text-3xl font-bold" style={`color: ${textColor};`}>{etape.titre}</h3>
                         </div>
                         <div
-                          class="font-raleway text-base lg:text-xl leading-relaxed text-text-gray processus-description"
+                          class="font-raleway text-base lg:text-xl leading-relaxed processus-description"
+                          style={`color: ${textColor}; opacity: ${textOpacity};`}
                           set:html={etape.description}
                         />
                       </div>
@@ -336,11 +393,16 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
                       }
                     >
                       {etape.image ? (
-                        <img
-                          src={ProjetsService.getFileUrl(etape, etape.image)}
-                          alt={etape.titre}
-                          class="w-full h-auto object-cover rounded-3xl shadow-2xl"
-                        />
+                        <div
+                          class="cursor-pointer hover:shadow-3xl transition-shadow duration-300"
+                          onclick={`document.getElementById('modal-processus-${index}').style.display='flex'`}
+                        >
+                          <img
+                            src={ProjetsService.getFileUrl(etape, etape.image)}
+                            alt={etape.titre}
+                            class="w-full h-auto object-cover rounded-3xl shadow-2xl"
+                          />
+                        </div>
                       ) : (
                         <div class="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-8 lg:p-10 border-2 border-gray-200 shadow-2xl aspect-video flex items-center justify-center">
                           <span class="font-raleway text-base lg:text-xl opacity-50 text-text-gray">
@@ -355,6 +417,35 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
               </div>
             </section>
           )
+        }
+
+        {/* Modals pour les images du processus */}
+        {
+          processusEtapes.map((etape, index) => (
+            etape.image && (
+              <div 
+                id={`modal-processus-${index}`}
+                class="modal-image fixed inset-0 bg-black/90 z-[9999] items-center justify-center p-4"
+                onclick={`document.getElementById('modal-processus-${index}').classList.remove('flex'); document.getElementById('modal-processus-${index}').style.display='none'`}
+              >
+                <div class="relative max-w-7xl max-h-full">
+                  <button 
+                    class="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors cursor-pointer"
+                    onclick={`document.getElementById('modal-processus-${index}').classList.remove('flex'); document.getElementById('modal-processus-${index}').style.display='none'`}
+                  >
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                  </button>
+                  <img
+                    src={ProjetsService.getFileUrl(etape, etape.image)}
+                    alt={etape.titre}
+                    class="max-w-full max-h-[90vh] object-contain rounded-xl"
+                  />
+                </div>
+              </div>
+            )
+          ))
         }
 
         {
@@ -423,7 +514,7 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
           )
         }
 
-        <nav class="flex justify-center mt-20 mb-32" aria-label="Retour">
+        <nav class="flex flex-col lg:flex-row justify-center items-center gap-6 mt-20 mb-32" aria-label="Navigation du projet">
           <LargeBouton
             href={`/projets/${projet.slug}`}
             variant="secondary"
@@ -433,6 +524,19 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
             textColor="var(--color-text-gray)"
             hoverTextColor="var(--color-text-gray)"
           />
+          {projet.resultat_url && (
+            <LargeBouton
+              href={projet.resultat_url}
+              variant="primary"
+              text="Visiter le site"
+              borderColor={colorGradient.to}
+              backgroundColor={`linear-gradient(135deg, ${colorGradient.from} 0%, ${colorGradient.to} 100%)`}
+              textColor="white"
+              hoverTextColor="white"
+              target="_blank"
+              rel="noopener noreferrer"
+            />
+          )}
         </nav>
       </div>
     </main>
@@ -446,22 +550,16 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
         <nav class="flex items-center gap-8" aria-label="Liens légaux et sociaux">
           <div class="flex gap-6">
             <a
-              href="#"
+              href="/mentions-legales"
               class="font-raleway text-sm lg:text-base text-text-gray hover:text-dark-blue transition-colors duration-300"
             >
               Mentions légales
             </a>
             <a
-              href="#"
+              href="/"
               class="font-raleway text-sm lg:text-base text-text-gray hover:text-dark-blue transition-colors duration-300"
             >
-              Contact
-            </a>
-            <a
-              href="#"
-              class="font-raleway text-sm lg:text-base text-text-gray hover:text-dark-blue transition-colors duration-300"
-            >
-              Crédits
+              Accueil
             </a>
           </div>
 
@@ -509,6 +607,15 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
             </nav>
           </div>
         </footer>
+
+        <!-- Floating Action Button pour visiter le site -->
+        {projet.resultat_url && (
+          <FabProjet
+            projectUrl={projet.resultat_url}
+            colorGradient={colorGradient}
+            projectTitle={projet.titre}
+          />
+        )}
       </article>
 </Layout>
 
@@ -552,7 +659,7 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
   .processus-description span,
   .processus-description strong,
   .processus-description em {
-    color: var(--color-text-gray) !important;
+    color: inherit !important;
   }
 
   /* Animations définies dans animations.css */
@@ -562,6 +669,22 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
 
   .animate-float-right {
     animation: float-right-large 8s ease-in-out infinite;
+  }
+
+  .animate-float-left-slow {
+    animation: float-left-large 12s ease-in-out infinite;
+  }
+
+  .animate-float-right-slow {
+    animation: float-right-large 12s ease-in-out infinite;
+  }
+
+  .animate-float-left-fast {
+    animation: float-left-large 6s ease-in-out infinite;
+  }
+
+  .animate-float-right-fast {
+    animation: float-right-large 6s ease-in-out infinite;
   }
 
   /* CSS pour l'iframe interactive */
@@ -609,12 +732,29 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
 
   /* Répéter la grille sur toute la hauteur de la section */
   .grid-background {
-    background-repeat: repeat;
-    background-size: 100% 100vh;
+    min-height: 300vh;
   }
 
   .processus-section {
     overflow: hidden;
+  }
+
+  /* Pivoter les nuages de gauche pour cacher les coupures à droite */
+  .nuage-flipped {
+    transform: scaleX(-1) !important;
+  }
+
+  /* Animations pour les nuages pivotés */
+  .nuage-flipped.animate-float-left {
+    animation: float-right-large 8s ease-in-out infinite;
+  }
+
+  .nuage-flipped.animate-float-left-slow {
+    animation: float-right-large 12s ease-in-out infinite;
+  }
+
+  .nuage-flipped.animate-float-left-fast {
+    animation: float-right-large 6s ease-in-out infinite;
   }
 </style>
 

@@ -1,0 +1,200 @@
+---
+interface Props {
+  projectUrl: string;
+  colorGradient: {
+    from: string;
+    to: string;
+  };
+  projectTitle: string;
+}
+
+const { projectUrl, colorGradient, projectTitle } = Astro.props;
+
+// Fonction pour calculer la luminosité d'une couleur (0-255)
+function getLuminance(hex: string): number {
+  const rgb = hex.replace('#', '').match(/.{2}/g);
+  if (!rgb) return 0;
+  const [r, g, b] = rgb.map(x => parseInt(x, 16));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+// Calculer la luminosité moyenne du gradient
+const avgLuminance = (getLuminance(colorGradient.from) + getLuminance(colorGradient.to)) / 2;
+
+// Déterminer la couleur de texte optimale (seuil augmenté pour avoir du blanc plus souvent)
+const fabTextColor = avgLuminance > 200 ? '#383e3f' : '#FFFFFF';
+---
+
+<a
+  href={projectUrl}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="fab-projet"
+  aria-label={`Visiter le site ${projectTitle}`}
+  title={`Visiter le site ${projectTitle}`}
+>
+  <span class="fab-icon">
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+      <polyline points="15 3 21 3 21 9"></polyline>
+      <line x1="10" y1="14" x2="21" y2="3"></line>
+    </svg>
+  </span>
+  <span class="fab-text">Visiter le site</span>
+</a>
+
+<style define:vars={{ colorFrom: colorGradient.from, colorTo: colorGradient.to, fabTextColor }}>
+  .fab-projet {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 24px;
+    background: linear-gradient(135deg, var(--colorFrom) 0%, var(--colorTo) 100%);
+    border-radius: 50px;
+    box-shadow: 
+      0 8px 24px rgba(0, 0, 0, 0.15),
+      0 0 0 0 var(--colorTo);
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fab-pulse 2s ease-in-out infinite;
+    cursor: pointer;
+  }
+
+  .fab-projet:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 
+      0 12px 32px rgba(0, 0, 0, 0.2),
+      0 0 30px var(--colorTo);
+    animation: none;
+  }
+
+  .fab-projet:active {
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  .fab-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    color: var(--fabTextColor);
+    transition: transform 0.3s ease;
+  }
+
+  .fab-projet:hover .fab-icon {
+    transform: translateX(4px) translateY(-4px);
+  }
+
+  .fab-text {
+    font-family: 'raleway', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--fabTextColor);
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
+
+  /* Animation de pulsation subtile */
+  @keyframes fab-pulse {
+    0%, 100% {
+      box-shadow: 
+        0 8px 24px rgba(0, 0, 0, 0.15),
+        0 0 0 0 var(--colorTo);
+    }
+    50% {
+      box-shadow: 
+        0 8px 24px rgba(0, 0, 0, 0.15),
+        0 0 20px 5px transparent;
+    }
+  }
+
+  /* Responsive pour mobile */
+  @media (max-width: 768px) {
+    .fab-projet {
+      bottom: 20px;
+      right: 20px;
+      padding: 14px 20px;
+      gap: 10px;
+    }
+
+    .fab-text {
+      font-size: 14px;
+    }
+
+    .fab-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .fab-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  /* État focus pour accessibilité */
+  .fab-projet:focus {
+    outline: 3px solid var(--colorTo);
+    outline-offset: 4px;
+  }
+
+  .fab-projet:focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Cacher le FAB lors du scroll tout en bas (pour éviter de cacher le footer) */
+  .fab-projet.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(100px);
+  }
+</style>
+
+<script>
+  // Gestion du scroll pour cacher le FAB près du footer
+  function initFabScroll() {
+    const fab = document.querySelector('.fab-projet');
+    const footer = document.querySelector('footer');
+    
+    if (!fab || !footer) return;
+
+    function handleScroll() {
+      const footerRect = footer.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      // Cacher le FAB si le footer est visible à moins de 100px du bas de l'écran
+      if (footerRect.top < windowHeight + 100) {
+        fab.classList.add('hidden');
+      } else {
+        fab.classList.remove('hidden');
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check initial state
+  }
+
+  // Init au chargement
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFabScroll);
+  } else {
+    initFabScroll();
+  }
+
+  // Réinit après transition Astro
+  document.addEventListener('astro:page-load', initFabScroll);
+</script>

@@ -212,27 +212,27 @@ body {
 /* ========================================
    CURSEUR PERSONNALISÉ MII
    ======================================== */
-body.custom-cursor,
-body.custom-cursor * {
+html.custom-cursor,
+html.custom-cursor * {
   cursor: url("/cursor-mouse.svg") 5 5, auto !important;
 }
 
-body.custom-cursor button,
-body.custom-cursor a,
-body.custom-cursor input[type="button"],
-body.custom-cursor input[type="submit"],
-body.custom-cursor input[type="range"],
-body.custom-cursor label.gaming-toggle,
-body.custom-cursor .toggle-slider,
-body.custom-cursor [role="button"] {
+html.custom-cursor button,
+html.custom-cursor a,
+html.custom-cursor input[type="button"],
+html.custom-cursor input[type="submit"],
+html.custom-cursor input[type="range"],
+html.custom-cursor label.gaming-toggle,
+html.custom-cursor .toggle-slider,
+html.custom-cursor [role="button"] {
   cursor: url("/cursor-mouse-large.svg") 8 8, pointer !important;
 }
 
-body.custom-cursor button:active,
-body.custom-cursor a:active,
-body.custom-cursor input[type="button"]:active,
-body.custom-cursor input[type="submit"]:active,
-body.custom-cursor label.gaming-toggle:active,
-body.custom-cursor [role="button"]:active {
+html.custom-cursor button:active,
+html.custom-cursor a:active,
+html.custom-cursor input[type="button"]:active,
+html.custom-cursor input[type="submit"]:active,
+html.custom-cursor label.gaming-toggle:active,
+html.custom-cursor [role="button"]:active {
   transform: scale(0.95);
 }

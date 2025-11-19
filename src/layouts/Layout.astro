@@ -66,6 +66,13 @@ const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).href;
       const storedTheme = localStorage.getItem(THEME_KEY);
       const theme = storedTheme === "wii" ? storedTheme : "wii";
       document.documentElement.setAttribute("data-theme", theme);
+      
+      // Initialisation du curseur Wii (inline pour éviter le flash)
+      const savedCursor = localStorage.getItem('wiiCursor');
+      const cursorEnabled = savedCursor !== 'disabled'; // Par défaut ON
+      if (cursorEnabled) {
+        document.documentElement.classList.add('custom-cursor');
+      }
     </script>
   </head>
   <body>

@@ -25,11 +25,13 @@
 3. Utiliser ce contenu pour le template :
 
 ### Sujet de l'email :
+
 ```
 Nouveau message de {{from_name}} - {{subject}}
 ```
 
 ### Corps de l'email :
+
 ```
 Vous avez reçu un nouveau message depuis votre portfolio !
 
@@ -107,14 +109,18 @@ PUBLIC_EMAILJS_PUBLIC_KEY=abcdefghijklmnop
 ## 🔧 Dépannage
 
 ### "EmailJS non configuré"
+
 → Vérifier que le fichier `.env` existe et contient les 3 variables
 
 ### "ERREUR D'ENVOI"
+
 → Vérifier que :
+
 - Les clés sont correctes
 - Le service d'email est bien connecté
 - Le template existe
 - Vous n'avez pas dépassé la limite mensuelle
 
 ### Email non reçu
+
 → Vérifier les spams et le dossier "Promotions" (Gmail)
