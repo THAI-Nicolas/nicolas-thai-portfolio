@@ -97,9 +97,9 @@ if (Astro.request.method === 'POST') {
               
               {/* Image du projet */}
               <div style="flex-shrink: 0;">
-                {projet.image_cover ? (
+                {projet.cover_image ? (
                   <img 
-                    src={`${pb.baseUrl}/api/files/${projet.collectionId}/${projet.id}/${projet.image_cover}`}
+                    src={`${pb.baseUrl}/api/files/${projet.collectionId}/${projet.id}/${projet.cover_image}`}
                     alt={projet.titre}
                     style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px;"
                   />
