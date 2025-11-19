@@ -1,18 +1,14 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import PocketBase from 'pocketbase';
+import { pb } from '../../utils/pb';
 
 const user = Astro.locals.user;
-let pb = Astro.locals.pb;
 
-// Si pb n'existe pas dans locals, créer une nouvelle instance
-if (!pb) {
-  pb = new PocketBase('http://127.0.0.1:8090');
-  const authCookie = Astro.cookies.get('pb_auth');
-  if (authCookie) {
-    const authData = JSON.parse(authCookie.value);
-    pb.authStore.save(authData.token, authData.model);
-  }
+// Restaurer l'auth depuis le cookie
+const authCookie = Astro.cookies.get('pb_auth');
+if (authCookie) {
+  const authData = JSON.parse(authCookie.value);
+  pb.authStore.save(authData.token, authData.model);
 }
 
 // Récupérer les statistiques
@@ -140,7 +136,7 @@ const technologies = await pb.collection('technologies').getFullList();
 
         <!-- Card Technologies -->
         <a 
-          href="http://127.0.0.1:8090/_/" 
+          href={`${pb.baseUrl}/_/`}
           target="_blank"
           style="background: white; border: 2px solid var(--color-dark-blue); border-radius: 12px; padding: 36px; text-decoration: none; transition: all 0.2s; display: block; position: relative; overflow: hidden;"
           class="admin-card"
@@ -165,7 +161,7 @@ const technologies = await pb.collection('technologies').getFullList();
 
         <!-- Card Processus -->
         <a 
-          href="http://127.0.0.1:8090/_/" 
+          href={`${pb.baseUrl}/_/`}
           target="_blank"
           style="background: white; border: 2px solid var(--color-dark-gray); border-radius: 12px; padding: 36px; text-decoration: none; transition: all 0.2s; display: block; position: relative; overflow: hidden;"
           class="admin-card"

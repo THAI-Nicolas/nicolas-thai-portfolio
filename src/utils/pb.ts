@@ -1,11 +1,11 @@
 import PocketBase from "pocketbase";
 
-let PB_URL = "";
-if (import.meta.env.MODE === "development") {
-  PB_URL = "http://localhost:8090";
-} else {
-  PB_URL = "https://portfolio.nicolas-thai.fr:443";
-}
+// Utiliser une variable d'environnement si définie, sinon basculer selon le mode
+const PB_URL =
+  import.meta.env.PUBLIC_POCKETBASE_URL ||
+  (import.meta.env.MODE === "production"
+    ? "https://portfolio.nicolas-thai.fr"
+    : "http://localhost:8090");
 
 class PocketBaseClient {
   private static instance: PocketBase;

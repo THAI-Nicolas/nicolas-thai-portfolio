@@ -1,17 +1,12 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
-import PocketBase from 'pocketbase';
+import { pb } from '../../../utils/pb';
 
-let pb = Astro.locals.pb;
-
-// Si pb n'existe pas dans locals, créer une nouvelle instance
-if (!pb) {
-  pb = new PocketBase('http://127.0.0.1:8090');
-  const authCookie = Astro.cookies.get('pb_auth');
-  if (authCookie) {
-    const authData = JSON.parse(authCookie.value);
-    pb.authStore.save(authData.token, authData.model);
-  }
+// Restaurer l'auth depuis le cookie
+const authCookie = Astro.cookies.get('pb_auth');
+if (authCookie) {
+  const authData = JSON.parse(authCookie.value);
+  pb.authStore.save(authData.token, authData.model);
 }
 
 let error = '';

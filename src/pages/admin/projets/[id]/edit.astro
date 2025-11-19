@@ -1,17 +1,12 @@
 ---
 import Layout from '../../../../layouts/Layout.astro';
-import PocketBase from 'pocketbase';
+import { pb } from '../../../../utils/pb';
 
-let pb = Astro.locals.pb;
-
-// Si pb n'existe pas dans locals, créer une nouvelle instance
-if (!pb) {
-  pb = new PocketBase('http://127.0.0.1:8090');
-  const authCookie = Astro.cookies.get('pb_auth');
-  if (authCookie) {
-    const authData = JSON.parse(authCookie.value);
-    pb.authStore.save(authData.token, authData.model);
-  }
+// Restaurer l'auth depuis le cookie
+const authCookie = Astro.cookies.get('pb_auth');
+if (authCookie) {
+  const authData = JSON.parse(authCookie.value);
+  pb.authStore.save(authData.token, authData.model);
 }
 
 const projetId = Astro.params.id!;
@@ -389,7 +384,7 @@ if (Astro.request.method === 'POST') {
               {projet.cover_image && (
                 <div style="margin-bottom: 12px;">
                   <img 
-                    src={`http://127.0.0.1:8090/api/files/${projet.collectionId}/${projet.id}/${projet.cover_image}`}
+                    src={`${pb.baseUrl}/api/files/${projet.collectionId}/${projet.id}/${projet.cover_image}`}
                     alt="Couverture actuelle"
                     style="max-width: 300px; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
                   />
@@ -414,7 +409,7 @@ if (Astro.request.method === 'POST') {
                 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-bottom: 12px;">
                   {projet.visuels.map((visuel: string) => (
                     <img 
-                      src={`http://127.0.0.1:8090/api/files/${projet.collectionId}/${projet.id}/${visuel}`}
+                      src={`${pb.baseUrl}/api/files/${projet.collectionId}/${projet.id}/${visuel}`}
                       alt="Visuel"
                       style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
                     />

@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import PocketBase from 'pocketbase';
+import { pb } from '../../utils/pb';
 
 let error = '';
 let success = false;
@@ -14,8 +14,6 @@ if (Astro.request.method === 'POST') {
     if (!email || !password) {
       error = 'Email et mot de passe requis';
     } else {
-      const pb = new PocketBase('http://127.0.0.1:8090');
-      
       const authData = await pb.collection('users').authWithPassword(email, password);
       
       // Stocker l'authentification dans un cookie sécurisé
