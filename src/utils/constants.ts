@@ -40,6 +40,8 @@ export const CONTACT_IDS = {
   PAPER_SHEET: "paper-sheet",
   ZOOM_BUTTON: "zoom-button",
   DEZOOM_BUTTON: "dezoom-button",
+  CONTACT_FORM: "contact-form",
+  PAPER_FORM: "paper-form",
 } as const;
 
 export const CONTACT_SELECTORS = {
