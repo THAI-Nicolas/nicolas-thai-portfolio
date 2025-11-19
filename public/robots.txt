@@ -1,0 +1,21 @@
+# robots.txt pour nicolas-thai-portfolio
+# Mise à jour : 2025
+
+# Autoriser tous les robots d'indexation
+User-agent: *
+Allow: /
+
+# Interdire l'accès aux dossiers backend et API
+Disallow: /backend/
+Disallow: /api/
+
+# Interdire l'accès aux fichiers temporaires et de configuration
+Disallow: /*.json$
+Disallow: /*_buildManifest.js$
+Disallow: /*_ssgManifest.js$
+
+# Sitemap XML pour l'indexation
+Sitemap: https://nicolas-thai.fr/sitemap-index.xml
+
+# Crawl-delay pour éviter la surcharge (optionnel)
+# Crawl-delay: 1

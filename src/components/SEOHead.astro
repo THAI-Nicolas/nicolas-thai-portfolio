@@ -1,0 +1,54 @@
+---
+/**
+ * Composant réutilisable pour les meta tags SEO
+ * Usage: <SEOHead title="..." description="..." ... />
+ */
+
+export interface Props {
+  title: string;
+  description: string;
+  keywords?: string;
+  author?: string;
+  ogImage?: string;
+  ogType?: string;
+  canonical?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  keywords = "développeur web, portfolio, React, Astro, TypeScript, TailwindCSS, Three.js",
+  author = "Nicolas THAI",
+  ogImage = "/og-image.jpg",
+  ogType = "website",
+  canonical,
+  noindex = false,
+} = Astro.props;
+
+// Construire l'URL canonique
+const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<!-- SEO Meta Tags -->
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="keywords" content={keywords} />
+<meta name="author" content={author} />
+<link rel="canonical" href={canonicalURL} />
+{noindex && <meta name="robots" content="noindex, nofollow" />}
+
+<!-- Open Graph (Facebook, LinkedIn) -->
+<meta property="og:type" content={ogType} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(ogImage, Astro.site).href} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:locale" content="fr_FR" />
+<meta property="og:site_name" content="Nicolas THAI Portfolio" />
+
+<!-- Twitter Cards -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={new URL(ogImage, Astro.site).href} />

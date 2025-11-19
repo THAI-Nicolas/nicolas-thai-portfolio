@@ -3,6 +3,7 @@ import Layout from "../../../layouts/Layout.astro";
 import { ViewTransitions } from "astro:transitions";
 import Fleche from "../../../components/ui/Fleche.astro";
 import MainBouton from "../../../components/boutons/MainBouton.astro";
+import LargeBouton from "../../../components/boutons/LargeBouton.astro";
 import TechnologiesUtilisees from "../../../components/ui/TechnologieUtilisees.astro";
 import CardContexte from "../../../components/ui/CardContexte.astro";
 import GridLayer from "../../../assets/icones/gridlayer.svg";
@@ -34,17 +35,29 @@ const colorGradient = {
   from: projet.color_from,
   to: projet.color_to,
 };
+
+// SEO optimisé pour la page détails
+const techNames = technologies.map((t: any) => t.nom).join(', ');
+const etapesCount = processusEtapes.length;
+const seoDescription = `Découvrez le processus de création complet de ${projet.titre} en ${etapesCount} étapes. Projet réalisé pour ${projet.client} avec ${techNames}. Contexte : ${projet.contexte.substring(0, 80)}...`;
 ---
 
-<Layout title={`${projet.titre} - Nicolas THAI`}>
+<Layout 
+  title={`${projet.titre} - Processus de Création & Détails | Nicolas THAI`}
+  description={seoDescription.substring(0, 160)}
+  keywords={`${projet.titre}, processus création, ${techNames}, ${projet.client}, étude de cas, portfolio`}
+  ogImage={coverUrl}
+  ogType="article"
+>
   <ViewTransitions />
   <script is:inline>
     document.documentElement.setAttribute("data-theme", "wii");
   </script>
-  <div
+  <article
     class="min-h-screen w-full overflow-y-auto overflow-x-hidden projet-page"
   >
-    <section
+    <!-- Hero section avec cover -->
+    <header
       class="relative w-full h-screen flex items-center justify-center overflow-hidden"
       style={`background: linear-gradient(135deg, ${colorGradient.from} 0%, ${colorGradient.to} 100%);`}
     >
@@ -52,7 +65,7 @@ const colorGradient = {
         <GridLayer class="w-full h-full" />
       </div>
 
-      <div class="absolute top-12 left-28 z-50">
+      <nav class="absolute top-12 left-28 z-50" aria-label="Retour au projet">
         <a href={`/projets/${projet.slug}`}>
           <MainBouton
             type="retour"
@@ -61,11 +74,12 @@ const colorGradient = {
             neonColor={colorGradient.to}
           />
         </a>
-      </div>
+      </nav>
 
       <div
         class="relative z-10 w-full max-w-3xl lg:max-w-6xl mx-auto px-6 flex flex-col items-center"
       >
+        <h1 class="sr-only">{projet.titre} - Processus de création détaillé</h1>
         <div
           class="bg-white/90 backdrop-blur-sm rounded-[48px] shadow-2xl p-8 lg:p-12 w-full"
         >
@@ -75,9 +89,11 @@ const colorGradient = {
 
       <Nuage1
         class="absolute bottom-20 left-0 w-[200px] lg:w-[300px] opacity-80 animate-float-left"
+        aria-hidden="true"
       />
       <Nuage2
         class="absolute bottom-20 right-0 w-[200px] lg:w-[300px] opacity-80 animate-float-right"
+        aria-hidden="true"
       />
 
       <div
@@ -91,52 +107,59 @@ const colorGradient = {
           neonColor={colorGradient.to}
         />
       </div>
-    </section>
+    </header>
 
-    <div id="content" class="relative w-full bg-white">
+    <main id="content" class="relative w-full bg-white">
       <Nuage1
         class="absolute top-20 left-10 w-[150px] lg:w-[250px] opacity-20 pointer-events-none"
+        aria-hidden="true"
       />
       <Nuage2
         class="absolute top-60 right-10 w-[150px] lg:w-[250px] opacity-20 pointer-events-none"
+        aria-hidden="true"
       />
       <Nuage1
         class="absolute bottom-60 right-20 w-[120px] lg:w-[200px] opacity-15 pointer-events-none"
+        aria-hidden="true"
       />
       <Nuage2
         class="absolute bottom-20 left-20 w-[120px] lg:w-[200px] opacity-15 pointer-events-none"
+        aria-hidden="true"
       />
 
       <div class="relative w-full px-6 lg:px-20 py-32 lg:pt-20 lg:pb-10">
         <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
           <div class="col-span-12 lg:col-span-7">
-            <section class="mb-16 lg:mb-12 max-w-4xl">
+            <section class="mb-16 lg:mb-12 max-w-4xl" aria-labelledby="project-title">
               <span
                 class="inline-block font-raleway text-sm lg:text-lg font-semibold tracking-wider mb-6 text-text-gray"
               >
                 {projet.annee}
               </span>
 
-              <h1
+              <h2
+                id="project-title"
                 class="font-hagrid text-3xl lg:text-6xl font-bold mb-10 lg:mb-10 text-text-gray"
               >
                 {projet.titre}
-              </h1>
+              </h2>
 
+              <h3 class="sr-only">Technologies utilisées</h3>
               <TechnologiesUtilisees technologies={technologies} />
             </section>
 
-            <section class="space-y-8">
+            <section class="space-y-8" aria-labelledby="project-description">
+              <h2 id="project-description" class="sr-only">Description du projet</h2>
               <div
                 class="font-raleway text-base lg:text-xl leading-relaxed space-y-6 text-text-gray"
                 set:html={projet.description}
               />
               
-              <h2 class="font-hagrid text-xl lg:text-3xl mt-20 text-text-gray">
+              <h3 class="font-hagrid text-xl lg:text-3xl mt-20 text-text-gray">
                 Contexte du projet
-              </h2>
+              </h3>
 
-              <div class="flex justify-center gap-4 lg:gap-12 mt-12 mb-20">
+              <div class="flex justify-center gap-4 lg:gap-12 mt-12 mb-20" role="list" aria-label="Informations sur le projet">
                 <CardContexte
                   title="CLIENT"
                   value={projet.client}
@@ -219,15 +242,16 @@ const colorGradient = {
 
         {
           processusEtapes.length > 0 && (
-            <section class="mb-32 lg:mb-48 mt-36">
-              <h2 class="font-hagrid text-xl lg:text-3xl mb-16 lg:mb-20 text-text-gray">
+            <section class="mb-32 lg:mb-48 mt-36" aria-labelledby="processus-title">
+              <h2 id="processus-title" class="font-hagrid text-xl lg:text-3xl mb-16 lg:mb-20 text-text-gray">
                 Processus de création
               </h2>
 
               <div class="space-y-24 lg:space-y-32">
                 {processusEtapes.map((etape, index) => (
-                  <div
+                  <article
                     class={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${index % 2 === 1 ? "lg:grid-flow-dense" : ""}`}
+                    aria-labelledby={`etape-${etape.numero}-title`}
                   >
                     <div
                       class={`space-y-6 ${index % 2 === 1 ? "lg:col-start-2" : ""}`}
@@ -236,10 +260,11 @@ const colorGradient = {
                         <span
                           class="text-6xl lg:text-8xl font-bold"
                           style={`color: ${colorGradient.to}; opacity: 0.5; filter: brightness(0.85) saturate(1.3);`}
+                          aria-hidden="true"
                         >
                           {etape.numero}
                         </span>
-                        <h3 class="font-hagrid text-xl lg:text-3xl text-text-gray">{etape.titre}</h3>
+                        <h3 id={`etape-${etape.numero}-title`} class="font-hagrid text-xl lg:text-3xl text-text-gray">{etape.titre}</h3>
                       </div>
                       <div
                         class="font-raleway text-base lg:text-xl leading-relaxed text-text-gray"
@@ -266,7 +291,7 @@ const colorGradient = {
                         </div>
                       )}
                     </div>
-                  </div>
+                  </article>
                 ))}
               </div>
             </section>
@@ -275,8 +300,8 @@ const colorGradient = {
 
         {
           (projet.resultat_url || projet.resultat_iframe) && (
-            <section class="mb-32 lg:mb-48">
-              <h2 class="font-hagrid text-xl lg:text-3xl mb-16 lg:mb-20 text-text-gray">
+            <section class="mb-32 lg:mb-48" aria-labelledby="resultat-title">
+              <h2 id="resultat-title" class="font-hagrid text-xl lg:text-3xl mb-16 lg:mb-20 text-text-gray">
                 Le résultat final
               </h2>
 
@@ -289,6 +314,8 @@ const colorGradient = {
                     class="bg-white rounded-2xl overflow-hidden shadow-inner w-full relative iframe-container"
                     style="height: 800px;"
                     id="iframe-container"
+                    role="region"
+                    aria-label="Aperçu du projet final"
                   >
                     {projet.resultat_iframe ? (
                       <div
@@ -307,6 +334,9 @@ const colorGradient = {
                     <div
                       class="iframe-overlay absolute inset-0 bg-black/30 flex items-center justify-center cursor-pointer transition-opacity duration-300"
                       id="iframe-overlay"
+                      role="button"
+                      aria-label="Activer l'interaction avec l'iframe"
+                      tabindex="0"
                     >
                       <div class="text-white text-center bg-black/60 px-8 py-4 rounded-2xl backdrop-blur-sm border-2 border-white/30">
                         <svg
@@ -334,41 +364,56 @@ const colorGradient = {
           )
         }
 
-        <footer class="pt-16 pb-6 border-t-2 border-gray-200">
-          <div
-            class="flex flex-col lg:flex-row justify-between items-center gap-8"
-          >
-            <p class="font-raleway text-sm lg:text-base text-text-gray">© 2025 Nicolas THAI</p>
+        <nav class="flex justify-center mt-20 mb-32" aria-label="Retour">
+          <LargeBouton
+            href={`/projets/${projet.slug}`}
+            variant="secondary"
+            text="Retour au projet"
+            borderColor={colorGradient.to}
+            backgroundColor="transparent"
+            textColor="var(--color-text-gray)"
+            hoverTextColor="var(--color-text-gray)"
+          />
+        </nav>
+      </div>
+    </main>
 
-            <div class="flex items-center gap-8">
-              <div class="flex gap-6">
-                <a
-                  href="#"
-                  class="font-raleway text-sm lg:text-base text-text-gray hover:text-dark-blue transition-colors duration-300"
-                >
-                  Mentions légales
-                </a>
-                <a
-                  href="#"
-                  class="font-raleway text-sm lg:text-base text-text-gray hover:text-dark-blue transition-colors duration-300"
-                >
-                  Contact
-                </a>
-                <a
-                  href="#"
-                  class="font-raleway text-sm lg:text-base text-text-gray hover:text-dark-blue transition-colors duration-300"
-                >
-                  Crédits
-                </a>
-              </div>
+    <footer class="relative w-full bg-white pt-16 pb-6 border-t-2 border-gray-200 px-6 lg:px-20">
+      <div
+        class="flex flex-col lg:flex-row justify-between items-center gap-8"
+      >
+        <p class="font-raleway text-sm lg:text-base text-text-gray">© 2025 Nicolas THAI</p>
 
-              <div class="flex gap-4 items-center">
-                <a
-                  href="https://github.com/THAI-Nicolas"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-text-gray hover:text-dark-blue transition-all duration-300 hover:scale-110"
-                >
+        <nav class="flex items-center gap-8" aria-label="Liens légaux et sociaux">
+          <div class="flex gap-6">
+            <a
+              href="#"
+              class="font-raleway text-sm lg:text-base text-text-gray hover:text-dark-blue transition-colors duration-300"
+            >
+              Mentions légales
+            </a>
+            <a
+              href="#"
+              class="font-raleway text-sm lg:text-base text-text-gray hover:text-dark-blue transition-colors duration-300"
+            >
+              Contact
+            </a>
+            <a
+              href="#"
+              class="font-raleway text-sm lg:text-base text-text-gray hover:text-dark-blue transition-colors duration-300"
+            >
+              Crédits
+            </a>
+          </div>
+
+          <div class="flex gap-4 items-center">
+            <a
+              href="https://github.com/THAI-Nicolas"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-text-gray hover:text-dark-blue transition-all duration-300 hover:scale-110"
+              aria-label="GitHub de Nicolas THAI"
+            >
                   <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                     <path
                       d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
@@ -388,10 +433,24 @@ const colorGradient = {
                   </svg>
                 </a>
                 <a
+                  href="https://www.instagram.com/nicowh6/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-text-gray hover:text-dark-blue transition-all duration-300 hover:scale-110"
+                  aria-label="Instagram de Nicolas THAI"
+                >
+                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                    ></path>
+                  </svg>
+                </a>
+                <a
                   href="https://www.linkedin.com/in/nicolas-thai-21539a294/"
                   target="_blank"
                   rel="noopener noreferrer"
                   class="text-text-gray hover:text-dark-blue transition-all duration-300 hover:scale-110"
+                  aria-label="LinkedIn de Nicolas THAI"
                 >
                   <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                     <path
@@ -400,10 +459,10 @@ const colorGradient = {
                   </svg>
                 </a>
               </div>
-            </div>
+            </nav>
           </div>
         </footer>
-      </div>
+      </article>
     </div>
   </div>
 </Layout>

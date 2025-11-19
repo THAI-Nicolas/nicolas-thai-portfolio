@@ -5,13 +5,27 @@ import { ViewTransitions } from "astro:transitions";
 export interface Props {
   title?: string;
   description?: string;
+  keywords?: string;
+  ogImage?: string;
+  ogType?: string;
 }
 
-const { title = "Nicolas THAI - Projet", description = "Découvrez ce projet" } =
-  Astro.props;
+const { 
+  title = "Nicolas THAI - Projet", 
+  description = "Découvrez ce projet",
+  keywords,
+  ogImage,
+  ogType
+} = Astro.props;
 ---
 
-<Layout title={title} description={description}>
+<Layout 
+  title={title} 
+  description={description}
+  keywords={keywords}
+  ogImage={ogImage}
+  ogType={ogType}
+>
   <ViewTransitions />
   <main class="w-full h-screen overflow-hidden">
     <slot />

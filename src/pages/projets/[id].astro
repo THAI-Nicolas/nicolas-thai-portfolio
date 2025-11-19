@@ -36,42 +36,58 @@ const colorGradient = {
   from: projet.color_from,
   to: projet.color_to,
 };
+
+// Construire description SEO à partir des données du projet
+const technologies = projet.expand?.technologies || [];
+const techNames = technologies.map((t: any) => t.nom).join(', ');
+const seoDescription = projet.description 
+  ? `${projet.description.substring(0, 155)} Technologies : ${techNames}`
+  : `Découvrez ${projet.titre}, un projet web réalisé avec ${techNames}`;
 ---
 
-<LayoutPageProjet title={`${projet.titre} - Nicolas THAI`}>
+<LayoutPageProjet 
+  title={`${projet.titre} - Projet Web | Nicolas THAI`}
+  description={seoDescription.substring(0, 160)}
+  keywords={`${projet.titre}, ${techNames}, projet web, développement web`}
+  ogImage={coverUrl}
+  ogType="article"
+>
   <script is:inline>
     document.documentElement.setAttribute("data-theme", "wii");
   </script>
-  <div class="relative w-full h-full flex flex-col">
+  <article class="relative w-full h-full flex flex-col">
+    <header class="sr-only">
+      <h1>{projet.titre}</h1>
+    </header>
+    
     <div
       class="relative flex-1 flex items-center justify-between w-full overflow-hidden"
     >
-      <div class="hidden lg:flex items-center justify-center px-20 z-10">
+      <nav class="hidden lg:flex items-center justify-center px-20 z-10" aria-label="Projet précédent">
         <Fleche size="desktop" direction="gauche" href={`/projets/${projetPrecedent.slug}`} neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
-      </div>
+      </nav>
 
-      <div
-        class="absolute inset-0 flex items-center justify-center overflow-hidden"
-        style="view-transition-name: project-cover;"
-      >
+      <section class="absolute inset-0 flex items-center justify-center overflow-hidden" aria-label="Aperçu du projet">
+        <h2 class="sr-only">Image de couverture</h2>
         <img
           src={coverUrl}
           alt={projet.titre}
           class="w-full object-contain scale-105 float-idle-cover"
         />
-      </div>
+      </section>
 
-      <div class="hidden lg:flex items-center justify-center px-20 z-10">
+      <nav class="hidden lg:flex items-center justify-center px-20 z-10" aria-label="Projet suivant">
         <Fleche size="desktop" direction="droite" href={`/projets/${projetSuivant.slug}`} neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
-      </div>
+      </nav>
     </div>
 
-    <div
+    <footer
       class="relative w-full cover-footer py-12 lg:py-12 px-6 lg:px-16 shadow-2xl z-20 footer-border-neon"
       style={`border-top: 4px solid ${colorGradient.to}; --border-color: ${colorGradient.to};`}
     >
-      <div
+      <nav
         class="flex items-center justify-center gap-8 lg:gap-12 max-w-7xl mx-auto"
+        aria-label="Navigation projet"
       >
         <div class="lg:hidden">
           <Fleche size="mobile" direction="gauche" href={`/projets/${projetPrecedent.slug}`} neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
@@ -91,9 +107,9 @@ const colorGradient = {
         <div class="lg:hidden">
           <Fleche size="mobile" direction="droite" href={`/projets/${projetSuivant.slug}`} neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
         </div>
-      </div>
-    </div>
-  </div>
+      </nav>
+    </footer>
+  </article>
 </LayoutPageProjet>
 
 <style>

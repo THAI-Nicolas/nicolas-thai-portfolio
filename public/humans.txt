@@ -1,0 +1,25 @@
+/* TEAM */
+Développeur & Designer : Nicolas THAI
+Localisation : France
+Contact : thainicolas06@gmail.com
+GitHub : https://github.com/THAI-Nicolas
+LinkedIn : https://www.linkedin.com/in/nicolas-thai-21539a294/
+Instagram : https://www.instagram.com/nicowh6/
+
+/* SITE */
+Dernière mise à jour : 2025
+Langage : Français
+Standards : HTML5, CSS3, ES2023
+Stack technique : Astro, TypeScript, TailwindCSS, Three.js
+Backend : PocketBase
+Hébergement : Infomaniak
+Outils : Cursor, Figma, Blender, DaVinci Resolve
+
+/* THANKS */
+Inspiration : Interface Nintendo Wii
+Communauté : Astro, Three.js
+Polices : Adobe Fonts (Raleway, Hagrid)
+
+/* SITE NOTES */
+Ce portfolio est une recréation moderne de l'interface iconique de la Nintendo Wii.
+Développé avec passion pour allier nostalgie et technologies web modernes.

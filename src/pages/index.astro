@@ -31,38 +31,53 @@ const channels = Array(totalChannels).fill(null).map((_, index) => {
 ---
 
 <Layout
-  title="Nicolas THAI - Portfolio Développeur Web"
-  description="Accueil du portfolio de Nicolas THAI"
+  title="Nicolas THAI | Développeur Web Front-End React & Astro - Portfolio"
+  description="Portfolio de Nicolas THAI, développeur web spécialisé en React, Astro, TypeScript et Three.js. Découvrez mes projets créatifs inspirés de l'interface Wii."
+  keywords="Nicolas THAI, développeur web, portfolio, React, Astro, TypeScript, TailwindCSS, Three.js, front-end developer, UI/UX, Wii interface"
+  ogImage="/og-home.jpg"
 >
   <ViewTransitions />
   <!-- Version Desktop -->
   <div class="hidden md:block">
     <!-- Zone principale avec grille de channels -->
     <main class="relative h-screen bg-background overflow-hidden">
+      <!-- SEO: Titre principal caché visuellement mais accessible aux lecteurs d'écran -->
+      <h1 class="sr-only">Nicolas THAI - Portfolio Développeur Web Front-End</h1>
+      
       <!-- Container pour le carrousel -->
       <div class="relative w-full h-full overflow-hidden">
-        <!-- Grille unique avec tous les channels -->
-        <div class="absolute left-40 top-88 transform -translate-y-1/2">
-          <div
-            id="carousel-grid"
-            class="grid grid-cols-9 gap-x-[0px] gap-y-[10px] w-[3330px] transition-transform duration-800 ease-in-out ml-8"
-          >
-            {channels.map((channel) => (
-              <ChannelProjet
-                isEmpty={channel.isEmpty}
-                projectCover={channel.isEmpty ? undefined : channel.projectCover}
-                projectTitle={channel.isEmpty ? undefined : channel.projectTitle}
-                href={channel.isEmpty ? undefined : channel.href}
-                size="desktop"
-              />
-            ))}
+        <!-- Section projets avec titre sémantique -->
+        <section aria-label="Mes projets web">
+          <h2 class="sr-only">Galerie de projets</h2>
+          
+          <!-- Grille unique avec tous les channels -->
+          <div class="absolute left-40 top-88 transform -translate-y-1/2">
+            <div
+              id="carousel-grid"
+              class="grid grid-cols-9 gap-x-[0px] gap-y-[10px] w-[3330px] transition-transform duration-800 ease-in-out ml-8"
+              role="list"
+              aria-label="Liste des projets"
+            >
+              {channels.map((channel) => (
+                <ChannelProjet
+                  isEmpty={channel.isEmpty}
+                  projectCover={channel.isEmpty ? undefined : channel.projectCover}
+                  projectTitle={channel.isEmpty ? undefined : channel.projectTitle}
+                  href={channel.isEmpty ? undefined : channel.href}
+                  size="desktop"
+                />
+              ))}
+            </div>
           </div>
-        </div>
+        </section>
 
         <!-- Flèche de navigation à droite -->
         <div
           class="absolute right-24 top-90 z-30 cursor-pointer"
           id="arrow-right"
+          role="button"
+          aria-label="Voir les projets suivants"
+          tabindex="0"
         >
           <Fleche direction="droite" size="desktop" disableTransition={true} />
         </div>
@@ -71,6 +86,9 @@ const channels = Array(totalChannels).fill(null).map((_, index) => {
         <div
           class="absolute left-24 top-90 transform -translate-y-1/2 z-30 cursor-pointer opacity-0"
           id="arrow-left"
+          role="button"
+          aria-label="Voir les projets précédents"
+          tabindex="0"
         >
           <Fleche direction="gauche" size="desktop" disableTransition={true} />
         </div>
@@ -78,13 +96,19 @@ const channels = Array(totalChannels).fill(null).map((_, index) => {
     </main>
 
     <!-- Footer Desktop -->
-    <FooterAccueil />
+    <footer>
+      <FooterAccueil />
+    </footer>
   </div>
 
   <!-- Version Mobile -->
   <div class="block md:hidden">
+    <h1 class="sr-only">Nicolas THAI - Portfolio Développeur Web Front-End</h1>
+    
     <!-- Footer mobile -->
-    <FooterAccueilMobile />
+    <footer>
+      <FooterAccueilMobile />
+    </footer>
   </div>
 
   <!-- CvOverlay -->
