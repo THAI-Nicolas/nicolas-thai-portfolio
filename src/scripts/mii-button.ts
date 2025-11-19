@@ -104,7 +104,7 @@ export class MiiButton {
     const loader = new GLTFLoader();
 
     loader.load(
-      "/src/assets/models/mii-character.glb",
+      "/models/mii-character.glb",
       (gltf) => {
         this.model = gltf.scene;
 
