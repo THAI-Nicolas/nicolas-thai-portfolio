@@ -1,40 +1,5 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { pb } from '../../utils/pb';
-
-let error = '';
-let success = false;
-
-if (Astro.request.method === 'POST') {
-  try {
-    const formData = await Astro.request.formData();
-    const email = formData.get('email')?.toString();
-    const password = formData.get('password')?.toString();
-
-    if (!email || !password) {
-      error = 'Email et mot de passe requis';
-    } else {
-      const authData = await pb.collection('users').authWithPassword(email, password);
-      
-      // Stocker l'authentification dans un cookie sécurisé
-      Astro.cookies.set('pb_auth', JSON.stringify({
-        token: pb.authStore.token,
-        model: pb.authStore.model
-      }), {
-        httpOnly: true,
-        secure: import.meta.env.PROD,
-        sameSite: 'strict',
-        maxAge: 60 * 60 * 24 * 7, // 7 jours
-        path: '/'
-      });
-      
-      return Astro.redirect('/admin');
-    }
-  } catch (e: any) {
-    console.error('Erreur de connexion:', e);
-    error = 'Email ou mot de passe incorrect';
-  }
-}
 ---
 
 <Layout title="Admin - Connexion">
@@ -42,6 +7,60 @@ if (Astro.request.method === 'POST') {
     document.documentElement.classList.add('admin-page');
     document.body.classList.add('admin-page');
   </script>
+
+  <script>
+    import PocketBase from 'pocketbase';
+    
+    const PB_URL = import.meta.env.PUBLIC_POCKETBASE_URL || 
+      (import.meta.env.MODE === "production" 
+        ? "https://portfolio.nicolas-thai.fr" 
+        : "http://localhost:8090");
+    
+    const pb = new PocketBase(PB_URL);
+    
+    const form = document.querySelector('form');
+    const errorDiv = document.getElementById('error-message');
+    const submitBtn = document.querySelector('button[type="submit"]');
+    
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(form);
+      const email = formData.get('email')?.toString() || '';
+      const password = formData.get('password')?.toString() || '';
+      
+      if (!email || !password) {
+        if (errorDiv) {
+          errorDiv.textContent = '⚠️ Email et mot de passe requis';
+          errorDiv.style.display = 'block';
+        }
+        return;
+      }
+      
+      try {
+        if (submitBtn) submitBtn.textContent = 'Connexion...';
+        if (errorDiv) errorDiv.style.display = 'none';
+        
+        await pb.collection('users').authWithPassword(email, password);
+        
+        // Stocker l'auth dans un cookie
+        document.cookie = `pb_auth=${JSON.stringify({
+          token: pb.authStore.token,
+          model: pb.authStore.model
+        })}; path=/; max-age=${60 * 60 * 24 * 7}; ${import.meta.env.PROD ? 'secure; ' : ''}samesite=strict`;
+        
+        window.location.href = '/admin';
+      } catch (err) {
+        console.error('Erreur de connexion:', err);
+        if (errorDiv) {
+          errorDiv.textContent = '⚠️ Email ou mot de passe incorrect';
+          errorDiv.style.display = 'block';
+        }
+        if (submitBtn) submitBtn.textContent = 'Se connecter';
+      }
+    });
+  </script>
+
   <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--color-background); padding: 20px;">
     <div style="background: white; border: 3px solid var(--color-light-blue); border-radius: 16px; box-shadow: 0 8px 24px rgba(52, 190, 237, 0.2); padding: 48px; width: 100%; max-width: 420px;">
       <div style="text-align: center; margin-bottom: 36px;">
@@ -61,13 +80,10 @@ if (Astro.request.method === 'POST') {
         </p>
       </div>
 
-      {error && (
-        <div style="background: #fee; border: 1px solid #fcc; border-radius: 8px; padding: 12px; margin-bottom: 20px; color: #c33;">
-          ⚠️ {error}
-        </div>
-      )}
+      <div id="error-message" style="display: none; background: #fee; border: 1px solid #fcc; border-radius: 8px; padding: 12px; margin-bottom: 20px; color: #c33;">
+      </div>
 
-      <form method="POST">
+      <form>
         <div style="margin-bottom: 24px;">
           <label style="display: block; font-weight: 600; color: var(--color-text-gray); margin-bottom: 10px; font-size: 14px;">
             Email
