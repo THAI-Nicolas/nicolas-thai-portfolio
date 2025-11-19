@@ -2,7 +2,7 @@ declare global {
   interface Window {
     portfolioTheme?: {
       current: string;
-      setTheme: (theme: "wii" | "dark") => void;
+      setTheme: (theme: "wii") => void;
       getTheme: () => string;
     };
   }

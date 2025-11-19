@@ -59,8 +59,8 @@ const currentSize = sizes[size] || sizes.desktop;
       {/* Bulle de titre au survol (style Wii) */}
       {!isEmpty && projectTitle && (
         <div class="wii-title-bubble absolute -bottom-14 left-1/2 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 ease-out group-hover:translate-y-0 translate-y-2 z-50" style="transform: translateX(-50%); width: 380px;">
-          <div class="relative bg-white dark:bg-gray-800 rounded-full px-6 py-3 border-2" style="border-color: #d1d5db; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.1);">
-            <span class="font-['raleway'] relative z-10 text-text-gray dark:text-white font-medium text-lg tracking-wide text-center block truncate">
+          <div class="relative bg-white dark:bg-gray-800 rounded-full px-6 py-3 border-2 border-gray-300" style="box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.1);">
+            <span class="font-raleway relative z-10 text-text-gray dark:text-white font-medium text-lg tracking-wide text-center block truncate">
               {projectTitle}
             </span>
           </div>
@@ -95,8 +95,8 @@ const currentSize = sizes[size] || sizes.desktop;
       {/* Bulle de titre au survol (style Wii) */}
       {!isEmpty && projectTitle && (
         <div class="wii-title-bubble absolute -bottom-14 left-1/2 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 ease-out group-hover:translate-y-0 translate-y-2 z-50" style="transform: translateX(-50%); width: 380px;">
-          <div class="relative bg-white dark:bg-gray-800 rounded-full px-6 py-3 border-2" style="border-color: #d1d5db; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.1);">
-            <span class="font-['raleway'] relative z-10 text-[#5f6263] dark:text-white font-medium text-xl tracking-wide text-center block truncate">
+          <div class="relative bg-white dark:bg-gray-800 rounded-full px-6 py-3 border-2 border-gray-300" style="box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15), 0 2px 6px rgba(0, 0, 0, 0.1);">
+            <span class="font-raleway relative z-10 text-text-gray dark:text-white font-medium text-xl tracking-wide text-center block truncate">
               {projectTitle}
             </span>
           </div>
@@ -107,47 +107,8 @@ const currentSize = sizes[size] || sizes.desktop;
 }
 
 <style>
-  /* Animations de lévitation aléatoires pour les covers de projets */
-  @keyframes float-up {
-    0%, 100% { transform: scale(1) translateY(0); }
-    50% { transform: scale(1) translateY(-3px); }
-  }
-
-  @keyframes float-down {
-    0%, 100% { transform: scale(1) translateY(0); }
-    50% { transform: scale(1) translateY(3px); }
-  }
-
-  @keyframes float-left {
-    0%, 100% { transform: scale(1) translateX(0); }
-    50% { transform: scale(1) translateX(-3px); }
-  }
-
-  @keyframes float-right {
-    0%, 100% { transform: scale(1) translateX(0); }
-    50% { transform: scale(1) translateX(3px); }
-  }
-
-  @keyframes float-diagonal-tl {
-    0%, 100% { transform: scale(1) translate(0, 0); }
-    50% { transform: scale(1) translate(-2px, -2px); }
-  }
-
-  @keyframes float-diagonal-tr {
-    0%, 100% { transform: scale(1) translate(0, 0); }
-    50% { transform: scale(1) translate(2px, -2px); }
-  }
-
-  @keyframes float-diagonal-bl {
-    0%, 100% { transform: scale(1) translate(0, 0); }
-    50% { transform: scale(1) translate(-2px, 2px); }
-  }
-
-  @keyframes float-diagonal-br {
-    0%, 100% { transform: scale(1) translate(0, 0); }
-    50% { transform: scale(1) translate(2px, 2px); }
-  }
-
+  /* Animations définies dans animations.css */
+  
   /* Appliquer l'animation uniquement aux images de projets (non-empty) */
   .group:not(:has(.wii-channel-bg)) img {
     animation-duration: 5s;
@@ -223,16 +184,6 @@ const currentSize = sizes[size] || sizes.desktop;
       0 0 8px var(--color-light-blue),
       0 0 16px var(--color-light-blue),
       0 0 24px rgba(52, 190, 237, 0.3);
-  }
-
-  /* Thème sombre */
-  [data-theme="dark"] .wii-channel-bg,
-  [data-theme="dark"] .wii-channel-bg-static {
-    background-color: #3a3a3a;
-  }
-
-  [data-theme="dark"] .wii-channel-border {
-    border-color: var(--color-light-blue);
   }
 
   /* Bulle de titre style Wii */

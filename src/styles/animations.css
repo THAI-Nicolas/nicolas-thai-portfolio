@@ -1,0 +1,432 @@
+/**
+ * animations.css - Toutes les animations @keyframes centralisées
+ * 
+ * Organisation :
+ * - Animations de Float (flottement)
+ * - Animations de Neon (effets lumineux)
+ * - Animations de Dialogue (bulles de dialogue)
+ * - Animations de Contact (pancarte et chaînes)
+ * - Animations de Présentation (livre)
+ * - Animations de Navigation (flèches)
+ * - Animations génériques (fadeIn, etc.)
+ */
+
+/* ========================================
+   ANIMATIONS DE FLOAT (Flottement)
+   ======================================== */
+
+/* Float simple - 4 directions */
+@keyframes float-up {
+  0%,
+  100% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1) translateY(-3px);
+  }
+}
+
+@keyframes float-down {
+  0%,
+  100% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1) translateY(3px);
+  }
+}
+
+@keyframes float-left {
+  0%,
+  100% {
+    transform: scale(1) translateX(0);
+  }
+  50% {
+    transform: scale(1) translateX(-3px);
+  }
+}
+
+@keyframes float-right {
+  0%,
+  100% {
+    transform: scale(1) translateX(0);
+  }
+  50% {
+    transform: scale(1) translateX(3px);
+  }
+}
+
+/* Float diagonal - 4 directions */
+@keyframes float-diagonal-tl {
+  0%,
+  100% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1) translate(-2px, -2px);
+  }
+}
+
+@keyframes float-diagonal-tr {
+  0%,
+  100% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1) translate(2px, -2px);
+  }
+}
+
+@keyframes float-diagonal-bl {
+  0%,
+  100% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1) translate(-2px, 2px);
+  }
+}
+
+@keyframes float-diagonal-br {
+  0%,
+  100% {
+    transform: scale(1) translate(0, 0);
+  }
+  50% {
+    transform: scale(1) translate(2px, 2px);
+  }
+}
+
+/* Float cover - pour les couvertures de projets */
+@keyframes float-cover-up {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(0, -8px);
+  }
+}
+
+@keyframes float-cover-down {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(0, 8px);
+  }
+}
+
+@keyframes float-cover-left {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-8px, 0);
+  }
+}
+
+@keyframes float-cover-right {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(8px, 0);
+  }
+}
+
+@keyframes float-cover-diagonal-tl {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-6px, -6px);
+  }
+}
+
+@keyframes float-cover-diagonal-tr {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(6px, -6px);
+  }
+}
+
+@keyframes float-cover-diagonal-bl {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-6px, 6px);
+  }
+}
+
+@keyframes float-cover-diagonal-br {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(6px, 6px);
+  }
+}
+
+/* Float large - pour les nuages */
+@keyframes float-left-large {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-30px);
+  }
+}
+
+@keyframes float-right-large {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(30px);
+  }
+}
+
+/* ========================================
+   ANIMATIONS DE NEON (Effets lumineux)
+   ======================================== */
+
+@keyframes neon-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.4))
+      drop-shadow(0 0 3px rgba(0, 0, 0, 0.3))
+      drop-shadow(0 0 3px var(--neon-color, rgba(52, 190, 237, 0.6)))
+      drop-shadow(0 0 6px var(--neon-color, rgba(52, 190, 237, 0.4)));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.4))
+      drop-shadow(0 0 3px rgba(0, 0, 0, 0.3))
+      drop-shadow(0 0 4px var(--neon-color, rgba(52, 190, 237, 0.7)))
+      drop-shadow(0 0 8px var(--neon-color, rgba(52, 190, 237, 0.5)));
+  }
+}
+
+@keyframes border-neon-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 -1px 1px var(--border-color));
+  }
+  50% {
+    filter: drop-shadow(0 -1px 2px var(--border-color));
+  }
+}
+
+@keyframes ornament-glow {
+  0%,
+  100% {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+  }
+  50% {
+    text-shadow: 0 0 40px rgba(255, 255, 255, 0.9);
+  }
+}
+
+/* ========================================
+   ANIMATIONS DE DIALOGUE (Bulles)
+   ======================================== */
+
+@keyframes dialogue-appear {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes dialogue-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes dialogue-disappear {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px);
+  }
+}
+
+/* ========================================
+   ANIMATIONS CONTACT (Pancarte & Chaînes)
+   ======================================== */
+
+@keyframes sign-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-150px) rotateX(-15deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(8px) rotateX(3deg);
+  }
+  80% {
+    transform: translateY(-4px) rotateX(-2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+  }
+}
+
+@keyframes sign-sway {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(1.5deg);
+  }
+  50% {
+    transform: rotate(0deg);
+  }
+  75% {
+    transform: rotate(-1.5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes chain-drop {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(8px);
+  }
+  80% {
+    transform: translateY(-4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes chain-swing {
+  0% {
+    transform: rotate(0deg);
+    transform-origin: top center;
+  }
+  25% {
+    transform: rotate(0.6deg);
+    transform-origin: top center;
+  }
+  50% {
+    transform: rotate(0deg);
+    transform-origin: top center;
+  }
+  75% {
+    transform: rotate(-0.6deg);
+    transform-origin: top center;
+  }
+  100% {
+    transform: rotate(0deg);
+    transform-origin: top center;
+  }
+}
+
+/* ========================================
+   ANIMATIONS PRÉSENTATION (Livre)
+   ======================================== */
+
+@keyframes book-entrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(50px) rotateY(-20deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0) rotateY(0deg);
+  }
+}
+
+@keyframes icon-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+@keyframes mii-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ========================================
+   ANIMATIONS DE NAVIGATION (Flèches)
+   ======================================== */
+
+@keyframes bounce-right {
+  0%,
+  100% {
+    transform: translateX(0) translateY(-50%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateX(25%) translateY(-50%);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+/* ========================================
+   ANIMATIONS GÉNÉRIQUES
+   ======================================== */
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInText {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

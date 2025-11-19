@@ -21,7 +21,7 @@ const { isVisible = false, onClose } = Astro.props;
   >
     <div
       class="parametres-content w-full max-w-6xl bg-background gaming-border relative overflow-hidden wood-texture"
-      style="animation: fadeIn 0.3s ease-out; border-radius: 12px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -2px 8px rgba(0, 0, 0, 0.05); transform-style: preserve-3d; transition: transform 0.15s ease-out;"
+      style="animation: fadeIn 0.3s ease-out; border-radius: 12px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -2px 8px rgba(0, 0, 0, 0.05); transform-style: preserve-3d; transition: transform 0.1s ease-out;"
     >
       <!-- Header gaming -->
       <div
@@ -429,17 +429,7 @@ const { isVisible = false, onClose } = Astro.props;
 </div>
 
 <style>
-  /* Animations simples */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: scale(0.95) translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-    }
-  }
+  /* Animations définies dans animations.css */
 
   /* Texture bois subtile avec effet de profondeur */
   .wood-texture {
@@ -680,7 +670,7 @@ const { isVisible = false, onClose } = Astro.props;
       rgba(255, 255, 255, 0.7) 0%,
       rgba(250, 250, 252, 0.5) 100%
     );
-    color: var(--color-text-gray);
+    color: var(--color-dark-gray);
     font-size: 11px;
     font-weight: 700;
     cursor: pointer;
@@ -830,225 +820,23 @@ const { isVisible = false, onClose } = Astro.props;
 </style>
 
 <script>
+  import { OverlayManager } from '../../scripts/overlay-manager';
+  import { ParametresManager } from '../../scripts/parametres-manager';
+  
+  let parametresManager: ParametresManager | null = null;
+
   function initParametresOverlay() {
-    // Gestion des thèmes
-    // Initialiser le bouton actif selon le thème actuel
-    const currentTheme = window.portfolioTheme?.getTheme() || "wii";
-    console.log("Thème actuel au chargement:", currentTheme);
-
-    // Initialiser les boutons gaming-btn de thème (dans la section Interface)
-    const gamingThemeButtons = document.querySelectorAll('.gaming-btn[data-theme]');
-    gamingThemeButtons.forEach((btn) => {
-      const btnTheme = btn.getAttribute("data-theme");
-      if (btnTheme === currentTheme) {
-        btn.classList.add("active");
-      } else {
-        btn.classList.remove("active");
-      }
-    });
-
-    // Effet 3D immersif au mouvement de la souris
-    const parametresContent = document.querySelector(
-      ".parametres-content"
-    ) as HTMLElement;
-    const parametresContainer = document.querySelector(
-      ".parametres-container"
-    ) as HTMLElement;
-
-    if (parametresContainer && parametresContent) {
-      parametresContainer.addEventListener("mousemove", (e: MouseEvent) => {
-        const rect = parametresContainer.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-
-        const rotateX = ((y - centerY) / centerY) * 2;
-        const rotateY = ((x - centerX) / centerX) * 2;
-
-        parametresContent.style.transform = `
-          rotateX(${-rotateX}deg) 
-          rotateY(${rotateY}deg) 
-          translateZ(10px)
-        `;
-      });
-
-      parametresContainer.addEventListener("mouseleave", () => {
-        parametresContent.style.transform = `
-          rotateX(0deg) 
-          rotateY(0deg) 
-          translateZ(0px)
-        `;
-      });
-    }
-
-    // Sliders
-    const sliders = document.querySelectorAll(
-      ".gaming-slider"
-    ) as NodeListOf<HTMLInputElement>;
-
-    sliders.forEach((slider) => {
-      slider.addEventListener("input", (e) => {
-        const target = e.target as HTMLInputElement;
-        const value = target.value;
-        const card = target.closest(".gaming-card");
-        const valueDisplay = card?.querySelector(
-          ".slider-value"
-        ) as HTMLElement;
-
-        if (valueDisplay) {
-          valueDisplay.textContent = `${value}%`;
-        }
-      });
-    });
-
-    // Toggles
-    const toggles = document.querySelectorAll(
-      ".toggle-input"
-    ) as NodeListOf<HTMLInputElement>;
-
-    toggles.forEach((toggle) => {
-      toggle.addEventListener("change", (e) => {
-        const target = e.target as HTMLInputElement;
-        console.log(`${target.id} changed to:`, target.checked);
-      });
-    });
-
-    // Boutons (thème et langue)
-    const allButtons = document.querySelectorAll(
-      ".gaming-btn"
-    ) as NodeListOf<HTMLButtonElement>;
-
-    allButtons.forEach((button) => {
-      button.addEventListener("click", (e) => {
-        const target = e.target as HTMLButtonElement;
-        const card = target.closest(".gaming-card");
-
-        if (card) {
-          card
-            .querySelectorAll(".gaming-btn")
-            .forEach((btn) => btn.classList.remove("active"));
-          target.classList.add("active");
-        }
-
-        const theme = target.dataset.theme;
-        const lang = target.dataset.lang;
-
-        if (theme) {
-          console.log("Theme:", theme);
-          // Changer le thème si c'est un bouton de thème
-          if (window.portfolioTheme) {
-            window.portfolioTheme.setTheme(theme as "wii" | "dark");
-          }
-        }
-        if (lang) console.log("Language:", lang);
-      });
-    });
-
-    // Bouton Enregistrer
-    const applyButton = document.getElementById(
-      "apply-button"
-    ) as HTMLButtonElement;
-
-    if (applyButton) {
-      applyButton.addEventListener("click", () => {
-        console.log("Paramètres enregistrés");
-        const originalHTML = applyButton.innerHTML;
-        applyButton.innerHTML = `
-          <span class="flex items-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-            Enregistré !
-          </span>
-        `;
-        setTimeout(() => {
-          applyButton.innerHTML = originalHTML;
-        }, 2000);
-      });
-    }
-
-    // Bouton Réinitialiser
-    const resetButton = document.getElementById(
-      "reset-button"
-    ) as HTMLButtonElement;
-
-    if (resetButton) {
-      resetButton.addEventListener("click", () => {
-        const masterVolume = document.getElementById(
-          "master-volume"
-        ) as HTMLInputElement;
-        const musicVolume = document.getElementById(
-          "music-volume"
-        ) as HTMLInputElement;
-        const sfxVolume = document.getElementById(
-          "sfx-volume"
-        ) as HTMLInputElement;
-
-        if (masterVolume) {
-          masterVolume.value = "50";
-          const valueDisplay = masterVolume
-            .closest(".gaming-card")
-            ?.querySelector(".slider-value") as HTMLElement;
-          if (valueDisplay) valueDisplay.textContent = "50%";
-        }
-
-        if (musicVolume) {
-          musicVolume.value = "40";
-          const valueDisplay = musicVolume
-            .closest(".gaming-card")
-            ?.querySelector(".slider-value") as HTMLElement;
-          if (valueDisplay) valueDisplay.textContent = "40%";
-        }
-
-        if (sfxVolume) {
-          sfxVolume.value = "70";
-          const valueDisplay = sfxVolume
-            .closest(".gaming-card")
-            ?.querySelector(".slider-value") as HTMLElement;
-          if (valueDisplay) valueDisplay.textContent = "70%";
-        }
-
-        toggles.forEach((toggle) => {
-          toggle.checked = true;
-        });
-
-        // Réinitialiser le thème vers Wii (thème par défaut)
-        const wiiTheme = document.querySelector(
-          '.gaming-btn[data-theme="light"]'
-        ) as HTMLButtonElement;
-        const themeButtons = document.querySelectorAll('.gaming-btn[data-theme]');
-        themeButtons.forEach((btn) => btn.classList.remove("active"));
-        wiiTheme?.classList.add("active");
-        
-        // Changer aussi le thème dans l'application
-        if (window.portfolioTheme) {
-          window.portfolioTheme.setTheme("wii");
-        }
-
-        const frLang = document.querySelector(
-          '[data-lang="fr"]'
-        ) as HTMLButtonElement;
-        const langButtons = document.querySelectorAll("[data-lang]");
-        langButtons.forEach((btn) => btn.classList.remove("active"));
-        frLang?.classList.add("active");
-
-        console.log("Paramètres réinitialisés");
-      });
-    }
-
-    // Bouton de fermeture (croix)
-    const closeButton = document.getElementById("parametres-close-button");
-    const parametresOverlay = document.querySelector(".parametres-overlay");
+    const overlayManager = OverlayManager.getInstance();
     
-    if (closeButton && parametresOverlay) {
-      closeButton.addEventListener("click", () => {
-        parametresOverlay.classList.add("opacity-0", "pointer-events-none");
-        parametresOverlay.classList.remove("opacity-100", "pointer-events-auto");
-      });
-    }
-
-    console.log("Parametres overlay initialized!");
+    // Setup de l'overlay paramètres avec le bouton de fermeture custom
+    overlayManager.setupOverlay('parametres', {
+      closeButtonSelector: '#parametres-close-button'
+    });
+    
+    // Recréer le gestionnaire de paramètres à chaque fois pour éviter les références DOM obsolètes
+    parametresManager = new ParametresManager();
+    
+    console.log("Parametres overlay initialized with managers!");
   }
 
   if (document.readyState === "loading") {

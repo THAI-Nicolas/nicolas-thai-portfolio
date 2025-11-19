@@ -1,4 +1,4 @@
-export type Theme = "wii" | "dark";
+export type Theme = "wii";
 
 const THEME_KEY = "portfolio-theme";
 
@@ -21,7 +21,7 @@ export class ThemeManager {
   private getStoredTheme(): Theme | null {
     if (typeof window === "undefined") return null;
     const stored = localStorage.getItem(THEME_KEY);
-    return stored === "dark" || stored === "wii" ? stored : null;
+    return stored === "wii" ? stored : null;
   }
 
   private applyTheme(theme: Theme): void {
@@ -43,8 +43,8 @@ export class ThemeManager {
   }
 
   public toggleTheme(): void {
-    const newTheme = this.currentTheme === "wii" ? "dark" : "wii";
-    this.setTheme(newTheme);
+    // Fonction désactivée pour l'instant
+    console.log("Toggle theme désactivé");
   }
 }
 

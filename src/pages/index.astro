@@ -100,73 +100,11 @@ const channels = Array(totalChannels).fill(null).map((_, index) => {
   <PresentationOverlay />
 </Layout>
 
-<script is:inline>
+<script>
+  import { CarouselManager } from '../scripts/carousel';
+
   function initCarousel() {
-    // Vérifier qu'on est sur la page d'accueil
-    if (window.location.pathname !== '/') return;
-    
-    let currentPage = 1;
-    let carouselGrid = document.getElementById("carousel-grid");
-    let arrowRight = document.getElementById("arrow-right");
-    let arrowLeft = document.getElementById("arrow-left");
-
-    if (!carouselGrid || !arrowRight || !arrowLeft) {
-      console.log("Elements du carousel non trouvés");
-      return;
-    }
-
-    console.log("Initialisation du carousel");
-
-    // Fonction pour changer de page
-    function switchPage(pageNumber) {
-      console.log("Changement vers la page:", pageNumber);
-      if (pageNumber === 1) {
-        carouselGrid.style.transform = "translateX(0)";
-        arrowRight.style.opacity = "1";
-        arrowLeft.style.opacity = "0";
-        currentPage = 1;
-        console.log("Page 1 active");
-      } else if (pageNumber === 2) {
-        carouselGrid.style.transform = "translateX(-1890px)";
-        arrowRight.style.opacity = "0";
-        arrowLeft.style.opacity = "1";
-        currentPage = 2;
-        console.log("Page 2 active");
-      }
-    }
-
-    // Initialisation - Page 1 active par défaut
-    arrowLeft.style.opacity = "0";
-    
-    // Nettoyer les anciens listeners en clonant les éléments
-    const newArrowRight = arrowRight.cloneNode(true);
-    arrowRight.parentNode.replaceChild(newArrowRight, arrowRight);
-    arrowRight = newArrowRight;
-    
-    const newArrowLeft = arrowLeft.cloneNode(true);
-    arrowLeft.parentNode.replaceChild(newArrowLeft, arrowLeft);
-    arrowLeft = newArrowLeft;
-    
-    // Ajouter les nouveaux listeners
-    arrowRight.addEventListener("click", () => {
-      console.log("Click sur flèche droite");
-      switchPage(2);
-    });
-
-    // Navigation vers la page 1 (flèche gauche)
-    arrowLeft.addEventListener("click", () => {
-      console.log("Click sur flèche gauche");
-      switchPage(1);
-    });
-
-    // Navigation au clavier
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowRight" && currentPage === 1) {
-        switchPage(2);
-      } else if (e.key === "ArrowLeft" && currentPage === 2) {
-        switchPage(1);
-      }
-    });
+    const carousel = new CarouselManager();
   }
 
   // Init au chargement
@@ -176,57 +114,22 @@ const channels = Array(totalChannels).fill(null).map((_, index) => {
   document.addEventListener("astro:after-swap", initCarousel);
 </script>
 
-<script is:inline>
+<script>
+  import { OverlayManager } from '../scripts/overlay-manager';
+
   function initOverlayButtons() {
     // Vérifier qu'on est sur la page d'accueil
     if (window.location.pathname !== '/') return;
     
-    // Bouton Contact
-    const contactButton = document.getElementById("contact-button");
-    const contactOverlay = document.querySelector(".contact-overlay");
+    const overlayManager = OverlayManager.getInstance();
     
-    if (contactButton && contactOverlay) {
-      contactButton.addEventListener("click", () => {
-        contactOverlay.classList.remove("opacity-0", "pointer-events-none");
-        contactOverlay.classList.add("opacity-100", "pointer-events-auto");
-      });
-    }
+    // Setup tous les overlays
+    overlayManager.setupOverlay('cv');
+    overlayManager.setupOverlay('contact');
+    overlayManager.setupOverlay('presentation');
+    overlayManager.setupOverlay('parametres');
     
-    // Bouton Présentation (Mii)
-    const presentationButton = document.querySelector('[data-type="presentation"]');
-    const presentationOverlay = document.querySelector(".presentation-overlay");
-    
-    if (presentationButton && presentationOverlay) {
-      presentationButton.addEventListener("click", () => {
-        presentationOverlay.classList.remove("opacity-0", "pointer-events-none");
-        presentationOverlay.classList.add("opacity-100", "pointer-events-auto");
-      });
-    }
-    
-    // Bouton CV
-    const cvButton = document.querySelector("a.card-cv");
-    const cvOverlay = document.querySelector(".cv-overlay");
-    
-    if (cvButton && cvOverlay) {
-      cvButton.addEventListener("click", (e) => {
-        e.preventDefault();
-        cvOverlay.classList.remove("opacity-0", "pointer-events-none");
-        cvOverlay.classList.add("opacity-100", "pointer-events-auto");
-      });
-    }
-    
-    // Bouton Paramètres
-    const parametresButton = document.getElementById("parametres-button");
-    const parametresOverlay = document.querySelector(".parametres-overlay");
-    
-    if (parametresButton && parametresOverlay) {
-      parametresButton.addEventListener("click", () => {
-        parametresOverlay.classList.remove("opacity-0", "pointer-events-none");
-        parametresOverlay.classList.add("opacity-100", "pointer-events-auto");
-      });
-    }
-    
-    console.log("Overlay buttons initialized!");
+    console.log("Overlay buttons initialized with OverlayManager!");
   }
   
   // Init au chargement
@@ -237,17 +140,6 @@ const channels = Array(totalChannels).fill(null).map((_, index) => {
 </script>
 
 <style>
-  @keyframes bounce-right {
-    0%, 100% {
-      transform: translateX(0) translateY(-50%);
-      animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-    }
-    50% {
-      transform: translateX(25%) translateY(-50%);
-      animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
-    }
-  }
-
   #arrow-right {
     animation: bounce-right 1.5s infinite;
     transform: translateY(-50%);

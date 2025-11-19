@@ -118,30 +118,28 @@ const { isVisible = false, onClose } = Astro.props;
 
 <script>
   import { MiiScene } from '../../scripts/mii-scene';
+  import { OverlayManager } from '../../scripts/overlay-manager';
   
   let miiScene: MiiScene | null = null;
-  let rotationInterval: number | null = null;
 
   function initCvOverlay() {
-    const returnButton = document.getElementById("cv-return-button");
+    const overlayManager = OverlayManager.getInstance();
     const cvOverlay = document.querySelector(".cv-overlay");
     const flecheGauche = document.getElementById("fleche-gauche");
     const flecheDroite = document.getElementById("fleche-droite");
-
-    if (returnButton && cvOverlay) {
-      returnButton.addEventListener("click", () => {
-        cvOverlay.classList.add("opacity-0", "pointer-events-none");
-        cvOverlay.classList.remove("opacity-100", "pointer-events-auto");
-        
-        // Nettoyer la scène 3D si elle existe
+    
+    // Setup de l'overlay avec callbacks personnalisés
+    overlayManager.setupOverlay('cv', {
+      onClose: () => {
+        // Nettoyer la scène 3D quand l'overlay se ferme
         if (miiScene) {
           miiScene.destroy();
           miiScene = null;
         }
-      });
-    }
+      }
+    });
     
-    // Observer pour détecter quand l'overlay devient visible
+    // Observer pour détecter quand l'overlay devient visible et initialiser la scène 3D
     if (cvOverlay) {
       const observer = new MutationObserver(() => {
         const isVisible = cvOverlay.classList.contains("opacity-100") && 
@@ -167,7 +165,6 @@ const { isVisible = false, onClose } = Astro.props;
     
     // Gestion de la rotation avec les flèches
     if (flecheGauche) {
-      // Empêcher le comportement par défaut du lien
       const linkGauche = flecheGauche.querySelector('a');
       if (linkGauche) {
         linkGauche.addEventListener('click', (e) => {
@@ -180,11 +177,13 @@ const { isVisible = false, onClose } = Astro.props;
           miiScene.startRotation('left');
         }
       });
+      
       flecheGauche.addEventListener('mouseup', () => {
         if (miiScene) {
           miiScene.stopRotation();
         }
       });
+      
       flecheGauche.addEventListener('mouseleave', () => {
         if (miiScene) {
           miiScene.stopRotation();
@@ -193,7 +192,6 @@ const { isVisible = false, onClose } = Astro.props;
     }
     
     if (flecheDroite) {
-      // Empêcher le comportement par défaut du lien
       const linkDroite = flecheDroite.querySelector('a');
       if (linkDroite) {
         linkDroite.addEventListener('click', (e) => {
@@ -206,11 +204,13 @@ const { isVisible = false, onClose } = Astro.props;
           miiScene.startRotation('right');
         }
       });
+      
       flecheDroite.addEventListener('mouseup', () => {
         if (miiScene) {
           miiScene.stopRotation();
         }
       });
+      
       flecheDroite.addEventListener('mouseleave', () => {
         if (miiScene) {
           miiScene.stopRotation();

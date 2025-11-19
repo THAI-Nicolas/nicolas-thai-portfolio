@@ -529,212 +529,32 @@ const { isVisible = false, onClose } = Astro.props;
     border-color: var(--color-light-blue) !important;
   }
 
-  /* Animations */
-  @keyframes sign-drop {
-    0% {
-      opacity: 0;
-      transform: translateY(-150px) rotateX(-15deg);
-    }
-    60% {
-      opacity: 1;
-      transform: translateY(8px) rotateX(3deg);
-    }
-    80% {
-      transform: translateY(-4px) rotateX(-2deg);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0) rotateX(0deg);
-    }
-  }
-
-  @keyframes sign-sway {
-    0% {
-      transform: rotate(0deg);
-    }
-    25% {
-      transform: rotate(1.5deg);
-    }
-    50% {
-      transform: rotate(0deg);
-    }
-    75% {
-      transform: rotate(-1.5deg);
-    }
-    100% {
-      transform: rotate(0deg);
-    }
-  }
-
-  @keyframes chain-drop {
-    0% {
-      opacity: 0;
-      transform: translateY(-100px);
-    }
-    60% {
-      opacity: 1;
-      transform: translateY(8px);
-    }
-    80% {
-      transform: translateY(-4px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes chain-swing {
-    0% {
-      transform: rotate(0deg);
-      transform-origin: top center;
-    }
-    25% {
-      transform: rotate(0.6deg);
-      transform-origin: top center;
-    }
-    50% {
-      transform: rotate(0deg);
-      transform-origin: top center;
-    }
-    75% {
-      transform: rotate(-0.6deg);
-      transform-origin: top center;
-    }
-    100% {
-      transform: rotate(0deg);
-      transform-origin: top center;
-    }
-  }
+  /* Animations définies dans animations.css */
 </style>
 
-<script is:inline>
-  // Initialisation quand l'overlay s'ouvre
+<script>
+  import { OverlayManager } from '../../scripts/overlay-manager';
+  import { ContactFormManager } from '../../scripts/contact-form';
+  
+  let contactFormManager: ContactFormManager | null = null;
+
   function initContactOverlay() {
-    const contactOverlay = document.querySelector(".contact-overlay");
-    const gamingSign = document.getElementById("gaming-sign");
-    const zoomButton = document.getElementById("zoom-button");
-
-    if (!contactOverlay || !gamingSign || !zoomButton) {
-      console.log("Elements not found, retrying...");
-      setTimeout(initContactOverlay, 100);
-      return;
-    }
-
-    console.log("Contact overlay elements found!");
-
-    // Récupérer la feuille de papier
-    const paperSheet = document.getElementById("paper-sheet");
-    const returnButton = document.getElementById("contact-return-button");
-
-    // Gestionnaire pour le bouton retour
-    if (returnButton) {
-      returnButton.addEventListener("click", () => {
-        if (contactOverlay) {
-          contactOverlay.classList.add("opacity-0", "pointer-events-none");
-          contactOverlay.classList.remove("opacity-100", "pointer-events-auto");
-        }
-      });
-    }
-
-    // Observer pour détecter l'ouverture de l'overlay
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (
-          mutation.attributeName === "class" ||
-          mutation.attributeName === "style"
-        ) {
-          const isVisible = !contactOverlay.classList.contains("opacity-0");
-
-          if (isVisible && !gamingSign.classList.contains("show")) {
-            console.log("Overlay opened, launching animation!");
-            gamingSign.classList.add("show");
-            
-            // Ajouter la classe show aux chaînes aussi
-            const chains = document.querySelectorAll(".chain");
-            chains.forEach(chain => chain.classList.add("show"));
-          } else if (!isVisible && gamingSign.classList.contains("show")) {
-            gamingSign.classList.remove("show");
-            
-            // Retirer la classe show des chaînes
-            const chains = document.querySelectorAll(".chain");
-            chains.forEach(chain => chain.classList.remove("show"));
-            
-            if (paperSheet) {
-              paperSheet.classList.remove("show");
-            }
-          }
-        }
-      });
-    });
-
-    observer.observe(contactOverlay, {
-      attributes: true,
-      attributeFilter: ["class", "style"],
-    });
-
-    // Gestionnaire de la feuille de papier
-    document.addEventListener("click", (e) => {
-      const target = e.target;
-
-      // Ouvrir la feuille de papier
-      if (
-        target &&
-        (target.id === "zoom-button" || target.closest("#zoom-button"))
-      ) {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log("Opening paper sheet!");
-
-        if (paperSheet) {
-          paperSheet.classList.add("show");
-        }
-      }
-
-      // Fermer la feuille de papier
-      if (
-        target &&
-        (target.id === "dezoom-button" || target.closest("#dezoom-button"))
-      ) {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log("Closing paper sheet!");
-
-        if (paperSheet) {
-          paperSheet.classList.remove("show");
+    const overlayManager = OverlayManager.getInstance();
+    
+    // Recréer le gestionnaire de formulaire à chaque fois pour éviter les références DOM obsolètes
+    contactFormManager = new ContactFormManager();
+    
+    // Setup de l'overlay contact avec callback de fermeture
+    overlayManager.setupOverlay('contact', {
+      onClose: () => {
+        // Fermer la feuille de papier si elle est ouverte
+        if (contactFormManager) {
+          contactFormManager.closePaperSheet();
         }
       }
     });
-
-    // Synchronisation des formulaires
-    function syncForms() {
-      const allInputs = document.querySelectorAll("[data-sync]");
-
-      allInputs.forEach((input) => {
-        input.addEventListener("input", (e) => {
-          const syncKey = e.target.getAttribute("data-sync");
-          const value = e.target.value;
-
-          // Trouver tous les champs avec le même syncKey et mettre à jour leur valeur
-          const otherInputs = document.querySelectorAll(
-            `[data-sync="${syncKey}"]`
-          );
-
-          otherInputs.forEach((otherInput) => {
-            if (otherInput !== e.target) {
-              otherInput.value = value;
-            }
-          });
-        });
-      });
-
-      console.log("Forms synchronized!");
-    }
-
-    // Lancer la synchronisation après un petit délai pour être sûr que tout est chargé
-    setTimeout(syncForms, 200);
-
-    console.log("Contact overlay initialized!");
+    
+    console.log("Contact overlay initialized with managers!");
   }
 
   if (document.readyState === "loading") {

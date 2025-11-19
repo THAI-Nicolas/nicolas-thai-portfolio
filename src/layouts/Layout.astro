@@ -32,8 +32,7 @@ const {
     <script is:inline>
       const THEME_KEY = "portfolio-theme";
       const storedTheme = localStorage.getItem(THEME_KEY);
-      const theme =
-        storedTheme === "dark" || storedTheme === "wii" ? storedTheme : "wii";
+      const theme = storedTheme === "wii" ? storedTheme : "wii";
       document.documentElement.setAttribute("data-theme", theme);
     </script>
   </head>
@@ -46,7 +45,7 @@ const {
         current: localStorage.getItem("portfolio-theme") || "wii",
 
         setTheme: function (theme) {
-          if (theme !== "wii" && theme !== "dark") return;
+          if (theme !== "wii") return;
 
           this.current = theme;
           localStorage.setItem("portfolio-theme", theme);

@@ -1877,226 +1877,25 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
     border-radius: 10px;
   }
 
-  /* Animations */
-  @keyframes book-entrance {
-    0% {
-      opacity: 0;
-      transform: scale(0.85) translateY(50px) rotateY(-20deg);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1) translateY(0) rotateY(0deg);
-    }
-  }
-
-  @keyframes ornament-glow {
-    0%,
-    100% {
-      text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
-    }
-    50% {
-      text-shadow: 0 0 40px rgba(255, 255, 255, 0.9);
-    }
-  }
-
-  @keyframes icon-pulse {
-    0%,
-    100% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.2);
-    }
-  }
-
-  @keyframes mii-float {
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
+  /* Animations définies dans animations.css */
 </style>
 
-<script is:inline>
+<script>
+  import { OverlayManager } from '../../scripts/overlay-manager';
+  import { BookManager } from '../../scripts/book-manager';
+  
+  let bookManager: BookManager | null = null;
+
   function initPresentationOverlay() {
-    const overlay = document.querySelector(".presentation-overlay");
-    const bookCard = document.getElementById("book-card");
-    const pages = document.querySelectorAll(".book-page");
-    const presentationContainer = document.querySelector(
-      ".presentation-card-container"
-    );
-
-    if (!overlay || !bookCard) {
-      setTimeout(initPresentationOverlay, 100);
-      return;
-    }
-
-    const page2BackOverlay = document.getElementById("page-2-back-overlay");
-    const page2BackOverlayRight = document.getElementById("page-2-back-overlay-right");
-    const page3BackOverlay = document.getElementById("page-3-back-overlay");
-    const page3BackOverlayRight = document.getElementById("page-3-back-overlay-right");
-
-    let currentPage = 0;
-    const totalPages = pages.length;
-    let isOpened = false;
-
-    // Tourner la page suivante
-    function nextPage() {
-      if (currentPage < totalPages) {
-        // Au premier clic, centrer le livre ET tourner la première page
-        if (currentPage === 0) {
-          bookCard.classList.add("opened");
-          isOpened = true;
-          pages[0].classList.add("flipped");
-          currentPage++;
-          if (presentationContainer) {
-            presentationContainer.classList.remove("hidden");
-          }
-          console.log(
-            `Page actuelle: ${currentPage}/${totalPages} (ouverture + première page)`
-          );
-        } else {
-          // Cacher le contenu avant de tourner la page
-          if (presentationContainer && currentPage === 1) {
-            presentationContainer.classList.add("hidden");
-          }
-          // Pour les pages suivantes
-          const pageToFlip = pages[currentPage];
-          pageToFlip.classList.add("flipped");
-          currentPage++;
-
-          // Afficher l'overlay page 2 UNIQUEMENT après le flip de la page 2 (pas de la page 1)
-          if (currentPage === 2 && page2BackOverlay) {
-            // La page 2 vient juste de flipper
-            setTimeout(() => {
-              page2BackOverlay.classList.add("visible");
-              console.log("Overlay page 2 back (gauche) affiché");
-            }, 600);
-          } else if (currentPage !== 2 && page2BackOverlay) {
-            // On a quitté la page 2
-            page2BackOverlay.classList.remove("visible");
-            console.log("Overlay page 2 back (gauche) caché");
-          }
-
-          // Afficher l'overlay Design en même temps
-          if (currentPage === 2 && page2BackOverlayRight) {
-            setTimeout(() => {
-              page2BackOverlayRight.classList.add("visible");
-              console.log("Overlay Design (droite) affiché");
-            }, 200);
-          } else if (currentPage !== 2 && page2BackOverlayRight) {
-            page2BackOverlayRight.classList.remove("visible");
-            console.log("Overlay Design (droite) caché");
-          }
-
-          // Afficher l'overlay Gestion de projet
-          if (currentPage === 3 && page3BackOverlay) {
-            setTimeout(() => {
-              page3BackOverlay.classList.add("visible");
-              console.log("Overlay Gestion de projet (gauche) affiché");
-            }, 600);
-          } else if (currentPage !== 3 && page3BackOverlay) {
-            page3BackOverlay.classList.remove("visible");
-            console.log("Overlay Gestion de projet (gauche) caché");
-          }
-
-          // Afficher l'overlay Audiovisuel en même temps
-          if (currentPage === 3 && page3BackOverlayRight) {
-            setTimeout(() => {
-              page3BackOverlayRight.classList.add("visible");
-              console.log("Overlay Audiovisuel (droite) affiché");
-            }, 200);
-          } else if (currentPage !== 3 && page3BackOverlayRight) {
-            page3BackOverlayRight.classList.remove("visible");
-            console.log("Overlay Audiovisuel (droite) caché");
-          }
-
-          console.log(`Page actuelle: ${currentPage}/${totalPages}`);
-        }
-      } else {
-        // Retour au début
-        pages.forEach((page) => page.classList.remove("flipped"));
-        bookCard.classList.remove("opened");
-        currentPage = 0;
-        isOpened = false;
-        if (presentationContainer) {
-          presentationContainer.classList.add("hidden");
-        }
-        if (page2BackOverlay) {
-          page2BackOverlay.classList.remove("visible");
-        }
-        if (page2BackOverlayRight) {
-          page2BackOverlayRight.classList.remove("visible");
-        }
-        if (page3BackOverlay) {
-          page3BackOverlay.classList.remove("visible");
-        }
-        if (page3BackOverlayRight) {
-          page3BackOverlayRight.classList.remove("visible");
-        }
-        console.log("Retour à la couverture");
-      }
-    }
-
-    // Observer pour réinitialiser quand l'overlay se ferme
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (
-          mutation.attributeName === "class" ||
-          mutation.attributeName === "style"
-        ) {
-          const isVisible = !overlay.classList.contains("opacity-0");
-
-          if (!isVisible && currentPage > 0) {
-            // Réinitialiser toutes les pages
-            pages.forEach((page) => page.classList.remove("flipped"));
-            bookCard.classList.remove("opened");
-            currentPage = 0;
-            isOpened = false;
-            if (presentationContainer) {
-              presentationContainer.classList.add("hidden");
-            }
-            if (page2BackOverlay) {
-              page2BackOverlay.classList.remove("visible");
-            }
-            if (page2BackOverlayRight) {
-              page2BackOverlayRight.classList.remove("visible");
-            }
-            if (page3BackOverlay) {
-              page3BackOverlay.classList.remove("visible");
-            }
-            if (page3BackOverlayRight) {
-              page3BackOverlayRight.classList.remove("visible");
-            }
-          }
-        }
-      });
-    });
-
-    observer.observe(overlay, {
-      attributes: true,
-      attributeFilter: ["class", "style"],
-    });
-
-    // Clic sur la carte pour tourner les pages
-    bookCard.addEventListener("click", (e) => {
-      e.stopPropagation();
-      nextPage();
-    });
-
-    // Bouton retour
-    const returnButton = document.getElementById("presentation-return-button");
-    if (returnButton) {
-      returnButton.addEventListener("click", () => {
-        overlay.classList.add("opacity-0", "pointer-events-none");
-        overlay.classList.remove("opacity-100", "pointer-events-auto");
-      });
-    }
-
-    console.log("Presentation overlay initialized!");
+    const overlayManager = OverlayManager.getInstance();
+    
+    // Setup de l'overlay présentation
+    overlayManager.setupOverlay('presentation');
+    
+    // Recréer le gestionnaire de livre à chaque fois pour éviter les références DOM obsolètes
+    bookManager = new BookManager();
+    
+    console.log("Presentation overlay initialized with managers!");
   }
 
   if (document.readyState === "loading") {

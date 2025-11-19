@@ -97,55 +97,8 @@ const colorGradient = {
 </LayoutPageProjet>
 
 <style>
-  @keyframes border-neon-pulse {
-    0%, 100% {
-      filter: drop-shadow(0 -1px 1px var(--border-color));
-    }
-    50% {
-      filter: drop-shadow(0 -1px 2px var(--border-color));
-    }
-  }
-
-  @keyframes float-cover-up {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(0, -8px); }
-  }
-
-  @keyframes float-cover-down {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(0, 8px); }
-  }
-
-  @keyframes float-cover-left {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(-8px, 0); }
-  }
-
-  @keyframes float-cover-right {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(8px, 0); }
-  }
-
-  @keyframes float-cover-diagonal-tl {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(-6px, -6px); }
-  }
-
-  @keyframes float-cover-diagonal-tr {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(6px, -6px); }
-  }
-
-  @keyframes float-cover-diagonal-bl {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(-6px, 6px); }
-  }
-
-  @keyframes float-cover-diagonal-br {
-    0%, 100% { transform: translate(0, 0); }
-    50% { transform: translate(6px, 6px); }
-  }
-
+  /* Animations définies dans animations.css */
+  
   .footer-border-neon {
     animation: border-neon-pulse 2s ease-in-out infinite;
   }

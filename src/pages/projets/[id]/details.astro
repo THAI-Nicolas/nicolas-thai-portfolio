@@ -112,13 +112,13 @@ const colorGradient = {
           <div class="col-span-12 lg:col-span-7">
             <section class="mb-16 lg:mb-12 max-w-4xl">
               <span
-                class="inline-block text-text-gray body-2 lg:text-[18px] font-semibold tracking-wider mb-6"
+                class="inline-block font-raleway text-sm lg:text-lg font-semibold tracking-wider mb-6 text-text-gray"
               >
                 {projet.annee}
               </span>
 
               <h1
-                class="project-h1 lg:text-6xl font-bold text-text-gray mb-10 lg:mb-10"
+                class="font-hagrid text-3xl lg:text-6xl font-bold mb-10 lg:mb-10 text-text-gray"
               >
                 {projet.titre}
               </h1>
@@ -128,11 +128,11 @@ const colorGradient = {
 
             <section class="space-y-8">
               <div
-                class="body-1 text-text-gray leading-relaxed space-y-6"
+                class="font-raleway text-base lg:text-xl leading-relaxed space-y-6 text-text-gray"
                 set:html={projet.description}
               />
               
-              <h2 class="project-h2 text-text-gray mt-20">
+              <h2 class="font-hagrid text-xl lg:text-3xl mt-20 text-text-gray">
                 Contexte du projet
               </h2>
 
@@ -165,7 +165,7 @@ const colorGradient = {
 
               <div class="space-y-8">
                 <div
-                  class="body-1 text-text-gray leading-relaxed space-y-6"
+                  class="font-raleway text-base lg:text-xl leading-relaxed space-y-6 text-text-gray"
                   set:html={projet.contexte}
                 />
               </div>
@@ -220,7 +220,7 @@ const colorGradient = {
         {
           processusEtapes.length > 0 && (
             <section class="mb-32 lg:mb-48 mt-36">
-              <h2 class="project-h2 text-text-gray mb-16 lg:mb-20">
+              <h2 class="font-hagrid text-xl lg:text-3xl mb-16 lg:mb-20 text-text-gray">
                 Processus de création
               </h2>
 
@@ -239,10 +239,10 @@ const colorGradient = {
                         >
                           {etape.numero}
                         </span>
-                        <h3 class="project-h2 text-text-gray">{etape.titre}</h3>
+                        <h3 class="font-hagrid text-xl lg:text-3xl text-text-gray">{etape.titre}</h3>
                       </div>
                       <div
-                        class="body-1 text-text-gray leading-relaxed"
+                        class="font-raleway text-base lg:text-xl leading-relaxed text-text-gray"
                         set:html={etape.description}
                       />
                     </div>
@@ -260,7 +260,7 @@ const colorGradient = {
                         />
                       ) : (
                         <div class="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-8 lg:p-10 border-2 border-gray-200 shadow-2xl aspect-video flex items-center justify-center">
-                          <span class="body-1 text-text-gray opacity-50">
+                          <span class="font-raleway text-base lg:text-xl opacity-50 text-text-gray">
                             Visuel {etape.numero}
                           </span>
                         </div>
@@ -276,7 +276,7 @@ const colorGradient = {
         {
           (projet.resultat_url || projet.resultat_iframe) && (
             <section class="mb-32 lg:mb-48">
-              <h2 class="project-h2 text-text-gray mb-16 lg:mb-20">
+              <h2 class="font-hagrid text-xl lg:text-3xl mb-16 lg:mb-20 text-text-gray">
                 Le résultat final
               </h2>
 
@@ -322,7 +322,7 @@ const colorGradient = {
                             d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
                           />
                         </svg>
-                        <p class="text-lg font-bold">
+                        <p class="font-raleway text-lg font-bold">
                           Cliquez pour activer le scroll
                         </p>
                       </div>
@@ -338,25 +338,25 @@ const colorGradient = {
           <div
             class="flex flex-col lg:flex-row justify-between items-center gap-8"
           >
-            <p class="body-2 text-text-gray">© 2025 Nicolas THAI</p>
+            <p class="font-raleway text-sm lg:text-base text-text-gray">© 2025 Nicolas THAI</p>
 
             <div class="flex items-center gap-8">
               <div class="flex gap-6">
                 <a
                   href="#"
-                  class="body-2 text-text-gray hover:text-dark-blue transition-colors duration-300"
+                  class="font-raleway text-sm lg:text-base text-text-gray hover:text-dark-blue transition-colors duration-300"
                 >
                   Mentions légales
                 </a>
                 <a
                   href="#"
-                  class="body-2 text-text-gray hover:text-dark-blue transition-colors duration-300"
+                  class="font-raleway text-sm lg:text-base text-text-gray hover:text-dark-blue transition-colors duration-300"
                 >
                   Contact
                 </a>
                 <a
                   href="#"
-                  class="body-2 text-text-gray hover:text-dark-blue transition-colors duration-300"
+                  class="font-raleway text-sm lg:text-base text-text-gray hover:text-dark-blue transition-colors duration-300"
                 >
                   Crédits
                 </a>
@@ -453,32 +453,24 @@ const colorGradient = {
     border-width: 3px;
   }
 
-  @keyframes float-left {
-    0%,
-    100% {
-      transform: translateX(0);
-    }
-    50% {
-      transform: translateX(-30px);
-    }
+  /* Forcer Raleway sur tout le contenu HTML injecté */
+  .projet-page p,
+  .projet-page li,
+  .projet-page ul,
+  .projet-page ol,
+  .projet-page span:not(.font-hagrid *),
+  .projet-page div:not(.font-hagrid *) > * {
+    font-family: 'raleway', sans-serif !important;
   }
 
-  @keyframes float-right {
-    0%,
-    100% {
-      transform: translateX(0);
-    }
-    50% {
-      transform: translateX(30px);
-    }
-  }
+  /* Animations définies dans animations.css */
 
   .animate-float-left {
-    animation: float-left 8s ease-in-out infinite;
+    animation: float-left-large 8s ease-in-out infinite;
   }
 
   .animate-float-right {
-    animation: float-right 8s ease-in-out infinite;
+    animation: float-right-large 8s ease-in-out infinite;
   }
 
   .iframe-content {
@@ -503,25 +495,11 @@ const colorGradient = {
   }
 </style>
 
-<script is:inline>
+<script>
+  import { IframeHandler } from '../../../scripts/iframe-handler';
+
   document.addEventListener("DOMContentLoaded", () => {
-    const iframeOverlay = document.getElementById("iframe-overlay");
-    const iframeContainer = document.getElementById("iframe-container");
-
-    if (iframeOverlay && iframeContainer) {
-      iframeOverlay.addEventListener("click", () => {
-        iframeContainer.classList.add("active");
-      });
-
-      // Réactiver l'overlay si on clique en dehors de l'iframe
-      document.addEventListener("click", (e) => {
-        if (
-          iframeContainer.classList.contains("active") &&
-          !iframeContainer.contains(e.target)
-        ) {
-          iframeContainer.classList.remove("active");
-        }
-      });
-    }
+    // Initialiser le gestionnaire d'iframe
+    new IframeHandler('iframe-container', 'iframe-overlay');
   });
 </script>
