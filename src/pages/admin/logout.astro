@@ -1,0 +1,5 @@
+---
+// Supprimer le cookie d'authentification et rediriger
+Astro.cookies.delete('pb_auth', { path: '/' });
+return Astro.redirect('/admin/login');
+---

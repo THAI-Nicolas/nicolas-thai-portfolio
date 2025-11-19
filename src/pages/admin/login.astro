@@ -1,0 +1,131 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PocketBase from 'pocketbase';
+
+let error = '';
+let success = false;
+
+if (Astro.request.method === 'POST') {
+  try {
+    const formData = await Astro.request.formData();
+    const email = formData.get('email')?.toString();
+    const password = formData.get('password')?.toString();
+
+    if (!email || !password) {
+      error = 'Email et mot de passe requis';
+    } else {
+      const pb = new PocketBase('http://127.0.0.1:8090');
+      
+      const authData = await pb.collection('users').authWithPassword(email, password);
+      
+      // Stocker l'authentification dans un cookie sécurisé
+      Astro.cookies.set('pb_auth', JSON.stringify({
+        token: pb.authStore.token,
+        model: pb.authStore.model
+      }), {
+        httpOnly: true,
+        secure: import.meta.env.PROD,
+        sameSite: 'strict',
+        maxAge: 60 * 60 * 24 * 7, // 7 jours
+        path: '/'
+      });
+      
+      return Astro.redirect('/admin');
+    }
+  } catch (e: any) {
+    console.error('Erreur de connexion:', e);
+    error = 'Email ou mot de passe incorrect';
+  }
+}
+---
+
+<Layout title="Admin - Connexion">
+  <script>
+    document.documentElement.classList.add('admin-page');
+    document.body.classList.add('admin-page');
+  </script>
+  <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--color-background); padding: 20px;">
+    <div style="background: white; border: 3px solid var(--color-light-blue); border-radius: 16px; box-shadow: 0 8px 24px rgba(52, 190, 237, 0.2); padding: 48px; width: 100%; max-width: 420px;">
+      <div style="text-align: center; margin-bottom: 36px;">
+        <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+          <div style="width: 72px; height: 72px; background: var(--color-light-blue); border-radius: 16px; display: flex; align-items: center; justify-content: center;">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+          </div>
+        </div>
+        <h1 style="font-size: 28px; font-weight: 700; color: var(--color-text-gray); margin-bottom: 8px;">
+          Backoffice
+        </h1>
+        <p style="color: var(--color-dark-gray); font-size: 14px;">
+          Connexion administrateur
+        </p>
+      </div>
+
+      {error && (
+        <div style="background: #fee; border: 1px solid #fcc; border-radius: 8px; padding: 12px; margin-bottom: 20px; color: #c33;">
+          ⚠️ {error}
+        </div>
+      )}
+
+      <form method="POST">
+        <div style="margin-bottom: 24px;">
+          <label style="display: block; font-weight: 600; color: var(--color-text-gray); margin-bottom: 10px; font-size: 14px;">
+            Email
+          </label>
+          <input 
+            type="email" 
+            name="email" 
+            required
+            style="width: 100%; padding: 14px; border: 2px solid var(--color-light-gray); border-radius: 10px; font-size: 14px; transition: all 0.2s;"
+            placeholder="admin@example.com"
+          />
+        </div>
+
+        <div style="margin-bottom: 28px;">
+          <label style="display: block; font-weight: 600; color: var(--color-text-gray); margin-bottom: 10px; font-size: 14px;">
+            Mot de passe
+          </label>
+          <input 
+            type="password" 
+            name="password" 
+            required
+            style="width: 100%; padding: 14px; border: 2px solid var(--color-light-gray); border-radius: 10px; font-size: 14px; transition: all 0.2s;"
+            placeholder="••••••••"
+          />
+        </div>
+
+        <button 
+          type="submit"
+          style="width: 100%; padding: 16px; background: var(--color-light-blue); color: white; border: none; border-radius: 10px; font-weight: 700; font-size: 16px; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(52, 190, 237, 0.3);"
+          class="login-button"
+        >
+          Se connecter
+        </button>
+      </form>
+
+      <div style="margin-top: 24px; text-align: center; font-size: 12px; color: #a0aec0;">
+        Portfolio Nicolas Thai - Admin
+      </div>
+    </div>
+  </div>
+
+  <style>
+    input:focus {
+      outline: none;
+      border-color: var(--color-light-blue) !important;
+      box-shadow: 0 0 0 3px rgba(52, 190, 237, 0.1);
+    }
+    
+    .login-button:hover {
+      background: var(--color-dark-blue);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(52, 190, 237, 0.4) !important;
+    }
+    
+    .login-button:active {
+      transform: translateY(0);
+    }
+  </style>
+</Layout>

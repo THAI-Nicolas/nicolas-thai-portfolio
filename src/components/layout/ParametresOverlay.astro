@@ -221,21 +221,6 @@ const { isVisible = false, onClose } = Astro.props;
                 </div>
               </div>
             </section>
-
-            <!-- Espace pour maintenir la hauteur -->
-            <section class="parametres-section relative" style="opacity: 0; pointer-events: none; user-select: none;">
-              <div class="flex items-center gap-3" style="margin-bottom: 20px;">
-                <div class="w-5 h-5"></div>
-                <h3 class="text-base font-bold uppercase tracking-[0.15em]">
-                  &nbsp;
-                </h3>
-                <div class="flex-1 h-px"></div>
-              </div>
-              <div class="grid grid-cols-2 gap-3">
-                <div style="padding: 16px; min-height: 80px;"></div>
-                <div style="padding: 16px; min-height: 80px;"></div>
-              </div>
-            </section>
           </div>
 
           <!-- Colonne droite -->
@@ -269,102 +254,85 @@ const { isVisible = false, onClose } = Astro.props;
 
               <div style="display: flex; flex-direction: column; gap: 12px;">
                 <!-- Curseur Wii -->
-                <div class="gaming-card group">
-                  <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                      <svg
-                        class="w-4 h-4 text-light-blue/70"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
-                        ></path>
-                      </svg>
-                      <div>
-                        <label
-                          class="text-sm font-semibold text-text-gray block tracking-wide"
-                        >
-                          Curseur Wii
-                        </label>
-                        <p class="text-xs text-text-gray/60 mt-1">
-                          Pointeur style Wii
-                        </p>
+                <div style="background: white; border: 2px solid var(--color-light-blue); border-radius: 8px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <div style="display: flex; justify-content: space-between; align-items: center; gap: 16px;">
+                    <div>
+                      <div style="font-weight: 600; color: var(--color-text-gray); margin-bottom: 4px;">
+                        🖱️ Curseur Wii
+                      </div>
+                      <div style="font-size: 12px; color: var(--color-text-gray); opacity: 0.7;">
+                        Activer le pointeur style Wii
                       </div>
                     </div>
-                    <label class="gaming-toggle">
-                      <input
-                        type="checkbox"
-                        class="toggle-input sr-only"
-                        id="wii-cursor-toggle"
-                        checked
-                      />
-                      <span class="toggle-slider"></span>
-                    </label>
+                    <button
+                      id="cursor-right-toggle"
+                      type="button"
+                      style="min-width: 60px; padding: 8px 16px; background: var(--color-light-blue); color: white; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; font-size: 14px; transition: all 0.2s;"
+                      onmouseover="this.style.background='var(--color-dark-blue)'"
+                      onmouseout="this.style.background='var(--color-light-blue)'"
+                    >
+                      ON
+                    </button>
                   </div>
                 </div>
 
                 <!-- Thème -->
-                <div class="gaming-card group">
-                  <label
-                    class="text-sm font-semibold text-text-gray tracking-wide flex items-center gap-2"
-                    style="margin-bottom: 14px;"
-                  >
-                    <svg
-                      class="w-4 h-4 text-text-gray"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
-                      ></path>
+                <div style="background: white; border: 2px solid var(--color-light-blue); border-radius: 8px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <svg style="width: 16px; height: 16px; color: var(--color-text-gray);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
                     </svg>
-                    Thème d'affichage
-                  </label>
-                  <div class="grid grid-cols-2 gap-3">
-                    <button class="gaming-btn active" data-theme="light">
+                    <div style="font-weight: 600; font-size: 13px; color: var(--color-text-gray);">Thème d'affichage</div>
+                  </div>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <button
+                      id="theme-light-btn"
+                      type="button"
+                      style="padding: 10px; background: linear-gradient(145deg, rgba(52, 190, 237, 0.2), rgba(52, 190, 237, 0.1)); color: var(--color-light-blue); border: 2px solid var(--color-light-blue); border-radius: 6px; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s;"
+                      onmouseover="this.style.background='linear-gradient(145deg, rgba(52, 190, 237, 0.3), rgba(52, 190, 237, 0.15))'"
+                      onmouseout="this.style.background='linear-gradient(145deg, rgba(52, 190, 237, 0.2), rgba(52, 190, 237, 0.1))'"
+                    >
                       Clair
                     </button>
-                    <button class="gaming-btn" data-theme="dark">
+                    <button
+                      id="theme-dark-btn"
+                      type="button"
+                      style="padding: 10px; background: white; color: var(--color-dark-gray); border: 2px solid rgba(52, 190, 237, 0.3); border-radius: 6px; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s;"
+                      onmouseover="this.style.borderColor='var(--color-light-blue)'; this.style.color='var(--color-light-blue)'"
+                      onmouseout="this.style.borderColor='rgba(52, 190, 237, 0.3)'; this.style.color='var(--color-dark-gray)'"
+                    >
                       Sombre
                     </button>
                   </div>
                 </div>
 
                 <!-- Langue -->
-                <div class="gaming-card group">
-                  <label
-                    class="text-sm font-semibold text-text-gray tracking-wide flex items-center gap-2"
-                    style="margin-bottom: 14px;"
-                  >
-                    <svg
-                      class="w-4 h-4 text-text-gray"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"
-                      ></path>
+                <div style="background: white; border: 2px solid var(--color-light-blue); border-radius: 8px; padding: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                    <svg style="width: 16px; height: 16px; color: var(--color-text-gray);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
                     </svg>
-                    Langue
-                  </label>
-                  <div class="grid grid-cols-2 gap-3">
-                    <button class="gaming-btn active" data-lang="fr">
+                    <div style="font-weight: 600; font-size: 13px; color: var(--color-text-gray);">Langue</div>
+                  </div>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                    <button
+                      id="lang-fr-btn"
+                      type="button"
+                      style="padding: 10px; background: linear-gradient(145deg, rgba(52, 190, 237, 0.2), rgba(52, 190, 237, 0.1)); color: var(--color-light-blue); border: 2px solid var(--color-light-blue); border-radius: 6px; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s;"
+                      onmouseover="this.style.background='linear-gradient(145deg, rgba(52, 190, 237, 0.3), rgba(52, 190, 237, 0.15))'"
+                      onmouseout="this.style.background='linear-gradient(145deg, rgba(52, 190, 237, 0.2), rgba(52, 190, 237, 0.1))'"
+                    >
                       Français
                     </button>
-                    <button class="gaming-btn" data-lang="en"> English </button>
+                    <button
+                      id="lang-en-btn"
+                      type="button"
+                      style="padding: 10px; background: white; color: var(--color-dark-gray); border: 2px solid rgba(52, 190, 237, 0.3); border-radius: 6px; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s;"
+                      onmouseover="this.style.borderColor='var(--color-light-blue)'; this.style.color='var(--color-light-blue)'"
+                      onmouseout="this.style.borderColor='rgba(52, 190, 237, 0.3)'; this.style.color='var(--color-dark-gray)'"
+                    >
+                      English
+                    </button>
                   </div>
                 </div>
 
@@ -835,6 +803,118 @@ const { isVisible = false, onClose } = Astro.props;
     
     // Recréer le gestionnaire de paramètres à chaque fois pour éviter les références DOM obsolètes
     parametresManager = new ParametresManager();
+    
+    // Gestion du curseur Wii (droite)
+    const cursorRightButton = document.getElementById('cursor-right-toggle') as HTMLButtonElement;
+    
+    // Charger la préférence sauvegardée
+    const savedCursor = localStorage.getItem('wiiCursor');
+    let cursorEnabled = savedCursor !== 'disabled'; // Par défaut ON
+    
+    // Fonction pour mettre à jour le bouton
+    function updateCursorButton(enabled: boolean) {
+      const bg = enabled ? 'var(--color-light-blue)' : '#ccc';
+      const text = enabled ? 'ON' : 'OFF';
+      
+      if (cursorRightButton) {
+        cursorRightButton.textContent = text;
+        cursorRightButton.style.background = bg;
+      }
+      
+      if (enabled) {
+        document.body.classList.add('custom-cursor');
+      } else {
+        document.body.classList.remove('custom-cursor');
+      }
+    }
+    
+    // Initialiser l'état
+    updateCursorButton(cursorEnabled);
+    
+    // Gestionnaire du bouton
+    if (cursorRightButton) {
+      cursorRightButton.addEventListener('click', () => {
+        cursorEnabled = !cursorEnabled;
+        updateCursorButton(cursorEnabled);
+        localStorage.setItem('wiiCursor', cursorEnabled ? 'enabled' : 'disabled');
+      });
+    }
+    
+    // Gestion des boutons de thème
+    const themeLightBtn = document.getElementById('theme-light-btn') as HTMLButtonElement;
+    const themeDarkBtn = document.getElementById('theme-dark-btn') as HTMLButtonElement;
+    
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    
+    function updateThemeButtons(theme: string) {
+      if (theme === 'light') {
+        themeLightBtn.style.background = 'linear-gradient(145deg, rgba(52, 190, 237, 0.2), rgba(52, 190, 237, 0.1))';
+        themeLightBtn.style.color = 'var(--color-light-blue)';
+        themeLightBtn.style.borderColor = 'var(--color-light-blue)';
+        
+        themeDarkBtn.style.background = 'white';
+        themeDarkBtn.style.color = 'var(--color-dark-gray)';
+        themeDarkBtn.style.borderColor = 'rgba(52, 190, 237, 0.3)';
+      } else {
+        themeDarkBtn.style.background = 'linear-gradient(145deg, rgba(52, 190, 237, 0.2), rgba(52, 190, 237, 0.1))';
+        themeDarkBtn.style.color = 'var(--color-light-blue)';
+        themeDarkBtn.style.borderColor = 'var(--color-light-blue)';
+        
+        themeLightBtn.style.background = 'white';
+        themeLightBtn.style.color = 'var(--color-dark-gray)';
+        themeLightBtn.style.borderColor = 'rgba(52, 190, 237, 0.3)';
+      }
+    }
+    
+    updateThemeButtons(currentTheme);
+    
+    themeLightBtn?.addEventListener('click', () => {
+      localStorage.setItem('theme', 'light');
+      updateThemeButtons('light');
+    });
+    
+    themeDarkBtn?.addEventListener('click', () => {
+      localStorage.setItem('theme', 'dark');
+      updateThemeButtons('dark');
+    });
+    
+    // Gestion des boutons de langue
+    const langFrBtn = document.getElementById('lang-fr-btn') as HTMLButtonElement;
+    const langEnBtn = document.getElementById('lang-en-btn') as HTMLButtonElement;
+    
+    const currentLang = localStorage.getItem('language') || 'fr';
+    
+    function updateLangButtons(lang: string) {
+      if (lang === 'fr') {
+        langFrBtn.style.background = 'linear-gradient(145deg, rgba(52, 190, 237, 0.2), rgba(52, 190, 237, 0.1))';
+        langFrBtn.style.color = 'var(--color-light-blue)';
+        langFrBtn.style.borderColor = 'var(--color-light-blue)';
+        
+        langEnBtn.style.background = 'white';
+        langEnBtn.style.color = 'var(--color-dark-gray)';
+        langEnBtn.style.borderColor = 'rgba(52, 190, 237, 0.3)';
+      } else {
+        langEnBtn.style.background = 'linear-gradient(145deg, rgba(52, 190, 237, 0.2), rgba(52, 190, 237, 0.1))';
+        langEnBtn.style.color = 'var(--color-light-blue)';
+        langEnBtn.style.borderColor = 'var(--color-light-blue)';
+        
+        langFrBtn.style.background = 'white';
+        langFrBtn.style.color = 'var(--color-dark-gray)';
+        langFrBtn.style.borderColor = 'rgba(52, 190, 237, 0.3)';
+      }
+    }
+    
+    updateLangButtons(currentLang);
+    
+    langFrBtn?.addEventListener('click', () => {
+      localStorage.setItem('language', 'fr');
+      updateLangButtons('fr');
+    });
+    
+    langEnBtn?.addEventListener('click', () => {
+      localStorage.setItem('language', 'en');
+      updateLangButtons('en');
+    });
     
     console.log("Parametres overlay initialized with managers!");
   }

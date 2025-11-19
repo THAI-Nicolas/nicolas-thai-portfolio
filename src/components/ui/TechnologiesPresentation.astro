@@ -11,26 +11,26 @@ const { categorie, technologies } = Astro.props;
 ---
 
 <div
-  class="inline-flex flex-col p-5 px-6 border border-[var(--color-light-blue)] rounded-lg bg-transparent gap-3 font-raleway"
+  class="flex flex-col p-2 px-3 border border-[var(--color-light-blue)] rounded-md bg-transparent gap-1.5 font-raleway w-full"
 >
   <h3
-    class="text-lg font-bold text-[var(--color-light-blue)] m-0 tracking-wide uppercase"
+    class="text-xs font-bold text-[var(--color-light-blue)] m-0 tracking-wide uppercase text-center"
   >
     {categorie}
   </h3>
 
-  <div class="flex items-center gap-5 flex-wrap">
+  <div class="flex items-center justify-center gap-2">
     {
       technologies.map((tech) => (
-        <div class="flex flex-col items-center gap-2">
-          <div class="w-10 h-10 flex items-center justify-center">
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-6 h-6 flex items-center justify-center">
             <img
               src={tech.logo}
               alt={tech.nom}
               class="w-full h-full object-contain"
             />
           </div>
-          <p class="text-xs font-medium text-black m-0 text-center whitespace-nowrap">
+          <p class="text-[0.5rem] font-medium text-black m-0 text-center whitespace-nowrap leading-tight">
             {tech.nom}
           </p>
         </div>

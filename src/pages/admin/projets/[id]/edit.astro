@@ -1,0 +1,512 @@
+---
+import Layout from '../../../../layouts/Layout.astro';
+import PocketBase from 'pocketbase';
+
+let pb = Astro.locals.pb;
+
+// Si pb n'existe pas dans locals, créer une nouvelle instance
+if (!pb) {
+  pb = new PocketBase('http://127.0.0.1:8090');
+  const authCookie = Astro.cookies.get('pb_auth');
+  if (authCookie) {
+    const authData = JSON.parse(authCookie.value);
+    pb.authStore.save(authData.token, authData.model);
+  }
+}
+
+const projetId = Astro.params.id!;
+
+let error = '';
+
+// Récupérer le projet
+const projet = await pb.collection('projets').getOne(projetId);
+
+// Récupérer les technologies pour le formulaire
+const technologies = await pb.collection('technologies').getFullList({
+  sort: 'nom',
+});
+
+if (Astro.request.method === 'POST') {
+  try {
+    const formData = await Astro.request.formData();
+    
+    // Générer le slug à partir du titre
+    const titre = formData.get('titre')?.toString() || '';
+    const slug = titre
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '');
+    
+    // Préparer les données
+    const projetData: any = {
+      slug,
+      titre: formData.get('titre'),
+      annee: formData.get('annee'),
+      description: formData.get('description'),
+      contexte: formData.get('contexte'),
+      client: formData.get('client'),
+      cadre: formData.get('cadre'),
+      temps: formData.get('temps'),
+      mode: formData.get('mode'),
+      color_from: formData.get('color_from'),
+      color_to: formData.get('color_to'),
+      resultat_url: formData.get('resultat_url') || '',
+      ordre: parseInt(formData.get('ordre')?.toString() || '0'),
+      visible: formData.get('visible') === 'on',
+      technologies: formData.getAll('technologies'),
+    };
+
+    // Mettre à jour le projet
+    await pb.collection('projets').update(projetId, projetData);
+    
+    // Upload des nouvelles images si présentes
+    const coverImage = formData.get('cover_image') as File;
+    const visuels = formData.getAll('visuels') as File[];
+    
+    if (coverImage && coverImage.size > 0) {
+      const updateData = new FormData();
+      updateData.append('cover_image', coverImage);
+      await pb.collection('projets').update(projetId, updateData);
+    }
+    
+    if (visuels.length > 0 && visuels[0].size > 0) {
+      const updateData = new FormData();
+      visuels.forEach(visuel => {
+        if (visuel.size > 0) {
+          updateData.append('visuels', visuel);
+        }
+      });
+      await pb.collection('projets').update(projetId, updateData);
+    }
+    
+    return Astro.redirect('/admin/projets');
+    
+  } catch (e: any) {
+    console.error('Erreur mise à jour projet:', e);
+    error = e.message || 'Erreur lors de la mise à jour du projet';
+  }
+}
+---
+
+<Layout title={`Admin - Éditer ${projet.titre}`}>
+  <script>
+    document.documentElement.classList.add('admin-page');
+    document.body.classList.add('admin-page');
+  </script>
+  <div style="min-height: 100vh; background: var(--color-background);">
+    <!-- Header -->
+    <header style="background: white; border-bottom: 2px solid var(--color-light-gray); padding: 20px 32px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+      <div style="max-width: 1200px; margin: 0 auto;">
+        <a href="/admin/projets" style="color: var(--color-light-blue); text-decoration: none; font-size: 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; font-weight: 600;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="19" y1="12" x2="5" y2="12"/>
+            <polyline points="12 19 5 12 12 5"/>
+          </svg>
+          Retour aux projets
+        </a>
+        <h1 style="font-size: 26px; font-weight: 700; color: var(--color-text-gray); display: flex; align-items: center; gap: 12px;">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-light-blue)" stroke-width="2.5">
+            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+          Éditer : {projet.titre}
+        </h1>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main style="max-width: 1200px; margin: 0 auto; padding: 32px 24px;">
+      
+      {error && (
+        <div style="background: #fee; border: 1px solid #fcc; border-radius: 8px; padding: 12px; margin-bottom: 20px; color: #c33;">
+          ⚠️ {error}
+        </div>
+      )}
+
+      <form method="POST" enctype="multipart/form-data">
+        
+        <!-- Informations générales -->
+        <div style="background: white; border: 2px solid var(--color-light-gray); border-radius: 12px; padding: 36px; margin-bottom: 24px;">
+          <h2 style="font-size: 18px; font-weight: 700; color: #1a202c; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="12" y1="18" x2="12" y2="12"/>
+              <line x1="9" y1="15" x2="15" y2="15"/>
+            </svg>
+            Informations générales
+          </h2>
+          
+          <div style="display: grid; gap: 20px;">
+            <div>
+              <label style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 8px; font-size: 14px;">
+                Titre du projet *
+              </label>
+              <input 
+                type="text" 
+                name="titre" 
+                required
+                value={projet.titre}
+                style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;"
+                placeholder="Mon Super Projet"
+              />
+              <p style="font-size: 12px; color: #718096; margin-top: 4px;">
+                Slug actuel : {projet.slug}
+              </p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div>
+                <label style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 8px; font-size: 14px;">
+                  Année *
+                </label>
+                <input 
+                  type="text" 
+                  name="annee" 
+                  required
+                  value={projet.annee}
+                  style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;"
+                  placeholder="2024"
+                />
+              </div>
+
+              <div>
+                <label style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 8px; font-size: 14px;">
+                  Ordre d'affichage
+                </label>
+                <input 
+                  type="number" 
+                  name="ordre" 
+                  value={projet.ordre}
+                  style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 8px; font-size: 14px;">
+                Description courte *
+              </label>
+              <textarea 
+                name="description" 
+                required
+                rows="3"
+                style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; font-family: inherit; resize: vertical;"
+                placeholder="Description qui apparaîtra sur la page d'accueil..."
+              >{projet.description}</textarea>
+            </div>
+
+            <div>
+              <label style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 8px; font-size: 14px;">
+                Contexte du projet *
+              </label>
+              <textarea 
+                name="contexte" 
+                required
+                rows="5"
+                style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px; font-family: inherit; resize: vertical;"
+                placeholder="Contexte détaillé du projet..."
+              >{projet.contexte}</textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- Détails du projet -->
+        <div style="background: white; border-radius: 12px; padding: 32px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 24px;">
+          <h2 style="font-size: 18px; font-weight: 700; color: #1a202c; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="8" y1="6" x2="21" y2="6"/>
+              <line x1="8" y1="12" x2="21" y2="12"/>
+              <line x1="8" y1="18" x2="21" y2="18"/>
+              <line x1="3" y1="6" x2="3.01" y2="6"/>
+              <line x1="3" y1="12" x2="3.01" y2="12"/>
+              <line x1="3" y1="18" x2="3.01" y2="18"/>
+            </svg>
+            Détails
+          </h2>
+          
+          <div style="display: grid; gap: 20px;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div>
+                <label style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 8px; font-size: 14px;">
+                  Client *
+                </label>
+                <input 
+                  type="text" 
+                  name="client" 
+                  required
+                  value={projet.client}
+                  style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;"
+                  placeholder="Nom du client"
+                />
+              </div>
+
+              <div>
+                <label style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 8px; font-size: 14px;">
+                  Cadre *
+                </label>
+                <input 
+                  type="text" 
+                  name="cadre" 
+                  required
+                  value={projet.cadre}
+                  style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;"
+                  placeholder="Scolaire, Professionnel..."
+                />
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div>
+                <label style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 8px; font-size: 14px;">
+                  Temps de réalisation *
+                </label>
+                <input 
+                  type="text" 
+                  name="temps" 
+                  required
+                  value={projet.temps}
+                  style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;"
+                  placeholder="2 semaines"
+                />
+              </div>
+
+              <div>
+                <label style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 8px; font-size: 14px;">
+                  Mode de travail *
+                </label>
+                <input 
+                  type="text" 
+                  name="mode" 
+                  required
+                  value={projet.mode}
+                  style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;"
+                  placeholder="Solo, Équipe..."
+                />
+              </div>
+            </div>
+
+            <div>
+              <label style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 8px; font-size: 14px;">
+                URL du résultat
+              </label>
+              <input 
+                type="url" 
+                name="resultat_url"
+                value={projet.resultat_url || ''}
+                style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;"
+                placeholder="https://..."
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Couleurs -->
+        <div style="background: white; border-radius: 12px; padding: 32px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 24px;">
+          <h2 style="font-size: 18px; font-weight: 700; color: #1a202c; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="13.5" cy="6.5" r=".5"/>
+              <circle cx="17.5" cy="10.5" r=".5"/>
+              <circle cx="8.5" cy="7.5" r=".5"/>
+              <circle cx="6.5" cy="12.5" r=".5"/>
+              <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+            </svg>
+            Couleurs du gradient
+          </h2>
+          
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div>
+              <label style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 8px; font-size: 14px;">
+                Couleur de départ *
+              </label>
+              <input 
+                type="color" 
+                name="color_from" 
+                required
+                value={projet.color_from}
+                style="width: 100%; height: 50px; padding: 4px; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer;"
+              />
+            </div>
+
+            <div>
+              <label style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 8px; font-size: 14px;">
+                Couleur d'arrivée *
+              </label>
+              <input 
+                type="color" 
+                name="color_to" 
+                required
+                value={projet.color_to}
+                style="width: 100%; height: 50px; padding: 4px; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer;"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Technologies -->
+        <div style="background: white; border-radius: 12px; padding: 32px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 24px;">
+          <h2 style="font-size: 18px; font-weight: 700; color: #1a202c; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+            </svg>
+            Technologies utilisées
+          </h2>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;">
+            {technologies.map((tech: any) => (
+              <label style="display: flex; align-items: center; gap: 8px; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; cursor: pointer; transition: all 0.2s;" class="tech-checkbox">
+                <input 
+                  type="checkbox" 
+                  name="technologies" 
+                  value={tech.id}
+                  checked={projet.technologies?.includes(tech.id)}
+                  style="width: 18px; height: 18px; cursor: pointer;"
+                />
+                <span style="font-size: 14px; color: #2d3748;">{tech.nom}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <!-- Images -->
+        <div style="background: white; border-radius: 12px; padding: 32px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 24px;">
+          <h2 style="font-size: 18px; font-weight: 700; color: #1a202c; margin-bottom: 24px; display: flex; align-items: center; gap: 8px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <polyline points="21 15 16 10 5 21"/>
+            </svg>
+            Images
+          </h2>
+          
+          <div style="display: grid; gap: 20px;">
+            <div>
+              <label style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 8px; font-size: 14px;">
+                Image de couverture
+              </label>
+              {projet.cover_image && (
+                <div style="margin-bottom: 12px;">
+                  <img 
+                    src={`http://127.0.0.1:8090/api/files/${projet.collectionId}/${projet.id}/${projet.cover_image}`}
+                    alt="Couverture actuelle"
+                    style="max-width: 300px; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
+                  />
+                  <p style="font-size: 12px; color: #718096; margin-top: 4px;">
+                    Image actuelle (laissez vide pour la conserver)
+                  </p>
+                </div>
+              )}
+              <input 
+                type="file" 
+                name="cover_image" 
+                accept="image/*"
+                style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;"
+              />
+            </div>
+
+            <div>
+              <label style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 8px; font-size: 14px;">
+                Visuels du projet
+              </label>
+              {projet.visuels && projet.visuels.length > 0 && (
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-bottom: 12px;">
+                  {projet.visuels.map((visuel: string) => (
+                    <img 
+                      src={`http://127.0.0.1:8090/api/files/${projet.collectionId}/${projet.id}/${visuel}`}
+                      alt="Visuel"
+                      style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
+                    />
+                  ))}
+                </div>
+              )}
+              <input 
+                type="file" 
+                name="visuels" 
+                accept="image/*"
+                multiple
+                style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;"
+              />
+              <p style="font-size: 12px; color: #718096; margin-top: 4px;">
+                Laissez vide pour conserver les images actuelles
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visibilité -->
+        <div style="background: white; border-radius: 12px; padding: 32px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 24px;">
+          <label style="display: flex; align-items: center; gap: 12px; cursor: pointer;">
+            <input 
+              type="checkbox" 
+              name="visible" 
+              checked={projet.visible}
+              style="width: 20px; height: 20px; cursor: pointer;"
+            />
+            <div>
+              <div style="font-weight: 600; color: #2d3748; font-size: 14px;">
+                Projet visible
+              </div>
+              <div style="font-size: 12px; color: #718096;">
+                Le projet sera affiché sur le site
+              </div>
+            </div>
+          </label>
+        </div>
+
+        <!-- Actions -->
+        <div style="display: flex; gap: 12px; justify-content: flex-end;">
+          <a 
+            href="/admin/projets"
+            style="padding: 12px 24px; background: #edf2f7; color: #2d3748; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px;"
+          >
+            Annuler
+          </a>
+          <button 
+            type="submit"
+            style="padding: 14px 28px; background: var(--color-light-blue); color: white; border: none; border-radius: 10px; font-weight: 700; font-size: 15px; cursor: pointer; box-shadow: 0 4px 12px rgba(52, 190, 237, 0.3); display: flex; align-items: center; gap: 8px; transition: all 0.2s;"
+            class="submit-button"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+              <polyline points="17 21 17 13 7 13 7 21"/>
+              <polyline points="7 3 7 8 15 8"/>
+            </svg>
+            Enregistrer les modifications
+          </button>
+        </div>
+
+      </form>
+
+    </main>
+  </div>
+
+  <style>
+    input, textarea, select {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid var(--color-light-gray);
+      border-radius: 10px;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+    
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--color-light-blue) !important;
+      box-shadow: 0 0 0 3px rgba(52, 190, 237, 0.1);
+    }
+    
+    .tech-checkbox:has(input:checked) {
+      background: rgba(52, 190, 237, 0.1);
+      border-color: var(--color-light-blue) !important;
+    }
+    
+    .submit-button:hover {
+      background: var(--color-dark-blue);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(52, 190, 237, 0.4) !important;
+    }
+  </style>
+</Layout>

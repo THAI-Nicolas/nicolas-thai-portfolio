@@ -34,6 +34,42 @@ const technologiesBackend = formattedTechnologies.filter((tech) =>
 const technologiesCMS = formattedTechnologies.filter((tech) =>
   cmsNames.includes(tech.nom)
 );
+
+// Design
+const maquettageNames = ["Figma"];
+const design3DNames = ["Blender"];
+const vectorisationNames = ["Illustrator"];
+const dossierNames = ["Canva"];
+
+const technologiesMaquettage = formattedTechnologies.filter((tech) =>
+  maquettageNames.includes(tech.nom)
+);
+
+const technologies3D = formattedTechnologies.filter((tech) =>
+  design3DNames.includes(tech.nom)
+);
+
+const technologiesVectorisation = formattedTechnologies.filter((tech) =>
+  vectorisationNames.includes(tech.nom)
+);
+
+const technologiesDossier = formattedTechnologies.filter((tech) =>
+  dossierNames.includes(tech.nom)
+);
+
+// Gestion de projet
+const outilsGestionNames = ["Notion", "Miro", "Todoist"];
+
+const technologiesOutilsGestion = formattedTechnologies.filter((tech) =>
+  outilsGestionNames.includes(tech.nom)
+);
+
+// Audiovisuel
+const montageNames = ["Davinci Resolve", "Capcut"];
+
+const technologiesMontage = formattedTechnologies.filter((tech) =>
+  montageNames.includes(tech.nom)
+);
 ---
 
 <div
@@ -128,12 +164,35 @@ const technologiesCMS = formattedTechnologies.filter((tech) =>
             <h2 class="dev-title">DESIGN</h2>
           </div>
 
-          <!-- Composant Technologies -->
-          <div class="dev-technologies">
-            <TechnologiesPresentation 
-              categorie="OUTILS DE DESIGN"
-              technologies={formattedTechnologies.filter(t => ["Figma", "Blender", "Canva"].includes(t.nom))} 
-            />
+          <!-- Composants Technologies séparés -->
+          <div class="dev-technologies-container">
+            <div class="dev-technologies">
+              <TechnologiesPresentation 
+                categorie="MAQUETTAGE"
+                technologies={technologiesMaquettage} 
+              />
+            </div>
+
+            <div class="dev-technologies">
+              <TechnologiesPresentation 
+                categorie="3D"
+                technologies={technologies3D} 
+              />
+            </div>
+
+            <div class="dev-technologies">
+              <TechnologiesPresentation 
+                categorie="VECTORISATION"
+                technologies={technologiesVectorisation} 
+              />
+            </div>
+
+            <div class="dev-technologies">
+              <TechnologiesPresentation 
+                categorie="DOSSIER"
+                technologies={technologiesDossier} 
+              />
+            </div>
           </div>
 
           <!-- Titre de section -->
@@ -180,12 +239,14 @@ const technologiesCMS = formattedTechnologies.filter((tech) =>
             <h2 class="dev-title">GESTION DE PROJET</h2>
           </div>
 
-          <!-- Composant Technologies -->
-          <div class="dev-technologies">
-            <TechnologiesPresentation 
-              categorie="OUTILS DE GESTION"
-              technologies={formattedTechnologies.filter(t => ["Trello", "Notion", "GitHub"].includes(t.nom))} 
-            />
+          <!-- Composants Technologies séparés -->
+          <div class="dev-technologies-container">
+            <div class="dev-technologies">
+              <TechnologiesPresentation 
+                categorie="OUTILS DE GESTION"
+                technologies={technologiesOutilsGestion} 
+              />
+            </div>
           </div>
 
           <!-- Titre de section -->
@@ -232,12 +293,14 @@ const technologiesCMS = formattedTechnologies.filter((tech) =>
             <h2 class="dev-title">AUDIOVISUEL</h2>
           </div>
 
-          <!-- Composant Technologies -->
-          <div class="dev-technologies">
-            <TechnologiesPresentation 
-              categorie="OUTILS AUDIOVISUELS"
-              technologies={formattedTechnologies.filter(t => ["Premiere Pro", "After Effects", "Audacity"].includes(t.nom))} 
-            />
+          <!-- Composants Technologies séparés -->
+          <div class="dev-technologies-container">
+            <div class="dev-technologies">
+              <TechnologiesPresentation 
+                categorie="MONTAGE"
+                technologies={technologiesMontage} 
+              />
+            </div>
           </div>
 
           <!-- Titre de section -->
@@ -791,22 +854,23 @@ const technologiesCMS = formattedTechnologies.filter((tech) =>
   .dev-technologies-container {
     display: flex;
     flex-direction: row;
-    gap: 0px;
-    margin-bottom: -15px;
-    align-items: flex-start;
+    gap: 6px;
+    margin-bottom: 15px;
+    align-items: stretch;
+    width: 100%;
   }
 
   .dev-technologies {
-    transform: scale(0.7);
-    transform-origin: left top;
-    margin-top: -10px;
+    flex: 1;
+    min-width: 0;
+    display: flex;
   }
 
   .dev-section-title {
     font-size: 0.875rem;
     font-weight: 800;
     color: #000;
-    margin: 0 0 12px 0;
+    margin: 15px 0 12px 0;
     letter-spacing: 0.05em;
     text-transform: uppercase;
   }

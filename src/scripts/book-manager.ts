@@ -20,6 +20,7 @@ export class BookManager {
   private currentPage: number = 0;
   private totalPages: number = 0;
   private isOpened: boolean = false;
+  private isAnimating: boolean = false; // Anti-spam pour les changements de page
 
   constructor() {
     this.init();
@@ -102,7 +103,15 @@ export class BookManager {
   private nextPage(): void {
     if (!this.bookCard || !this.pages) return;
 
+    // Empêcher le spam de clics
+    if (this.isAnimating) {
+      console.log("Animation en cours, veuillez attendre...");
+      return;
+    }
+
     if (this.currentPage < this.totalPages) {
+      this.isAnimating = true;
+
       // Au premier clic, centrer le livre ET tourner la première page
       if (this.currentPage === 0) {
         this.bookCard.classList.add("opened");
@@ -132,10 +141,21 @@ export class BookManager {
 
         console.log(`Page actuelle: ${this.currentPage}/${this.totalPages}`);
       }
+
+      // Débloquer après 1 seconde
+      setTimeout(() => {
+        this.isAnimating = false;
+      }, 1000);
     } else {
       // Retour au début
+      this.isAnimating = true;
       this.reset();
       console.log("Retour à la couverture");
+
+      // Débloquer après l'animation de fermeture
+      setTimeout(() => {
+        this.isAnimating = false;
+      }, 1000);
     }
   }
 
@@ -192,15 +212,7 @@ export class BookManager {
    * Réinitialise le livre à son état initial
    */
   private reset(): void {
-    this.pages?.forEach((page) => page.classList.remove("flipped"));
-    this.bookCard?.classList.remove("opened");
-    this.currentPage = 0;
-    this.isOpened = false;
-
-    if (this.presentationContainer) {
-      this.presentationContainer.classList.add("hidden");
-    }
-
+    // Cacher IMMÉDIATEMENT tous les overlays avant l'animation
     if (this.page2BackOverlay) {
       this.page2BackOverlay.classList.remove("visible");
     }
@@ -215,6 +227,16 @@ export class BookManager {
 
     if (this.page3BackOverlayRight) {
       this.page3BackOverlayRight.classList.remove("visible");
+    }
+
+    // Ensuite réinitialiser les pages
+    this.pages?.forEach((page) => page.classList.remove("flipped"));
+    this.bookCard?.classList.remove("opened");
+    this.currentPage = 0;
+    this.isOpened = false;
+
+    if (this.presentationContainer) {
+      this.presentationContainer.classList.add("hidden");
     }
   }
 

@@ -1,11 +1,36 @@
 @import "tailwindcss";
 @import "./animations.css";
 
-/* Suppression du scroll global */
-html,
-body {
+/* Suppression du scroll global - sauf pour les pages admin */
+html:not(.admin-page),
+body:not(.admin-page) {
   overflow: hidden;
   height: 100%;
+}
+
+/* Scrollbar custom pour les pages admin uniquement */
+.admin-page::-webkit-scrollbar {
+  width: 12px;
+}
+
+.admin-page::-webkit-scrollbar-track {
+  background: var(--color-light-gray);
+}
+
+.admin-page::-webkit-scrollbar-thumb {
+  background: var(--color-light-blue);
+  border-radius: 6px;
+  border: 2px solid var(--color-light-gray);
+}
+
+.admin-page::-webkit-scrollbar-thumb:hover {
+  background: var(--color-dark-blue);
+}
+
+/* Firefox */
+.admin-page {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-light-blue) var(--color-light-gray);
 }
 
 :root {
@@ -182,4 +207,32 @@ body {
 * {
   scrollbar-width: auto;
   scrollbar-color: var(--project-color, var(--color-dark-blue)) #f1f1f1;
+}
+
+/* ========================================
+   CURSEUR PERSONNALISÉ MII
+   ======================================== */
+body.custom-cursor,
+body.custom-cursor * {
+  cursor: url("/cursor-mouse.svg") 5 5, auto !important;
+}
+
+body.custom-cursor button,
+body.custom-cursor a,
+body.custom-cursor input[type="button"],
+body.custom-cursor input[type="submit"],
+body.custom-cursor input[type="range"],
+body.custom-cursor label.gaming-toggle,
+body.custom-cursor .toggle-slider,
+body.custom-cursor [role="button"] {
+  cursor: url("/cursor-mouse-large.svg") 8 8, pointer !important;
+}
+
+body.custom-cursor button:active,
+body.custom-cursor a:active,
+body.custom-cursor input[type="button"]:active,
+body.custom-cursor input[type="submit"]:active,
+body.custom-cursor label.gaming-toggle:active,
+body.custom-cursor [role="button"]:active {
+  transform: scale(0.95);
 }

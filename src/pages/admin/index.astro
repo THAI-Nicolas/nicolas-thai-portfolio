@@ -1,0 +1,219 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PocketBase from 'pocketbase';
+
+const user = Astro.locals.user;
+let pb = Astro.locals.pb;
+
+// Si pb n'existe pas dans locals, créer une nouvelle instance
+if (!pb) {
+  pb = new PocketBase('http://127.0.0.1:8090');
+  const authCookie = Astro.cookies.get('pb_auth');
+  if (authCookie) {
+    const authData = JSON.parse(authCookie.value);
+    pb.authStore.save(authData.token, authData.model);
+  }
+}
+
+// Récupérer les statistiques
+const projets = await pb.collection('projets').getFullList();
+const technologies = await pb.collection('technologies').getFullList();
+---
+
+<Layout title="Admin - Dashboard">
+  <script>
+    document.documentElement.classList.add('admin-page');
+    document.body.classList.add('admin-page');
+  </script>
+  <div style="min-height: 100vh; background: var(--color-background);">
+    <!-- Header -->
+    <header style="background: white; border-bottom: 2px solid var(--color-light-gray); padding: 20px 32px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+      <div style="max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+          <h1 style="font-size: 26px; font-weight: 700; color: var(--color-text-gray); display: flex; align-items: center; gap: 12px;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--color-light-blue)" stroke-width="2.5">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <path d="M9 3v18"/>
+            </svg>
+            Backoffice Portfolio
+          </h1>
+          <p style="color: var(--color-dark-gray); font-size: 14px; margin-top: 4px;">
+            Bienvenue {user?.email}
+          </p>
+        </div>
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <a 
+            href="/" 
+            target="_blank"
+            style="padding: 10px 20px; background: var(--color-light-gray); color: var(--color-text-gray); border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 8px; transition: all 0.2s; border: 2px solid transparent;"
+            class="admin-button"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+            Voir le site
+          </a>
+          <a 
+            href="/admin/logout"
+            style="padding: 10px 20px; background: white; color: var(--color-text-gray); border: 2px solid var(--color-light-gray); border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 8px; transition: all 0.2s;"
+            class="admin-button-secondary"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>
+            </svg>
+            Déconnexion
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main style="max-width: 1400px; margin: 0 auto; padding: 32px 24px;">
+      
+      <!-- Statistiques -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 40px;">
+        <div style="background: white; border: 2px solid var(--color-light-blue); border-radius: 12px; padding: 28px; transition: all 0.2s;" class="stat-card">
+          <div style="display: flex; align-items: center; gap: 20px;">
+            <div style="width: 56px; height: 56px; background: var(--color-light-blue); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <div>
+              <div style="font-size: 36px; font-weight: 700; color: var(--color-text-gray);">
+                {projets.length}
+              </div>
+              <div style="color: var(--color-dark-gray); font-size: 14px; font-weight: 600;">
+                Projets
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="background: white; border: 2px solid var(--color-dark-blue); border-radius: 12px; padding: 28px; transition: all 0.2s;" class="stat-card">
+          <div style="display: flex; align-items: center; gap: 20px;">
+            <div style="width: 56px; height: 56px; background: var(--color-dark-blue); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+              </svg>
+            </div>
+            <div>
+              <div style="font-size: 36px; font-weight: 700; color: var(--color-text-gray);">
+                {technologies.length}
+              </div>
+              <div style="color: var(--color-dark-gray); font-size: 14px; font-weight: 600;">
+                Technologies
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation principale -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+        
+        <!-- Card Projets -->
+        <a 
+          href="/admin/projets" 
+          style="background: white; border: 2px solid var(--color-light-blue); border-radius: 12px; padding: 36px; text-decoration: none; transition: all 0.2s; display: block; position: relative; overflow: hidden;"
+          class="admin-card"
+        >
+          <div style="position: absolute; top: -10px; right: -10px; width: 80px; height: 80px; background: var(--color-light-blue); opacity: 0.1; border-radius: 50%;"></div>
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-light-blue)" stroke-width="2.5" style="margin-bottom: 20px;">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          </svg>
+          <h2 style="font-size: 20px; font-weight: 700; color: var(--color-text-gray); margin-bottom: 12px;">
+            Gérer les Projets
+          </h2>
+          <p style="color: var(--color-dark-gray); font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
+            Créer, modifier ou supprimer des projets. Gérer les images, descriptions et technologies associées.
+          </p>
+          <div style="display: flex; align-items: center; gap: 8px; color: var(--color-light-blue); font-weight: 600; font-size: 14px;">
+            <span>Accéder</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </div>
+        </a>
+
+        <!-- Card Technologies -->
+        <a 
+          href="http://127.0.0.1:8090/_/" 
+          target="_blank"
+          style="background: white; border: 2px solid var(--color-dark-blue); border-radius: 12px; padding: 36px; text-decoration: none; transition: all 0.2s; display: block; position: relative; overflow: hidden;"
+          class="admin-card"
+        >
+          <div style="position: absolute; top: -10px; right: -10px; width: 80px; height: 80px; background: var(--color-dark-blue); opacity: 0.1; border-radius: 50%;"></div>
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-dark-blue)" stroke-width="2.5" style="margin-bottom: 20px;">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
+          <h2 style="font-size: 20px; font-weight: 700; color: var(--color-text-gray); margin-bottom: 12px;">
+            Gérer les Technologies
+          </h2>
+          <p style="color: var(--color-dark-gray); font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
+            Ajouter ou modifier les technologies utilisées dans vos projets (via PocketBase).
+          </p>
+          <div style="display: flex; align-items: center; gap: 8px; color: var(--color-dark-blue); font-weight: 600; font-size: 14px;">
+            <span>Ouvrir PocketBase</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
+            </svg>
+          </div>
+        </a>
+
+        <!-- Card Processus -->
+        <a 
+          href="http://127.0.0.1:8090/_/" 
+          target="_blank"
+          style="background: white; border: 2px solid var(--color-dark-gray); border-radius: 12px; padding: 36px; text-decoration: none; transition: all 0.2s; display: block; position: relative; overflow: hidden;"
+          class="admin-card"
+        >
+          <div style="position: absolute; top: -10px; right: -10px; width: 80px; height: 80px; background: var(--color-dark-gray); opacity: 0.1; border-radius: 50%;"></div>
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--color-dark-gray)" stroke-width="2.5" style="margin-bottom: 20px;">
+            <polyline points="23 4 23 10 17 10"/>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+          </svg>
+          <h2 style="font-size: 20px; font-weight: 700; color: var(--color-text-gray); margin-bottom: 12px;">
+            Gérer les Processus
+          </h2>
+          <p style="color: var(--color-dark-gray); font-size: 14px; line-height: 1.7; margin-bottom: 20px;">
+            Configurer les étapes du processus de création affichées sur les projets (via PocketBase).
+          </p>
+          <div style="display: flex; align-items: center; gap: 8px; color: var(--color-dark-gray); font-weight: 600; font-size: 14px;">
+            <span>Ouvrir PocketBase</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/>
+            </svg>
+          </div>
+        </a>
+
+      </div>
+
+    </main>
+  </div>
+
+  <style>
+    .admin-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(52, 190, 237, 0.15);
+    }
+    
+    .stat-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(52, 190, 237, 0.2);
+    }
+    
+    .admin-button:hover {
+      background: var(--color-light-blue);
+      color: white;
+      border-color: var(--color-light-blue);
+    }
+    
+    .admin-button-secondary:hover {
+      border-color: var(--color-light-blue);
+      color: var(--color-light-blue);
+    }
+  </style>
+</Layout>
