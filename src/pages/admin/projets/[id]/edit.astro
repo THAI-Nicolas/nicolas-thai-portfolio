@@ -11,8 +11,6 @@ if (authCookie) {
 
 const projetId = Astro.params.id!;
 
-let error = '';
-
 // Récupérer le projet
 const projet = await pb.collection('projets').getOne(projetId);
 
@@ -21,7 +19,8 @@ const technologies = await pb.collection('technologies').getFullList({
   sort: 'nom',
 });
 
-if (Astro.request.method === 'POST') {
+const skipPost = true;
+if (false) {
   try {
     const formData = await Astro.request.formData();
     
@@ -80,7 +79,6 @@ if (Astro.request.method === 'POST') {
     
   } catch (e: any) {
     console.error('Erreur mise à jour projet:', e);
-    error = e.message || 'Erreur lors de la mise à jour du projet';
   }
 }
 ---
@@ -114,13 +112,10 @@ if (Astro.request.method === 'POST') {
     <!-- Main Content -->
     <main style="max-width: 1200px; margin: 0 auto; padding: 32px 24px;">
       
-      {error && (
-        <div style="background: #fee; border: 1px solid #fcc; border-radius: 8px; padding: 12px; margin-bottom: 20px; color: #c33;">
-          ⚠️ {error}
-        </div>
-      )}
+      <div id="error-message" style="display: none; background: #fee; border: 1px solid #fcc; border-radius: 8px; padding: 12px; margin-bottom: 20px; color: #c33;">
+      </div>
 
-      <form method="POST" enctype="multipart/form-data">
+      <form id="projet-form">
         
         <!-- Informations générales -->
         <div style="background: white; border: 2px solid var(--color-light-gray); border-radius: 12px; padding: 36px; margin-bottom: 24px;">
@@ -147,8 +142,22 @@ if (Astro.request.method === 'POST') {
                 style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;"
                 placeholder="Mon Super Projet"
               />
+            </div>
+
+            <div>
+              <label style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 8px; font-size: 14px;">
+                Slug (URL) *
+              </label>
+              <input 
+                type="text" 
+                name="slug" 
+                required
+                value={projet.slug}
+                style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 14px;"
+                placeholder="mon-super-projet"
+              />
               <p style="font-size: 12px; color: #718096; margin-top: 4px;">
-                Slug actuel : {projet.slug}
+                L'URL du projet : /projets/{projet.slug}
               </p>
             </div>
 
@@ -476,6 +485,131 @@ if (Astro.request.method === 'POST') {
 
     </main>
   </div>
+
+  <script>
+    import PocketBase from 'pocketbase';
+    
+    const PB_URL = import.meta.env.PUBLIC_POCKETBASE_URL || 
+      (import.meta.env.MODE === "production" 
+        ? "https://portfolio.nicolas-thai.fr" 
+        : "http://localhost:8090");
+    
+    const pb = new PocketBase(PB_URL);
+    
+    // Récupérer l'ID du projet depuis l'URL
+    const pathParts = window.location.pathname.split('/');
+    const projetId = pathParts[pathParts.length - 2]; // /admin/projets/[id]/edit
+    
+    console.log('🆔 Projet ID récupéré depuis URL:', projetId);
+    
+    // Restaurer l'auth depuis le cookie
+    const authCookie = document.cookie.split('; ').find(row => row.startsWith('pb_auth='));
+    if (authCookie) {
+      const authData = JSON.parse(decodeURIComponent(authCookie.split('=')[1]));
+      pb.authStore.save(authData.token, authData.model);
+    }
+    
+    const form = document.getElementById('projet-form') as HTMLFormElement;
+    const errorDiv = document.getElementById('error-message');
+    const submitBtn = form?.querySelector('button[type="submit"]');
+    
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      console.log('🚀 Début de la soumission du formulaire');
+      console.log('📝 Projet ID:', projetId);
+      
+      try {
+        if (submitBtn) submitBtn.textContent = 'Enregistrement...';
+        if (errorDiv) errorDiv.style.display = 'none';
+        
+        const formData = new FormData(form);
+        
+        console.log('📋 FormData récupéré, nombre de champs:', Array.from(formData.entries()).length);
+        
+        // Récupérer le slug depuis le formulaire (peut être modifié manuellement)
+        let slug = formData.get('slug')?.toString() || '';
+        
+        // Si le slug est vide, le générer depuis le titre
+        if (!slug) {
+          const titre = formData.get('titre')?.toString() || '';
+          console.log('📌 Titre:', titre);
+          
+          slug = titre
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/(^-|-$)/g, '');
+        }
+        
+        console.log('🔗 Slug:', slug);
+        
+        // Préparer les données du projet
+        const projetData = new FormData();
+        projetData.append('slug', slug);
+        projetData.append('titre', formData.get('titre')?.toString() || '');
+        projetData.append('annee', formData.get('annee')?.toString() || '');
+        projetData.append('description', formData.get('description')?.toString() || '');
+        projetData.append('contexte', formData.get('contexte')?.toString() || '');
+        projetData.append('client', formData.get('client')?.toString() || '');
+        projetData.append('cadre', formData.get('cadre')?.toString() || '');
+        projetData.append('temps', formData.get('temps')?.toString() || '');
+        projetData.append('mode', formData.get('mode')?.toString() || '');
+        projetData.append('color_from', formData.get('color_from')?.toString() || '');
+        projetData.append('color_to', formData.get('color_to')?.toString() || '');
+        projetData.append('resultat_url', formData.get('resultat_url')?.toString() || '');
+        projetData.append('ordre', formData.get('ordre')?.toString() || '0');
+        projetData.append('visible', formData.get('visible') ? 'true' : 'false');
+        
+        // Ajouter les technologies
+        const techs = formData.getAll('technologies');
+        techs.forEach(tech => projetData.append('technologies', tech.toString()));
+        
+        console.log('📦 Données préparées:', Array.from(projetData.entries()));
+        console.log('🌐 PocketBase URL:', pb.baseUrl);
+        console.log('🔑 Auth token présent:', !!pb.authStore.token);
+        
+        // Mettre à jour le projet
+        console.log('⏳ Appel API update...');
+        const result = await pb.collection('projets').update(projetId, projetData);
+        console.log('✅ Résultat update:', result);
+        
+        // Upload des fichiers
+        const coverImage = formData.get('cover_image');
+        const visuels = formData.getAll('visuels');
+        
+        if (coverImage && coverImage instanceof File && coverImage.size > 0) {
+          console.log('📸 Upload cover image...');
+          const updateData = new FormData();
+          updateData.append('cover_image', coverImage);
+          await pb.collection('projets').update(projetId, updateData);
+        }
+        
+        if (visuels.length > 0 && visuels.some((f) => f instanceof File && f.size > 0)) {
+          console.log('🖼️ Upload visuels...');
+          const updateData = new FormData();
+          visuels.forEach((visuel) => {
+            if (visuel instanceof File && visuel.size > 0) {
+              updateData.append('visuels', visuel);
+            }
+          });
+          await pb.collection('projets').update(projetId, updateData);
+        }
+        
+        console.log('🎉 Tout est enregistré, redirection...');
+        window.location.href = '/admin/projets';
+      } catch (err) {
+        console.error('❌ ERREUR:', err);
+        console.error('❌ Détails:', (err as any).data);
+        if (errorDiv) {
+          errorDiv.textContent = '⚠️ ' + ((err as any).message || 'Erreur lors de la modification du projet');
+          errorDiv.style.display = 'block';
+        }
+        if (submitBtn) submitBtn.textContent = 'Enregistrer les modifications';
+      }
+    });
+  </script>
 
   <style>
     input, textarea, select {
