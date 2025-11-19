@@ -50,11 +50,26 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
   ogType="article"
 >
   <ViewTransitions />
-  <script is:inline>
-    document.documentElement.setAttribute("data-theme", "wii");
+  <script is:inline define:vars={{ projectColor: colorGradient.to }}>
+    function setProjectColor() {
+      document.documentElement.setAttribute("data-theme", "wii");
+      // Définir la couleur du projet pour la scrollbar
+      document.documentElement.style.setProperty('--project-color', projectColor);
+      // Forcer le recalcul du style
+      document.body.style.display = 'none';
+      document.body.offsetHeight; // Trigger reflow
+      document.body.style.display = '';
+    }
+    
+    // Appliquer au chargement
+    setProjectColor();
+    
+    // Réappliquer lors des transitions Astro
+    document.addEventListener('astro:page-load', setProjectColor);
   </script>
   <article
-    class="min-h-screen w-full overflow-y-auto overflow-x-hidden projet-page"
+    class="min-h-screen w-full projet-page"
+    style={`--project-color: ${colorGradient.to};`}
   >
     <!-- Hero section avec cover -->
     <header
@@ -155,7 +170,7 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
                 set:html={projet.description}
               />
               
-              <h3 class="font-hagrid text-xl lg:text-3xl mt-20 text-text-gray">
+              <h3 class="font-hagrid text-xl lg:text-3xl font-bold mt-20 text-text-gray">
                 Contexte du projet
               </h3>
 
@@ -242,35 +257,63 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
 
         {
           processusEtapes.length > 0 && (
-            <section class="mb-32 lg:mb-48 mt-36" aria-labelledby="processus-title">
-              <h2 id="processus-title" class="font-hagrid text-xl lg:text-3xl mb-16 lg:mb-20 text-text-gray">
-                Processus de création
-              </h2>
+            <section 
+              class="mb-32 lg:mb-48 mt-36 -mx-6 lg:-mx-20 px-6 lg:px-20 py-20 lg:py-32 relative processus-section" 
+              aria-labelledby="processus-title"
+              style={`background: linear-gradient(135deg, ${colorGradient.from} 0%, ${colorGradient.to} 100%);`}
+            >
+              {/* Grille en fond avec opacité */}
+              <div class="absolute inset-0 opacity-15 pointer-events-none grid-background">
+                <GridLayer class="w-full h-full" />
+              </div>
 
-              <div class="space-y-24 lg:space-y-32">
-                {processusEtapes.map((etape, index) => (
-                  <article
-                    class={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center ${index % 2 === 1 ? "lg:grid-flow-dense" : ""}`}
-                    aria-labelledby={`etape-${etape.numero}-title`}
-                  >
-                    <div
-                      class={`space-y-6 ${index % 2 === 1 ? "lg:col-start-2" : ""}`}
+              {/* Nuages décoratifs - réduits et bien espacés */}
+              <Nuage1
+                class="absolute top-32 right-[5%] w-[150px] lg:w-[250px] opacity-[0.7] pointer-events-none animate-float-right z-0"
+                aria-hidden="true"
+              />
+              <Nuage2
+                class="absolute top-[35%] left-[3%] w-[130px] lg:w-[220px] opacity-[0.65] pointer-events-none animate-float-left z-0"
+                aria-hidden="true"
+              />
+              <Nuage1
+                class="absolute bottom-[35%] right-[8%] w-[120px] lg:w-[200px] opacity-[0.6] pointer-events-none animate-float-right z-0"
+                aria-hidden="true"
+              />
+              <Nuage2
+                class="absolute bottom-32 left-[5%] w-[140px] lg:w-[230px] opacity-[0.7] pointer-events-none animate-float-left z-0"
+                aria-hidden="true"
+              />
+
+              <div class="relative z-10">
+                <h2 id="processus-title" class="font-hagrid text-3xl lg:text-5xl font-bold mb-16 lg:mb-20 text-text-gray">
+                  Processus de création
+                </h2>
+
+                <div class="space-y-24 lg:space-y-32">
+                  {processusEtapes.map((etape, index) => (
+                    <article
+                      class={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center processus-etape ${index % 2 === 1 ? "lg:grid-flow-dense" : ""}`}
+                      aria-labelledby={`etape-${etape.numero}-title`}
+                      data-etape={index}
                     >
-                      <div class="flex items-baseline gap-4">
-                        <span
-                          class="text-6xl lg:text-8xl font-bold"
-                          style={`color: ${colorGradient.to}; opacity: 0.5; filter: brightness(0.85) saturate(1.3);`}
-                          aria-hidden="true"
-                        >
-                          {etape.numero}
-                        </span>
-                        <h3 id={`etape-${etape.numero}-title`} class="font-hagrid text-xl lg:text-3xl text-text-gray">{etape.titre}</h3>
-                      </div>
                       <div
-                        class="font-raleway text-base lg:text-xl leading-relaxed text-text-gray"
-                        set:html={etape.description}
-                      />
-                    </div>
+                        class={`space-y-6 ${index % 2 === 1 ? "lg:col-start-2" : ""}`}
+                      >
+                        <div class="flex items-baseline gap-4">
+                          <span
+                            class="text-6xl lg:text-8xl font-bold text-text-gray opacity-20"
+                            aria-hidden="true"
+                          >
+                            {etape.numero}
+                          </span>
+                          <h3 id={`etape-${etape.numero}-title`} class="font-hagrid text-xl lg:text-3xl font-bold text-text-gray">{etape.titre}</h3>
+                        </div>
+                        <div
+                          class="font-raleway text-base lg:text-xl leading-relaxed text-text-gray processus-description"
+                          set:html={etape.description}
+                        />
+                      </div>
 
                     <div
                       class={
@@ -294,6 +337,7 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
                   </article>
                 ))}
               </div>
+              </div>
             </section>
           )
         }
@@ -301,7 +345,7 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
         {
           (projet.resultat_url || projet.resultat_iframe) && (
             <section class="mb-32 lg:mb-48" aria-labelledby="resultat-title">
-              <h2 id="resultat-title" class="font-hagrid text-xl lg:text-3xl mb-16 lg:mb-20 text-text-gray">
+              <h2 id="resultat-title" class="font-hagrid text-3xl lg:text-5xl font-bold mb-16 lg:mb-20 text-text-gray">
                 Le résultat final
               </h2>
 
@@ -414,60 +458,46 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
               class="text-text-gray hover:text-dark-blue transition-all duration-300 hover:scale-110"
               aria-label="GitHub de Nicolas THAI"
             >
-                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                    <path
-                      d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
-                    ></path>
-                  </svg>
-                </a>
-                <a
-                  href="https://www.instagram.com/nicowh6/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-text-gray hover:text-dark-blue transition-all duration-300 hover:scale-110"
-                >
-                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                    <path
-                      d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
-                    ></path>
-                  </svg>
-                </a>
-                <a
-                  href="https://www.instagram.com/nicowh6/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-text-gray hover:text-dark-blue transition-all duration-300 hover:scale-110"
-                  aria-label="Instagram de Nicolas THAI"
-                >
-                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                    <path
-                      d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
-                    ></path>
-                  </svg>
-                </a>
-                <a
-                  href="https://www.linkedin.com/in/nicolas-thai-21539a294/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="text-text-gray hover:text-dark-blue transition-all duration-300 hover:scale-110"
-                  aria-label="LinkedIn de Nicolas THAI"
-                >
-                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                    <path
-                      d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
-                    ></path>
-                  </svg>
-                </a>
-              </div>
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
+                ></path>
+              </svg>
+            </a>
+            <a
+              href="https://www.instagram.com/nicowh6/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-text-gray hover:text-dark-blue transition-all duration-300 hover:scale-110"
+              aria-label="Instagram de Nicolas THAI"
+            >
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                ></path>
+              </svg>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/nicolas-thai-21539a294/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-text-gray hover:text-dark-blue transition-all duration-300 hover:scale-110"
+              aria-label="LinkedIn de Nicolas THAI"
+            >
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                <path
+                  d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
+                ></path>
+              </svg>
+            </a>
+          </div>
             </nav>
           </div>
         </footer>
       </article>
-    </div>
-  </div>
 </Layout>
 
-<style define:vars={{ scrollbarColor: colorGradient.to }}>
+<style>
   html,
   body {
     overflow: auto !important;
@@ -479,29 +509,6 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
   .iframe-container {
     scroll-snap-align: center;
     scroll-snap-stop: always;
-  }
-
-  ::-webkit-scrollbar {
-    width: 12px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: var(--scrollbarColor);
-    border-radius: 6px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--scrollbarColor);
-    filter: brightness(0.9);
-  }
-
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--scrollbarColor) #f1f1f1;
   }
 
   .shadow-3xl {
@@ -522,8 +529,18 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
     font-family: 'raleway', sans-serif !important;
   }
 
-  /* Animations définies dans animations.css */
+  /* Forcer texte gris foncé dans les descriptions du processus */
+  .processus-description p,
+  .processus-description li,
+  .processus-description ul,
+  .processus-description ol,
+  .processus-description span,
+  .processus-description strong,
+  .processus-description em {
+    color: var(--color-text-gray) !important;
+  }
 
+  /* Animations définies dans animations.css */
   .animate-float-left {
     animation: float-left-large 8s ease-in-out infinite;
   }
@@ -532,6 +549,7 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
     animation: float-right-large 8s ease-in-out infinite;
   }
 
+  /* CSS pour l'iframe interactive */
   .iframe-content {
     pointer-events: none;
   }
@@ -552,13 +570,112 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
   .modal-image.flex {
     display: flex;
   }
+
+  /* Animations au scroll pour les étapes du processus */
+  .processus-etape {
+    opacity: 0;
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+
+  /* Étapes paires : arrivent de la gauche */
+  .processus-etape:nth-child(odd) {
+    transform: translateX(-50px);
+  }
+
+  /* Étapes impaires : arrivent de la droite */
+  .processus-etape:nth-child(even) {
+    transform: translateX(50px);
+  }
+
+  .processus-etape.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Répéter la grille sur toute la hauteur de la section */
+  .grid-background {
+    background-repeat: repeat;
+    background-size: 100% 100vh;
+  }
+
+  .processus-section {
+    overflow: hidden;
+  }
 </style>
 
-<script>
-  import { IframeHandler } from '../../../scripts/iframe-handler';
+<script is:inline>
+  function initIframeHandler() {
+    const iframeContainer = document.getElementById('iframe-container');
+    const iframeOverlay = document.getElementById('iframe-overlay');
 
-  document.addEventListener("DOMContentLoaded", () => {
-    // Initialiser le gestionnaire d'iframe
-    new IframeHandler('iframe-container', 'iframe-overlay');
-  });
+    if (iframeContainer && iframeOverlay) {
+      // Activer l'iframe au clic sur l'overlay
+      iframeOverlay.addEventListener('click', function(e) {
+        e.stopPropagation();
+        iframeContainer.classList.add('active');
+      });
+
+      // Support clavier (Entrée/Espace)
+      iframeOverlay.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          e.stopPropagation();
+          iframeContainer.classList.add('active');
+        }
+      });
+
+      // Désactiver si on clique en dehors
+      document.addEventListener('click', function(e) {
+        if (iframeContainer.classList.contains('active') && !iframeContainer.contains(e.target)) {
+          iframeContainer.classList.remove('active');
+        }
+      });
+    }
+  }
+
+  // Init au chargement
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initIframeHandler);
+  } else {
+    initIframeHandler();
+  }
+
+  // Réinit après transition Astro
+  document.addEventListener('astro:page-load', initIframeHandler);
+</script>
+
+<script is:inline>
+  // Animation au scroll pour les étapes du processus
+  function initScrollAnimations() {
+    const etapes = document.querySelectorAll('.processus-etape');
+    
+    if (etapes.length === 0) return;
+
+    const observerOptions = {
+      threshold: 0.15,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    etapes.forEach(function(etape) {
+      observer.observe(etape);
+    });
+  }
+
+  // Init au chargement
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initScrollAnimations);
+  } else {
+    initScrollAnimations();
+  }
+
+  // Réinit après transition Astro
+  document.addEventListener('astro:page-load', initScrollAnimations);
 </script>

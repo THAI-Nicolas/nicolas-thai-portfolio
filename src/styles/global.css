@@ -155,3 +155,31 @@ body {
 body {
   background-color: var(--color-background);
 }
+
+/* ========================================
+   SCROLLBAR PERSONNALISÉE
+   ======================================== */
+::-webkit-scrollbar {
+  width: 20px;
+  height: 20px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--project-color, var(--color-dark-blue));
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--project-color, var(--color-dark-blue));
+  filter: brightness(0.9);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: var(--project-color, var(--color-dark-blue)) #f1f1f1;
+}
