@@ -78,6 +78,7 @@ export const PARAMETRES_IDS = {
   RESET_BUTTON: "parametres-reset-button",
   MASTER_VOLUME: "master-volume-slider",
   MUSIC_VOLUME: "music-volume-slider",
+  SFX_VOLUME: "sfx-volume-slider",
 } as const;
 
 export const PARAMETRES_SELECTORS = {

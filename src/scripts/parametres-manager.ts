@@ -27,6 +27,7 @@ import {
   setStyle,
   delay,
 } from "../utils/dom-helpers";
+import { audioManager } from "./audio-manager";
 
 interface VolumeSettings {
   master: number;
@@ -42,9 +43,9 @@ interface ParametresSettings {
 
 const DEFAULT_SETTINGS: ParametresSettings = {
   volumes: {
-    master: 50,
-    music: 40,
-    sfx: 70,
+    master: 30,
+    music: 20,
+    sfx: 50,
   },
   options: {},
   language: "fr",
@@ -79,6 +80,7 @@ export class ParametresManager {
     this.setupToggles();
     this.setupLanguageButtons();
     this.setupActionButtons();
+    this.loadSettings();
 
     console.log("Parametres manager initialized!");
   }
@@ -149,12 +151,15 @@ export class ParametresManager {
         }
 
         // Mettre à jour les paramètres internes
-        if (target.id === "master-volume") {
+        if (target.id === PARAMETRES_IDS.MASTER_VOLUME) {
           this.currentSettings.volumes.master = value;
-        } else if (target.id === "music-volume") {
+          audioManager.setMasterVolume(value);
+        } else if (target.id === PARAMETRES_IDS.MUSIC_VOLUME) {
           this.currentSettings.volumes.music = value;
-        } else if (target.id === "sfx-volume") {
+          audioManager.setMusicVolume(value);
+        } else if (target.id === PARAMETRES_IDS.SFX_VOLUME) {
           this.currentSettings.volumes.sfx = value;
+          audioManager.setSfxVolume(value);
         }
       });
     });
@@ -265,6 +270,11 @@ export class ParametresManager {
    * Réinitialise les paramètres par défaut
    */
   private resetToDefaults(): void {
+    console.log("resetToDefaults appelé!");
+
+    // Réinitialiser les paramètres internes
+    this.currentSettings = { ...DEFAULT_SETTINGS };
+
     // Réinitialiser les volumes
     const masterVolume = getById(
       PARAMETRES_IDS.MASTER_VOLUME
@@ -272,7 +282,7 @@ export class ParametresManager {
     const musicVolume = getById(
       PARAMETRES_IDS.MUSIC_VOLUME
     ) as HTMLInputElement;
-    const sfxVolume = getById("sfx-volume") as HTMLInputElement;
+    const sfxVolume = getById(PARAMETRES_IDS.SFX_VOLUME) as HTMLInputElement;
 
     if (masterVolume) {
       masterVolume.value = String(DEFAULT_SETTINGS.volumes.master);
@@ -281,6 +291,7 @@ export class ParametresManager {
         ?.querySelector(PARAMETRES_SELECTORS.VALUE_DISPLAY) as HTMLElement;
       if (valueDisplay)
         valueDisplay.textContent = `${DEFAULT_SETTINGS.volumes.master}%`;
+      audioManager.setMasterVolume(DEFAULT_SETTINGS.volumes.master);
     }
 
     if (musicVolume) {
@@ -290,6 +301,7 @@ export class ParametresManager {
         ?.querySelector(PARAMETRES_SELECTORS.VALUE_DISPLAY) as HTMLElement;
       if (valueDisplay)
         valueDisplay.textContent = `${DEFAULT_SETTINGS.volumes.music}%`;
+      audioManager.setMusicVolume(DEFAULT_SETTINGS.volumes.music);
     }
 
     if (sfxVolume) {
@@ -299,6 +311,7 @@ export class ParametresManager {
         ?.querySelector(PARAMETRES_SELECTORS.VALUE_DISPLAY) as HTMLElement;
       if (valueDisplay)
         valueDisplay.textContent = `${DEFAULT_SETTINGS.volumes.sfx}%`;
+      audioManager.setSfxVolume(DEFAULT_SETTINGS.volumes.sfx);
     }
 
     // Réinitialiser les toggles
@@ -317,8 +330,8 @@ export class ParametresManager {
     );
     if (frLang) addClass(frLang, CSS_CLASSES.ACTIVE);
 
-    // Réinitialiser les paramètres internes
-    this.currentSettings = { ...DEFAULT_SETTINGS };
+    // Sauvegarder les paramètres par défaut
+    this.saveSettings();
 
     console.log("Paramètres réinitialisés");
   }
@@ -338,10 +351,74 @@ export class ParametresManager {
     if (saved) {
       try {
         this.currentSettings = JSON.parse(saved);
-        // TODO: Appliquer les paramètres chargés à l'interface
+        this.applySettingsToUI();
+        console.log("Paramètres chargés:", this.currentSettings);
       } catch (e) {
         console.error("Error loading settings:", e);
       }
     }
+  }
+
+  /**
+   * Applique les paramètres actuels à l'interface
+   */
+  private applySettingsToUI(): void {
+    // Appliquer les volumes
+    const masterVolume = getById(
+      PARAMETRES_IDS.MASTER_VOLUME
+    ) as HTMLInputElement;
+    const musicVolume = getById(
+      PARAMETRES_IDS.MUSIC_VOLUME
+    ) as HTMLInputElement;
+    const sfxVolume = getById(PARAMETRES_IDS.SFX_VOLUME) as HTMLInputElement;
+
+    if (masterVolume) {
+      masterVolume.value = String(this.currentSettings.volumes.master);
+      const valueDisplay = masterVolume
+        .closest(".gaming-card")
+        ?.querySelector(PARAMETRES_SELECTORS.VALUE_DISPLAY) as HTMLElement;
+      if (valueDisplay)
+        valueDisplay.textContent = `${this.currentSettings.volumes.master}%`;
+      audioManager.setMasterVolume(this.currentSettings.volumes.master);
+    }
+
+    if (musicVolume) {
+      musicVolume.value = String(this.currentSettings.volumes.music);
+      const valueDisplay = musicVolume
+        .closest(".gaming-card")
+        ?.querySelector(PARAMETRES_SELECTORS.VALUE_DISPLAY) as HTMLElement;
+      if (valueDisplay)
+        valueDisplay.textContent = `${this.currentSettings.volumes.music}%`;
+      audioManager.setMusicVolume(this.currentSettings.volumes.music);
+    }
+
+    if (sfxVolume) {
+      sfxVolume.value = String(this.currentSettings.volumes.sfx);
+      const valueDisplay = sfxVolume
+        .closest(".gaming-card")
+        ?.querySelector(PARAMETRES_SELECTORS.VALUE_DISPLAY) as HTMLElement;
+      if (valueDisplay)
+        valueDisplay.textContent = `${this.currentSettings.volumes.sfx}%`;
+      audioManager.setSfxVolume(this.currentSettings.volumes.sfx);
+    }
+
+    // Appliquer les toggles
+    Object.keys(this.currentSettings.options).forEach((key) => {
+      const toggle = getById(key) as HTMLInputElement;
+      if (toggle) {
+        toggle.checked = this.currentSettings.options[key];
+      }
+    });
+
+    // Appliquer la langue
+    const langButtons = getElements("[data-lang]");
+    langButtons.forEach((btn) => {
+      const button = btn as HTMLButtonElement;
+      if (button.dataset.lang === this.currentSettings.language) {
+        addClass(button, CSS_CLASSES.ACTIVE);
+      } else {
+        removeClass(button, CSS_CLASSES.ACTIVE);
+      }
+    });
   }
 }

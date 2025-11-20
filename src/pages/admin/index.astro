@@ -16,7 +16,7 @@ const projets = await pb.collection('projets').getFullList();
 const technologies = await pb.collection('technologies').getFullList();
 ---
 
-<Layout title="Admin - Dashboard">
+<Layout title="Admin - Dashboard" disableMusic={true}>
   <script>
     document.documentElement.classList.add('admin-page');
     document.body.classList.add('admin-page');

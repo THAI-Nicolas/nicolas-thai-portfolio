@@ -79,7 +79,9 @@ const seoDescription = projet.description
       class="relative flex-1 flex items-center justify-between w-full overflow-hidden"
     >
       <nav class="hidden lg:flex items-center justify-center px-20 z-10" aria-label="Projet précédent">
-        <Fleche size="desktop" direction="gauche" href={`/projets/${projetPrecedent.slug}`} neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
+        <div data-project-arrow>
+          <Fleche size="desktop" direction="gauche" href={`/projets/${projetPrecedent.slug}`} neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
+        </div>
       </nav>
 
       <section class="absolute inset-0 flex items-center justify-center overflow-hidden" aria-label="Aperçu du projet">
@@ -92,7 +94,9 @@ const seoDescription = projet.description
       </section>
 
       <nav class="hidden lg:flex items-center justify-center px-20 z-10" aria-label="Projet suivant">
-        <Fleche size="desktop" direction="droite" href={`/projets/${projetSuivant.slug}`} neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
+        <div data-project-arrow>
+          <Fleche size="desktop" direction="droite" href={`/projets/${projetSuivant.slug}`} neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
+        </div>
       </nav>
     </div>
 
@@ -104,7 +108,7 @@ const seoDescription = projet.description
         class="flex items-center justify-center gap-8 lg:gap-12 max-w-7xl mx-auto"
         aria-label="Navigation projet"
       >
-        <div class="lg:hidden">
+        <div class="lg:hidden" data-project-arrow>
           <Fleche size="mobile" direction="gauche" href={`/projets/${projetPrecedent.slug}`} neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
         </div>
 
@@ -119,7 +123,7 @@ const seoDescription = projet.description
           textColor="white"
         />
 
-        <div class="lg:hidden">
+        <div class="lg:hidden" data-project-arrow>
           <Fleche size="mobile" direction="droite" href={`/projets/${projetSuivant.slug}`} neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
         </div>
       </nav>

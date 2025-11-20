@@ -61,6 +61,7 @@ const currentSize = sizes[size] || sizes.desktop;
 
 <button
   class={`relative cursor-pointer transition-transform duration-200 ease-in-out border-none bg-none p-0 hover:scale-105 ${currentSize.button}`}
+  data-main-button
   data-type={type}
   id={id ||
     (type === "contact"

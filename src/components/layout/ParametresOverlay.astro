@@ -55,6 +55,7 @@ const { isVisible = false, onClose } = Astro.props;
         </div>
         <button
           id="parametres-close-button"
+          data-small-button
           class="cursor-pointer close-button w-12 h-12 border-2 border-light-blue hover:border-dark-blue bg-white hover:bg-light-blue/10 transition-all duration-300 flex items-center justify-center"
           style="border-radius: 6px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8); transition: all 0.2s ease;"
           onmouseenter="this.style.transform='translateY(-2px) translateZ(5px)'; this.style.boxShadow='0 4px 8px rgba(52, 190, 237, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.9)';"
@@ -135,15 +136,15 @@ const { isVisible = false, onClose } = Astro.props;
                     <div
                       class="slider-value text-sm font-bold text-light-blue tabular-nums"
                     >
-                      50%
+                      30%
                     </div>
                   </div>
                   <input
                     type="range"
-                    id="master-volume"
+                    id="master-volume-slider"
                     min="0"
                     max="100"
-                    value="50"
+                    value="30"
                     class="gaming-slider"
                   />
                 </div>
@@ -171,15 +172,15 @@ const { isVisible = false, onClose } = Astro.props;
                     <div
                       class="slider-value text-sm font-bold text-light-blue tabular-nums"
                     >
-                      40%
+                      20%
                     </div>
                   </div>
                   <input
                     type="range"
-                    id="music-volume"
+                    id="music-volume-slider"
                     min="0"
                     max="100"
-                    value="40"
+                    value="20"
                     class="gaming-slider"
                   />
                 </div>
@@ -207,15 +208,15 @@ const { isVisible = false, onClose } = Astro.props;
                     <div
                       class="slider-value text-sm font-bold text-light-blue tabular-nums"
                     >
-                      70%
+                      50%
                     </div>
                   </div>
                   <input
                     type="range"
-                    id="sfx-volume"
+                    id="sfx-volume-slider"
                     min="0"
                     max="100"
-                    value="70"
+                    value="50"
                     class="gaming-slider"
                   />
                 </div>
@@ -256,6 +257,7 @@ const { isVisible = false, onClose } = Astro.props;
                 <!-- Curseur Wii -->
                 <button
                   id="cursor-toggle-btn"
+                  data-small-button
                   type="button"
                   class="gaming-card group cursor-pointer text-left"
                   style="transition: all 0.2s ease;"
@@ -282,6 +284,7 @@ const { isVisible = false, onClose } = Astro.props;
                   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
                     <button
                       id="theme-light-btn"
+                      data-small-button
                       type="button"
                       style="padding: 10px; background: linear-gradient(145deg, rgba(52, 190, 237, 0.2), rgba(52, 190, 237, 0.1)); color: var(--color-light-blue); border: 2px solid var(--color-light-blue); border-radius: 6px; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s;"
                       onmouseover="this.style.background='linear-gradient(145deg, rgba(52, 190, 237, 0.3), rgba(52, 190, 237, 0.15))'"
@@ -291,6 +294,7 @@ const { isVisible = false, onClose } = Astro.props;
                     </button>
                     <button
                       id="theme-dark-btn"
+                      data-small-button
                       type="button"
                       style="padding: 10px; background: white; color: var(--color-dark-gray); border: 2px solid rgba(52, 190, 237, 0.3); border-radius: 6px; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s;"
                       onmouseover="this.style.borderColor='var(--color-light-blue)'; this.style.color='var(--color-light-blue)'"
@@ -312,6 +316,7 @@ const { isVisible = false, onClose } = Astro.props;
                   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
                     <button
                       id="lang-fr-btn"
+                      data-small-button
                       type="button"
                       style="padding: 10px; background: linear-gradient(145deg, rgba(52, 190, 237, 0.2), rgba(52, 190, 237, 0.1)); color: var(--color-light-blue); border: 2px solid var(--color-light-blue); border-radius: 6px; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s;"
                       onmouseover="this.style.background='linear-gradient(145deg, rgba(52, 190, 237, 0.3), rgba(52, 190, 237, 0.15))'"
@@ -321,6 +326,7 @@ const { isVisible = false, onClose } = Astro.props;
                     </button>
                     <button
                       id="lang-en-btn"
+                      data-small-button
                       type="button"
                       style="padding: 10px; background: white; color: var(--color-dark-gray); border: 2px solid rgba(52, 190, 237, 0.3); border-radius: 6px; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s;"
                       onmouseover="this.style.borderColor='var(--color-light-blue)'; this.style.color='var(--color-light-blue)'"
@@ -344,7 +350,8 @@ const { isVisible = false, onClose } = Astro.props;
         style="padding: 24px 48px; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 2px rgba(0, 0, 0, 0.05); background-color: color-mix(in srgb, var(--color-background) 80%, white);"
       >
         <button
-          id="reset-button"
+          id="parametres-reset-button"
+          data-small-button
           class="cursor-pointer reset-btn font-bold text-xs border-2 transition-all duration-300 uppercase tracking-[0.15em]"
           style="border-radius: 6px; padding: 12px 24px; color: var(--color-light-blue); background: white; border-color: var(--color-light-blue);"
         >
@@ -366,7 +373,8 @@ const { isVisible = false, onClose } = Astro.props;
           </span>
         </button>
         <button
-          id="apply-button"
+          id="parametres-apply-button"
+          data-small-button
           class="cursor-pointer apply-btn font-bold text-xs border-2 transition-all duration-300 uppercase tracking-[0.15em]"
           style="border-radius: 6px; padding: 12px 32px; background: var(--color-light-blue); color: white; border-color: var(--color-light-blue);"
         >

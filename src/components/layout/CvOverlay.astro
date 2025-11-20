@@ -173,6 +173,10 @@ const { isVisible = false, onClose } = Astro.props;
       }
       
       flecheGauche.addEventListener('mousedown', () => {
+        // Jouer le son
+        import('../../scripts/audio-manager').then(({ audioManager, SoundName }) => {
+          audioManager.play(SoundName.PROJECT_SELECT);
+        });
         if (miiScene) {
           miiScene.startRotation('right');
         }
@@ -200,6 +204,10 @@ const { isVisible = false, onClose } = Astro.props;
       }
       
       flecheDroite.addEventListener('mousedown', () => {
+        // Jouer le son
+        import('../../scripts/audio-manager').then(({ audioManager, SoundName }) => {
+          audioManager.play(SoundName.PROJECT_SELECT);
+        });
         if (miiScene) {
           miiScene.startRotation('left');
         }

@@ -7,6 +7,8 @@
  * - La réinitialisation du livre lors de la fermeture
  */
 
+import { audioManager, SoundName } from "./audio-manager";
+
 export class BookManager {
   private overlay: HTMLElement | null = null;
   private bookCard: HTMLElement | null = null;
@@ -114,6 +116,7 @@ export class BookManager {
 
       // Au premier clic, centrer le livre ET tourner la première page
       if (this.currentPage === 0) {
+        audioManager.play(SoundName.BOOK_OPEN);
         this.bookCard.classList.add("opened");
         this.isOpened = true;
         this.pages[0].classList.add("flipped");
@@ -133,6 +136,7 @@ export class BookManager {
         }
 
         // Pour les pages suivantes
+        audioManager.play(SoundName.BOOK_PAGE_TURN);
         const pageToFlip = this.pages[this.currentPage];
         pageToFlip.classList.add("flipped");
         this.currentPage++;
@@ -149,6 +153,7 @@ export class BookManager {
     } else {
       // Retour au début
       this.isAnimating = true;
+      audioManager.play(SoundName.BOOK_CLOSE);
       this.reset();
       console.log("Retour à la couverture");
 

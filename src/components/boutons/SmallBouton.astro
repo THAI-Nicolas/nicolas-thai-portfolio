@@ -50,6 +50,7 @@ const Element = isDownload ? 'a' : 'button';
     href={downloadHref}
     download="CV_Nicolas_THAI.pdf"
     class={`relative cursor-pointer transition-all duration-200 ease-in-out border-none bg-none p-0 ${currentSize.button} block`}
+    data-small-button
     data-type={type}
     id={id}
   >
@@ -68,6 +69,7 @@ const Element = isDownload ? 'a' : 'button';
 ) : (
   <button
     class={`relative cursor-pointer transition-all duration-200 ease-in-out border-none bg-none p-0 ${currentSize.button}`}
+    data-small-button
     data-type={type}
     data-onclick={onClick ? "true" : undefined}
     id={id}

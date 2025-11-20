@@ -28,6 +28,7 @@ import {
   observeMutations,
   delay,
 } from "../utils/dom-helpers";
+import { audioManager, SoundName } from "./audio-manager";
 
 export class ContactFormManager {
   private gamingSign: HTMLElement | null = null;
@@ -91,6 +92,8 @@ export class ContactFormManager {
 
             if (isVisible && !hasClass(this.gamingSign, CSS_CLASSES.SHOW)) {
               console.log("Contact overlay opened, launching animation!");
+              // Jouer le son de l'animation de la pancarte
+              audioManager.play(SoundName.FORM_ANIMATION_SOUND);
               addClass(this.gamingSign, CSS_CLASSES.SHOW);
               this.chains?.forEach((chain) =>
                 addClass(chain as HTMLElement, CSS_CLASSES.SHOW)

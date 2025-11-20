@@ -12,6 +12,7 @@ import {
   KEYBOARD_KEYS,
 } from "../utils/constants";
 import { getById, setStyle, onEvent } from "../utils/dom-helpers";
+import { audioManager, SoundName } from "./audio-manager";
 
 export class CarouselManager {
   private currentPage: number = 1;
@@ -66,12 +67,14 @@ export class CarouselManager {
     // Navigation vers la page 2 (flèche droite)
     onEvent(this.arrowRight, DOM_EVENTS.CLICK, () => {
       console.log("Click sur flèche droite");
+      audioManager.play(SoundName.ARROW_CLICK);
       this.switchPage(2);
     });
 
     // Navigation vers la page 1 (flèche gauche)
     onEvent(this.arrowLeft, DOM_EVENTS.CLICK, () => {
       console.log("Click sur flèche gauche");
+      audioManager.play(SoundName.ARROW_CLICK);
       this.switchPage(1);
     });
 

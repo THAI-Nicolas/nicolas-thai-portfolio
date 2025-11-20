@@ -515,27 +515,26 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
         }
 
         <nav class="flex flex-col lg:flex-row justify-center items-center gap-6 mt-20 mb-32" aria-label="Navigation du projet">
-          <LargeBouton
+          <a
             href={`/projets/${projet.slug}`}
-            variant="secondary"
-            text="Retour au projet"
-            borderColor={colorGradient.to}
-            backgroundColor="transparent"
-            textColor="var(--color-text-gray)"
-            hoverTextColor="var(--color-text-gray)"
-          />
+            data-project-back
+            class="group relative px-14 lg:px-32 py-5 lg:py-10 rounded-full shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl active:scale-95 overflow-hidden border-4 bg-transparent hover:bg-transparent large-bouton-secondary"
+            style={`border-color: ${colorGradient.to}; --border-color: ${colorGradient.to}; background: transparent; --text-color: var(--color-text-gray); --hover-text-color: var(--color-text-gray);`}
+          >
+            <div class="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+            <span class="h2 font-bold relative z-10 transition-colors duration-300 text-white button-text" style="color: var(--color-text-gray);">Retour au projet</span>
+          </a>
           {projet.resultat_url && (
-            <LargeBouton
+            <a
               href={projet.resultat_url}
-              variant="primary"
-              text="Visiter le site"
-              borderColor={colorGradient.to}
-              backgroundColor={`linear-gradient(135deg, ${colorGradient.from} 0%, ${colorGradient.to} 100%)`}
-              textColor="white"
-              hoverTextColor="white"
+              data-project-view
               target="_blank"
               rel="noopener noreferrer"
-            />
+              class="group relative px-14 lg:px-32 py-5 lg:py-10 rounded-full shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl active:scale-95 overflow-hidden border-4 bg-white/90 backdrop-blur-sm hover:bg-white large-bouton-primary"
+              style={`border-color: ${colorGradient.to}; --border-color: ${colorGradient.to}; background: linear-gradient(135deg, ${colorGradient.from} 0%, ${colorGradient.to} 100%); --text-color: white; --hover-text-color: white;`}
+            >
+              <span class="h2 font-bold relative z-10 transition-colors duration-300 text-text-gray button-text" style="color: white;">Visiter le site</span>
+            </a>
           )}
         </nav>
       </div>
