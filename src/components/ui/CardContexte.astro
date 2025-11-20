@@ -9,36 +9,36 @@ interface Props {
 const { title, value, icon, borderColor } = Astro.props;
 
 const icons = {
-  client: `<svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+  client: `<svg class="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7" fill="currentColor" viewBox="0 0 24 24">
     <path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
   </svg>`,
-  cadre: `<svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+  cadre: `<svg class="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7" fill="currentColor" viewBox="0 0 24 24">
     <path d="M12 14l9-5-9-5-9 5 9 5z"/>
     <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
   </svg>`,
-  temps: `<svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+  temps: `<svg class="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7" fill="currentColor" viewBox="0 0 24 24">
     <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
   </svg>`,
-  mode: `<svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24">
+  mode: `<svg class="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7" fill="currentColor" viewBox="0 0 24 24">
     <path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
   </svg>`,
 };
 ---
 
 <div
-  class="flex flex-col items-center gap-3 p-4 bg-white rounded-2xl hover:scale-105 transition-transform duration-300 w-48 h-50 flex-shrink-0 border-2"
+  class="flex flex-col items-center gap-2 md:gap-3 p-3 md:p-4 bg-white rounded-xl md:rounded-2xl hover:scale-105 transition-transform duration-300 w-32 md:w-40 lg:w-48 h-auto md:h-auto lg:h-50 flex-shrink-0 border-2"
   style={`border-color: ${borderColor};`}
 >
-  <h3 class="font-raleway font-bold uppercase text-xs lg:text-xl text-text-dark">{title}</h3>
+  <h3 class="font-raleway font-bold uppercase text-[10px] md:text-xs lg:text-xl text-text-dark">{title}</h3>
 
   <div
-    class="w-14 h-14 rounded-full flex items-center justify-center text-text-dark"
+    class="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center text-text-dark"
     style={`background-color: ${borderColor};`}
   >
     <Fragment set:html={icons[icon]} />
   </div>
 
-  <p class="font-raleway text-xs lg:text-base font-semibold text-center mt-1 uppercase text-text-dark">
+  <p class="font-raleway text-[10px] md:text-xs lg:text-base font-semibold text-center mt-1 uppercase text-text-dark">
     {value}
   </p>
 </div>

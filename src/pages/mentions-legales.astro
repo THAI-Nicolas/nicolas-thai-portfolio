@@ -17,7 +17,23 @@ const seoDescription = "Mentions légales du portfolio de Nicolas THAI - Informa
     <!-- Header -->
     <header class="relative w-full py-16 lg:py-24 px-6 lg:px-20 border-b-2 border-gray-200">
       <nav class="absolute top-8 left-8 lg:top-12 lg:left-28 z-50" aria-label="Retour à l'accueil">
-        <a href="/">
+        <a href="/" class="block md:hidden">
+          <MainBouton
+            type="retour"
+            size="mobile"
+            strokeColor="var(--color-light-blue)"
+            neonColor="var(--color-light-blue)"
+          />
+        </a>
+        <a href="/" class="hidden md:block lg:hidden">
+          <MainBouton
+            type="retour"
+            size="tablet"
+            strokeColor="var(--color-light-blue)"
+            neonColor="var(--color-light-blue)"
+          />
+        </a>
+        <a href="/" class="hidden lg:block">
           <MainBouton
             type="retour"
             size="desktop"

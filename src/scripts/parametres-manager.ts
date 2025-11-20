@@ -89,44 +89,9 @@ export class ParametresManager {
    * Configure l'effet 3D au mouvement de la souris
    */
   private setup3DEffect(): void {
-    if (!this.parametresContainer || !this.parametresContent) return;
-
-    this.rect = this.parametresContainer.getBoundingClientRect();
-
-    // Recalculer le rect au resize de la fenêtre
-    onEvent(window, DOM_EVENTS.RESIZE, () => {
-      if (this.parametresContainer) {
-        this.rect = this.parametresContainer.getBoundingClientRect();
-      }
-    });
-
-    onEvent(this.parametresContainer, DOM_EVENTS.MOUSEMOVE, (e: MouseEvent) => {
-      if (!this.rect || !this.parametresContent) return;
-
-      const x = e.clientX - this.rect.left;
-      const y = e.clientY - this.rect.top;
-      const centerX = this.rect.width / 2;
-      const centerY = this.rect.height / 2;
-
-      const rotateX = ((y - centerY) / centerY) * 2;
-      const rotateY = ((x - centerX) / centerX) * 2;
-
-      setStyle(
-        this.parametresContent,
-        "transform",
-        `rotateX(${-rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`
-      );
-    });
-
-    onEvent(this.parametresContainer, DOM_EVENTS.MOUSELEAVE, () => {
-      if (this.parametresContent) {
-        setStyle(
-          this.parametresContent,
-          "transform",
-          "rotateX(0deg) rotateY(0deg) translateZ(0px)"
-        );
-      }
-    });
+    // Désactivé car interfère avec les clics sur les boutons
+    // Les effets 3D au hover sont gérés par le CSS
+    return;
   }
 
   /**

@@ -2,7 +2,7 @@
 import FlecheIcon from "../../assets/icones/fleche.svg";
 
 export interface Props {
-  size?: "mobile" | "desktop";
+  size?: "mobile" | "tablet" | "desktop";
   direction?: "droite" | "gauche" | "haut" | "bas";
   href?: string;
   onClick?: () => void;
@@ -28,7 +28,10 @@ const {
 // Tailles dynamiques
 const sizes = {
   mobile: {
-    container: "w-[33px] h-[63px]",
+    container: "w-[32px] h-[61px]",
+  },
+  tablet: {
+    container: "w-[40px] h-[76px]",
   },
   desktop: {
     container: "w-[58px] h-[111px]",

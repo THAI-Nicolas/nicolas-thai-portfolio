@@ -27,7 +27,7 @@ export const OVERLAY_BUTTON_SELECTORS = {
   CONTACT_CLOSE: "#contact-return-button",
   PRESENTATION_OPEN: 'button[data-type="presentation"]',
   PRESENTATION_CLOSE: "#presentation-return-button",
-  PARAMETRES_OPEN: "#parametres-button",
+  PARAMETRES_OPEN: 'button[data-type="parametres"], #parametres-button',
   PARAMETRES_CLOSE: "#parametres-return-button",
 } as const;
 

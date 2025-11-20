@@ -127,88 +127,126 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
   >
     <!-- Hero section avec cover -->
     <header
-      class="relative w-full h-screen flex items-center justify-center overflow-hidden"
+      class="relative w-full min-h-[70vh] md:min-h-screen flex items-center justify-center overflow-hidden py-12 md:py-24 lg:py-0"
       style={`background: linear-gradient(135deg, ${colorGradient.from} 0%, ${colorGradient.to} 100%);`}
     >
       <div class="absolute inset-0 opacity-30">
         <GridLayer class="w-full h-full" />
       </div>
 
-      <nav class="absolute top-12 left-28 z-50" aria-label="Retour au projet">
+      <nav class="absolute top-4 left-4 md:top-8 md:left-12 lg:top-12 lg:left-28 z-50" aria-label="Retour au projet">
         <a href={`/projets/${projet.slug}`}>
-          <MainBouton
-            type="retour"
-            size="desktop"
-            strokeColor={colorGradient.to}
-            neonColor={colorGradient.to}
-          />
+          <div class="block md:hidden">
+            <MainBouton
+              type="retour"
+              size="mobile"
+              strokeColor={colorGradient.to}
+              neonColor={colorGradient.to}
+            />
+          </div>
+          <div class="hidden md:block lg:hidden">
+            <MainBouton
+              type="retour"
+              size="tablet"
+              strokeColor={colorGradient.to}
+              neonColor={colorGradient.to}
+            />
+          </div>
+          <div class="hidden lg:block">
+            <MainBouton
+              type="retour"
+              size="desktop"
+              strokeColor={colorGradient.to}
+              neonColor={colorGradient.to}
+            />
+          </div>
         </a>
       </nav>
 
       <div
-        class="relative z-10 w-full max-w-3xl lg:max-w-6xl mx-auto px-6 flex flex-col items-center"
+        class="relative z-10 w-full max-w-sm md:max-w-2xl lg:max-w-6xl mx-auto px-4 md:px-6 flex flex-col items-center"
       >
         <h1 class="sr-only">{projet.titre} - Processus de création détaillé</h1>
         <div
-          class="bg-white/90 backdrop-blur-sm rounded-[48px] shadow-2xl p-8 lg:p-12 w-full"
+          class="bg-white/90 backdrop-blur-sm rounded-[24px] md:rounded-[36px] lg:rounded-[48px] shadow-2xl p-4 md:p-6 lg:p-12 w-full"
         >
           <img src={coverUrl} alt={projet.titre} class="w-full h-auto" />
         </div>
       </div>
 
       <Nuage1
-        class="absolute bottom-20 left-0 w-[200px] lg:w-[300px] opacity-80 animate-float-left"
+        class="hidden md:block absolute bottom-20 left-0 w-[150px] md:w-[200px] lg:w-[300px] opacity-80 animate-float-left"
         aria-hidden="true"
       />
       <Nuage2
-        class="absolute bottom-20 right-0 w-[200px] lg:w-[300px] opacity-80 animate-float-right"
+        class="hidden md:block absolute bottom-20 right-0 w-[150px] md:w-[200px] lg:w-[300px] opacity-80 animate-float-right"
         aria-hidden="true"
       />
 
       <div
-        class="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 animate-bounce"
+        class="absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 z-20 animate-bounce"
       >
-        <Fleche
-          size="desktop"
-          direction="bas"
-          href="#content"
-          colorGradient={colorGradient}
-          neonColor={colorGradient.to}
-        />
+        <div class="block md:hidden">
+          <Fleche
+            size="mobile"
+            direction="bas"
+            href="#content"
+            colorGradient={colorGradient}
+            neonColor={colorGradient.to}
+          />
+        </div>
+        <div class="hidden md:block lg:hidden">
+          <Fleche
+            size="tablet"
+            direction="bas"
+            href="#content"
+            colorGradient={colorGradient}
+            neonColor={colorGradient.to}
+          />
+        </div>
+        <div class="hidden lg:block">
+          <Fleche
+            size="desktop"
+            direction="bas"
+            href="#content"
+            colorGradient={colorGradient}
+            neonColor={colorGradient.to}
+          />
+        </div>
       </div>
     </header>
 
     <main id="content" class="relative w-full bg-white">
       <Nuage1
-        class="absolute top-20 left-10 w-[150px] lg:w-[250px] opacity-20 pointer-events-none"
+        class="hidden lg:block absolute top-20 left-10 w-[150px] lg:w-[250px] opacity-20 pointer-events-none"
         aria-hidden="true"
       />
       <Nuage2
-        class="absolute top-60 right-10 w-[150px] lg:w-[250px] opacity-20 pointer-events-none"
+        class="hidden lg:block absolute top-60 right-10 w-[150px] lg:w-[250px] opacity-20 pointer-events-none"
         aria-hidden="true"
       />
       <Nuage1
-        class="absolute bottom-60 right-20 w-[120px] lg:w-[200px] opacity-15 pointer-events-none"
+        class="hidden lg:block absolute bottom-60 right-20 w-[120px] lg:w-[200px] opacity-15 pointer-events-none"
         aria-hidden="true"
       />
       <Nuage2
-        class="absolute bottom-20 left-20 w-[120px] lg:w-[200px] opacity-15 pointer-events-none"
+        class="hidden lg:block absolute bottom-20 left-20 w-[120px] lg:w-[200px] opacity-15 pointer-events-none"
         aria-hidden="true"
       />
 
-      <div class="relative w-full px-6 lg:px-20 py-32 lg:pt-20 lg:pb-10">
-        <div class="grid lg:grid-cols-12 gap-12 lg:gap-20 items-start">
+      <div class="relative w-full px-4 md:px-8 lg:px-20 py-12 md:py-20 lg:pt-20 lg:pb-10">
+        <div class="grid lg:grid-cols-12 gap-8 md:gap-12 lg:gap-20 items-start">
           <div class="col-span-12 lg:col-span-7">
-            <section class="mb-16 lg:mb-12 max-w-4xl" aria-labelledby="project-title">
+            <section class="mb-12 md:mb-16 lg:mb-12 max-w-4xl" aria-labelledby="project-title">
               <span
-                class="inline-block font-raleway text-sm lg:text-2xl font-semibold tracking-wider mb-6 text-text-gray"
+                class="inline-block font-raleway text-xs md:text-sm lg:text-2xl font-semibold tracking-wider mb-4 md:mb-6 text-text-gray"
               >
                 {projet.annee}
               </span>
 
               <h2
                 id="project-title"
-                class="font-hagrid text-3xl lg:text-6xl font-bold mb-10 lg:mb-10 text-text-gray"
+                class="font-hagrid text-2xl md:text-4xl lg:text-6xl font-bold mb-6 md:mb-8 lg:mb-10 text-text-gray"
               >
                 {projet.titre}
               </h2>
@@ -217,18 +255,18 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
               <TechnologiesUtilisees technologies={technologies} />
             </section>
 
-            <section class="space-y-8" aria-labelledby="project-description">
+            <section class="space-y-6 md:space-y-8" aria-labelledby="project-description">
               <h2 id="project-description" class="sr-only">Description du projet</h2>
               <div
-                class="font-raleway text-base lg:text-xl leading-relaxed space-y-6 text-text-gray"
+                class="font-raleway text-sm md:text-base lg:text-xl leading-relaxed space-y-4 md:space-y-6 text-text-gray"
                 set:html={projet.description}
               />
               
-              <h3 class="font-hagrid text-xl lg:text-3xl font-bold mt-20 text-text-gray">
+              <h3 class="font-hagrid text-xl md:text-2xl lg:text-3xl font-bold mt-12 md:mt-16 lg:mt-20 text-text-gray">
                 Contexte du projet
               </h3>
 
-              <div class="flex justify-center gap-4 lg:gap-12 mt-12 mb-20" role="list" aria-label="Informations sur le projet">
+              <div class="grid grid-cols-2 lg:flex lg:flex-nowrap justify-items-center lg:justify-center gap-3 md:gap-4 lg:gap-12 mt-8 md:mt-10 lg:mt-12 mb-12 md:mb-16 lg:mb-20 max-w-sm md:max-w-md lg:max-w-none mx-auto" role="list" aria-label="Informations sur le projet">
                 <CardContexte
                   title="CLIENT"
                   value={projet.client}
@@ -255,26 +293,26 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
                 />
               </div>
 
-              <div class="space-y-8">
+              <div class="space-y-6 md:space-y-8">
                 <div
-                  class="font-raleway text-base lg:text-xl leading-relaxed space-y-6 text-text-gray"
+                  class="font-raleway text-sm md:text-base lg:text-xl leading-relaxed space-y-4 md:space-y-6 text-text-gray"
                   set:html={projet.contexte}
                 />
               </div>
             </section>
           </div>
 
-          <div class="col-span-12 lg:col-span-5 space-y-20 mt-16">
+          <div class="col-span-12 lg:col-span-5 space-y-8 md:space-y-12 lg:space-y-20 mt-8 md:mt-12 lg:mt-16">
             {
               visuelUrls.slice(0, 4).map((url, index) => (
                 <div 
-                  class="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-4 shadow-lg border-2 border-gray-200 cursor-pointer hover:shadow-xl transition-shadow duration-300"
+                  class="bg-gradient-to-br from-white to-gray-50 rounded-xl md:rounded-2xl p-3 md:p-4 shadow-lg border-2 border-gray-200 cursor-pointer hover:shadow-xl transition-shadow duration-300 max-w-md md:max-w-lg lg:max-w-none mx-auto"
                   onclick={`document.getElementById('modal-${index}').style.display='flex'`}
                 >
                   <img
                     src={url}
                     alt={`${projet.titre} visuel ${index + 1}`}
-                    class="w-full h-auto rounded-xl object-contain"
+                    class="w-full h-auto rounded-lg md:rounded-xl object-contain"
                   />
                 </div>
               ))
@@ -312,7 +350,7 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
         {
           processusEtapes.length > 0 && (
             <section 
-              class="mb-32 lg:mb-48 mt-36 -mx-6 lg:-mx-20 px-6 lg:px-20 py-20 lg:py-32 relative processus-section" 
+              class="mb-20 md:mb-32 lg:mb-48 mt-20 md:mt-28 lg:mt-36 -mx-4 md:-mx-8 lg:-mx-20 px-4 md:px-8 lg:px-20 py-12 md:py-16 lg:py-32 relative processus-section" 
               aria-labelledby="processus-title"
               style={`background: linear-gradient(135deg, ${colorGradient.from} 0%, ${colorGradient.to} 100%);`}
             >
@@ -323,65 +361,59 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
                 <GridLayer class="w-full h-full absolute top-[200vh]" />
               </div>
 
-              {/* Nuages décoratifs - positionnés pour éviter les coupures visibles */}
-              {/* Coin supérieur droit */}
+              {/* Nuages décoratifs - cachés sur mobile */}
               <Nuage1
-                class="absolute top-10 -right-10 w-[150px] lg:w-[250px] opacity-[0.7] pointer-events-none animate-float-right-fast z-0"
+                class="hidden md:block absolute top-10 -right-10 w-[150px] lg:w-[250px] opacity-[0.7] pointer-events-none animate-float-right-fast z-0"
                 aria-hidden="true"
               />
-              {/* Coin supérieur gauche */}
               <Nuage2
-                class="absolute top-[30%] -left-8 w-[130px] lg:w-[220px] opacity-[0.65] pointer-events-none z-0 nuage-flipped animate-float-left-slow"
+                class="hidden md:block absolute top-[30%] -left-8 w-[130px] lg:w-[220px] opacity-[0.65] pointer-events-none z-0 nuage-flipped animate-float-left-slow"
                 aria-hidden="true"
               />
-              {/* Milieu droite */}
               <Nuage2
-                class="absolute top-[50%] -right-8 w-[100px] lg:w-[180px] opacity-[0.5] pointer-events-none animate-float-right-slow z-0"
+                class="hidden lg:block absolute top-[50%] -right-8 w-[100px] lg:w-[180px] opacity-[0.5] pointer-events-none animate-float-right-slow z-0"
                 aria-hidden="true"
               />
-              {/* Milieu gauche */}
               <Nuage1
-                class="absolute top-[45%] -left-12 w-[110px] lg:w-[190px] opacity-[0.55] pointer-events-none z-0 nuage-flipped animate-float-left-fast"
+                class="hidden lg:block absolute top-[45%] -left-12 w-[110px] lg:w-[190px] opacity-[0.55] pointer-events-none z-0 nuage-flipped animate-float-left-fast"
                 aria-hidden="true"
               />
-              {/* Coin inférieur droit */}
               <Nuage1
-                class="absolute bottom-[30%] -right-12 w-[120px] lg:w-[200px] opacity-[0.6] pointer-events-none animate-float-right z-0"
+                class="hidden md:block absolute bottom-[30%] -right-12 w-[120px] lg:w-[200px] opacity-[0.6] pointer-events-none animate-float-right z-0"
                 aria-hidden="true"
               />
-              {/* Coin inférieur gauche */}
               <Nuage2
-                class="absolute bottom-10 -left-10 w-[140px] lg:w-[230px] opacity-[0.7] pointer-events-none z-0 nuage-flipped animate-float-left"
+                class="hidden md:block absolute bottom-10 -left-10 w-[140px] lg:w-[230px] opacity-[0.7] pointer-events-none z-0 nuage-flipped animate-float-left"
                 aria-hidden="true"
               />
 
               <div class="relative z-10">
-                <h2 id="processus-title" class="font-hagrid text-3xl lg:text-5xl font-bold mb-16 lg:mb-20" style={`color: ${textColor};`}>
+                <h2 id="processus-title" class="font-hagrid text-2xl md:text-3xl lg:text-5xl font-bold mb-12 md:mb-16 lg:mb-20" style={`color: ${textColor};`}>
                   Processus de création
                 </h2>
 
-                <div class="space-y-24 lg:space-y-32">
+                <div class="space-y-16 md:space-y-24 lg:space-y-32">
                   {processusEtapes.map((etape, index) => (
                     <article
-                      class={`grid lg:grid-cols-2 gap-12 lg:gap-20 items-center processus-etape font-regular ${index % 2 === 1 ? "lg:grid-flow-dense" : ""}`}
+                      class={`grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-20 items-center processus-etape font-regular ${index % 2 === 1 ? "lg:grid-flow-dense" : ""}`}
                       aria-labelledby={`etape-${etape.numero}-title`}
                       data-etape={index}
                     >
                       <div
-                        class={`space-y-6 ${index % 2 === 1 ? "lg:col-start-2" : ""}`}
+                        class={`space-y-4 md:space-y-6 ${index % 2 === 1 ? "lg:col-start-2" : ""}`}
                       >
-                        <div class="flex items-baseline gap-4">
+                        <div class="flex items-baseline gap-3 md:gap-4">
                           <span
-                            class="text-6xl lg:text-8xl font-bold"
+                            class="text-4xl md:text-6xl lg:text-8xl font-bold"
                             style={`color: ${textColor}; opacity: ${numberOpacity};`}
                             aria-hidden="true"
                           >
                             {etape.numero}
                           </span>
-                          <h3 id={`etape-${etape.numero}-title`} class="font-hagrid text-xl lg:text-3xl font-bold" style={`color: ${textColor};`}>{etape.titre}</h3>
+                          <h3 id={`etape-${etape.numero}-title`} class="font-hagrid text-lg md:text-xl lg:text-3xl font-bold" style={`color: ${textColor};`}>{etape.titre}</h3>
                         </div>
                         <div
-                          class="font-raleway text-base lg:text-xl leading-relaxed processus-description"
+                          class="font-raleway text-sm md:text-base lg:text-xl leading-relaxed processus-description"
                           style={`color: ${textColor}; opacity: ${textOpacity};`}
                           set:html={etape.description}
                         />
@@ -394,18 +426,18 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
                     >
                       {etape.image ? (
                         <div
-                          class="cursor-pointer hover:shadow-3xl transition-shadow duration-300"
+                          class="cursor-pointer hover:shadow-3xl transition-shadow duration-300 max-w-md md:max-w-lg lg:max-w-none mx-auto"
                           onclick={`document.getElementById('modal-processus-${index}').style.display='flex'`}
                         >
                           <img
                             src={ProjetsService.getFileUrl(etape, etape.image)}
                             alt={etape.titre}
-                            class="w-full h-auto object-cover rounded-3xl shadow-2xl"
+                            class="w-full h-auto object-cover rounded-2xl md:rounded-3xl shadow-2xl"
                           />
                         </div>
                       ) : (
-                        <div class="bg-gradient-to-br from-white to-gray-50 rounded-3xl p-8 lg:p-10 border-2 border-gray-200 shadow-2xl aspect-video flex items-center justify-center">
-                          <span class="font-raleway text-base lg:text-xl opacity-50 text-text-gray">
+                        <div class="bg-gradient-to-br from-white to-gray-50 rounded-2xl md:rounded-3xl p-6 md:p-8 lg:p-10 border-2 border-gray-200 shadow-2xl aspect-video flex items-center justify-center max-w-md md:max-w-lg lg:max-w-none mx-auto">
+                          <span class="font-raleway text-sm md:text-base lg:text-xl opacity-50 text-text-gray">
                             Visuel {etape.numero}
                           </span>
                         </div>
@@ -450,19 +482,18 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
 
         {
           (projet.resultat_url || projet.resultat_iframe) && (
-            <section class="mb-32 lg:mb-48" aria-labelledby="resultat-title">
-              <h2 id="resultat-title" class="font-hagrid text-3xl lg:text-5xl font-bold mb-16 lg:mb-20 text-text-gray">
+            <section class="mb-20 md:mb-32 lg:mb-48" aria-labelledby="resultat-title">
+              <h2 id="resultat-title" class="font-hagrid text-2xl md:text-3xl lg:text-5xl font-bold mb-12 md:mb-16 lg:mb-20 text-text-gray">
                 Le résultat final
               </h2>
 
               <div class="max-w-[1600px] mx-auto">
                 <div
-                  class="rounded-3xl p-8 lg:p-12 shadow-2xl border-4"
+                  class="rounded-2xl md:rounded-3xl p-4 md:p-8 lg:p-12 shadow-2xl border-2 md:border-4"
                   style={`background: linear-gradient(135deg, ${colorGradient.from} 0%, ${colorGradient.to} 100%); border-color: ${colorGradient.to};`}
                 >
                   <div
-                    class="bg-white rounded-2xl overflow-hidden shadow-inner w-full relative iframe-container"
-                    style="height: 800px;"
+                    class="bg-white rounded-xl md:rounded-2xl overflow-hidden shadow-inner w-full relative iframe-container"
                     id="iframe-container"
                     role="region"
                     aria-label="Aperçu du projet final"
@@ -488,9 +519,9 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
                       aria-label="Activer l'interaction avec l'iframe"
                       tabindex="0"
                     >
-                      <div class="text-white text-center bg-black/60 px-8 py-4 rounded-2xl backdrop-blur-sm border-2 border-white/30">
+                      <div class="text-white text-center bg-black/60 px-6 md:px-8 py-3 md:py-4 rounded-xl md:rounded-2xl backdrop-blur-sm border-2 border-white/30">
                         <svg
-                          class="w-16 h-16 mx-auto mb-3"
+                          class="w-12 h-12 md:w-16 md:h-16 mx-auto mb-2 md:mb-3"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -502,7 +533,7 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
                             d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"
                           />
                         </svg>
-                        <p class="font-raleway text-lg font-bold">
+                        <p class="font-raleway text-sm md:text-lg font-bold">
                           Cliquez pour activer le scroll
                         </p>
                       </div>
@@ -514,15 +545,15 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
           )
         }
 
-        <nav class="flex flex-col lg:flex-row justify-center items-center gap-6 mt-20 mb-32" aria-label="Navigation du projet">
+        <nav class="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-6 mt-12 md:mt-16 lg:mt-20 mb-20 md:mb-28 lg:mb-32" aria-label="Navigation du projet">
           <a
             href={`/projets/${projet.slug}`}
             data-project-back
-            class="group relative px-14 lg:px-32 py-5 lg:py-10 rounded-full shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl active:scale-95 overflow-hidden border-4 bg-transparent hover:bg-transparent large-bouton-secondary"
+            class="w-full md:w-auto group relative px-8 md:px-14 lg:px-32 py-4 md:py-5 lg:py-10 rounded-full shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl active:scale-95 overflow-hidden border-2 md:border-4 bg-transparent hover:bg-transparent large-bouton-secondary"
             style={`border-color: ${colorGradient.to}; --border-color: ${colorGradient.to}; background: transparent; --text-color: var(--color-text-gray); --hover-text-color: var(--color-text-gray);`}
           >
             <div class="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <span class="h2 font-bold relative z-10 transition-colors duration-300 text-white button-text" style="color: var(--color-text-gray);">Retour au projet</span>
+            <span class="text-base md:text-xl lg:text-2xl font-bold relative z-10 transition-colors duration-300 text-white button-text text-center block" style="color: var(--color-text-gray);">Retour au projet</span>
           </a>
           {projet.resultat_url && (
             <a
@@ -530,39 +561,39 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
               data-project-view
               target="_blank"
               rel="noopener noreferrer"
-              class="group relative px-14 lg:px-32 py-5 lg:py-10 rounded-full shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl active:scale-95 overflow-hidden border-4 bg-white/90 backdrop-blur-sm hover:bg-white large-bouton-primary"
+              class="w-full md:w-auto group relative px-8 md:px-14 lg:px-32 py-4 md:py-5 lg:py-10 rounded-full shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl active:scale-95 overflow-hidden border-2 md:border-4 bg-white/90 backdrop-blur-sm hover:bg-white large-bouton-primary"
               style={`border-color: ${colorGradient.to}; --border-color: ${colorGradient.to}; background: linear-gradient(135deg, ${colorGradient.from} 0%, ${colorGradient.to} 100%); --text-color: white; --hover-text-color: white;`}
             >
-              <span class="h2 font-bold relative z-10 transition-colors duration-300 text-text-gray button-text" style="color: white;">Visiter le site</span>
+              <span class="text-base md:text-xl lg:text-2xl font-bold relative z-10 transition-colors duration-300 text-text-gray button-text text-center block" style="color: white;">Visiter le site</span>
             </a>
           )}
         </nav>
       </div>
     </main>
 
-    <footer class="relative w-full bg-white pt-16 pb-6 border-t-2 border-gray-200 px-6 lg:px-20">
+    <footer class="relative w-full bg-white pt-12 md:pt-16 pb-4 md:pb-6 border-t-2 border-gray-200 px-4 md:px-8 lg:px-20">
       <div
-        class="flex flex-col lg:flex-row justify-between items-center gap-8"
+        class="flex flex-col lg:flex-row justify-between items-center gap-6 md:gap-8"
       >
-        <p class="font-raleway text-sm lg:text-base text-text-gray">© 2025 Nicolas THAI</p>
+        <p class="font-raleway text-xs md:text-sm lg:text-base text-text-gray text-center lg:text-left">© 2025 Nicolas THAI</p>
 
-        <nav class="flex items-center gap-8" aria-label="Liens légaux et sociaux">
-          <div class="flex gap-6">
+        <nav class="flex flex-col md:flex-row items-center gap-4 md:gap-8" aria-label="Liens légaux et sociaux">
+          <div class="flex gap-4 md:gap-6">
             <a
               href="/mentions-legales"
-              class="font-raleway text-sm lg:text-base text-text-gray hover:text-dark-blue transition-colors duration-300"
+              class="font-raleway text-xs md:text-sm lg:text-base text-text-gray hover:text-dark-blue transition-colors duration-300"
             >
               Mentions légales
             </a>
             <a
               href="/"
-              class="font-raleway text-sm lg:text-base text-text-gray hover:text-dark-blue transition-colors duration-300"
+              class="font-raleway text-xs md:text-sm lg:text-base text-text-gray hover:text-dark-blue transition-colors duration-300"
             >
               Accueil
             </a>
           </div>
 
-          <div class="flex gap-4 items-center">
+          <div class="flex gap-3 md:gap-4 items-center">
             <a
               href="https://github.com/THAI-Nicolas"
               target="_blank"
@@ -570,7 +601,7 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
               class="text-text-gray hover:text-dark-blue transition-all duration-300 hover:scale-110"
               aria-label="GitHub de Nicolas THAI"
             >
-              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24">
                 <path
                   d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"
                 ></path>
@@ -583,7 +614,7 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
               class="text-text-gray hover:text-dark-blue transition-all duration-300 hover:scale-110"
               aria-label="Instagram de Nicolas THAI"
             >
-              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24">
                 <path
                   d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
                 ></path>
@@ -596,7 +627,7 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
               class="text-text-gray hover:text-dark-blue transition-all duration-300 hover:scale-110"
               aria-label="LinkedIn de Nicolas THAI"
             >
-              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+              <svg class="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24">
                 <path
                   d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"
                 ></path>
@@ -630,6 +661,19 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
   .iframe-container {
     scroll-snap-align: center;
     scroll-snap-stop: always;
+    height: 900px;
+  }
+
+  @media (min-width: 768px) {
+    .iframe-container {
+      height: 700px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .iframe-container {
+      height: 800px;
+    }
   }
 
   .shadow-3xl {
@@ -724,9 +768,23 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
     transform: translateX(50px);
   }
 
+  /* Sur mobile, toutes les étapes arrivent de bas en haut */
+  @media (max-width: 1023px) {
+    .processus-etape:nth-child(odd),
+    .processus-etape:nth-child(even) {
+      transform: translateY(30px);
+    }
+  }
+
   .processus-etape.visible {
     opacity: 1;
     transform: translateX(0);
+  }
+
+  @media (max-width: 1023px) {
+    .processus-etape.visible {
+      transform: translateY(0);
+    }
   }
 
   /* Répéter la grille sur toute la hauteur de la section */

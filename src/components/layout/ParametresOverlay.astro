@@ -16,19 +16,18 @@ const { isVisible = false, onClose } = Astro.props;
 
   <!-- Container principal -->
   <div
-    class="parametres-container fixed inset-0 z-[80] flex items-center justify-center p-8"
-    style="perspective: 1200px;"
+    class="parametres-container fixed inset-0 z-[80] flex items-center justify-center p-4 md:p-8"
   >
     <div
-      class="parametres-content w-full max-w-6xl bg-background gaming-border relative overflow-hidden wood-texture"
-      style="animation: fadeIn 0.3s ease-out; border-radius: 12px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -2px 8px rgba(0, 0, 0, 0.05); transform-style: preserve-3d; transition: transform 0.1s ease-out;"
+      class="parametres-content w-full max-w-full md:max-w-6xl bg-background gaming-border relative overflow-hidden wood-texture max-h-[90vh] md:max-h-none overflow-y-auto"
+      style="animation: fadeIn 0.3s ease-out; border-radius: 12px;"
     >
       <!-- Header gaming -->
       <div
-        class="parametres-header relative flex items-center justify-between border-b-3 border-light-blue"
-        style="padding: 24px 48px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 2px rgba(0, 0, 0, 0.05); background-color: color-mix(in srgb, var(--color-background) 80%, white);"
+        class="parametres-header relative flex items-center justify-between border-b-3 border-light-blue px-6 py-4 md:px-12 md:py-6"
+        style="box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 2px rgba(0, 0, 0, 0.05); background-color: color-mix(in srgb, var(--color-background) 80%, white);"
       >
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 md:gap-4">
           <svg
             class="w-8 h-8 text-light-blue"
             fill="none"
@@ -56,13 +55,10 @@ const { isVisible = false, onClose } = Astro.props;
         <button
           id="parametres-close-button"
           data-small-button
-          class="cursor-pointer close-button w-12 h-12 border-2 border-light-blue hover:border-dark-blue bg-white hover:bg-light-blue/10 transition-all duration-300 flex items-center justify-center"
-          style="border-radius: 6px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8); transition: all 0.2s ease;"
-          onmouseenter="this.style.transform='translateY(-2px) translateZ(5px)'; this.style.boxShadow='0 4px 8px rgba(52, 190, 237, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.9)';"
-          onmouseleave="this.style.transform='translateY(0) translateZ(0)'; this.style.boxShadow='0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8)';"
+          class="cursor-pointer close-button w-8 h-8 md:w-12 md:h-12 border-2 border-light-blue hover:border-dark-blue bg-white hover:bg-light-blue/10 transition-all duration-300 flex items-center justify-center"
         >
           <svg
-            class="w-6 h-6 text-light-blue"
+            class="w-4 h-4 md:w-6 md:h-6 text-light-blue"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -78,10 +74,9 @@ const { isVisible = false, onClose } = Astro.props;
 
       <!-- Content gaming -->
       <div
-        class="parametres-body relative bg-background/80"
-        style="padding: 32px 48px 24px;"
+        class="parametres-body relative bg-background/80 px-6 py-4 md:px-12 md:py-8"
       >
-        <div class="grid grid-cols-2" style="gap: 24px;">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           <!-- Colonne gauche -->
           <div style="display: flex; flex-direction: column; gap: 20px;">
             <!-- Section Audio -->
@@ -346,14 +341,14 @@ const { isVisible = false, onClose } = Astro.props;
 
       <!-- Footer gaming -->
       <div
-        class="parametres-footer relative border-t-3 border-light-blue flex justify-between items-center"
-        style="padding: 24px 48px; box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 2px rgba(0, 0, 0, 0.05); background-color: color-mix(in srgb, var(--color-background) 80%, white);"
+        class="parametres-footer relative border-t-3 border-light-blue flex flex-col md:flex-row gap-3 md:gap-0 justify-between items-center px-6 py-4 md:px-12 md:py-6"
+        style="box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8), inset 0 -1px 2px rgba(0, 0, 0, 0.05); background-color: color-mix(in srgb, var(--color-background) 80%, white);"
       >
         <button
           id="parametres-reset-button"
           data-small-button
-          class="cursor-pointer reset-btn font-bold text-xs border-2 transition-all duration-300 uppercase tracking-[0.15em]"
-          style="border-radius: 6px; padding: 12px 24px; color: var(--color-light-blue); background: white; border-color: var(--color-light-blue);"
+          class="cursor-pointer reset-btn font-bold text-xs border-2 transition-all duration-300 uppercase tracking-[0.15em] w-full md:w-auto"
+          style="border-radius: 6px; padding: 10px 20px; color: var(--color-light-blue); background: white; border-color: var(--color-light-blue);"
         >
           <span class="flex items-center gap-2">
             <svg
@@ -375,8 +370,8 @@ const { isVisible = false, onClose } = Astro.props;
         <button
           id="parametres-apply-button"
           data-small-button
-          class="cursor-pointer apply-btn font-bold text-xs border-2 transition-all duration-300 uppercase tracking-[0.15em]"
-          style="border-radius: 6px; padding: 12px 32px; background: var(--color-light-blue); color: white; border-color: var(--color-light-blue);"
+          class="cursor-pointer apply-btn font-bold text-xs border-2 transition-all duration-300 uppercase tracking-[0.15em] w-full md:w-auto"
+          style="border-radius: 6px; padding: 10px 28px; background: var(--color-light-blue); color: white; border-color: var(--color-light-blue);"
         >
           <span class="flex items-center gap-2">
             <svg
@@ -430,9 +425,52 @@ const { isVisible = false, onClose } = Astro.props;
     border-top-width: 3px;
   }
 
-  /* Cards avec effet 3D */
+  /* Container - 3D uniquement sur desktop */
+  @media (min-width: 768px) {
+    .parametres-container {
+      perspective: 1200px;
+      transform-style: preserve-3d;
+    }
+    
+    .parametres-content {
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -2px 8px rgba(0, 0, 0, 0.05);
+      transform-style: preserve-3d;
+    }
+  }
+  
+  /* Mobile - aucun effet 3D */
+  @media (max-width: 767px) {
+    .parametres-content {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+  }
+  
+  /* Close button avec effet 3D desktop */
+  .close-button {
+    border-radius: 6px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  @media (min-width: 768px) {
+    .close-button {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      transform-style: preserve-3d;
+    }
+    
+    .close-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(52, 190, 237, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+    
+    .close-button:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  /* Cards avec effet 3D uniquement sur desktop */
   .gaming-card {
-    padding: 18px;
+    padding: 12px;
     background: linear-gradient(
       145deg,
       rgba(255, 255, 255, 0.7) 0%,
@@ -440,49 +478,61 @@ const { isVisible = false, onClose } = Astro.props;
     );
     border: 2px solid rgba(52, 190, 237, 0.3);
     border-radius: 8px;
-    transition: all 0.3s ease;
-    box-shadow:
-      0 2px 4px rgba(0, 0, 0, 0.08),
-      0 4px 8px rgba(0, 0, 0, 0.04),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8),
-      inset 0 -1px 2px rgba(0, 0, 0, 0.05);
-    transform-style: preserve-3d;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
   }
+  
+  @media (min-width: 768px) {
+    .gaming-card {
+      padding: 18px;
+      box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.08),
+        0 4px 8px rgba(0, 0, 0, 0.04),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.05);
+    }
+    
+    .gaming-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 8px;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.3) 0%,
+        transparent 50%,
+        rgba(0, 0, 0, 0.02) 100%
+      );
+      pointer-events: none;
+    }
 
-  .gaming-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 8px;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.3) 0%,
-      transparent 50%,
-      rgba(0, 0, 0, 0.02) 100%
-    );
-    pointer-events: none;
+    .gaming-card:hover {
+      border-color: var(--color-light-blue);
+      background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.85) 0%,
+        rgba(255, 255, 255, 0.65) 100%
+      );
+      transform: translateY(-2px);
+      box-shadow:
+        0 6px 12px rgba(52, 190, 237, 0.15),
+        0 10px 20px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 -1px 3px rgba(0, 0, 0, 0.08);
+    }
+  }
+  
+  /* Mobile - aucun effet 3D sur les cards */
+  @media (max-width: 767px) {
+    .gaming-card {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
   }
 
-  .gaming-card:hover {
-    border-color: var(--color-light-blue);
-    background: linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.85) 0%,
-      rgba(255, 255, 255, 0.65) 100%
-    );
-    transform: translateY(-2px) translateZ(10px);
-    box-shadow:
-      0 6px 12px rgba(52, 190, 237, 0.15),
-      0 10px 20px rgba(0, 0, 0, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9),
-      inset 0 -1px 3px rgba(0, 0, 0, 0.08);
-  }
-
-  /* Slider avec effet 3D */
+  /* Slider avec effet 3D uniquement sur desktop */
   .gaming-slider {
     -webkit-appearance: none;
     appearance: none;
@@ -496,10 +546,16 @@ const { isVisible = false, onClose } = Astro.props;
     outline: none;
     cursor: pointer;
     border-radius: 8px;
-    box-shadow:
-      inset 0 2px 4px rgba(0, 0, 0, 0.15),
-      inset 0 -1px 2px rgba(255, 255, 255, 0.5),
-      0 1px 2px rgba(255, 255, 255, 0.8);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  @media (min-width: 768px) {
+    .gaming-slider {
+      box-shadow:
+        inset 0 2px 4px rgba(0, 0, 0, 0.15),
+        inset 0 -1px 2px rgba(255, 255, 255, 0.5),
+        0 1px 2px rgba(255, 255, 255, 0.8);
+    }
   }
 
   .gaming-slider::-webkit-slider-thumb {
@@ -513,21 +569,32 @@ const { isVisible = false, onClose } = Astro.props;
       var(--color-light-blue) 100%
     );
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 50%;
     border: 3px solid white;
-    box-shadow:
-      0 3px 6px rgba(0, 0, 0, 0.2),
-      0 1px 3px rgba(0, 0, 0, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.4);
   }
+  
+  @media (min-width: 768px) {
+    .gaming-slider::-webkit-slider-thumb {
+      box-shadow:
+        0 3px 6px rgba(0, 0, 0, 0.2),
+        0 1px 3px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
 
-  .gaming-slider::-webkit-slider-thumb:hover {
-    transform: scale(1.15) translateZ(5px);
-    box-shadow:
-      0 5px 10px rgba(52, 190, 237, 0.3),
-      0 2px 5px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    .gaming-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      box-shadow:
+        0 5px 10px rgba(52, 190, 237, 0.3),
+        0 2px 5px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .gaming-slider::-webkit-slider-thumb {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    }
   }
 
   .gaming-slider::-moz-range-thumb {
@@ -541,22 +608,33 @@ const { isVisible = false, onClose } = Astro.props;
     cursor: pointer;
     border: 3px solid white;
     border-radius: 50%;
-    transition: all 0.2s ease;
-    box-shadow:
-      0 3px 6px rgba(0, 0, 0, 0.2),
-      0 1px 3px rgba(0, 0, 0, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  @media (min-width: 768px) {
+    .gaming-slider::-moz-range-thumb {
+      box-shadow:
+        0 3px 6px rgba(0, 0, 0, 0.2),
+        0 1px 3px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    .gaming-slider::-moz-range-thumb:hover {
+      transform: scale(1.15);
+      box-shadow:
+        0 5px 10px rgba(52, 190, 237, 0.3),
+        0 2px 5px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .gaming-slider::-moz-range-thumb {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    }
   }
 
-  .gaming-slider::-moz-range-thumb:hover {
-    transform: scale(1.15) translateZ(5px);
-    box-shadow:
-      0 5px 10px rgba(52, 190, 237, 0.3),
-      0 2px 5px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.5);
-  }
-
-  /* Toggle avec effet 3D */
+  /* Toggle avec effet 3D uniquement sur desktop */
   .gaming-toggle {
     position: relative;
     display: inline-block;
@@ -577,12 +655,17 @@ const { isVisible = false, onClose } = Astro.props;
       rgba(230, 230, 235, 1) 100%
     );
     border: 2px solid rgba(52, 190, 237, 0.3);
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 32px;
-    box-shadow:
-      inset 0 2px 4px rgba(0, 0, 0, 0.15),
-      inset 0 -1px 2px rgba(255, 255, 255, 0.5),
-      0 1px 2px rgba(255, 255, 255, 0.8);
+  }
+  
+  @media (min-width: 768px) {
+    .toggle-slider {
+      box-shadow:
+        inset 0 2px 4px rgba(0, 0, 0, 0.15),
+        inset 0 -1px 2px rgba(255, 255, 255, 0.5),
+        0 1px 2px rgba(255, 255, 255, 0.8);
+    }
   }
 
   .toggle-slider::before {
@@ -597,12 +680,17 @@ const { isVisible = false, onClose } = Astro.props;
       rgba(255, 255, 255, 1) 0%,
       rgba(240, 240, 245, 1) 100%
     );
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 50%;
-    box-shadow:
-      0 2px 5px rgba(0, 0, 0, 0.25),
-      0 1px 3px rgba(0, 0, 0, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
+  
+  @media (min-width: 768px) {
+    .toggle-slider::before {
+      box-shadow:
+        0 2px 5px rgba(0, 0, 0, 0.25),
+        0 1px 3px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    }
   }
 
   .toggle-input:checked + .toggle-slider {
@@ -612,26 +700,35 @@ const { isVisible = false, onClose } = Astro.props;
       var(--color-light-blue) 100%
     );
     border-color: var(--color-light-blue);
-    box-shadow:
-      inset 0 2px 4px rgba(0, 0, 0, 0.2),
-      inset 0 -1px 2px rgba(255, 255, 255, 0.3),
-      0 1px 3px rgba(52, 190, 237, 0.4);
+  }
+  
+  @media (min-width: 768px) {
+    .toggle-input:checked + .toggle-slider {
+      box-shadow:
+        inset 0 2px 4px rgba(0, 0, 0, 0.2),
+        inset 0 -1px 2px rgba(255, 255, 255, 0.3),
+        0 1px 3px rgba(52, 190, 237, 0.4);
+    }
   }
 
   .toggle-input:checked + .toggle-slider::before {
     transform: translateX(28px);
-    box-shadow:
-      0 3px 6px rgba(52, 190, 237, 0.3),
-      0 1px 3px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+  
+  @media (min-width: 768px) {
+    .toggle-input:checked + .toggle-slider::before {
+      box-shadow:
+        0 3px 6px rgba(52, 190, 237, 0.3),
+        0 1px 3px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
+
+    .toggle-slider:hover {
+      border-color: var(--color-light-blue);
+    }
   }
 
-  .toggle-slider:hover {
-    border-color: var(--color-light-blue);
-    transform: translateZ(2px);
-  }
-
-  /* Boutons avec effet 3D */
+  /* Boutons avec effet 3D uniquement sur desktop */
   .gaming-btn {
     width: 100%;
     padding: 12px 16px;
@@ -645,32 +742,48 @@ const { isVisible = false, onClose } = Astro.props;
     font-size: 11px;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     text-transform: uppercase;
     letter-spacing: 0.1em;
     border-radius: 6px;
-    box-shadow:
-      0 2px 4px rgba(0, 0, 0, 0.08),
-      0 1px 2px rgba(0, 0, 0, 0.05),
-      inset 0 1px 0 rgba(255, 255, 255, 0.8),
-      inset 0 -1px 2px rgba(0, 0, 0, 0.05);
     position: relative;
   }
+  
+  @media (min-width: 768px) {
+    .gaming-btn {
+      box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.08),
+        0 1px 2px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.05);
+    }
 
-  .gaming-btn:hover {
-    border-color: var(--color-light-blue);
-    background: linear-gradient(
-      145deg,
-      rgba(255, 255, 255, 0.9) 0%,
-      rgba(250, 250, 252, 0.7) 100%
-    );
-    color: var(--color-light-blue);
-    transform: translateY(-1px) translateZ(3px);
-    box-shadow:
-      0 4px 8px rgba(52, 190, 237, 0.15),
-      0 2px 4px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9),
-      inset 0 -1px 2px rgba(0, 0, 0, 0.08);
+    .gaming-btn:hover {
+      border-color: var(--color-light-blue);
+      background: linear-gradient(
+        145deg,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(250, 250, 252, 0.7) 100%
+      );
+      color: var(--color-light-blue);
+      transform: translateY(-1px);
+      box-shadow:
+        0 4px 8px rgba(52, 190, 237, 0.15),
+        0 2px 4px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 -1px 2px rgba(0, 0, 0, 0.08);
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .gaming-btn {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .gaming-btn:hover {
+      border-color: var(--color-light-blue);
+      color: var(--color-light-blue);
+    }
   }
 
   .gaming-btn.active {
@@ -681,61 +794,93 @@ const { isVisible = false, onClose } = Astro.props;
     );
     color: var(--color-light-blue);
     border-color: var(--color-light-blue);
-    box-shadow:
-      inset 0 2px 4px rgba(52, 190, 237, 0.2),
-      inset 0 -1px 2px rgba(255, 255, 255, 0.5),
-      0 2px 4px rgba(52, 190, 237, 0.15);
+  }
+  
+  @media (min-width: 768px) {
+    .gaming-btn.active {
+      box-shadow:
+        inset 0 2px 4px rgba(52, 190, 237, 0.2),
+        inset 0 -1px 2px rgba(255, 255, 255, 0.5),
+        0 2px 4px rgba(52, 190, 237, 0.15);
+    }
   }
 
   .gaming-btn:active {
     transform: translateY(0) translateZ(0);
-    box-shadow:
-      inset 0 2px 4px rgba(0, 0, 0, 0.15),
-      0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+  
+  @media (min-width: 768px) {
+    .gaming-btn:active {
+      box-shadow:
+        inset 0 2px 4px rgba(0, 0, 0, 0.15),
+        0 1px 2px rgba(0, 0, 0, 0.05);
+    }
   }
 
-  /* Boutons du footer avec effet 3D */
+  /* Boutons du footer avec effet 3D uniquement sur desktop */
   .reset-btn,
   .apply-btn {
-    box-shadow:
-      0 3px 6px rgba(0, 0, 0, 0.12),
-      0 1px 3px rgba(0, 0, 0, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
+  
+  @media (min-width: 768px) {
+    .reset-btn,
+    .apply-btn {
+      box-shadow:
+        0 3px 6px rgba(0, 0, 0, 0.12),
+        0 1px 3px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
 
-  .reset-btn:hover {
-    background: var(--color-light-blue) !important;
-    color: white !important;
-    transform: translateY(-2px) translateZ(5px);
-    box-shadow:
-      0 6px 12px rgba(52, 190, 237, 0.25),
-      0 3px 6px rgba(0, 0, 0, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    .reset-btn:hover {
+      background: var(--color-light-blue) !important;
+      color: white !important;
+      transform: translateY(-2px);
+      box-shadow:
+        0 6px 12px rgba(52, 190, 237, 0.25),
+        0 3px 6px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    .apply-btn {
+      box-shadow:
+        0 4px 8px rgba(52, 190, 237, 0.25),
+        0 2px 4px rgba(0, 0, 0, 0.1),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    .apply-btn:hover {
+      background: var(--color-dark-blue) !important;
+      transform: translateY(-2px);
+      box-shadow:
+        0 6px 12px rgba(52, 190, 237, 0.35),
+        0 3px 6px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    .reset-btn:active,
+    .apply-btn:active {
+      transform: translateY(0);
+      box-shadow:
+        inset 0 2px 4px rgba(0, 0, 0, 0.2),
+        0 1px 2px rgba(0, 0, 0, 0.1);
+    }
   }
-
-  .apply-btn {
-    box-shadow:
-      0 4px 8px rgba(52, 190, 237, 0.25),
-      0 2px 4px rgba(0, 0, 0, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3);
-  }
-
-  .apply-btn:hover {
-    background: var(--color-dark-blue) !important;
-    transform: translateY(-2px) translateZ(5px);
-    box-shadow:
-      0 6px 12px rgba(52, 190, 237, 0.35),
-      0 3px 6px rgba(0, 0, 0, 0.15),
-      inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  }
-
-  .reset-btn:active,
-  .apply-btn:active {
-    transform: translateY(0) translateZ(0);
-    box-shadow:
-      inset 0 2px 4px rgba(0, 0, 0, 0.2),
-      0 1px 2px rgba(0, 0, 0, 0.1);
+  
+  @media (max-width: 767px) {
+    .reset-btn,
+    .apply-btn {
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .reset-btn:hover {
+      background: var(--color-light-blue) !important;
+      color: white !important;
+    }
+    
+    .apply-btn:hover {
+      background: var(--color-dark-blue) !important;
+    }
   }
 
   /* Utils */

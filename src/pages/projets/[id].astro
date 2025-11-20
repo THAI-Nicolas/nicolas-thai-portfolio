@@ -77,6 +77,7 @@ const seoDescription = projet.description
     
     <div
       class="relative flex-1 flex items-center justify-between w-full overflow-hidden"
+      style={`background: linear-gradient(135deg, ${colorGradient.from}, ${colorGradient.to});`}
     >
       <nav class="hidden lg:flex items-center justify-center px-20 z-10" aria-label="Projet précédent">
         <div data-project-arrow>
@@ -89,7 +90,7 @@ const seoDescription = projet.description
         <img
           src={coverUrl}
           alt={projet.titre}
-          class="w-full object-contain scale-105 float-idle-cover"
+          class="w-full object-contain scale-125 md:scale-110 lg:scale-105 float-idle-cover"
         />
       </section>
 
@@ -101,30 +102,43 @@ const seoDescription = projet.description
     </div>
 
     <footer
-      class="relative w-full cover-footer py-12 lg:py-12 px-6 lg:px-16 shadow-2xl z-20 footer-border-neon"
+      class="relative w-full cover-footer py-16 md:py-8 lg:py-12 px-6 lg:px-16 shadow-2xl z-20 footer-border-neon"
       style={`border-top: 4px solid ${colorGradient.to}; --border-color: ${colorGradient.to};`}
     >
+      <!-- Effet de fond coloré flou sur mobile/tablet -->
+      <div class="absolute inset-0 -z-10 md:hidden" style={`background: linear-gradient(to top, ${colorGradient.to}15, transparent 80%);`}></div>
       <nav
-        class="flex items-center justify-center gap-8 lg:gap-12 max-w-7xl mx-auto"
+        class="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-6 lg:gap-12 max-w-7xl mx-auto"
         aria-label="Navigation projet"
       >
-        <div class="lg:hidden" data-project-arrow>
-          <Fleche size="mobile" direction="gauche" href={`/projets/${projetPrecedent.slug}`} neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
-        </div>
+        <!-- Conteneur des boutons principaux -->
+        <div class="flex items-center justify-center gap-4 md:gap-6 lg:gap-12 w-full md:w-auto">
+          <div class="block md:hidden" data-project-arrow>
+            <Fleche size="mobile" direction="gauche" href={`/projets/${projetPrecedent.slug}`} neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
+          </div>
 
-        <LargeBouton href="/" variant="secondary" text="Retour" borderColor={colorGradient.to} backgroundColor="transparent" textColor="var(--color-text-gray)" hoverTextColor="var(--color-text-gray)" />
+          <div class="hidden md:block lg:hidden" data-project-arrow>
+            <Fleche size="tablet" direction="gauche" href={`/projets/${projetPrecedent.slug}`} neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
+          </div>
 
-        <LargeBouton
-          href={`/projets/${projet.slug}/details`}
-          variant="primary"
-          text="Voir le projet"
-          borderColor={colorGradient.to}
-          backgroundColor={colorGradient.to}
-          textColor="white"
-        />
+          <LargeBouton href="/" variant="secondary" text="Retour" borderColor={colorGradient.to} backgroundColor="transparent" textColor="var(--color-text-gray)" hoverTextColor="var(--color-text-gray)" />
 
-        <div class="lg:hidden" data-project-arrow>
-          <Fleche size="mobile" direction="droite" href={`/projets/${projetSuivant.slug}`} neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
+          <LargeBouton
+            href={`/projets/${projet.slug}/details`}
+            variant="primary"
+            text="Voir le projet"
+            borderColor={colorGradient.to}
+            backgroundColor={colorGradient.to}
+            textColor="white"
+          />
+
+          <div class="block md:hidden" data-project-arrow>
+            <Fleche size="mobile" direction="droite" href={`/projets/${projetSuivant.slug}`} neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
+          </div>
+
+          <div class="hidden md:block lg:hidden" data-project-arrow>
+            <Fleche size="tablet" direction="droite" href={`/projets/${projetSuivant.slug}`} neonColor={colorGradient.to} strokeColor="white" fillColor={colorGradient.to} />
+          </div>
         </div>
       </nav>
     </footer>

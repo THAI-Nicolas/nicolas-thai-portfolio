@@ -100,13 +100,17 @@ export class OverlayManager {
 
     // Setup bouton d'ouverture
     if (overlayConfig.openButtonSelector) {
-      const openButton = getElement(overlayConfig.openButtonSelector);
-      if (openButton) {
-        openButton.addEventListener("click", (e) => {
-          e.preventDefault();
-          this.open(type);
-        });
-      }
+      const openButtons = document.querySelectorAll(
+        overlayConfig.openButtonSelector
+      );
+      openButtons.forEach((openButton) => {
+        if (openButton) {
+          openButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            this.open(type);
+          });
+        }
+      });
     }
 
     // Setup bouton de fermeture
@@ -128,7 +132,7 @@ export class OverlayManager {
   public open(type: OverlayType): void {
     const config = this.overlays.get(type);
     if (!config) {
-      console.error(`Overlay type "${type}" not found`);
+      console.error(`Overlay type \"${type}\" not found`);
       return;
     }
 
@@ -165,7 +169,7 @@ export class OverlayManager {
   public close(type: OverlayType): void {
     const config = this.overlays.get(type);
     if (!config) {
-      console.error(`Overlay type "${type}" not found`);
+      console.error(`Overlay type \"${type}\" not found`);
       return;
     }
 

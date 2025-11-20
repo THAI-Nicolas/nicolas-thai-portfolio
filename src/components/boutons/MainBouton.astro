@@ -6,7 +6,7 @@ import FormeBouton from "../../assets/icones/forme_main_bouton.svg";
 
 export interface Props {
   type: "retour" | "contact" | "presentation" | "dezoom";
-  size?: "mobile" | "desktop" | "footer";
+  size?: "mobile" | "tablet" | "desktop" | "footer";
   href?: string;
   onClick?: () => void;
   id?: string;
@@ -34,10 +34,17 @@ const icons = {
 // Tailles dynamiques
 const sizes = {
   mobile: {
-    button: "w-[76px] h-[76px]",
+    button: "w-[80px] h-[80px]",
     shape: "w-8 h-8",
     icon: "w-8 h-8",
     iconRetour: "w-8 h-6",
+    text: "text-sm",
+  },
+  tablet: {
+    button: "w-[85px] h-[85px]",
+    shape: "w-10 h-10",
+    icon: "w-7 h-7",
+    iconRetour: "w-9 h-7",
     text: "text-sm",
   },
   desktop: {
