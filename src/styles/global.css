@@ -93,9 +93,9 @@ body:not(.admin-page) {
 
 /* Classes Tailwind responsive */
 
-/* H1 : FOT-Rodin ProN - Mobile 20px / Desktop 36px */
+/* H1 : Raleway - Mobile 20px / Desktop 36px */
 .h1 {
-  font-family: "fot-rodin-pron", sans-serif;
+  font-family: "Raleway", sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   color: var(--color-text-dark);
@@ -136,22 +136,6 @@ body:not(.admin-page) {
   font-size: 14px;
 }
 
-/* Projet H1 : Hagrid - Mobile 28px / Desktop 40px */
-.project-h1 {
-  font-family: "hagrid", sans-serif;
-  font-weight: 400;
-  color: var(--color-text-dark);
-  font-size: 28px;
-}
-
-/* Projet H2 : Hagrid - Mobile 20px / Desktop 32px */
-.project-h2 {
-  font-family: "hagrid", sans-serif;
-  font-weight: 400;
-  color: var(--color-text-dark);
-  font-size: 20px;
-}
-
 /* Desktop (lg breakpoint = 1024px+) */
 @media (min-width: 1024px) {
   .h1 {
@@ -168,12 +152,6 @@ body:not(.admin-page) {
   }
   .body-2 {
     font-size: 16px;
-  }
-  .project-h1 {
-    font-size: 40px;
-  }
-  .project-h2 {
-    font-size: 32px;
   }
 }
 

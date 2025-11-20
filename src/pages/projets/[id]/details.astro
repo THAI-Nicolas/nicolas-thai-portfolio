@@ -266,7 +266,7 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
                 Contexte du projet
               </h3>
 
-              <div class="grid grid-cols-2 lg:flex lg:flex-nowrap justify-items-center lg:justify-center gap-3 md:gap-4 lg:gap-12 mt-8 md:mt-10 lg:mt-12 mb-12 md:mb-16 lg:mb-20 max-w-sm md:max-w-md lg:max-w-none mx-auto" role="list" aria-label="Informations sur le projet">
+              <div class="grid grid-cols-2 lg:flex lg:flex-nowrap justify-items-center lg:justify-center gap-3 md:gap-4 lg:gap-12 mt-8 md:mt-10 lg:mt-12 mb-12 md:mb-16 lg:mb-20 max-w-sm md:max-w-md lg:max-w-none mx-auto" aria-label="Informations sur le projet">
                 <CardContexte
                   title="CLIENT"
                   value={projet.client}
@@ -332,8 +332,9 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
                 <button 
                   class="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors cursor-pointer"
                   onclick={`document.getElementById('modal-${index}').classList.remove('flex'); document.getElementById('modal-${index}').style.display='none'`}
+                  aria-label="Fermer l'image en grand"
                 >
-                  <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                   </svg>
                 </button>
@@ -464,8 +465,9 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
                   <button 
                     class="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors cursor-pointer"
                     onclick={`document.getElementById('modal-processus-${index}').classList.remove('flex'); document.getElementById('modal-processus-${index}').style.display='none'`}
+                    aria-label="Fermer l'image du processus"
                   >
-                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                   </button>
@@ -553,7 +555,7 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
             style={`border-color: ${colorGradient.to}; --border-color: ${colorGradient.to}; background: transparent; --text-color: var(--color-text-gray); --hover-text-color: var(--color-text-gray);`}
           >
             <div class="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <span class="text-base md:text-xl lg:text-2xl font-bold relative z-10 transition-colors duration-300 text-white button-text text-center block" style="color: var(--color-text-gray);">Retour au projet</span>
+            <span class="text-base md:text-xl lg:text-2xl font-bold relative z-10 transition-colors duration-300 text-white button-text text-center block uppercase" style="color: var(--color-text-gray);">Retour au projet</span>
           </a>
           {projet.resultat_url && (
             <a
@@ -564,7 +566,7 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
               class="w-full md:w-auto group relative px-8 md:px-14 lg:px-32 py-4 md:py-5 lg:py-10 rounded-full shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl active:scale-95 overflow-hidden border-2 md:border-4 bg-white/90 backdrop-blur-sm hover:bg-white large-bouton-primary"
               style={`border-color: ${colorGradient.to}; --border-color: ${colorGradient.to}; background: linear-gradient(135deg, ${colorGradient.from} 0%, ${colorGradient.to} 100%); --text-color: white; --hover-text-color: white;`}
             >
-              <span class="text-base md:text-xl lg:text-2xl font-bold relative z-10 transition-colors duration-300 text-text-gray button-text text-center block" style="color: white;">Visiter le site</span>
+              <span class="text-base md:text-xl lg:text-2xl font-bold relative z-10 transition-colors duration-300 text-text-gray button-text text-center block uppercase" style="color: white;">Visiter le site</span>
             </a>
           )}
         </nav>

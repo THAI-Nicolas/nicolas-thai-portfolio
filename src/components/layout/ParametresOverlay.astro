@@ -56,6 +56,7 @@ const { isVisible = false, onClose } = Astro.props;
           id="parametres-close-button"
           data-small-button
           class="cursor-pointer close-button w-8 h-8 md:w-12 md:h-12 border-2 border-light-blue hover:border-dark-blue bg-white hover:bg-light-blue/10 transition-all duration-300 flex items-center justify-center"
+          aria-label="Fermer les paramètres"
         >
           <svg
             class="w-4 h-4 md:w-6 md:h-6 text-light-blue"
@@ -63,6 +64,7 @@ const { isVisible = false, onClose } = Astro.props;
             stroke="currentColor"
             viewBox="0 0 24 24"
             stroke-width="2.5"
+            aria-hidden="true"
           >
             <path
               stroke-linecap="round"

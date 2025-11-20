@@ -71,13 +71,14 @@ const channelsMobile = Array(totalChannels).fill(null).map((_, index) => {
               role="list"
               aria-label="Liste des projets"
             >
-              {channels.map((channel) => (
+              {channels.map((channel, index) => (
                 <ChannelProjet
                   isEmpty={channel.isEmpty}
                   projectCover={channel.isEmpty ? undefined : channel.projectCover}
                   projectTitle={channel.isEmpty ? undefined : channel.projectTitle}
                   href={channel.isEmpty ? undefined : channel.href}
                   size="desktop"
+                  isPriority={index < 9}
                 />
               ))}
             </div>
@@ -133,13 +134,14 @@ const channelsMobile = Array(totalChannels).fill(null).map((_, index) => {
               role="list"
               aria-label="Liste des projets"
             >
-              {channelsMobile.map((channel) => (
+              {channelsMobile.map((channel, index) => (
                 <ChannelProjet
                   isEmpty={channel.isEmpty}
                   projectCover={channel.isEmpty ? undefined : channel.projectCover}
                   projectTitle={channel.isEmpty ? undefined : channel.projectTitle}
                   href={channel.isEmpty ? undefined : channel.href}
                   size="mobile"
+                  isPriority={index < 3}
                 />
               ))}
             </div>

@@ -66,29 +66,33 @@ const { isVisible = false, onClose } = Astro.props;
                 <div class="grid grid-cols-2 gap-4">
                   <div>
                     <label
+                      for="gaming-prenom"
                       class="block text-sm font-bold mb-2 text-text-gray tracking-wide"
                     >
                       Prénom
                     </label>
                     <input
                       type="text"
+                      id="gaming-prenom"
                       name="prenom"
                       data-sync="prenom"
-                      placeholder="Ex: Xavier"
+                      placeholder="Ex: Jean"
                       class="gaming-input w-full px-4 py-3 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-sm"
                     />
                   </div>
                   <div>
                     <label
+                      for="gaming-nom"
                       class="block text-sm font-bold mb-2 text-text-gray tracking-wide"
                     >
                       Nom
                     </label>
                     <input
                       type="text"
+                      id="gaming-nom"
                       name="nom"
                       data-sync="nom"
-                      placeholder="Ex: Dupont-de-Ligones"
+                      placeholder="Ex: Dupont"
                       class="gaming-input w-full px-4 py-3 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-sm"
                     />
                   </div>
@@ -96,27 +100,31 @@ const { isVisible = false, onClose } = Astro.props;
 
                 <div>
                   <label
+                    for="gaming-email"
                     class="block text-sm font-bold mb-2 text-text-gray tracking-wide"
                   >
                     Email
                   </label>
                   <input
                     type="email"
+                    id="gaming-email"
                     name="email"
                     data-sync="email"
-                    placeholder="Ex: jesuisenfuite@outlook.fr"
+                    placeholder="Ex: jean.dupont@email.com"
                     class="gaming-input w-full px-4 py-3 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-sm"
                   />
                 </div>
 
                 <div>
                   <label
+                    for="gaming-sujet"
                     class="block text-sm font-bold mb-2 text-text-gray tracking-wide"
                   >
                     Sujet
                   </label>
                   <input
                     type="text"
+                    id="gaming-sujet"
                     name="sujet"
                     data-sync="sujet"
                     placeholder="Ex: Offre d'alternance..."
@@ -126,12 +134,14 @@ const { isVisible = false, onClose } = Astro.props;
 
                 <div>
                   <label
+                    for="gaming-message"
                     class="block text-sm font-bold mb-2 text-text-gray tracking-wide"
                   >
                     Message
                   </label>
                   <textarea
                     rows="3"
+                    id="gaming-message"
                     name="message"
                     data-sync="message"
                     placeholder="Ex: Offre d'alternance en dev web..."
@@ -169,29 +179,33 @@ const { isVisible = false, onClose } = Astro.props;
             <div class="grid grid-cols-2 gap-6">
               <div>
                 <label
+                  for="paper-prenom"
                   class="block text-base font-bold mb-3 text-text-gray tracking-wide"
                 >
                   Prénom
                 </label>
                 <input
                   type="text"
+                  id="paper-prenom"
                   name="prenom"
                   data-sync="prenom"
-                  placeholder="Ex: Xavier"
+                  placeholder="Ex: Jean"
                   class="paper-input w-full px-5 py-4 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-lg"
                 />
               </div>
               <div>
                 <label
+                  for="paper-nom"
                   class="block text-base font-bold mb-3 text-text-gray tracking-wide"
                 >
                   Nom
                 </label>
                 <input
                   type="text"
+                  id="paper-nom"
                   name="nom"
                   data-sync="nom"
-                  placeholder="Ex: Dupont-de-Ligones"
+                  placeholder="Ex: Dupont"
                   class="paper-input w-full px-5 py-4 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-lg"
                 />
               </div>
@@ -199,27 +213,31 @@ const { isVisible = false, onClose } = Astro.props;
 
             <div>
               <label
+                for="paper-email"
                 class="block text-base font-bold mb-3 text-text-gray tracking-wide"
               >
                 Email
               </label>
               <input
                 type="email"
+                id="paper-email"
                 name="email"
                 data-sync="email"
-                placeholder="Ex: jesuisenfuite@outlook.fr"
+                placeholder="Ex: jean.dupont@email.com"
                 class="paper-input w-full px-5 py-4 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-lg"
               />
             </div>
 
             <div>
               <label
+                for="paper-sujet"
                 class="block text-base font-bold mb-3 text-text-gray tracking-wide"
               >
                 Sujet
               </label>
               <input
                 type="text"
+                id="paper-sujet"
                 name="sujet"
                 data-sync="sujet"
                 placeholder="Ex: Offre d'alternance..."
@@ -229,12 +247,14 @@ const { isVisible = false, onClose } = Astro.props;
 
             <div>
               <label
+                for="paper-message"
                 class="block text-base font-bold mb-3 text-text-gray tracking-wide"
               >
                 Message
               </label>
               <textarea
                 rows="8"
+                id="paper-message"
                 name="message"
                 data-sync="message"
                 placeholder="Ex: Offre d'alternance en dev web..."

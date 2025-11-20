@@ -1,53 +1,26 @@
 ---
-// Composant pour charger les polices Adobe Fonts de manière optimisée
+// Composant pour charger les polices Google Fonts de manière optimisée
 ---
 
 <!-- Préconnexion pour améliorer les performances -->
-<link rel="preconnect" href="https://use.typekit.net" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<!-- Script Adobe Fonts optimisé -->
-<script is:inline>
-  (function(d) {
-    var config = {
-      kitId: 'acv0ote',
-      scriptTimeout: 3000,
-      async: true
-    },
-    h = d.documentElement,
-    t = setTimeout(function(){
-      h.className = h.className.replace(/\bwf-loading\b/g, "") + " wf-inactive";
-    }, config.scriptTimeout),
-    tk = d.createElement("script"),
-    f = false,
-    s = d.getElementsByTagName("script")[0],
-    a;
-    
-    h.className += " wf-loading";
-    tk.src = 'https://use.typekit.net/' + config.kitId + '.js';
-    tk.async = true;
-    tk.onload = tk.onreadystatechange = function(){
-      a = this.readyState;
-      if(f || a && a != "complete" && a != "loaded") return;
-      f = true;
-      clearTimeout(t);
-      try {
-        Typekit.load(config);
-      } catch(e) {
-        console.warn('Adobe Fonts loading failed:', e);
-      }
-    };
-    s.parentNode.insertBefore(tk, s);
-  })(document);
-</script>
+<!-- Google Fonts - Raleway optimisé avec font-display: swap -->
+<link 
+  href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&display=swap" 
+  rel="stylesheet"
+>
 
-<!-- Fallback CSS pour les polices non chargées -->
+<!-- Fallback CSS pour les polices -->
 <style>
-  .wf-loading * {
-    font-display: swap;
+  /* Police par défaut du body */
+  body {
+    font-family: 'Raleway', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   }
   
   /* Animation douce pour l'apparition du texte */
-  .wf-active .font-primary {
+  .font-primary {
     animation: fadeInText 0.3s ease-in-out;
   }
   

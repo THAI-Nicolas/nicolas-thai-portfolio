@@ -6,6 +6,7 @@ export interface Props {
   size?: "mobile" | "desktop";
   href?: string;
   onClick?: () => void;
+  isPriority?: boolean;
 }
 
 const {
@@ -15,6 +16,7 @@ const {
   size = "desktop",
   href = "#",
   onClick,
+  isPriority = false,
 } = Astro.props;
 
 // Tailles dynamiques
@@ -51,6 +53,8 @@ const currentSize = sizes[size] || sizes.desktop;
               src={projectCover}
               alt={projectTitle || "Project cover"}
               class="w-full h-full object-cover scale-[1.02] transition-transform duration-300 ease-out group-hover:scale-105"
+              fetchpriority={isPriority ? "high" : undefined}
+              loading={isPriority ? "eager" : "lazy"}
             />
           )}
         </div>
@@ -87,11 +91,13 @@ const currentSize = sizes[size] || sizes.desktop;
               src={projectCover}
               alt={projectTitle || "Project cover"}
               class="w-full h-full object-cover scale-[1.02] transition-transform duration-300 ease-out group-hover:scale-105"
+              fetchpriority={isPriority ? "high" : undefined}
+              loading={isPriority ? "eager" : "lazy"}
             />
           )}
         </div>
       </div>
-      
+
       {/* Bulle de titre au survol (style Wii) */}
       {!isEmpty && projectTitle && (
         <div class="wii-title-bubble absolute -bottom-14 left-1/2 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 ease-out group-hover:translate-y-0 translate-y-2 z-50" style="transform: translateX(-50%); width: 380px;">

@@ -14,9 +14,7 @@ export default {
         "text-dark": "var(--color-text-dark)",
       },
       fontFamily: {
-        rodin: ["fot-rodin-pron", "sans-serif"],
-        raleway: ["raleway", "sans-serif"],
-        hagrid: ["hagrid", "sans-serif"],
+        raleway: ["Raleway", "sans-serif"],
       },
       borderWidth: {
         3: "3px",
