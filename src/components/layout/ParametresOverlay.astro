@@ -429,12 +429,13 @@ const { isVisible = false, onClose } = Astro.props;
   @media (min-width: 768px) {
     .parametres-container {
       perspective: 1200px;
-      transform-style: preserve-3d;
     }
     
     .parametres-content {
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.5), inset 0 -2px 8px rgba(0, 0, 0, 0.05);
       transform-style: preserve-3d;
+      transition: transform 0.1s ease-out;
+      will-change: transform;
     }
   }
   

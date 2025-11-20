@@ -89,9 +89,49 @@ export class ParametresManager {
    * Configure l'effet 3D au mouvement de la souris
    */
   private setup3DEffect(): void {
-    // Désactivé car interfère avec les clics sur les boutons
-    // Les effets 3D au hover sont gérés par le CSS
-    return;
+    if (!this.parametresContainer || !this.parametresContent) return;
+
+    // Ne pas appliquer sur mobile
+    if (window.innerWidth < 768) return;
+
+    this.rect = this.parametresContainer.getBoundingClientRect();
+
+    // Recalculer le rect au resize de la fenêtre
+    onEvent(window, DOM_EVENTS.RESIZE, () => {
+      if (this.parametresContainer && window.innerWidth >= 768) {
+        this.rect = this.parametresContainer.getBoundingClientRect();
+      }
+    });
+
+    onEvent(this.parametresContainer, DOM_EVENTS.MOUSEMOVE, (e: MouseEvent) => {
+      if (!this.rect || !this.parametresContent || window.innerWidth < 768)
+        return;
+
+      const x = e.clientX - this.rect.left;
+      const y = e.clientY - this.rect.top;
+      const centerX = this.rect.width / 2;
+      const centerY = this.rect.height / 2;
+
+      const rotateX = ((y - centerY) / centerY) * 1.5;
+      const rotateY = ((x - centerX) / centerX) * 1.5;
+
+      requestAnimationFrame(() => {
+        if (this.parametresContent) {
+          this.parametresContent.style.transform = `rotateX(${-rotateX}deg) rotateY(${rotateY}deg)`;
+        }
+      });
+    });
+
+    onEvent(this.parametresContainer, DOM_EVENTS.MOUSELEAVE, () => {
+      if (this.parametresContent && window.innerWidth >= 768) {
+        requestAnimationFrame(() => {
+          if (this.parametresContent) {
+            this.parametresContent.style.transform =
+              "rotateX(0deg) rotateY(0deg)";
+          }
+        });
+      }
+    });
   }
 
   /**
