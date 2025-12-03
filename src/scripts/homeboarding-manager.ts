@@ -98,7 +98,7 @@ export class HomeboardingManager {
       }
     }, 100);
 
-    // Fermeture automatique après 5 secondes
+    // Fermeture automatique après 6 secondes
     this.autoCloseTimeout = window.setTimeout(() => {
       this.handleContinue();
     }, 6000);
@@ -129,7 +129,14 @@ export class HomeboardingManager {
         this.overlay.style.transition = "";
       }
       this.isClosing = false;
-    }, 500); // Durée de la transition
+
+      // Rendre le body visible avec transition après la fermeture du homeboarding
+      document.documentElement.style.setProperty("--body-opacity", "1");
+      document.documentElement.style.setProperty(
+        "--body-pointer-events",
+        "auto"
+      );
+    }, 100); // Durée de la transition
 
     // Marquer comme vu
     this.markAsSeen();
