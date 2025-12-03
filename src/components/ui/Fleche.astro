@@ -16,7 +16,7 @@ export interface Props {
 const {
   size = "mobile",
   direction = "droite",
-  href = "#",
+  href,
   onClick,
   colorGradient,
   neonColor,
@@ -34,7 +34,7 @@ const sizes = {
     container: "w-[40px] h-[76px]",
   },
   desktop: {
-    container: "w-[58px] h-[111px]",
+    container: "md:w-[36px] lg:w-[46px] xl:w-[58px] md:h-[70px] lg:h-[88px] xl:h-[111px]",
   },
 };
 
@@ -52,7 +52,7 @@ const styleVars = [
 
 <div class={`${currentSize.container} relative`}>
   <a
-    href={href}
+    href={href || undefined}
     class="fleche cursor-pointer transition-all duration-200 hover:scale-110 active:scale-95 block origin-center absolute inset-0"
     data-onclick={onClick ? "true" : undefined}
     data-astro-reload={disableTransition ? true : undefined}

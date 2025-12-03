@@ -49,6 +49,41 @@
     line-height: 1.4;
   }
 
+  /* Version LG - légèrement réduite */
+  @media (min-width: 1024px) and (max-width: 1279px) {
+    .mii-dialogue__bubble {
+      padding: 22px 32px;
+      border-radius: 24px;
+      min-height: 65px;
+      min-width: 220px;
+    }
+
+    .mii-dialogue__text {
+      font-size: 15px;
+    }
+  }
+
+  /* Version MD - encore plus réduite pour tablette */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .mii-dialogue__bubble {
+      padding: 18px 26px;
+      border-radius: 20px;
+      min-height: 55px;
+      min-width: 180px;
+    }
+
+    .mii-dialogue__text {
+      font-size: 14px;
+    }
+  }
+
+  /* Version mobile - désactiver le dialogue */
+  @media (max-width: 767px) {
+    .mii-dialogue {
+      display: none !important;
+    }
+  }
+
   .mii-dialogue__arrow {
     position: absolute;
     bottom: -10px;

@@ -8,7 +8,7 @@ import FondFooter from "../../assets/icones/footer_fond.svg";
 ---
 
 <footer
-  class="footer-wii relative w-full h-80 overflow-hidden bottom-66 left-0 right-0"
+  class="footer-wii relative w-full md:h-52 lg:h-64 xl:h-80 overflow-hidden md:bottom-42 lg:bottom-52 xl:bottom-66 left-0 right-0"
 >
   <!-- Fond ondulé -->
   <div class="absolute inset-0 w-full h-full z-0 footer-glow">
@@ -16,32 +16,32 @@ import FondFooter from "../../assets/icones/footer_fond.svg";
   </div>
 
   <!-- Fond bouton gauche -->
-  <div class="absolute left-0 bottom-6 w-70 h-full z-10">
+  <div class="absolute left-0 bottom-6 md:w-44 lg:w-56 lg:top-0 xl:-top-6 md:top-0 xl:w-70 h-full z-10">
     <FondBouton class="h-full w-full object-cover footer-svg" />
   </div>
 
   <!-- Fond bouton droite -->
-  <div class="absolute right-0 bottom-6 w-70 h-full z-10">
+  <div class="absolute right-0 bottom-6 md:w-44 lg:w-56 lg:top-0 xl:-top-6 md:top-0 xl:w-70 h-full z-10">
     <FondBouton class="h-full w-full object-cover scale-x-[-1] footer-svg" />
   </div>
 
   <!-- MainBouton Mii à gauche -->
-  <div class="absolute left-28 top-33 transform -translate-y-1/2 z-20 test-footer-color">
+  <div class="absolute md:left-16 lg:left-20 xl:left-28 md:top-25 lg:top-31 xl:top-33 transform -translate-y-1/2 z-20 test-footer-color">
     <MainBouton type="presentation" size="footer" />
   </div>
 
   <!-- MainBouton Enveloppe à droite -->
-  <div class="absolute right-29 top-34 transform -translate-y-1/2 z-20 test-footer-color">
+  <div class="absolute md:right-16 lg:right-21 xl:right-29 md:top-25 lg:top-31 xl:top-34 transform -translate-y-1/2 z-20 test-footer-color">
     <MainBouton type="contact" size="footer" />
   </div>
 
   <!-- CardCV à droite du MainBouton Mii -->
-  <div class="absolute left-95 top-45 transform -translate-y-1/2 z-20 test-footer-color">
+  <div class="absolute md:left-58 lg:left-72 xl:left-95 md:top-31 lg:top-38 xl:top-45 transform -translate-y-1/2 z-20 test-footer-color">
     <CardCV size="desktop" />
   </div>
 
   <!-- SmallBouton Paramètres à gauche du MainBouton Enveloppe -->
-  <div class="absolute right-95 top-45 transform -translate-y-1/2 z-20 test-footer-color">
+  <div class="absolute md:right-58 lg:right-72 xl:right-95 md:top-31 lg:top-38 xl:top-45 transform -translate-y-1/2 z-20 test-footer-color">
     <SmallBouton type="parametres" size="footer" id="parametres-button" />
   </div>
 
@@ -51,20 +51,20 @@ import FondFooter from "../../assets/icones/footer_fond.svg";
   >
     <!-- Portfolio -->
     <div
-      class="text-4xl font-bold  text-light-blue uppercase relative bottom-20 tracking-wider"
+      class="md:text-2xl lg:text-3xl xl:text-4xl font-bold  text-light-blue uppercase relative md:bottom-13 lg:bottom-16 xl:bottom-20 tracking-wider"
     >
       Portfolio
     </div>
 
     <!-- Nom -->
-    <div class="text-3xl text-text-gray relative font-semibold">
+    <div class="md:text-sm lg:text-xl xl:text-2xl text-text-gray relative font-semibold">
       Nicolas THAI - Développeur Web
     </div>
   </div>
 </footer>
 
 <!-- Dialogue Mii positionné en dehors du footer pour éviter le overflow -->
-<div class="absolute left-16 bottom-[230px] z-30" style="width: 155px;">
+<div class="absolute md:left-8 lg:left-12 xl:left-16 md:bottom-[145px] lg:bottom-[180px] xl:bottom-[230px] z-30" style="width: 155px;">
   <MiiDialogue />
 </div>
 

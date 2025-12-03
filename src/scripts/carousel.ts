@@ -65,14 +65,16 @@ export class CarouselManager {
     this.arrowLeft = newArrowLeft;
 
     // Navigation vers la page 2 (flèche droite)
-    onEvent(this.arrowRight, DOM_EVENTS.CLICK, () => {
+    onEvent(this.arrowRight, DOM_EVENTS.CLICK, (e) => {
+      e.preventDefault();
       console.log("Click sur flèche droite");
       audioManager.play(SoundName.ARROW_CLICK);
       this.switchPage(2);
     });
 
     // Navigation vers la page 1 (flèche gauche)
-    onEvent(this.arrowLeft, DOM_EVENTS.CLICK, () => {
+    onEvent(this.arrowLeft, DOM_EVENTS.CLICK, (e) => {
+      e.preventDefault();
       console.log("Click sur flèche gauche");
       audioManager.play(SoundName.ARROW_CLICK);
       this.switchPage(1);
@@ -96,6 +98,25 @@ export class CarouselManager {
 
     console.log("Changement vers la page:", pageNumber);
 
+    // Déterminer le translateX en fonction de la taille d'écran
+    // MD: 240px channel + gap = environ 390px par channel visible
+    // LG: 300px channel + gap = environ 500px par channel visible
+    // XL: 350px channel + 0px gap = 350px par channel visible
+    // On décale d'environ 5-6 channels pour passer à la page 2
+    const windowWidth = window.innerWidth;
+    let translateXPage2 = "-1890px"; // XL par défaut
+
+    if (windowWidth >= 1280) {
+      // XL breakpoint
+      translateXPage2 = "-1890px"; // 5.4 × 350px
+    } else if (windowWidth >= 1024) {
+      // LG breakpoint
+      translateXPage2 = "-1512px"; // ~5 × 300px + gaps
+    } else if (windowWidth >= 768) {
+      // MD breakpoint
+      translateXPage2 = "-1210px"; // ~5 × 240px + gaps
+    }
+
     if (pageNumber === 1) {
       setStyle(this.carouselGrid, "transform", "translateX(0)");
       setStyle(this.arrowRight, "opacity", "1");
@@ -103,7 +124,11 @@ export class CarouselManager {
       this.currentPage = 1;
       console.log("Page 1 active");
     } else if (pageNumber === 2) {
-      setStyle(this.carouselGrid, "transform", "translateX(-1890px)");
+      setStyle(
+        this.carouselGrid,
+        "transform",
+        `translateX(${translateXPage2})`
+      );
       setStyle(this.arrowRight, "opacity", "0");
       setStyle(this.arrowLeft, "opacity", "1");
       this.currentPage = 2;

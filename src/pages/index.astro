@@ -64,10 +64,10 @@ const channelsMobile = Array(totalChannels).fill(null).map((_, index) => {
           <h2 class="sr-only">Galerie de projets</h2>
           
           <!-- Grille unique avec tous les channels -->
-          <div class="absolute left-40 top-88 transform -translate-y-1/2">
+          <div class="absolute md:left-16 lg:left-24 xl:left-40 md:top-94 lg:top-90 xl:top-88 xs:left-24 transform -translate-y-1/2">
             <div
               id="carousel-grid"
-              class="grid grid-cols-9 gap-x-[0px] gap-y-[10px] w-[3330px] transition-transform duration-800 ease-in-out ml-8"
+              class="grid grid-cols-9 md:gap-x-[304px] lg:gap-x-[200px] xl:gap-x-[0px] md:gap-y-[20px] lg:gap-y-[8px] xl:gap-y-[10px] md:w-[2115px] lg:w-[2655px] xl:w-[3330px] transition-transform duration-800 ease-in-out md:ml-4 lg:ml-6 xl:ml-8"
               role="list"
               aria-label="Liste des projets"
             >
@@ -87,7 +87,7 @@ const channelsMobile = Array(totalChannels).fill(null).map((_, index) => {
 
         <!-- Flèche de navigation à droite -->
         <div
-          class="absolute right-24 top-90 z-30 cursor-pointer"
+          class="absolute md:right-12 lg:right-16 xl:right-24 md:top-94 lg:top-90 xl:top-90 z-30 cursor-pointer"
           id="arrow-right"
           role="button"
           aria-label="Voir les projets suivants"
@@ -98,7 +98,7 @@ const channelsMobile = Array(totalChannels).fill(null).map((_, index) => {
 
         <!-- Flèche de navigation à gauche -->
         <div
-          class="absolute left-24 top-90 transform -translate-y-1/2 z-30 cursor-pointer opacity-0"
+          class="absolute md:left-4 lg:left-8 xl:left-24 md:top-94 lg:top-90 xl:top-90 transform -translate-y-1/2 z-30 cursor-pointer opacity-0"
           id="arrow-left"
           role="button"
           aria-label="Voir les projets précédents"
@@ -205,7 +205,12 @@ const channelsMobile = Array(totalChannels).fill(null).map((_, index) => {
       const arrowRightMobile = document.getElementById('arrow-right-mobile');
       const arrowLeftMobile = document.getElementById('arrow-left-mobile');
       
-      if (!carouselGridMobile || !arrowRightMobile || !arrowLeftMobile) return;
+      if (!carouselGridMobile || !arrowRightMobile || !arrowLeftMobile) {
+        console.log('Éléments carousel mobile non trouvés');
+        return;
+      }
+      
+      console.log('Initialisation carousel mobile');
       
       let currentColumnIndex = 0;
       const columnWidth = 319; // largeur channel mobile (295px) + gap (24px)
@@ -214,10 +219,14 @@ const channelsMobile = Array(totalChannels).fill(null).map((_, index) => {
       const maxColumnIndex = totalColumns - visibleColumns; // 6 (colonnes 0-6 possibles)
       
       function updateCarouselMobile() {
+        if (!carouselGridMobile || !arrowLeftMobile || !arrowRightMobile) return;
+        
         const translateX = -(currentColumnIndex * columnWidth);
         carouselGridMobile.style.transform = `translateX(${translateX}px)`;
         
-        // Gestion visibilité des flèches
+        console.log('Carousel mobile update:', { currentColumnIndex, translateX });
+        
+        // Gestion visibilité de la flèche gauche
         if (currentColumnIndex === 0) {
           arrowLeftMobile.style.opacity = '0';
           arrowLeftMobile.style.pointerEvents = 'none';
@@ -226,6 +235,7 @@ const channelsMobile = Array(totalChannels).fill(null).map((_, index) => {
           arrowLeftMobile.style.pointerEvents = 'auto';
         }
         
+        // Gestion visibilité de la flèche droite
         if (currentColumnIndex >= maxColumnIndex) {
           arrowRightMobile.style.opacity = '0';
           arrowRightMobile.style.pointerEvents = 'none';
@@ -235,14 +245,31 @@ const channelsMobile = Array(totalChannels).fill(null).map((_, index) => {
         }
       }
       
-      arrowRightMobile.addEventListener('click', () => {
+      // Nettoyer les anciens listeners
+      const newArrowRight = arrowRightMobile.cloneNode(true) as HTMLElement;
+      arrowRightMobile.parentNode?.replaceChild(newArrowRight, arrowRightMobile);
+      
+      const newArrowLeft = arrowLeftMobile.cloneNode(true) as HTMLElement;
+      arrowLeftMobile.parentNode?.replaceChild(newArrowLeft, arrowLeftMobile);
+      
+      // Utiliser les nouveaux éléments
+      const finalArrowRight = document.getElementById('arrow-right-mobile');
+      const finalArrowLeft = document.getElementById('arrow-left-mobile');
+      
+      if (!finalArrowRight || !finalArrowLeft) return;
+      
+      finalArrowRight.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('Click flèche droite mobile');
         if (currentColumnIndex < maxColumnIndex) {
           currentColumnIndex++;
           updateCarouselMobile();
         }
       });
       
-      arrowLeftMobile.addEventListener('click', () => {
+      finalArrowLeft.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('Click flèche gauche mobile');
         if (currentColumnIndex > 0) {
           currentColumnIndex--;
           updateCarouselMobile();

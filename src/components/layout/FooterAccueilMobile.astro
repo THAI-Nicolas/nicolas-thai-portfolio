@@ -2,43 +2,44 @@
 import CardCV from "../boutons/CardCV.astro";
 import MainBouton from "../boutons/MainBouton.astro";
 import SmallBouton from "../boutons/SmallBouton.astro";
+import MiiDialogue from "../ui/MiiDialogue.astro";
 import FondBouton from "../../assets/icones/bouton_fond.svg";
 import FondFooterMobile from "../../assets/icones/footer_fond_mobile.svg";
 ---
 
-<footer class="footer-wii-mobile relative w-full h-64 overflow-hidden">
+<footer class="footer-wii-mobile relative w-full h-64 overflow-visible -bottom-8">
   <!-- Fond mobile -->
   <div class="absolute inset-0 w-full h-full z-0">
     <FondFooterMobile class="w-full h-full object-cover footer-svg-mobile" />
   </div>
 
   <!-- Fond bouton gauche -->
-  <div class="absolute left-[-10px] bottom-28 w-32 h-36 z-10">
+  <div class="absolute left-[-10px] bottom-24 w-32 h-36 z-10">
     <FondBouton class="h-36 w-32 object-cover footer-svg-mobile" />
   </div>
 
   <!-- Fond bouton droite -->
-  <div class="absolute right-0 bottom-28 w-32 h-36 z-10">
+  <div class="absolute right-0 bottom-24 w-32 h-36 z-10">
     <FondBouton class="h-36 w-32 object-cover scale-x-[-1] footer-svg-mobile" />
   </div>
 
   <!-- MainBouton Mii à gauche -->
-  <div class="absolute left-9 top-16 transform -translate-y-1/2 z-20">
+  <div class="absolute left-8 top-20 transform -translate-y-1/2 z-20 test-footer-color">
     <MainBouton type="presentation" size="mobile" />
   </div>
 
   <!-- MainBouton Enveloppe à droite -->
-  <div class="absolute right-12 top-17 transform -translate-y-1/2 z-20">
+  <div class="absolute right-11 top-20 transform -translate-y-1/2 z-20 test-footer-color">
     <MainBouton type="contact" size="mobile" />
   </div>
 
   <!-- CardCV à droite du MainBouton Mii -->
-  <div class="absolute left-34 top-45 transform -translate-y-1/2 z-20">
+  <div class="absolute left-34 top-45 transform -translate-y-1/2 z-20 test-footer-color">
     <CardCV size="mobile" />
   </div>
 
   <!-- SmallBouton Paramètres à gauche du MainBouton Enveloppe -->
-  <div class="absolute right-34 top-45 transform -translate-y-1/2 z-20">
+  <div class="absolute right-34 top-45 transform -translate-y-1/2 z-20 test-footer-color">
     <SmallBouton type="parametres" size="mobile" />
   </div>
 
@@ -48,19 +49,24 @@ import FondFooterMobile from "../../assets/icones/footer_fond_mobile.svg";
   >
     <!-- Portfolio -->
     <div
-      class="text-3xl font-bold text-dark-gray relative bottom-16 uppercase tracking-wider"
+      class="text-3xl font-bold text-light-blue relative bottom-16 uppercase tracking-wider"
     >
       Portfolio
     </div>
 
     <!-- Nom -->
     <div
-      class="text-xl text-dark-gray relative bottom-6 font-semibold"
+      class="text-xl text-text-gray relative bottom-6 font-semibold"
     >
       Nicolas THAI
     </div>
   </div>
 </footer>
+
+<!-- Dialogue Mii positionné en dehors du footer mobile pour éviter le overflow -->
+<div class="block absolute left-4 bottom-[200px] z-30" style="width: 155px;">
+  <MiiDialogue />
+</div>
 
 <style>
   .footer-svg-mobile {
@@ -69,6 +75,73 @@ import FondFooterMobile from "../../assets/icones/footer_fond_mobile.svg";
 
   [data-theme="dark"] .footer-svg-mobile {
     filter: grayscale(100%) brightness(0.2) contrast(2) invert(0.05) !important;
+  }
+
+  /* Test de couleur footer sur les boutons de l'accueil mobile uniquement */
+  .test-footer-color :deep(.wii-main-button__circle::after),
+  .test-footer-color :deep(.wii-button__circle),
+  .test-footer-color :deep(.card-cv) {
+    --color-light-blue: #34beed;
+  }
+  
+  .test-footer-color :deep(.wii-main-button__circle::after) {
+    box-shadow:
+      0 0 3px rgba(52, 190, 237, 0.5),
+      0 0 6px rgba(52, 190, 237, 0.4) !important;
+  }
+  
+  .test-footer-color :deep(button:hover .wii-main-button__circle) {
+    box-shadow:
+      inset -4px -4px 9.5px rgba(0, 0, 0, 0.26),
+      5.8px 8.7px 0px rgba(186, 188, 193, 1),
+      0 0 6px rgba(52, 190, 237, 0.3),
+      0 0 12px rgba(52, 190, 237, 0.3) !important;
+  }
+  
+  .test-footer-color :deep(.wii-button__circle) {
+    border-color: rgba(52, 190, 237, 0.5);
+    box-shadow:
+      inset 0 5px 5px rgba(0, 0, 0, 0.25),
+      0 5px 5px rgba(0, 0, 0, 0.25),
+      0 0 2px rgba(52, 190, 237, 0.3),
+      0 0 4px rgba(52, 190, 237, 0.3) !important;
+  }
+  
+  .test-footer-color :deep(button:hover .wii-button__circle) {
+    background-color: #34beed;
+    border-color: #34beed;
+    box-shadow:
+      inset 0 5px 5px rgba(0, 0, 0, 0.25),
+      0 5px 5px rgba(0, 0, 0, 0.25),
+      0 0 6px rgba(52, 190, 237, 0.3),
+      0 0 12px rgba(52, 190, 237, 0.3) !important;
+  }
+  
+  .test-footer-color :deep(.animate-cv-glow) {
+    animation: cv-glow-footer 2.5s ease-in-out infinite;
+  }
+  
+  @keyframes cv-glow-footer {
+    0%, 100% {
+      filter: drop-shadow(0 0 2px rgba(52, 190, 237, 0.3));
+    }
+    50% {
+      filter: drop-shadow(0 0 5px rgba(52, 190, 237, 0.3)) drop-shadow(0 0 8px rgba(52, 190, 237, 0.3));
+    }
+  }
+  
+  /* Animation spécifique pour MainBouton avec plus d'intensité */
+  .test-footer-color :deep(@keyframes button-glow-pulse) {
+    0%, 100% {
+      box-shadow:
+        0 0 3px rgba(52, 190, 237, 0.5),
+        0 0 6px rgba(52, 190, 237, 0.4);
+    }
+    50% {
+      box-shadow:
+        0 0 6px rgba(52, 190, 237, 0.7),
+        0 0 12px rgba(52, 190, 237, 0.5);
+    }
   }
 </style>
 
