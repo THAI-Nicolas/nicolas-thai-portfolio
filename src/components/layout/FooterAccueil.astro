@@ -45,21 +45,20 @@ import FondFooter from "../../assets/icones/footer_fond.svg";
     <SmallBouton type="parametres" size="footer" id="parametres-button" />
   </div>
 
-  <!-- Horloge et Date au centre -->
+  <!-- Portfolio et Nom au centre -->
   <div
     class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 text-center"
   >
-    <!-- Horloge -->
+    <!-- Portfolio -->
     <div
-      id="clock"
-      class="text-6xl font-mono text-dark-gray relative bottom-24"
+      class="text-4xl font-bold  text-light-blue uppercase relative bottom-20 tracking-wider"
     >
-      12:00 AM
+      Portfolio
     </div>
 
-    <!-- Date -->
-    <div id="date" class="text-4xl text-text-gray relative font-semibold">
-      Sam 25/10
+    <!-- Nom -->
+    <div class="text-3xl text-text-gray relative font-semibold">
+      Nicolas THAI - Développeur Web
     </div>
   </div>
 </footer>
@@ -147,35 +146,4 @@ import FondFooter from "../../assets/icones/footer_fond.svg";
   }
 </style>
 
-<script>
-  function updateClock() {
-    const now = new Date();
 
-    // Format de l'heure (12h avec AM/PM)
-    const hours = now.getHours();
-    const minutes = now.getMinutes().toString().padStart(2, "0");
-    const ampm = hours >= 12 ? "PM" : "AM";
-    const displayHours = hours % 12 || 12;
-
-    const timeString = `${displayHours}:${minutes} ${ampm}`;
-
-    // Format de la date (3 premières lettres du jour + date)
-    const days = ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"];
-    const dayName = days[now.getDay()];
-    const day = now.getDate().toString().padStart(2, "0");
-    const month = (now.getMonth() + 1).toString().padStart(2, "0");
-
-    const dateString = `${dayName} ${day}/${month}`;
-
-    // Mise à jour des éléments
-    const clockElement = document.getElementById("clock");
-    const dateElement = document.getElementById("date");
-
-    if (clockElement) clockElement.textContent = timeString;
-    if (dateElement) dateElement.textContent = dateString;
-  }
-
-  // Mise à jour immédiate et toutes les secondes
-  updateClock();
-  setInterval(updateClock, 1000);
-</script>

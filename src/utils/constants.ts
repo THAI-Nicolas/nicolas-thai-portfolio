@@ -18,6 +18,7 @@ export const OVERLAY_SELECTORS = {
   CONTACT: ".contact-overlay",
   PRESENTATION: ".presentation-overlay",
   PARAMETRES: ".parametres-overlay",
+  HOMEBOARDING: "#homeboarding-overlay",
 } as const;
 
 export const OVERLAY_BUTTON_SELECTORS = {
@@ -174,6 +175,16 @@ export const KEYBOARD_KEYS = {
   ARROW_RIGHT: "ArrowRight",
   ESCAPE: "Escape",
   ENTER: "Enter",
+} as const;
+
+// ============================================
+// LOCAL STORAGE KEYS
+// ============================================
+
+export const STORAGE_KEYS = {
+  THEME: "portfolio-theme",
+  SETTINGS: "portfolio-settings",
+  HOMEBOARDING_SEEN: "portfolio-homeboarding-seen",
 } as const;
 
 // ============================================

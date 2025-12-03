@@ -430,3 +430,46 @@
     transform: translateY(0);
   }
 }
+
+/* Fade-out rapide pour homeboarding */
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ========================================
+   ANIMATIONS HOMEBOARDING (Style Wii)
+   ======================================== */
+
+@keyframes homeboarding-fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes homeboarding-fade-out {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Animation de clignotement pour le bouton Press A */
+@keyframes press-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
