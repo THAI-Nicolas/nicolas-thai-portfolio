@@ -463,7 +463,7 @@
   }
 }
 
-/* Animation de clignotement pour le bouton Press A */
+/* Animation de clignotement pour le bouton Press A 
 @keyframes press-blink {
   0%,
   100% {
