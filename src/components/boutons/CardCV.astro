@@ -12,7 +12,7 @@ const { size = "desktop", href = "#", onClick } = Astro.props;
 // Tailles dynamiques (CardCV uniquement mobile et desktop)
 const sizes = {
   mobile: {
-    container: "w-[45px] h-[65px]",
+    container: "w-[clamp(2.5rem,11.25vw,3.75rem)] h-[clamp(3.6rem,16.25vw,5.5rem)]",
   },
   desktop: {
     container: "card-cv-desktop",

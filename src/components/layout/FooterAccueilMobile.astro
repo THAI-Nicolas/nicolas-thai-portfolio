@@ -7,51 +7,51 @@ import FondBouton from "../../assets/icones/bouton_fond.svg";
 import FondFooterMobile from "../../assets/icones/footer_fond_mobile.svg";
 ---
 
-<footer class="footer-wii-mobile fixed left-0 right-0 w-full h-[clamp(16rem,50vw,26rem)] overflow-visible bottom-[clamp(-3rem,-5vw,-6rem)] z-10">
+<footer class="footer-wii-mobile fixed left-0 right-0 w-full h-[28rem] md:h-[clamp(24rem,50vw,26rem)] overflow-visible bottom-[-7.5rem] md:bottom-[clamp(-4rem,-8vw,-9rem)] z-10">
   <!-- Fond mobile -->
-  <div class="absolute left-0 right-0 top-0 bottom-0 w-full h-full z-0">
+  <div class="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[130%] md:w-[105%] h-full z-0">
     <FondFooterMobile class="w-full h-full object-fill footer-svg-mobile" />
   </div>
 
   <!-- Fond bouton gauche -->
-  <div class="absolute left-[clamp(-0.625rem,-1.5vw,0rem)] bottom-[clamp(6rem,15vw,10rem)] w-[clamp(8rem,20vw,12rem)] h-[clamp(9rem,22vw,14rem)] z-10">
+  <div class="absolute  left-[-1.5rem] md:left-[clamp(-0.625rem,-1.5vw,0rem)] bottom-[12.5rem] md:bottom-[clamp(11rem,24vw,12rem)] w-[6rem] md:w-[clamp(6rem,24vw,18rem)] h-[9rem] md:h-[clamp(7rem,22vw,22rem)] z-10">
     <FondBouton class="w-full h-full object-cover footer-svg-mobile" />
   </div>
 
   <!-- Fond bouton droite -->
-  <div class="absolute right-0 bottom-[clamp(6rem,15vw,10rem)] w-[clamp(8rem,20vw,12rem)] h-[clamp(9rem,22vw,14rem)] z-10">
+  <div class="absolute bottom-[12.5rem] md:bottom-[clamp(11rem,24vw,12rem)] w-[6rem] md:w-[clamp(6rem,24vw,18rem)] right-[-1.5rem] md:right-[-1rem] h-[9rem] md:h-[clamp(7rem,22vw,22rem)] z-10">
     <FondBouton class="w-full h-full object-cover scale-x-[-1] footer-svg-mobile" />
   </div>
 
   <!-- MainBouton Mii à gauche -->
-  <div class="absolute left-[clamp(2rem,5vw,4rem)] top-[clamp(5rem,12.5vw,8rem)] -translate-y-1/2 z-20 test-footer-color">
+  <div class="absolute left-[1.25rem] md:left-[clamp(2rem,7vw,8rem)] top-[11rem] md:top-[clamp(5rem,14vw,7.5rem)] -translate-y-1/2 z-20 test-footer-color scale-[0.85] md:scale-100">
     <MainBouton type="presentation" size="mobile" />
   </div>
 
   <!-- MainBouton Enveloppe à droite -->
-  <div class="absolute right-[clamp(2.75rem,6vw,4rem)] top-[clamp(5rem,12.5vw,8rem)] -translate-y-1/2 z-20 test-footer-color">
+  <div class="absolute right-[1.25rem] md:right-[clamp(2.75rem,9vw,8rem)] top-[11rem] md:top-[clamp(5rem,14vw,7.5rem)] -translate-y-1/2 z-20 test-footer-color scale-[0.85] md:scale-100">
     <MainBouton type="contact" size="mobile" />
   </div>
 
   <!-- CardCV à droite du MainBouton Mii -->
-  <div class="absolute left-[clamp(8.5rem,21vw,13rem)] top-[clamp(11.25rem,28vw,17rem)] -translate-y-1/2 z-20 test-footer-color">
+  <div class="absolute left-[clamp(8.5rem,21vw,14.5rem)] top-[16rem] md:top-[clamp(13rem,30vw,17.5rem)] -translate-y-1/2 z-20 test-footer-color">
     <CardCV size="mobile" />
   </div>
 
   <!-- SmallBouton Paramètres à gauche du MainBouton Enveloppe -->
-  <div class="absolute right-[clamp(8.5rem,21vw,13rem)] top-[clamp(11.25rem,28vw,17rem)] -translate-y-1/2 z-20 test-footer-color">
-    <SmallBouton type="parametres" size="mobile" />
+  <div class="absolute right-[clamp(8.5rem,21vw,14.5rem)] top-[16rem] md:top-[clamp(13rem,30vw,17.5rem)] -translate-y-1/2 z-20 test-footer-color">
+    <SmallBouton type="parametres" size="mobile" /> 
   </div>
 
   <!-- Portfolio et Nom au centre -->
   <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 text-center">
     <!-- Portfolio -->
-    <div class="text-[clamp(1.875rem,9.4vw,2.5rem)] font-bold text-light-blue uppercase tracking-wider relative bottom-[clamp(4rem,10vw,6rem)]">
+    <div class="text-[1.5rem] md:text-[clamp(1rem,9.4vw,2.5rem)] font-bold text-light-blue uppercase tracking-wider relative bottom-[clamp(5rem,10vw,6rem)]">
       Portfolio
     </div>
 
     <!-- Nom -->
-    <div class="text-[clamp(1.25rem,6.25vw,1.75rem)] text-text-gray font-semibold relative bottom-[clamp(1.5rem,3.75vw,2.5rem)]">
+    <div class="hidden md:block text-[clamp(0.875rem,6.25vw,1.75rem)] text-text-gray font-semibold relative bottom-[clamp(1.5rem,3.75vw,2.5rem)]">
       Nicolas THAI
     </div>
   </div>

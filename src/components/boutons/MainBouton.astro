@@ -34,10 +34,10 @@ const icons = {
 // Tailles dynamiques
 const sizes = {
   mobile: {
-    button: "w-[80px] h-[80px]",
-    shape: "w-8 h-8",
-    icon: "w-8 h-8",
-    iconRetour: "w-8 h-6",
+    button: "w-[clamp(4.5rem,20vw,6.5rem)] h-[clamp(4.5rem,20vw,6.5rem)]",
+    shape: "w-[clamp(1.8rem,8vw,2.6rem)] h-[clamp(1.8rem,8vw,2.6rem)]",
+    icon: "w-[clamp(1.8rem,8vw,2.6rem)] h-[clamp(1.8rem,8vw,2.6rem)]",
+    iconRetour: "w-[clamp(1.8rem,8vw,2.6rem)] h-[clamp(1.35rem,6vw,2rem)]",
     text: "text-sm",
   },
   tablet: {
@@ -202,7 +202,7 @@ const currentSize = sizes[size] || sizes.desktop;
 <script>
   import { MiiButton } from '../../scripts/mii-button';
   
-  let miiButtonInstance = null;
+  const miiButtonInstances = new Map();
   
   function initMiiButton() {
     console.log("Initialisation du Mii Button");
@@ -211,17 +211,18 @@ const currentSize = sizes[size] || sizes.desktop;
     const presentationButtons = document.querySelectorAll('[data-type="presentation"]');
     console.log("Boutons présentation trouvés:", presentationButtons.length);
     
-    presentationButtons.forEach((button) => {
+    presentationButtons.forEach((button, index) => {
       const container = button.querySelector('#mii-button-container');
-      console.log("Container trouvé:", container);
+      console.log(`Container ${index} trouvé:`, container);
       
-      if (container && !miiButtonInstance) {
-        console.log("Création du Mii Button...");
+      if (container && !miiButtonInstances.has(container)) {
+        console.log(`Création du Mii Button ${index}...`);
         try {
-          miiButtonInstance = new MiiButton(container);
-          console.log("Mii Button créé avec succès!");
+          const instance = new MiiButton(container);
+          miiButtonInstances.set(container, instance);
+          console.log(`Mii Button ${index} créé avec succès!`);
         } catch (error) {
-          console.error("Erreur lors de la création du Mii Button:", error);
+          console.error(`Erreur lors de la création du Mii Button ${index}:`, error);
         }
       }
     });
@@ -304,10 +305,10 @@ const currentSize = sizes[size] || sizes.desktop;
   // Réinitialiser avant les transitions Astro
   document.addEventListener("astro:before-swap", () => {
     console.log('astro:before-swap - Nettoyage du Mii Button');
-    if (miiButtonInstance) {
-      miiButtonInstance.destroy();
-      miiButtonInstance = null;
-    }
+    miiButtonInstances.forEach(instance => {
+      instance.destroy();
+    });
+    miiButtonInstances.clear();
   });
   
   // Observer les overlays pour réinitialiser le Mii après fermeture
@@ -319,7 +320,7 @@ const currentSize = sizes[size] || sizes.desktop;
           if (mutation.attributeName === 'class') {
             const classList = (mutation.target as HTMLElement).classList;
             // Si l'overlay est fermé (n'a plus la classe 'open')
-            if (!classList.contains('open') && miiButtonInstance) {
+            if (!classList.contains('open') && miiButtonInstances.size > 0) {
               console.log('Overlay fermé, réinitialisation du Mii Button');
               // Réinitialiser le Mii après un court délai
               setTimeout(initMiiButton, 200);

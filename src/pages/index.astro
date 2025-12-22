@@ -29,17 +29,24 @@ const channels = Array(totalChannels).fill(null).map((_, index) => {
   return { isEmpty: true };
 });
 
-// Créer un tableau réorganisé pour mobile (ordre vertical - colonne par colonne)
-// On transforme la grille 9×3 (horizontal) en 9×3 (vertical)
-const channelsMobile = Array(totalChannels).fill(null).map((_, index) => {
-  // Calculer la position dans la grille mobile
-  const col = Math.floor(index / 3); // Colonne (0-8)
-  const row = index % 3; // Ligne (0-2)
+// Pour mobile : remplir colonne par colonne (vertical) avec les projets disponibles
+const channelsMobile = Array(totalChannels).fill(null).map(() => ({ isEmpty: true }));
+const rows = 3;
+const cols = 9;
+
+projets.forEach((projet, index) => {
+  const col = Math.floor(index / rows);  // Quelle colonne (0-8)
+  const row = index % rows;               // Quelle ligne dans cette colonne (0-2)
+  const gridIndex = col + (row * cols);   // Position dans la grille 9×3
   
-  // Calculer l'index correspondant dans le tableau desktop (ordre horizontal)
-  const desktopIndex = row * 9 + col;
-  
-  return channels[desktopIndex];
+  if (gridIndex < totalChannels) {
+    channelsMobile[gridIndex] = {
+      isEmpty: false,
+      projectCover: ProjetsService.getCoverUrl(projet),
+      projectTitle: projet.titre,
+      href: `/projets/${projet.slug}`
+    };
+  }
 });
 ---
 
@@ -120,7 +127,7 @@ const channelsMobile = Array(totalChannels).fill(null).map((_, index) => {
 
   <!-- Version Mobile + Tablette (jusqu'à LG) -->
   <div class="lg:hidden flex flex-col min-h-screen">
-    <main class="relative bg-background overflow-hidden flex-1 flex items-end pb-8">
+    <main class="relative bg-background overflow-hidden flex-1 flex items-center pb-32">
       <h1 class="sr-only">Nicolas THAI - Portfolio Développeur Web Front-End</h1>
       
       <!-- Container pour le carrousel mobile -->
@@ -129,7 +136,7 @@ const channelsMobile = Array(totalChannels).fill(null).map((_, index) => {
           <h2 class="sr-only">Galerie de projets</h2>
           
           <!-- Grille horizontale mobile - 9 colonnes × 3 lignes, mais seulement 3 colonnes visibles -->
-          <div class="relative w-full overflow-hidden pl-20" style="height: 580px;">
+          <div class="relative w-full overflow-x-auto overflow-y-hidden pl-20 scrollbar-hide" style="height: 580px; scroll-behavior: smooth;">
             <div
               id="carousel-grid-mobile"
               class="grid grid-cols-9 grid-rows-3 gap-x-80 gap-y-8 transition-transform duration-800 ease-in-out"
@@ -200,10 +207,10 @@ const channelsMobile = Array(totalChannels).fill(null).map((_, index) => {
   function initCarousel() {
     const carousel = new CarouselManager();
     
-    // Gestion carrousel mobile
-    const isMobile = window.innerWidth < 768;
+    // Gestion carrousel mobile + tablette (< lg breakpoint)
+    const isNotDesktop = window.innerWidth < 1024;
     
-    if (isMobile) {
+    if (isNotDesktop) {
       const carouselGridMobile = document.getElementById('carousel-grid-mobile');
       const arrowRightMobile = document.getElementById('arrow-right-mobile');
       const arrowLeftMobile = document.getElementById('arrow-left-mobile');
@@ -336,5 +343,15 @@ const channelsMobile = Array(totalChannels).fill(null).map((_, index) => {
     50% {
       transform: translateY(-50%) translateX(10px);
     }
+  }
+
+  /* Cacher la scrollbar tout en gardant la fonctionnalité */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE et Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;  /* Chrome, Safari et Opera */
   }
 </style>

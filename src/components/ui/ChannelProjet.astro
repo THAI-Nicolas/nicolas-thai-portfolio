@@ -22,7 +22,7 @@ const {
 // Tailles dynamiques avec clamp() fluide + limitation par hauteur viewport
 const sizes = {
   mobile: {
-    container: "channel-mobile w-[clamp(17rem,45vw,18.4375rem)] h-[clamp(9rem,24vw,10rem)]",
+    container: "channel-mobile w-[clamp(17rem,45vw,18.4375rem)] md:w-[clamp(17rem,min(48vw,50vh),18.4375rem)] h-[clamp(9rem,24vw,10rem)] md:h-[clamp(9rem,min(26vw,28vh),10rem)]",
   },
   desktop: {
     container: "channel-fluid w-[clamp(12rem,min(20vw,37vh),26rem)] h-[clamp(7.5rem,min(10vw,22vh),15rem)]",
