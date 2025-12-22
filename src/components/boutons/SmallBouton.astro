@@ -28,8 +28,8 @@ const sizes = {
     icon: "w-[28px] h-[28px]",
   },
   footer: {
-    button: "md:w-[52px] lg:w-[65px] xl:w-[80px] md:h-[52px] lg:h-[65px] xl:h-[80px]",
-    icon: "md:w-[26px] lg:w-[32px] xl:w-[40px] md:h-[26px] lg:h-[32px] xl:h-[40px]",
+    button: "small-button-footer",
+    icon: "small-button-icon-footer",
   },
 };
 
@@ -105,6 +105,17 @@ const Element = isDownload ? 'a' : 'button';
 )}
 
 <style>
+  /* Tailles fluides pour le footer */
+  .small-button-footer {
+    width: clamp(3.25rem, 4.5vw, 5rem);
+    height: clamp(3.25rem, 4.5vw, 5rem);
+  }
+  
+  .small-button-icon-footer {
+    width: clamp(1.625rem, 2.2vw, 2.5rem);
+    height: clamp(1.625rem, 2.2vw, 2.5rem);
+  }
+  
   /* Focus ring personnalisé */
   a:focus,
   button:focus {

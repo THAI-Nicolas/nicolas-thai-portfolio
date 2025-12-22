@@ -50,8 +50,8 @@ const channelsMobile = Array(totalChannels).fill(null).map((_, index) => {
   ogImage="/og-home.jpg"
 >
   <ViewTransitions />
-  <!-- Version Desktop -->
-  <div class="hidden md:block">
+  <!-- Version Desktop (LG et XL) -->
+  <div class="hidden lg:block">
     <!-- Zone principale avec grille de channels -->
     <main class="relative h-screen bg-background overflow-hidden">
       <!-- SEO: Titre principal caché visuellement mais accessible aux lecteurs d'écran -->
@@ -64,10 +64,11 @@ const channelsMobile = Array(totalChannels).fill(null).map((_, index) => {
           <h2 class="sr-only">Galerie de projets</h2>
           
           <!-- Grille unique avec tous les channels -->
-          <div class="absolute md:left-16 lg:left-24 xl:left-40 md:top-94 lg:top-90 xl:top-88 xs:left-24 transform -translate-y-1/2">
+          <div class="absolute top-[38%] -translate-y-1/2" style="left: clamp(3rem, 8vw, 10rem);">
             <div
               id="carousel-grid"
-              class="grid grid-cols-9 md:gap-x-[304px] lg:gap-x-[200px] xl:gap-x-[0px] md:gap-y-[20px] lg:gap-y-[8px] xl:gap-y-[10px] md:w-[2115px] lg:w-[2655px] xl:w-[3330px] transition-transform duration-800 ease-in-out md:ml-4 lg:ml-6 xl:ml-8"
+              class="grid grid-cols-9 w-max transition-transform duration-800 ease-in-out ml-8"
+              style="row-gap: clamp(0rem, 0.7vw, 0.7rem); column-gap: clamp(1rem, 2.5vw, 1rem);"
               role="list"
               aria-label="Liste des projets"
             >
@@ -87,7 +88,8 @@ const channelsMobile = Array(totalChannels).fill(null).map((_, index) => {
 
         <!-- Flèche de navigation à droite -->
         <div
-          class="absolute md:right-12 lg:right-16 xl:right-24 md:top-94 lg:top-90 xl:top-90 z-30 cursor-pointer"
+          class="absolute top-1/2 -translate-y-1/2 z-30 cursor-pointer animate-[bounce-right_1.5s_infinite]"
+          style="right: clamp(3rem, 6vw, 6rem);"
           id="arrow-right"
           role="button"
           aria-label="Voir les projets suivants"
@@ -98,7 +100,8 @@ const channelsMobile = Array(totalChannels).fill(null).map((_, index) => {
 
         <!-- Flèche de navigation à gauche -->
         <div
-          class="absolute md:left-4 lg:left-8 xl:left-24 md:top-94 lg:top-90 xl:top-90 transform -translate-y-1/2 z-30 cursor-pointer opacity-0"
+          class="absolute top-1/2 -translate-y-1/2 z-30 cursor-pointer opacity-0"
+          style="left: clamp(1rem, 4vw, 6rem);"
           id="arrow-left"
           role="button"
           aria-label="Voir les projets précédents"
@@ -115,8 +118,8 @@ const channelsMobile = Array(totalChannels).fill(null).map((_, index) => {
     </footer>
   </div>
 
-  <!-- Version Mobile -->
-  <div class="md:hidden flex flex-col min-h-screen">
+  <!-- Version Mobile + Tablette (jusqu'à LG) -->
+  <div class="lg:hidden flex flex-col min-h-screen">
     <main class="relative bg-background overflow-hidden flex-1 flex items-end pb-8">
       <h1 class="sr-only">Nicolas THAI - Portfolio Développeur Web Front-End</h1>
       
@@ -313,9 +316,13 @@ const channelsMobile = Array(totalChannels).fill(null).map((_, index) => {
 </script>
 
 <style>
-  #arrow-right {
-    animation: bounce-right 1.5s infinite;
-    transform: translateY(-50%);
+  @keyframes bounce-right {
+    0%, 100% {
+      transform: translateY(-50%) translateX(0);
+    }
+    50% {
+      transform: translateY(-50%) translateX(10px);
+    }
   }
   
   #arrow-right-mobile {

@@ -25,7 +25,7 @@ const {
   disableTransition = false,
 } = Astro.props;
 
-// Tailles dynamiques
+// Tailles dynamiques avec clamp fluide
 const sizes = {
   mobile: {
     container: "w-[32px] h-[61px]",
@@ -34,7 +34,7 @@ const sizes = {
     container: "w-[40px] h-[76px]",
   },
   desktop: {
-    container: "md:w-[36px] lg:w-[46px] xl:w-[58px] md:h-[70px] lg:h-[88px] xl:h-[111px]",
+    container: "w-[clamp(2rem,3.5vw,3.625rem)] h-[clamp(3.875rem,6.7vw,6.9375rem)]",
   },
 };
 

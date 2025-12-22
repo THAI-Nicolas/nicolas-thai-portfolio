@@ -12,12 +12,12 @@ import mouseIcon from '../../assets/icones/mouse-icon.svg';
   class="homeboarding-overlay fixed inset-0 z-[9999] bg-black flex items-center justify-center opacity-0 pointer-events-none"
   id="homeboarding-overlay"
 >
-  <div class="homeboarding-content text-center px-4 sm:px-6 md:px-8 max-w-6xl opacity-0">
+  <div class="homeboarding-content text-center px-[clamp(1rem,4vw,2rem)] max-w-6xl opacity-0">
     <!-- Header avec icône d'avertissement -->
-    <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6 mb-8 md:mb-12 lg:mb-16">
+    <div class="flex flex-col md:flex-row items-center justify-center gap-[clamp(1rem,3vw,1.5rem)] mb-[clamp(2rem,8vw,4rem)]">
       <!-- Icône triangle d'avertissement -->
       <svg
-        class="warning-icon w-[60px] h-[60px] sm:w-[70px] sm:h-[70px] md:w-[80px] md:h-[80px] lg:w-[88px] lg:h-[88px]"
+        class="warning-icon w-[clamp(3rem,min(6vw,8vh),5.5rem)] h-[clamp(3rem,min(6vw,8vh),5.5rem)]"
         viewBox="0 0 118 118"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -46,13 +46,13 @@ import mouseIcon from '../../assets/icones/mouse-icon.svg';
       </svg>
       
       <!-- Titre -->
-      <h1 class="wii-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl font-bold text-white uppercase tracking-wider">
+      <h1 class="wii-title text-[clamp(1.25rem,min(3.5vw,5vh),3rem)] font-bold text-white uppercase tracking-wider">
         This is a Developer Portfolio
       </h1>
     </div>
 
     <!-- Texte principal -->
-    <div class="main-text text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl uppercase font-semibold text-white leading-relaxed mb-12 md:mb-16 lg:mb-20">
+    <div class="main-text text-[clamp(1rem,min(2.5vw,3.5vh),2.25rem)] uppercase font-semibold text-white leading-relaxed mb-[clamp(3rem,10vw,5rem)]">
       <p class="mb-2">Before continuing, get ready to explore</p>
       <p class="mb-2">my projects, skills and achievements.</p>
       <p class="mb-2">beware, hiring me might</p>
@@ -60,21 +60,21 @@ import mouseIcon from '../../assets/icones/mouse-icon.svg';
     </div>
 
     <!-- Portfolio URL -->
-    <div class="portfolio-url mb-10 md:mb-12 lg:mb-16">
-      <p class="text-lg sm:text-xl md:text-2xl lg:text-2xl xl:text-3xl font-semibold text-white mb-2">Portfolio available at</p>
-      <p class="text-lg sm:text-xl md:text-2xl lg:text-2xl xl:text-3xl font-medium text-[#5d81b8]">
+    <div class="portfolio-url mb-[clamp(2.5rem,8vw,4rem)]">
+      <p class="text-[clamp(0.9375rem,min(1.8vw,2.8vh),1.875rem)] font-semibold text-white mb-2">Portfolio available at</p>
+      <p class="text-[clamp(0.9375rem,min(1.8vw,2.8vh),1.875rem)] font-medium text-[#5d81b8]">
         https://nicolas-thai.fr
       </p>
     </div>
 
     <!-- Press Mouse Click -->
     <div class="press-button-container flex items-center justify-center gap-4">
-      <span class="text-xl sm:text-2xl md:text-2xl lg:text-3xl xl:text-[2.5rem] font-semibold uppercase text-white press-text-blink">Press</span>
+      <span class="text-[clamp(1rem,min(2.5vw,3.5vh),2.5rem)] font-semibold uppercase text-white press-text-blink">Press</span>
       
       <!-- Icône de souris qui clique -->
       <button
         id="homeboarding-continue-btn"
-        class="mouse-button relative w-[55px] h-[55px] sm:w-[60px] sm:h-[60px] md:w-[65px] md:h-[65px] lg:w-[70px] lg:h-[70px] flex items-center justify-center press-text-blink transition-transform duration-200 hover:scale-110 active:scale-95 focus-visible:outline-[3px] focus-visible:outline-[#5d81b8] focus-visible:outline-offset-4"
+        class="mouse-button relative w-[clamp(3rem,min(5vw,7vh),4.375rem)] h-[clamp(3rem,min(5vw,7vh),4.375rem)] flex items-center justify-center press-text-blink transition-transform duration-200 hover:scale-110 active:scale-95 focus-visible:outline-[3px] focus-visible:outline-[#5d81b8] focus-visible:outline-offset-4"
         aria-label="Cliquer pour continuer"
       >
         <img 
@@ -84,7 +84,7 @@ import mouseIcon from '../../assets/icones/mouse-icon.svg';
         />
       </button>
       
-      <span class="text-xl sm:text-2xl md:text-2xl lg:text-3xl xl:text-[2.5rem] font-semibold uppercase text-white press-text-blink">to continue</span>
+      <span class="text-[clamp(1rem,min(2.5vw,3.5vh),2.5rem)] font-semibold uppercase text-white press-text-blink">to continue</span>
     </div>
   </div>
 </div>

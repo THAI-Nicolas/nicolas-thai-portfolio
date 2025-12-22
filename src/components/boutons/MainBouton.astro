@@ -55,10 +55,10 @@ const sizes = {
     text: "text-xs",
   },
   footer: {
-    button: "md:w-[100px] lg:w-[125px] xl:w-[155px] md:h-[100px] lg:h-[125px] xl:h-[155px]",
-    shape: "md:w-12 lg:w-16 xl:w-20 md:h-12 lg:h-16 xl:h-20",
-    icon: "md:w-[60px] lg:w-[75px] xl:w-[95px] md:h-[42px] lg:h-[52px] xl:h-[65px]",
-    iconRetour: "md:w-12 lg:w-16 xl:w-20 md:h-9 lg:h-11 xl:h-14",
+    button: "main-button-footer",
+    shape: "main-button-shape-footer",
+    icon: "main-button-icon-footer",
+    iconRetour: "main-button-icon-retour-footer",
     text: "text-sm",
   },
 };
@@ -129,6 +129,27 @@ const currentSize = sizes[size] || sizes.desktop;
 </button>
 
 <style>
+  /* Tailles fluides pour le footer */
+  .main-button-footer {
+    width: clamp(5.5rem, 8vw, 10.5rem);
+    height: clamp(5.5rem, 8vw, 10.5rem);
+  }
+  
+  .main-button-shape-footer {
+    width: clamp(3rem, 4.5vw, 5rem);
+    height: clamp(3rem, 4.5vw, 5rem);
+  }
+  
+  .main-button-icon-footer {
+    width: clamp(3.75rem, 5.5vw, 5.9375rem);
+    height: clamp(2.625rem, 3.8vw, 4.0625rem);
+  }
+  
+  .main-button-icon-retour-footer {
+    width: clamp(3rem, 4.5vw, 5rem);
+    height: clamp(2.25rem, 3.2vw, 3.5rem);
+  }
+  
   /* Focus ring supprimé */
   button:focus {
     outline: none;

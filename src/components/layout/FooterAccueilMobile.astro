@@ -7,64 +7,58 @@ import FondBouton from "../../assets/icones/bouton_fond.svg";
 import FondFooterMobile from "../../assets/icones/footer_fond_mobile.svg";
 ---
 
-<footer class="footer-wii-mobile relative w-full h-64 overflow-visible -bottom-8">
+<footer class="footer-wii-mobile fixed w-full h-[clamp(16rem,40vw,20rem)] overflow-visible bottom-[clamp(-3rem,-5vw,0rem)] z-10">
   <!-- Fond mobile -->
   <div class="absolute inset-0 w-full h-full z-0">
     <FondFooterMobile class="w-full h-full object-cover footer-svg-mobile" />
   </div>
 
   <!-- Fond bouton gauche -->
-  <div class="absolute left-[-10px] bottom-24 w-32 h-36 z-10">
-    <FondBouton class="h-36 w-32 object-cover footer-svg-mobile" />
+  <div class="absolute left-[clamp(-0.625rem,-1.5vw,0rem)] bottom-[clamp(6rem,15vw,8rem)] w-[clamp(8rem,20vw,10rem)] h-[clamp(9rem,22vw,11rem)] z-10">
+    <FondBouton class="w-full h-full object-cover footer-svg-mobile" />
   </div>
 
   <!-- Fond bouton droite -->
-  <div class="absolute right-0 bottom-24 w-32 h-36 z-10">
-    <FondBouton class="h-36 w-32 object-cover scale-x-[-1] footer-svg-mobile" />
+  <div class="absolute right-0 bottom-[clamp(6rem,15vw,8rem)] w-[clamp(8rem,20vw,10rem)] h-[clamp(9rem,22vw,11rem)] z-10">
+    <FondBouton class="w-full h-full object-cover scale-x-[-1] footer-svg-mobile" />
   </div>
 
   <!-- MainBouton Mii à gauche -->
-  <div class="absolute left-8 top-20 transform -translate-y-1/2 z-20 test-footer-color">
+  <div class="absolute left-[clamp(2rem,5vw,3rem)] top-[clamp(5rem,12.5vw,6.25rem)] -translate-y-1/2 z-20 test-footer-color">
     <MainBouton type="presentation" size="mobile" />
   </div>
 
   <!-- MainBouton Enveloppe à droite -->
-  <div class="absolute right-11 top-20 transform -translate-y-1/2 z-20 test-footer-color">
+  <div class="absolute right-[clamp(2.75rem,6vw,3.5rem)] top-[clamp(5rem,12.5vw,6.25rem)] -translate-y-1/2 z-20 test-footer-color">
     <MainBouton type="contact" size="mobile" />
   </div>
 
   <!-- CardCV à droite du MainBouton Mii -->
-  <div class="absolute left-34 top-45 transform -translate-y-1/2 z-20 test-footer-color">
+  <div class="absolute left-[clamp(8.5rem,21vw,10.5rem)] top-[clamp(11.25rem,28vw,14rem)] -translate-y-1/2 z-20 test-footer-color">
     <CardCV size="mobile" />
   </div>
 
   <!-- SmallBouton Paramètres à gauche du MainBouton Enveloppe -->
-  <div class="absolute right-34 top-45 transform -translate-y-1/2 z-20 test-footer-color">
+  <div class="absolute right-[clamp(8.5rem,21vw,10.5rem)] top-[clamp(11.25rem,28vw,14rem)] -translate-y-1/2 z-20 test-footer-color">
     <SmallBouton type="parametres" size="mobile" />
   </div>
 
   <!-- Portfolio et Nom au centre -->
-  <div
-    class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 text-center"
-  >
+  <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 text-center">
     <!-- Portfolio -->
-    <div
-      class="text-3xl font-bold text-light-blue relative bottom-16 uppercase tracking-wider"
-    >
+    <div class="text-[clamp(1.875rem,9.4vw,3rem)] font-bold text-light-blue uppercase tracking-wider relative bottom-[clamp(4rem,10vw,5rem)]">
       Portfolio
     </div>
 
     <!-- Nom -->
-    <div
-      class="text-xl text-text-gray relative bottom-6 font-semibold"
-    >
+    <div class="text-[clamp(1.25rem,6.25vw,1.75rem)] text-text-gray font-semibold relative bottom-[clamp(1.5rem,3.75vw,2rem)]">
       Nicolas THAI
     </div>
   </div>
 </footer>
 
 <!-- Dialogue Mii positionné en dehors du footer mobile pour éviter le overflow -->
-<div class="block absolute left-4 bottom-[200px] z-30" style="width: 155px;">
+<div class="hidden md:hidden absolute left-[clamp(1rem,2.5vw,1.5rem)] bottom-[clamp(12.5rem,31vw,15.625rem)] z-30" style="width: 155px;">
   <MiiDialogue />
 </div>
 

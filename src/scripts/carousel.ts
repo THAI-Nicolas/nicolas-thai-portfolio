@@ -98,24 +98,17 @@ export class CarouselManager {
 
     console.log("Changement vers la page:", pageNumber);
 
-    // Déterminer le translateX en fonction de la taille d'écran
-    // MD: 240px channel + gap = environ 390px par channel visible
-    // LG: 300px channel + gap = environ 500px par channel visible
-    // XL: 350px channel + 0px gap = 350px par channel visible
-    // On décale d'environ 5-6 channels pour passer à la page 2
-    const windowWidth = window.innerWidth;
-    let translateXPage2 = "-1890px"; // XL par défaut
+    // Calculer dynamiquement le translateX en fonction de la largeur réelle des channels
+    // On récupère la largeur d'un channel + gap
+    const firstChannel = this.carouselGrid.querySelector(".channel-fluid");
+    if (!firstChannel) return;
 
-    if (windowWidth >= 1280) {
-      // XL breakpoint
-      translateXPage2 = "-1890px"; // 5.4 × 350px
-    } else if (windowWidth >= 1024) {
-      // LG breakpoint
-      translateXPage2 = "-1512px"; // ~5 × 300px + gaps
-    } else if (windowWidth >= 768) {
-      // MD breakpoint
-      translateXPage2 = "-1210px"; // ~5 × 240px + gaps
-    }
+    const channelWidth = firstChannel.getBoundingClientRect().width;
+    const gridStyle = window.getComputedStyle(this.carouselGrid);
+    const gap = parseFloat(gridStyle.columnGap) || 0;
+
+    // On décale d'environ 5.4 channels pour passer à la page 2
+    const translateXPage2 = -(channelWidth + gap) * 5.4;
 
     if (pageNumber === 1) {
       setStyle(this.carouselGrid, "transform", "translateX(0)");
@@ -127,7 +120,7 @@ export class CarouselManager {
       setStyle(
         this.carouselGrid,
         "transform",
-        `translateX(${translateXPage2})`
+        `translateX(${translateXPage2}px)`
       );
       setStyle(this.arrowRight, "opacity", "0");
       setStyle(this.arrowLeft, "opacity", "1");

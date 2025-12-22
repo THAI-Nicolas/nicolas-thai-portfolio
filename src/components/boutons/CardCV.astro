@@ -15,7 +15,7 @@ const sizes = {
     container: "w-[45px] h-[65px]",
   },
   desktop: {
-    container: "md:w-[48px] lg:w-[60px] xl:w-[75px] md:h-[60px] lg:h-[74px] xl:h-[92px]",
+    container: "card-cv-desktop",
   },
 };
 
@@ -33,6 +33,12 @@ const currentSize = sizes[size] || sizes.desktop;
 </div>
 
 <style>
+  /* Tailles fluides pour desktop */
+  .card-cv-desktop {
+    width: clamp(3rem, 4.2vw, 4.6875rem);
+    height: clamp(3.75rem, 5.2vw, 5.75rem);
+  }
+  
   @keyframes cv-glow {
     0%, 100% {
       filter: drop-shadow(0 0 2px rgba(52, 190, 237, 0.6));

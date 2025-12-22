@@ -24,16 +24,16 @@
   .mii-dialogue__bubble {
     position: relative;
     background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
-    padding: 28px 40px;
-    border-radius: 28px;
+    padding: clamp(0.625rem, min(2vw,3vh), 1.75rem) clamp(1rem, min(2.5vw,4vh), 2.5rem);
+    border-radius: clamp(0.875rem, 1.8vw, 1.75rem);
     box-shadow: 
       0 4px 12px rgba(0, 0, 0, 0.15),
       0 0 0 3px var(--color-light-blue),
       0 0 20px rgba(52, 190, 237, 0.3);
     white-space: nowrap;
     animation: dialogue-float 3s ease-in-out infinite;
-    min-height: 80px;
-    min-width: 260px;
+    min-height: clamp(2rem, min(4.5vw,7vh), 5rem);
+    max-width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -42,39 +42,11 @@
   .mii-dialogue__text {
     margin: 0;
     font-family: 'Raleway', sans-serif;
-    font-size: 17px;
+    font-size: clamp(0.65rem, min(1vw,1.6vh), 1.0625rem);
     font-weight: 600;
     color: var(--color-text-gray);
     text-align: center;
     line-height: 1.4;
-  }
-
-  /* Version LG - légèrement réduite */
-  @media (min-width: 1024px) and (max-width: 1279px) {
-    .mii-dialogue__bubble {
-      padding: 22px 32px;
-      border-radius: 24px;
-      min-height: 65px;
-      min-width: 220px;
-    }
-
-    .mii-dialogue__text {
-      font-size: 15px;
-    }
-  }
-
-  /* Version MD - encore plus réduite pour tablette */
-  @media (min-width: 768px) and (max-width: 1023px) {
-    .mii-dialogue__bubble {
-      padding: 18px 26px;
-      border-radius: 20px;
-      min-height: 55px;
-      min-width: 180px;
-    }
-
-    .mii-dialogue__text {
-      font-size: 14px;
-    }
   }
 
   /* Version mobile - désactiver le dialogue */
