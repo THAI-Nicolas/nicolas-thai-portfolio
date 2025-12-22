@@ -10,6 +10,9 @@ export class MiiButton {
   private mixer: THREE.AnimationMixer | null = null;
   private clock: THREE.Clock;
   private animationFrameId: number | null = null;
+  private boundHandleResize?: () => void;
+  private resizeObserver: ResizeObserver | null = null;
+  private lastSize: number = 0;
 
   // Paramètres fixes pour le bouton
   private params = {
@@ -57,6 +60,7 @@ export class MiiButton {
       powerPreference: "high-performance",
     });
     const size = Math.min(container.clientWidth, container.clientHeight);
+    this.lastSize = size;
     // Augmenter la résolution pour un rendu plus net (2x la taille)
     this.renderer.setSize(size * 2, size * 2);
     // Utiliser le pixel ratio natif pour la meilleure qualité
@@ -76,7 +80,16 @@ export class MiiButton {
     this.loadModel();
 
     // Gestion du resize
-    window.addEventListener("resize", this.handleResize.bind(this));
+    this.boundHandleResize = this.handleResize.bind(this);
+
+    // ResizeObserver pour détecter les changements de taille du conteneur (clamp CSS)
+    this.resizeObserver = new ResizeObserver(() => {
+      this.handleResize();
+    });
+    this.resizeObserver.observe(this.container);
+
+    // Window resize comme backup
+    window.addEventListener("resize", this.boundHandleResize);
   }
 
   private setupLights(): void {
@@ -216,6 +229,11 @@ export class MiiButton {
       this.container.clientWidth,
       this.container.clientHeight
     );
+
+    // Ne redimensionner que si la taille a vraiment changé
+    if (Math.abs(size - this.lastSize) < 1) return;
+
+    this.lastSize = size;
     // Maintenir la haute résolution lors du resize
     this.renderer.setSize(size * 2, size * 2);
   }
@@ -227,7 +245,14 @@ export class MiiButton {
     }
 
     // Nettoyer les événements
-    window.removeEventListener("resize", this.handleResize.bind(this));
+    if (this.boundHandleResize) {
+      window.removeEventListener("resize", this.boundHandleResize);
+    }
+
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+      this.resizeObserver = null;
+    }
 
     // Nettoyer le renderer
     if (this.renderer) {

@@ -13,6 +13,8 @@ export class MiiScene {
   private isRotating: boolean = false;
   private rotationDirection: "left" | "right" | null = null;
   private rotationSpeed: number = 0.05;
+  private boundHandleResize: () => void;
+  private resizeObserver: ResizeObserver | null = null;
 
   // Paramètres fixes
   private params = {
@@ -35,6 +37,7 @@ export class MiiScene {
   constructor(container: HTMLElement) {
     this.container = container;
     this.clock = new THREE.Clock();
+    this.boundHandleResize = this.handleResize.bind(this);
 
     // Initialisation de la scène
     this.scene = new THREE.Scene();
@@ -68,8 +71,23 @@ export class MiiScene {
     // Chargement du modèle
     this.loadModel();
 
-    // Gestion du resize
-    window.addEventListener("resize", this.handleResize.bind(this));
+    // Gestion du resize avec ResizeObserver pour détecter les changements de taille du conteneur
+    this.resizeObserver = new ResizeObserver((entries) => {
+      console.log("ResizeObserver triggered!", {
+        width: entries[0].contentRect.width,
+        height: entries[0].contentRect.height,
+      });
+      this.handleResize();
+    });
+    this.resizeObserver.observe(this.container);
+
+    console.log("MiiScene initialized, container size:", {
+      width: container.clientWidth,
+      height: container.clientHeight,
+    });
+
+    // Backup avec window resize
+    window.addEventListener("resize", this.boundHandleResize);
   }
 
   private setupLights(): void {
@@ -212,10 +230,16 @@ export class MiiScene {
     const width = this.container.clientWidth;
     const height = this.container.clientHeight;
 
+    console.log("Mii resize:", { width, height });
+
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
 
     this.renderer.setSize(width, height);
+    this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    // Force un rendu immédiat
+    this.renderer.render(this.scene, this.camera);
   }
 
   public startRotation(direction: "left" | "right"): void {
@@ -234,8 +258,14 @@ export class MiiScene {
       cancelAnimationFrame(this.animationFrameId);
     }
 
+    // Nettoyer le ResizeObserver
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+      this.resizeObserver = null;
+    }
+
     // Nettoyer les événements
-    window.removeEventListener("resize", this.handleResize.bind(this));
+    window.removeEventListener("resize", this.boundHandleResize);
 
     // Nettoyer le renderer
     if (this.renderer) {
