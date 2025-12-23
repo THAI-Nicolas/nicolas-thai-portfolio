@@ -48,7 +48,7 @@ const textClasses = {
   target={target}
   rel={rel}
   data-project-back={text === "Retour" && href === "/" ? true : undefined}
-  class={`group relative px-8 md:px-12 lg:px-32 py-4 md:py-6 lg:py-10 rounded-full shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl active:scale-95 overflow-hidden border-4 ${variantClasses[variant]}`}
+  class={`group relative px-8 md:px-12 lg:px-16 xl:px-24 2xl:px-32 py-4 md:py-6 lg:py-4 xl:py-7 2xl:py-10 rounded-full shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl active:scale-95 overflow-hidden border-4 ${variantClasses[variant]}`}
   style={`
     ${borderColor ? `border-color: ${borderColor}; --border-color: ${borderColor};` : variant === 'primary' ? 'border-color: var(--color-light-blue); --border-color: var(--color-light-blue);' : 'border-color: white; --border-color: white;'}
     ${backgroundColor ? `background: ${backgroundColor};` : ''}

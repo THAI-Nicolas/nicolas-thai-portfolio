@@ -190,20 +190,82 @@ body {
 /* ========================================
    CURSEUR PERSONNALISÉ MII
    ======================================== */
-html.custom-cursor,
-html.custom-cursor * {
-  cursor: url("/cursor-mouse.svg") 5 5, auto !important;
+/* Curseur Wii responsive */
+
+/* Mobile (< 768px) - Très petit curseur */
+@media (max-width: 767px) {
+  html.custom-cursor,
+  html.custom-cursor * {
+    cursor: url("/cursor-mouse-mobile.svg") 3 3, auto !important;
+  }
+
+  html.custom-cursor button,
+  html.custom-cursor a,
+  html.custom-cursor input[type="button"],
+  html.custom-cursor input[type="submit"],
+  html.custom-cursor input[type="range"],
+  html.custom-cursor label.gaming-toggle,
+  html.custom-cursor .toggle-slider,
+  html.custom-cursor [role="button"] {
+    cursor: url("/cursor-mouse-large-mobile.svg") 5 5, pointer !important;
+  }
 }
 
-html.custom-cursor button,
-html.custom-cursor a,
-html.custom-cursor input[type="button"],
-html.custom-cursor input[type="submit"],
-html.custom-cursor input[type="range"],
-html.custom-cursor label.gaming-toggle,
-html.custom-cursor .toggle-slider,
-html.custom-cursor [role="button"] {
-  cursor: url("/cursor-mouse-large.svg") 8 8, pointer !important;
+/* Tablette (768px - 1279px) - Petit curseur */
+@media (min-width: 768px) and (max-width: 1279px) {
+  html.custom-cursor,
+  html.custom-cursor * {
+    cursor: url("/cursor-mouse-mobile.svg") 4 4, auto !important;
+  }
+
+  html.custom-cursor button,
+  html.custom-cursor a,
+  html.custom-cursor input[type="button"],
+  html.custom-cursor input[type="submit"],
+  html.custom-cursor input[type="range"],
+  html.custom-cursor label.gaming-toggle,
+  html.custom-cursor .toggle-slider,
+  html.custom-cursor [role="button"] {
+    cursor: url("/cursor-mouse-large-mobile.svg") 6 6, pointer !important;
+  }
+}
+
+/* Laptop (1280px - 1535px) - Curseur moyen réduit */
+@media (min-width: 1280px) and (max-width: 1535px) {
+  html.custom-cursor,
+  html.custom-cursor * {
+    cursor: url("/cursor-mouse-laptop.svg") 4 4, auto !important;
+  }
+
+  html.custom-cursor button,
+  html.custom-cursor a,
+  html.custom-cursor input[type="button"],
+  html.custom-cursor input[type="submit"],
+  html.custom-cursor input[type="range"],
+  html.custom-cursor label.gaming-toggle,
+  html.custom-cursor .toggle-slider,
+  html.custom-cursor [role="button"] {
+    cursor: url("/cursor-mouse-large-laptop.svg") 6 6, pointer !important;
+  }
+}
+
+/* Desktop 2K+ (1536px+) - Curseur parfait (taille originale) */
+@media (min-width: 1536px) {
+  html.custom-cursor,
+  html.custom-cursor * {
+    cursor: url("/cursor-mouse.svg") 5 5, auto !important;
+  }
+
+  html.custom-cursor button,
+  html.custom-cursor a,
+  html.custom-cursor input[type="button"],
+  html.custom-cursor input[type="submit"],
+  html.custom-cursor input[type="range"],
+  html.custom-cursor label.gaming-toggle,
+  html.custom-cursor .toggle-slider,
+  html.custom-cursor [role="button"] {
+    cursor: url("/cursor-mouse-large.svg") 8 8, pointer !important;
+  }
 }
 
 html.custom-cursor button:active,

@@ -139,7 +139,7 @@ projets.forEach((projet, index) => {
           <div class="relative w-full overflow-x-auto overflow-y-hidden pl-20 scrollbar-hide" style="height: 580px; scroll-behavior: smooth;">
             <div
               id="carousel-grid-mobile"
-              class="grid grid-cols-9 grid-rows-3 gap-x-80 gap-y-8 transition-transform duration-800 ease-in-out"
+              class="grid grid-cols-9 grid-rows-3 gap-x-80 gap-y-8"
               style="width: fit-content;"
               role="list"
               aria-label="Liste des projets"
@@ -211,33 +211,34 @@ projets.forEach((projet, index) => {
     const isNotDesktop = window.innerWidth < 1024;
     
     if (isNotDesktop) {
+      const scrollContainer = document.querySelector('.overflow-x-auto') as HTMLElement;
       const carouselGridMobile = document.getElementById('carousel-grid-mobile');
       const arrowRightMobile = document.getElementById('arrow-right-mobile');
       const arrowLeftMobile = document.getElementById('arrow-left-mobile');
       
-      if (!carouselGridMobile || !arrowRightMobile || !arrowLeftMobile) {
+      if (!scrollContainer || !carouselGridMobile || !arrowRightMobile || !arrowLeftMobile) {
         console.log('Éléments carousel mobile non trouvés');
         return;
       }
       
       console.log('Initialisation carousel mobile');
       
-      let currentColumnIndex = 0;
       const columnWidth = 319; // largeur channel mobile (295px) + gap (24px)
       const visibleColumns = 3; // 3 colonnes visibles
       const totalColumns = 9; // 27 items / 3 lignes = 9 colonnes
       const maxColumnIndex = totalColumns - visibleColumns; // 6 (colonnes 0-6 possibles)
       
-      function updateCarouselMobile() {
-        if (!carouselGridMobile || !arrowLeftMobile || !arrowRightMobile) return;
+      // Fonction pour mettre à jour la visibilité des flèches selon la position de scroll
+      function updateArrowsVisibility() {
+        if (!scrollContainer || !arrowLeftMobile || !arrowRightMobile) return;
         
-        const translateX = -(currentColumnIndex * columnWidth);
-        carouselGridMobile.style.transform = `translateX(${translateX}px)`;
+        const scrollLeft = scrollContainer.scrollLeft;
+        const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
         
-        console.log('Carousel mobile update:', { currentColumnIndex, translateX });
+        console.log('Scroll position:', { scrollLeft, maxScroll });
         
         // Gestion visibilité de la flèche gauche
-        if (currentColumnIndex === 0) {
+        if (scrollLeft <= 10) { // Petite tolérance
           arrowLeftMobile.style.opacity = '0';
           arrowLeftMobile.style.pointerEvents = 'none';
         } else {
@@ -246,7 +247,7 @@ projets.forEach((projet, index) => {
         }
         
         // Gestion visibilité de la flèche droite
-        if (currentColumnIndex >= maxColumnIndex) {
+        if (scrollLeft >= maxScroll - 10) { // Petite tolérance
           arrowRightMobile.style.opacity = '0';
           arrowRightMobile.style.pointerEvents = 'none';
         } else {
@@ -254,6 +255,9 @@ projets.forEach((projet, index) => {
           arrowRightMobile.style.pointerEvents = 'auto';
         }
       }
+      
+      // Écouter le scroll pour mettre à jour les flèches en temps réel
+      scrollContainer.addEventListener('scroll', updateArrowsVisibility);
       
       // Nettoyer les anciens listeners
       const newArrowRight = arrowRightMobile.cloneNode(true) as HTMLElement;
@@ -271,22 +275,25 @@ projets.forEach((projet, index) => {
       finalArrowRight.addEventListener('click', (e) => {
         e.preventDefault();
         console.log('Click flèche droite mobile');
-        if (currentColumnIndex < maxColumnIndex) {
-          currentColumnIndex++;
-          updateCarouselMobile();
-        }
+        // Scroller d'une colonne vers la droite
+        scrollContainer.scrollBy({
+          left: columnWidth,
+          behavior: 'smooth'
+        });
       });
       
       finalArrowLeft.addEventListener('click', (e) => {
         e.preventDefault();
         console.log('Click flèche gauche mobile');
-        if (currentColumnIndex > 0) {
-          currentColumnIndex--;
-          updateCarouselMobile();
-        }
+        // Scroller d'une colonne vers la gauche
+        scrollContainer.scrollBy({
+          left: -columnWidth,
+          behavior: 'smooth'
+        });
       });
       
-      updateCarouselMobile();
+      // Initialiser la visibilité des flèches
+      updateArrowsVisibility();
     }
   }
 
