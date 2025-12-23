@@ -82,7 +82,10 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
     class="presentation-container fixed inset-0 z-[80] flex items-center justify-center"
   >
     <!-- Bouton Retour -->
-    <div class="absolute top-16 left-28 z-[100]" id="presentation-return-button">
+    <div class="absolute top-16 left-28 z-[100] xl:block 2xl:hidden" id="presentation-return-button">
+      <MainBouton type="retour" size="laptop" />
+    </div>
+    <div class="absolute top-16 left-28 z-[100] hidden 2xl:block" id="presentation-return-button">
       <MainBouton type="retour" size="desktop" />
     </div>
 
@@ -684,16 +687,29 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
   /* ========== CARTE LIVRE PORTFOLIO ========== */
   .book-card {
     position: relative;
-    width: 600px;
-    height: 800px;
+    width: 450px;
+    height: 600px;
     transform-style: preserve-3d;
     cursor: pointer;
     transition: transform 0.6s ease-out;
   }
 
+  @media (min-width: 1536px) {
+    .book-card {
+      width: 600px;
+      height: 800px;
+    }
+  }
+
   /* Centrage automatique quand le livre est ouvert */
   .book-card.opened {
-    transform: translateX(300px);
+    transform: translateX(225px);
+  }
+
+  @media (min-width: 1536px) {
+    .book-card.opened {
+      transform: translateX(300px);
+    }
   }
 
   /* Épaisseur haut */
@@ -795,10 +811,10 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
   /* Overlay Développement (page de gauche) */
   .page-2-back-overlay {
     position: absolute;
-    width: 600px;
-    height: 800px;
+    width: 450px;
+    height: 600px;
     top: 0;
-    left: -600px;
+    left: -450px;
     background: white;
     border-radius: 8px;
     border: 4px solid var(--color-light-blue);
@@ -809,9 +825,23 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
     transition: opacity 1s ease;
   }
 
+  @media (min-width: 1536px) {
+    .page-2-back-overlay {
+      width: 600px;
+      height: 800px;
+      left: -600px;
+    }
+  }
+
   /* Quand le livre est ouvert, suivre le translateX */
   .book-card.opened .page-2-back-overlay {
-    left: -600px; /* À gauche du livre */
+    left: -450px; /* À gauche du livre */
+  }
+
+  @media (min-width: 1536px) {
+    .book-card.opened .page-2-back-overlay {
+      left: -600px;
+    }
   }
 
   .page-2-back-overlay.visible {
@@ -822,7 +852,7 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
   .page-2-back-overlay-content {
     width: 100%;
     height: 100%;
-    padding: 40px 50px;
+    padding: 30px 35px;
     font-family: "Raleway", sans-serif;
     overflow-y: hidden;
     display: flex;
@@ -831,25 +861,51 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
     justify-content: flex-start;
   }
 
+  @media (min-width: 1536px) {
+    .page-2-back-overlay-content {
+      padding: 40px 50px;
+    }
+  }
+
   /* Styles pour la section Développement */
   .dev-header {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-bottom: 20px;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+
+  @media (min-width: 1536px) {
+    .dev-header {
+      gap: 15px;
+      margin-bottom: 20px;
+    }
   }
 
   .dev-icon {
-    width: 45px;
-    height: 45px;
+    width: 32px;
+    height: 32px;
+  }
+
+  @media (min-width: 1536px) {
+    .dev-icon {
+      width: 45px;
+      height: 45px;
+    }
   }
 
   .dev-title {
-    font-size: 1.8rem;
+    font-size: 1.35rem;
     font-weight: 900;
     color: #000;
     margin: 0;
     letter-spacing: 0.1em;
+  }
+
+  @media (min-width: 1536px) {
+    .dev-title {
+      font-size: 1.8rem;
+    }
   }
 
   .dev-technologies-container {
@@ -868,19 +924,33 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
   }
 
   .dev-section-title {
-    font-size: 0.875rem;
+    font-size: 0.7rem;
     font-weight: 800;
     color: #000;
-    margin: 15px 0 12px 0;
+    margin: 12px 0 10px 0;
     letter-spacing: 0.05em;
     text-transform: uppercase;
   }
 
+  @media (min-width: 1536px) {
+    .dev-section-title {
+      font-size: 0.875rem;
+      margin: 15px 0 12px 0;
+    }
+  }
+
   .dev-content-block {
     display: flex;
-    gap: 16px;
+    gap: 12px;
     align-items: center;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
+  }
+
+  @media (min-width: 1536px) {
+    .dev-content-block {
+      gap: 16px;
+      margin-bottom: 16px;
+    }
   }
 
   .dev-text-wrapper {
@@ -888,18 +958,32 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
   }
 
   .dev-paragraph {
-    font-size: 0.8rem !important;
+    font-size: 0.65rem !important;
     line-height: 1.4 !important;
     color: #1a202c !important;
     margin: 0 !important;
   }
 
+  @media (min-width: 1536px) {
+    .dev-paragraph {
+      font-size: 0.8rem !important;
+    }
+  }
+
   .dev-image-placeholder {
-    flex: 0 0 200px;
-    width: 200px;
-    height: 150px;
+    flex: 0 0 150px;
+    width: 150px;
+    height: 112px;
     background: #d9d9d9;
     border-radius: 8px;
+  }
+
+  @media (min-width: 1536px) {
+    .dev-image-placeholder {
+      flex: 0 0 200px;
+      width: 200px;
+      height: 150px;
+    }
   }
 
   /* Ancien contenu page 2 - on le garde vide pour pas casser l'animation */
@@ -913,8 +997,8 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
   /* Overlay Design (page de droite) */
   .page-2-back-overlay-right {
     position: absolute;
-    width: 600px;
-    height: 800px;
+    width: 450px;
+    height: 600px;
     top: 0;
     left: 0;
     background: white;
@@ -925,6 +1009,13 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.5s ease;
+  }
+
+  @media (min-width: 1536px) {
+    .page-2-back-overlay-right {
+      width: 600px;
+      height: 800px;
+    }
   }
 
   .book-card.opened .page-2-back-overlay-right {
@@ -939,7 +1030,7 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
   .page-2-back-overlay-right-content {
     width: 100%;
     height: 100%;
-    padding: 40px 50px;
+    padding: 30px 35px;
     font-family: "Raleway", sans-serif;
     overflow-y: hidden;
     display: flex;
@@ -948,13 +1039,19 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
     justify-content: flex-start;
   }
 
+  @media (min-width: 1536px) {
+    .page-2-back-overlay-right-content {
+      padding: 40px 50px;
+    }
+  }
+
   /* Overlay Gestion de projet (page de gauche) */
   .page-3-back-overlay {
     position: absolute;
-    width: 600px;
-    height: 800px;
+    width: 450px;
+    height: 600px;
     top: 0;
-    left: -600px;
+    left: -450px;
     background: white;
     border-radius: 8px;
     border: 4px solid var(--color-light-blue);
@@ -965,8 +1062,22 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
     transition: opacity 1s ease;
   }
 
+  @media (min-width: 1536px) {
+    .page-3-back-overlay {
+      width: 600px;
+      height: 800px;
+      left: -600px;
+    }
+  }
+
   .book-card.opened .page-3-back-overlay {
-    left: -600px;
+    left: -450px;
+  }
+
+  @media (min-width: 1536px) {
+    .book-card.opened .page-3-back-overlay {
+      left: -600px;
+    }
   }
 
   .page-3-back-overlay.visible {
@@ -977,7 +1088,7 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
   .page-3-back-overlay-content {
     width: 100%;
     height: 100%;
-    padding: 40px 50px;
+    padding: 30px 35px;
     font-family: "Raleway", sans-serif;
     overflow-y: hidden;
     display: flex;
@@ -986,11 +1097,17 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
     justify-content: flex-start;
   }
 
+  @media (min-width: 1536px) {
+    .page-3-back-overlay-content {
+      padding: 40px 50px;
+    }
+  }
+
   /* Overlay Audiovisuel (page de droite) */
   .page-3-back-overlay-right {
     position: absolute;
-    width: 600px;
-    height: 800px;
+    width: 450px;
+    height: 600px;
     top: 0;
     left: 0;
     background: white;
@@ -1001,6 +1118,13 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
     pointer-events: none;
     opacity: 0;
     transition: opacity 0.5s ease;
+  }
+
+  @media (min-width: 1536px) {
+    .page-3-back-overlay-right {
+      width: 600px;
+      height: 800px;
+    }
   }
 
   .book-card.opened .page-3-back-overlay-right {
@@ -1015,13 +1139,19 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
   .page-3-back-overlay-right-content {
     width: 100%;
     height: 100%;
-    padding: 40px 50px;
+    padding: 30px 35px;
     font-family: "Raleway", sans-serif;
     overflow-y: hidden;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
+  }
+
+  @media (min-width: 1536px) {
+    .page-3-back-overlay-right-content {
+      padding: 40px 50px;
+    }
   }
 
   /* Animation de tournement */
@@ -1039,45 +1169,85 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
     justify-content: center;
     text-align: center;
     color: white;
-    padding: 60px 40px;
+    padding: 45px 30px;
     font-family: "Raleway", sans-serif;
   }
 
+  @media (min-width: 1536px) {
+    .cover-content {
+      padding: 60px 40px;
+    }
+  }
+
   .cover-ornament {
-    font-size: 3rem;
+    font-size: 2.25rem;
     color: white;
-    margin: 20px 0;
+    margin: 15px 0;
+  }
+
+  @media (min-width: 1536px) {
+    .cover-ornament {
+      font-size: 3rem;
+      margin: 20px 0;
+    }
   }
 
   .cover-subtitle {
-    font-size: 1.75rem;
+    font-size: 1.3rem;
     font-weight: 800;
     color: white;
     letter-spacing: 0.5em;
-    margin-bottom: 30px;
+    margin-bottom: 22px;
+  }
+
+  @media (min-width: 1536px) {
+    .cover-subtitle {
+      font-size: 1.75rem;
+      margin-bottom: 30px;
+    }
   }
 
   .cover-main-title {
-    font-size: 6rem;
+    font-size: 4.5rem;
     font-weight: 900;
     color: white;
     line-height: 0.9;
-    margin-bottom: 30px;
+    margin-bottom: 22px;
+  }
+
+  @media (min-width: 1536px) {
+    .cover-main-title {
+      font-size: 6rem;
+      margin-bottom: 30px;
+    }
   }
 
   .cover-main-title .name {
-    font-size: 3.5rem;
+    font-size: 2.6rem;
     display: block;
-    margin-top: 20px;
+    margin-top: 15px;
     font-weight: 800;
     letter-spacing: 0.4em;
   }
 
+  @media (min-width: 1536px) {
+    .cover-main-title .name {
+      font-size: 3.5rem;
+      margin-top: 20px;
+    }
+  }
+
   .cover-tagline {
-    font-size: 1.25rem;
+    font-size: 0.95rem;
     font-weight: 600;
     color: white;
     letter-spacing: 0.15em;
+  }
+
+  @media (min-width: 1536px) {
+    .cover-tagline {
+      font-size: 1.25rem;
+    }
   }
 
   /* Contenu pages intérieures */
@@ -1138,12 +1308,18 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px;
+    padding: 25px;
     background: linear-gradient(145deg, #fefefe 0%, #f8f8f8 100%);
     backface-visibility: hidden;
     opacity: 1;
     transition: opacity 0.3s ease;
     font-family: "Raleway", sans-serif;
+  }
+
+  @media (min-width: 1536px) {
+    .presentation-card-container {
+      padding: 40px;
+    }
   }
 
   .presentation-card-container.hidden {
@@ -1169,38 +1345,59 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
 
   .presentation-card {
     width: 100%;
-    max-width: 480px;
-    max-height: 670px;
+    max-width: 360px;
+    max-height: 500px;
     background: #f2f2f2;
     border-radius: 12px;
-    padding: 28px;
+    padding: 20px;
     box-shadow:
       0 4px 8px rgba(0, 0, 0, 0.5),
       0 4px 8px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
+  }
+
+  @media (min-width: 1536px) {
+    .presentation-card {
+      max-width: 480px;
+      max-height: 670px;
+      padding: 28px;
+      gap: 16px;
+    }
   }
 
   .card-frame {
     width: 100%;
     background: #d9d9d9;
     border-radius: 4px;
-    padding: 8px;
+    padding: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
+  @media (min-width: 1536px) {
+    .card-frame {
+      padding: 8px;
+    }
+  }
+
   .card-image-container {
     width: 100%;
     aspect-ratio: 0.91;
-    max-height: 380px;
+    max-height: 280px;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
     background: #d9d9d9;
+  }
+
+  @media (min-width: 1536px) {
+    .card-image-container {
+      max-height: 380px;
+    }
   }
 
   .card-avatar {
@@ -1210,45 +1407,77 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
   }
 
   .card-name {
-    font-size: 1.8rem;
+    font-size: 1.35rem;
     font-weight: 700;
     color: #000;
     margin: 0;
     padding: 0 8px;
   }
 
+  @media (min-width: 1536px) {
+    .card-name {
+      font-size: 1.8rem;
+    }
+  }
+
   .card-info-list {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 10px;
     padding: 0 8px;
+  }
+
+  @media (min-width: 1536px) {
+    .card-info-list {
+      gap: 16px;
+    }
   }
 
   .card-info-item {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 10px;
+  }
+
+  @media (min-width: 1536px) {
+    .card-info-item {
+      gap: 14px;
+    }
   }
 
   .card-icon {
-    width: 24px;
-    height: 24px;
-    min-width: 24px;
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
     color: #878787;
     flex-shrink: 0;
   }
 
+  @media (min-width: 1536px) {
+    .card-icon {
+      width: 24px;
+      height: 24px;
+      min-width: 24px;
+    }
+  }
+
   .card-info-item span {
-    font-size: 1.05rem;
+    font-size: 0.8rem;
     color: #000;
     line-height: 1.4;
+  }
+
+  @media (min-width: 1536px) {
+    .card-info-item span {
+      font-size: 1.05rem;
+    }
   }
 
   .page-right-content {
     width: 100%;
     height: 100%;
     background: white;
-    padding: 60px 25px;
+    padding: 45px 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1256,43 +1485,83 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
     font-family: "Raleway", sans-serif;
   }
 
+  @media (min-width: 1536px) {
+    .page-right-content {
+      padding: 60px 25px;
+    }
+  }
+
   .intro-section {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 10px;
+  }
+
+  @media (min-width: 1536px) {
+    .intro-section {
+      gap: 14px;
+    }
   }
 
   .intro-title {
-    font-size: 2.2rem;
+    font-size: 1.65rem;
     font-weight: 900;
     color: #000;
     text-align: left;
     letter-spacing: 0.05em;
     margin: 0;
-    padding: 0 25px;
+    padding: 0 20px;
     font-family: "Raleway", sans-serif;
+  }
+
+  @media (min-width: 1536px) {
+    .intro-title {
+      font-size: 2.2rem;
+      padding: 0 25px;
+    }
   }
 
   .profile-card {
     background: white;
-    padding: 25px;
+    padding: 18px;
+  }
+
+  @media (min-width: 1536px) {
+    .profile-card {
+      padding: 25px;
+    }
   }
 
   .profile-title {
-    font-size: 1.4rem;
+    font-size: 1.05rem;
     font-weight: 800;
     color: #000;
-    margin: 0 0 15px 0;
+    margin: 0 0 10px 0;
     letter-spacing: 0.05em;
     font-family: "Raleway", sans-serif;
   }
 
+  @media (min-width: 1536px) {
+    .profile-title {
+      font-size: 1.4rem;
+      margin: 0 0 15px 0;
+    }
+  }
+
   .profile-card p {
-    font-size: 1rem;
-    line-height: 1.7;
+    font-size: 0.75rem;
+    line-height: 1.6;
     color: #333;
-    margin: 0 0 12px 0;
+    margin: 0 0 10px 0;
     font-family: "Raleway", sans-serif;
+  }
+
+  @media (min-width: 1536px) {
+    .profile-card p {
+      font-size: 1rem;
+      line-height: 1.7;
+      margin: 0 0 12px 0;
+    }
   }
 
   .profile-card p:last-child {
@@ -1301,40 +1570,68 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
 
   .welcome-section {
     background: white;
-    padding: 25px;
+    padding: 18px;
+  }
+
+  @media (min-width: 1536px) {
+    .welcome-section {
+      padding: 25px;
+    }
   }
 
   .welcome-title {
-    font-size: 1.4rem;
+    font-size: 1.05rem;
     font-weight: 800;
     color: #000;
-    margin: 0 0 15px 0;
+    margin: 0 0 10px 0;
     letter-spacing: 0.05em;
     font-family: "Raleway", sans-serif;
   }
 
+  @media (min-width: 1536px) {
+    .welcome-title {
+      font-size: 1.4rem;
+      margin: 0 0 15px 0;
+    }
+  }
+
   .welcome-section p {
-    font-size: 1rem;
-    line-height: 1.7;
+    font-size: 0.75rem;
+    line-height: 1.6;
     color: #333;
-    margin: 0 0 30px 0;
+    margin: 0 0 20px 0;
     font-family: "Raleway", sans-serif;
+  }
+
+  @media (min-width: 1536px) {
+    .welcome-section p {
+      font-size: 1rem;
+      line-height: 1.7;
+      margin: 0 0 30px 0;
+    }
   }
 
   .discover-button {
     background: transparent;
     border: none;
     color: #000;
-    font-size: 0.9rem;
+    font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.05em;
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     padding: 0;
     transition: all 0.3s ease;
     font-family: "Raleway", sans-serif;
+  }
+
+  @media (min-width: 1536px) {
+    .discover-button {
+      font-size: 0.9rem;
+      gap: 10px;
+    }
   }
 
   .discover-button:hover {
