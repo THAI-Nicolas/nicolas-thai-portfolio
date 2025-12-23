@@ -18,15 +18,128 @@ const { isVisible = false, onClose } = Astro.props;
   <div class="bg-black/50 fixed inset-0 z-[70] overflow-hidden"></div>
 
   <div
-    class="contact-container fixed inset-0 z-[80] flex items-center justify-center"
+    class="contact-container fixed inset-0 z-[80] flex items-center justify-center overflow-y-auto md:overflow-hidden"
     id="contact-container"
   >
-    <div class="flex items-stretch gap-60">
+    <!-- Layout mobile/tablette : vertical -->
+    <div class="flex flex-col lg:hidden w-full h-full py-4 px-4 gap-6 overflow-y-auto">
+      <!-- Bouton retour en haut à droite -->
+      <div class="flex justify-end pt-0 md:pt-2">
+        <div id="contact-return-button-mobile" class="contact-return-button">
+          <MainBouton type="retour" size="mobile" />
+        </div>
+      </div>
+
+      <!-- Formulaire simple centré -->
+      <div class="flex-1 flex items-center justify-center">
+        <div class="mobile-form-wrapper w-[75%] md:w-[55%]">
+          <div class="mobile-form-content bg-white rounded-2xl p-4 border-3 border-light-blue shadow-xl">
+            <div class="mobile-form-header mb-4 pb-3 border-b-3 border-light-blue">
+              <h2 class="text-xl font-bold text-light-blue tracking-wider uppercase text-center">
+                FORMULAIRE
+              </h2>
+            </div>
+
+            <form class="mobile-form" id="contact-form-mobile">
+              <div class="flex flex-col gap-3">
+                <div>
+                  <label for="mobile-prenom" class="block text-xs font-bold mb-1 text-text-gray tracking-wide">
+                    Prénom
+                  </label>
+                  <input
+                    type="text"
+                    id="mobile-prenom"
+                    name="prenom"
+                    data-sync="prenom"
+                    placeholder="Ex: Jean"
+                    class="mobile-input w-full px-3 py-2 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label for="mobile-nom" class="block text-xs font-bold mb-1 text-text-gray tracking-wide">
+                    Nom
+                  </label>
+                  <input
+                    type="text"
+                    id="mobile-nom"
+                    name="nom"
+                    data-sync="nom"
+                    placeholder="Ex: Dupont"
+                    class="mobile-input w-full px-3 py-2 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label for="mobile-email" class="block text-xs font-bold mb-1 text-text-gray tracking-wide">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="mobile-email"
+                    name="email"
+                    data-sync="email"
+                    placeholder="Ex: jean.dupont@email.com"
+                    class="mobile-input w-full px-3 py-2 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label for="mobile-sujet" class="block text-xs font-bold mb-1 text-text-gray tracking-wide">
+                    Sujet
+                  </label>
+                  <input
+                    type="text"
+                    id="mobile-sujet"
+                    name="sujet"
+                    data-sync="sujet"
+                    placeholder="Ex: Offre d'alternance..."
+                    class="mobile-input w-full px-3 py-2 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-sm"
+                  />
+                </div>
+
+                <div>
+                  <label for="mobile-message" class="block text-xs font-bold mb-1 text-text-gray tracking-wide">
+                    Message
+                  </label>
+                  <textarea
+                    rows="3"
+                    id="mobile-message"
+                    name="message"
+                    data-sync="message"
+                    placeholder="Ex: Offre d'alternance en dev web..."
+                    class="mobile-input w-full px-3 py-2 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-sm resize-none"
+                  ></textarea>
+                </div>
+
+                <button
+                  type="submit"
+                  class="mobile-submit-btn w-full bg-light-blue text-white border-2 border-light-blue py-3 rounded-xl font-bold transition-all duration-300 text-sm uppercase tracking-widest hover:bg-white hover:text-light-blue"
+                >
+                  ENVOYER
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4 ContactBoutons en bas -->
+      <div class="flex justify-center gap-2">
+        <ContactBouton type="email" />
+        <ContactBouton type="github" />
+        <ContactBouton type="linkedin" />
+        <ContactBouton type="instagram" />
+      </div>
+    </div>
+
+    <!-- Layout desktop/laptop : horizontal -->
+    <div class="hidden lg:flex items-stretch gap-8 xl:gap-60">
       <!-- Partie gauche - 4 ContactBoutons -->
       <div
-        class="flex flex-col items-center justify-end flex-shrink-0 mt-8 mb-4"
+        class="flex flex-col items-center justify-end flex-shrink-0 mt-4 mb-2 xl:mt-8 xl:mb-4"
       >
-        <div class="flex flex-col items-center gap-8">
+        <div class="flex flex-col items-center gap-4 xl:gap-8">
           <ContactBouton type="email" />
           <ContactBouton type="github" />
           <ContactBouton type="linkedin" />
@@ -35,7 +148,7 @@ const { isVisible = false, onClose } = Astro.props;
       </div>
 
       <!-- Partie centre - Pancarte avec formulaire -->
-      <div class="contact-center flex justify-center items-start pt-4 flex-1">
+      <div class="contact-center flex justify-center items-start pt-2 xl:pt-4 flex-1">
         <div class="sign-wrapper relative">
           <!-- Chaînes de suspension gauche -->
           <div class="chain chain-left"></div>
@@ -52,22 +165,22 @@ const { isVisible = false, onClose } = Astro.props;
             <div class="sign-content">
               <div class="sign-header">
                 <h2
-                  class="text-3xl font-bold text-light-blue tracking-wider uppercase"
+                  class="text-xl xl:text-3xl font-bold text-light-blue tracking-wider uppercase"
                 >
                   FORMULAIRE
                 </h2>
                 <!-- Bouton Zoom -->
                 <div class="zoom-btn-wrapper">
-                  <SmallBouton type="zoom" size="desktop" id="zoom-button" />
+                  <SmallBouton type="zoom" size="laptop" id="zoom-button" />
                 </div>
               </div>
 
               <form class="sign-form" id="contact-form">
-                <div class="grid grid-cols-2 gap-4">
+                <div class="grid grid-cols-2 gap-2 xl:gap-4">
                   <div>
                     <label
                       for="gaming-prenom"
-                      class="block text-sm font-bold mb-2 text-text-gray tracking-wide"
+                      class="block text-xs xl:text-sm font-bold mb-1 xl:mb-2 text-text-gray tracking-wide"
                     >
                       Prénom
                     </label>
@@ -77,13 +190,13 @@ const { isVisible = false, onClose } = Astro.props;
                       name="prenom"
                       data-sync="prenom"
                       placeholder="Ex: Jean"
-                      class="gaming-input w-full px-4 py-3 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-sm"
+                      class="gaming-input w-full px-2 py-2 xl:px-4 xl:py-3 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-xs xl:text-sm"
                     />
                   </div>
                   <div>
                     <label
                       for="gaming-nom"
-                      class="block text-sm font-bold mb-2 text-text-gray tracking-wide"
+                      class="block text-xs xl:text-sm font-bold mb-1 xl:mb-2 text-text-gray tracking-wide"
                     >
                       Nom
                     </label>
@@ -93,7 +206,7 @@ const { isVisible = false, onClose } = Astro.props;
                       name="nom"
                       data-sync="nom"
                       placeholder="Ex: Dupont"
-                      class="gaming-input w-full px-4 py-3 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-sm"
+                      class="gaming-input w-full px-2 py-2 xl:px-4 xl:py-3 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-xs xl:text-sm"
                     />
                   </div>
                 </div>
@@ -101,7 +214,7 @@ const { isVisible = false, onClose } = Astro.props;
                 <div>
                   <label
                     for="gaming-email"
-                    class="block text-sm font-bold mb-2 text-text-gray tracking-wide"
+                    class="block text-xs xl:text-sm font-bold mb-1 xl:mb-2 text-text-gray tracking-wide"
                   >
                     Email
                   </label>
@@ -111,14 +224,14 @@ const { isVisible = false, onClose } = Astro.props;
                     name="email"
                     data-sync="email"
                     placeholder="Ex: jean.dupont@email.com"
-                    class="gaming-input w-full px-4 py-3 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-sm"
+                    class="gaming-input w-full px-2 py-2 xl:px-4 xl:py-3 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-xs xl:text-sm"
                   />
                 </div>
 
                 <div>
                   <label
                     for="gaming-sujet"
-                    class="block text-sm font-bold mb-2 text-text-gray tracking-wide"
+                    class="block text-xs xl:text-sm font-bold mb-1 xl:mb-2 text-text-gray tracking-wide"
                   >
                     Sujet
                   </label>
@@ -128,14 +241,14 @@ const { isVisible = false, onClose } = Astro.props;
                     name="sujet"
                     data-sync="sujet"
                     placeholder="Ex: Offre d'alternance..."
-                    class="gaming-input w-full px-4 py-3 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-sm"
+                    class="gaming-input w-full px-2 py-2 xl:px-4 xl:py-3 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-xs xl:text-sm"
                   />
                 </div>
 
                 <div>
                   <label
                     for="gaming-message"
-                    class="block text-sm font-bold mb-2 text-text-gray tracking-wide"
+                    class="block text-xs xl:text-sm font-bold mb-1 xl:mb-2 text-text-gray tracking-wide"
                   >
                     Message
                   </label>
@@ -145,13 +258,13 @@ const { isVisible = false, onClose } = Astro.props;
                     name="message"
                     data-sync="message"
                     placeholder="Ex: Offre d'alternance en dev web..."
-                    class="gaming-input w-full px-4 py-3 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-sm resize-none"
+                    class="gaming-input w-full px-2 py-2 xl:px-4 xl:py-3 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-xs xl:text-sm resize-none"
                   ></textarea>
                 </div>
 
                 <button
                   type="submit"
-                  class="gaming-submit-btn w-full bg-light-blue text-white border-2 border-light-blue py-4 rounded-xl font-bold transition-all duration-300 text-base uppercase tracking-widest hover:bg-white hover:text-light-blue hover:border-light-blue"
+                  class="gaming-submit-btn w-full bg-light-blue text-white border-2 border-light-blue py-2 xl:py-4 rounded-xl font-bold transition-all duration-300 text-sm xl:text-base uppercase tracking-widest hover:bg-white hover:text-light-blue hover:border-light-blue"
                 >
                   ENVOYER
                 </button>
@@ -166,21 +279,21 @@ const { isVisible = false, onClose } = Astro.props;
         <div class="paper-content">
           <div class="paper-header">
             <h2
-              class="text-4xl font-bold text-light-blue tracking-wider uppercase"
+              class="text-2xl xl:text-4xl font-bold text-light-blue tracking-wider uppercase"
             >
               FORMULAIRE
             </h2>
             <div class="dezoom-btn-wrapper">
-              <SmallBouton type="dezoom" size="desktop" id="dezoom-button" />
+              <SmallBouton type="dezoom" size="laptop" id="dezoom-button" />
             </div>
           </div>
 
           <form class="paper-form" id="paper-form">
-            <div class="grid grid-cols-2 gap-6">
+            <div class="grid grid-cols-2 gap-3 xl:gap-6">
               <div>
                 <label
                   for="paper-prenom"
-                  class="block text-base font-bold mb-3 text-text-gray tracking-wide"
+                  class="block text-sm xl:text-base font-bold mb-2 xl:mb-3 text-text-gray tracking-wide"
                 >
                   Prénom
                 </label>
@@ -190,13 +303,13 @@ const { isVisible = false, onClose } = Astro.props;
                   name="prenom"
                   data-sync="prenom"
                   placeholder="Ex: Jean"
-                  class="paper-input w-full px-5 py-4 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-lg"
+                  class="paper-input w-full px-3 py-2 xl:px-5 xl:py-4 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-base xl:text-lg"
                 />
               </div>
               <div>
                 <label
                   for="paper-nom"
-                  class="block text-base font-bold mb-3 text-text-gray tracking-wide"
+                  class="block text-sm xl:text-base font-bold mb-2 xl:mb-3 text-text-gray tracking-wide"
                 >
                   Nom
                 </label>
@@ -206,7 +319,7 @@ const { isVisible = false, onClose } = Astro.props;
                   name="nom"
                   data-sync="nom"
                   placeholder="Ex: Dupont"
-                  class="paper-input w-full px-5 py-4 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-lg"
+                  class="paper-input w-full px-3 py-2 xl:px-5 xl:py-4 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-base xl:text-lg"
                 />
               </div>
             </div>
@@ -214,7 +327,7 @@ const { isVisible = false, onClose } = Astro.props;
             <div>
               <label
                 for="paper-email"
-                class="block text-base font-bold mb-3 text-text-gray tracking-wide"
+                class="block text-sm xl:text-base font-bold mb-2 xl:mb-3 text-text-gray tracking-wide"
               >
                 Email
               </label>
@@ -224,14 +337,14 @@ const { isVisible = false, onClose } = Astro.props;
                 name="email"
                 data-sync="email"
                 placeholder="Ex: jean.dupont@email.com"
-                class="paper-input w-full px-5 py-4 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-lg"
+                class="paper-input w-full px-3 py-2 xl:px-5 xl:py-4 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-base xl:text-lg"
               />
             </div>
 
             <div>
               <label
                 for="paper-sujet"
-                class="block text-base font-bold mb-3 text-text-gray tracking-wide"
+                class="block text-sm xl:text-base font-bold mb-2 xl:mb-3 text-text-gray tracking-wide"
               >
                 Sujet
               </label>
@@ -241,30 +354,30 @@ const { isVisible = false, onClose } = Astro.props;
                 name="sujet"
                 data-sync="sujet"
                 placeholder="Ex: Offre d'alternance..."
-                class="paper-input w-full px-5 py-4 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-lg"
+                class="paper-input w-full px-3 py-2 xl:px-5 xl:py-4 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-base xl:text-lg"
               />
             </div>
 
             <div>
               <label
                 for="paper-message"
-                class="block text-base font-bold mb-3 text-text-gray tracking-wide"
+                class="block text-sm xl:text-base font-bold mb-2 xl:mb-3 text-text-gray tracking-wide"
               >
                 Message
               </label>
               <textarea
-                rows="8"
+                rows="6"
                 id="paper-message"
                 name="message"
                 data-sync="message"
                 placeholder="Ex: Offre d'alternance en dev web..."
-                class="paper-input w-full px-5 py-4 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-lg resize-none"
+                class="paper-input w-full px-3 py-2 xl:px-5 xl:py-4 border-2 border-light-blue rounded-lg focus:outline-none focus:border-dark-blue text-base xl:text-lg resize-none"
               ></textarea>
             </div>
 
             <button
               type="submit"
-              class="paper-submit-btn w-full bg-light-blue text-white border-2 border-light-blue py-5 rounded-xl font-bold transition-all duration-300 text-lg uppercase tracking-widest hover:bg-white hover:text-light-blue hover:border-light-blue"
+              class="paper-submit-btn w-full bg-light-blue text-white border-2 border-light-blue py-3 xl:py-5 rounded-xl font-bold transition-all duration-300 text-base xl:text-lg uppercase tracking-widest hover:bg-white hover:text-light-blue hover:border-light-blue"
             >
               ENVOYER
             </button>
@@ -273,8 +386,13 @@ const { isVisible = false, onClose } = Astro.props;
       </div>
 
       <!-- Partie droite - MainBouton Retour -->
-      <div class="flex flex-col items-center justify-start flex-shrink-0 mt-8">
-        <div id="contact-return-button">
+      <div class="flex flex-col items-center justify-start flex-shrink-0 mt-4 xl:mt-8">
+        <!-- Version laptop -->
+        <div id="contact-return-button-laptop" class="contact-return-button 2xl:hidden">
+          <MainBouton type="retour" size="laptop" />
+        </div>
+        <!-- Version desktop -->
+        <div id="contact-return-button-desktop" class="contact-return-button hidden 2xl:block">
           <MainBouton type="retour" size="desktop" />
         </div>
       </div>
@@ -293,29 +411,85 @@ const { isVisible = false, onClose } = Astro.props;
 
   /* Wrapper de la pancarte */
   .sign-wrapper {
-    width: 1000px;
+    width: 500px;
     perspective: 1000px;
   }
+
+  @media (min-width: 1536px) {
+    .sign-wrapper {
+      width: 1000px;
+    }
+  }
+
+  /* Mobile form styles */
+  .mobile-form-wrapper {
+    width: 100%;
+  }
+
+  .mobile-form-content {
+    background: white;
+  }
+
+  .border-b-3 {
+    border-bottom-width: 3px;
+  }
+
+  .border-3 {
+    border-width: 3px;
+  }
+
+  .mobile-input {
+    background: white;
+    font-family: "raleway", sans-serif;
+    transition: all 0.2s ease;
+  }
+
+  .mobile-input:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 190, 237, 0.3);
+  }
+
+  .mobile-submit-btn:hover {
+    background: white !important;
+    color: var(--color-light-blue) !important;
+  }
+
+
 
   /* Chaînes de suspension */
   .chain {
     position: absolute;
-    width: 8px;
-    height: 350px;
-    top: -338px;
+    width: 5px;
+    height: 220px;
+    top: -212px;
     background: #8a8a8a;
     background-image: repeating-linear-gradient(
       0deg,
       #8a8a8a 0px,
-      #8a8a8a 8px,
-      #7a7a7a 8px,
-      #7a7a7a 12px
+      #8a8a8a 6px,
+      #7a7a7a 6px,
+      #7a7a7a 10px
     );
     box-shadow:
       inset 2px 0 4px rgba(0, 0, 0, 0.3),
       2px 0 4px rgba(0, 0, 0, 0.2);
     opacity: 0;
     transform: translateY(-100px);
+  }
+
+  @media (min-width: 1536px) {
+    .chain {
+      width: 8px;
+      height: 350px;
+      top: -338px;
+      background-image: repeating-linear-gradient(
+        0deg,
+        #8a8a8a 0px,
+        #8a8a8a 8px,
+        #7a7a7a 8px,
+        #7a7a7a 12px
+      );
+    }
   }
 
   .chain.show {
@@ -325,25 +499,35 @@ const { isVisible = false, onClose } = Astro.props;
   }
 
   .chain-left {
-    left: 90px;
+    left: 60px;
   }
 
   .chain-right {
-    right: 90px;
+    right: 60px;
     box-shadow:
       inset -2px 0 4px rgba(0, 0, 0, 0.3),
       -2px 0 4px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (min-width: 1536px) {
+    .chain-left {
+      left: 90px;
+    }
+
+    .chain-right {
+      right: 90px;
+    }
   }
 
   /* Pancarte style jeu vidéo */
   .gaming-sign {
     width: 100%;
     background: linear-gradient(145deg, #d4a574 0%, #b8926a 50%, #a17d58 100%);
-    border: 6px solid #8b6f47;
-    border-radius: 20px;
-    padding: 40px;
+    border: 4px solid #8b6f47;
+    border-radius: 16px;
+    padding: 18px;
     box-shadow:
-      0 25px 60px rgba(0, 0, 0, 0.4),
+      0 20px 50px rgba(0, 0, 0, 0.4),
       inset 0 2px 0 rgba(255, 255, 255, 0.3),
       inset 0 -4px 12px rgba(0, 0, 0, 0.2);
     position: relative;
@@ -355,6 +539,14 @@ const { isVisible = false, onClose } = Astro.props;
       box-shadow 0.6s ease;
   }
 
+  @media (min-width: 1536px) {
+    .gaming-sign {
+      border: 6px solid #8b6f47;
+      border-radius: 20px;
+      padding: 40px;
+    }
+  }
+
   .gaming-sign.show {
     animation: 
       sign-drop 2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
@@ -364,24 +556,44 @@ const { isVisible = false, onClose } = Astro.props;
   .gaming-sign::before {
     content: "";
     position: absolute;
-    inset: 12px;
-    border: 3px solid rgba(139, 111, 71, 0.4);
-    border-radius: 14px;
+    inset: 8px;
+    border: 2px solid rgba(139, 111, 71, 0.4);
+    border-radius: 12px;
     pointer-events: none;
+  }
+
+  @media (min-width: 1536px) {
+    .gaming-sign::before {
+      inset: 12px;
+      border: 3px solid rgba(139, 111, 71, 0.4);
+      border-radius: 14px;
+    }
   }
 
   /* Crochets pour les chaînes */
   .hook {
     position: absolute;
-    top: -6px;
-    width: 30px;
-    height: 30px;
+    top: -4px;
+    width: 20px;
+    height: 20px;
     background: radial-gradient(circle, #6a6a6a 0%, #4a4a4a 100%);
-    border: 3px solid #3a3a3a;
+    border: 2px solid #3a3a3a;
     border-radius: 50%;
     box-shadow:
-      0 4px 8px rgba(0, 0, 0, 0.4),
+      0 3px 6px rgba(0, 0, 0, 0.4),
       inset 0 2px 4px rgba(255, 255, 255, 0.2);
+  }
+
+  @media (min-width: 1536px) {
+    .hook {
+      top: -6px;
+      width: 30px;
+      height: 30px;
+      border: 3px solid #3a3a3a;
+      box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.4),
+        inset 0 2px 4px rgba(255, 255, 255, 0.2);
+    }
   }
 
   .hook::after {
@@ -390,39 +602,75 @@ const { isVisible = false, onClose } = Astro.props;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 12px;
-    height: 12px;
+    width: 8px;
+    height: 8px;
     background: #2a2a2a;
     border-radius: 50%;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
   }
 
+  @media (min-width: 1536px) {
+    .hook::after {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
   .hook-left {
-    left: 74px;
+    left: 50px;
   }
 
   .hook-right {
-    right: 74px;
+    right: 50px;
+  }
+
+  @media (min-width: 1536px) {
+    .hook-left {
+      left: 74px;
+    }
+
+    .hook-right {
+      right: 74px;
+    }
   }
 
   /* Contenu de la pancarte */
   .sign-content {
     background: white;
-    border-radius: 16px;
-    padding: 32px;
-    border: 4px solid var(--color-light-blue);
+    border-radius: 12px;
+    padding: 16px;
+    border: 3px solid var(--color-light-blue);
     box-shadow:
-      0 8px 24px rgba(0, 0, 0, 0.15),
+      0 6px 20px rgba(0, 0, 0, 0.15),
       inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+
+  @media (min-width: 1536px) {
+    .sign-content {
+      border-radius: 16px;
+      padding: 32px;
+      border: 4px solid var(--color-light-blue);
+      box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    }
   }
 
   .sign-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
-    padding-bottom: 16px;
-    border-bottom: 4px solid var(--color-light-blue);
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid var(--color-light-blue);
+  }
+
+  @media (min-width: 1536px) {
+    .sign-header {
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 4px solid var(--color-light-blue);
+    }
   }
 
   .zoom-btn-wrapper {
@@ -442,7 +690,13 @@ const { isVisible = false, onClose } = Astro.props;
   .sign-form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
+  }
+
+  @media (min-width: 1536px) {
+    .sign-form {
+      gap: 20px;
+    }
   }
 
   .gaming-input {
@@ -462,18 +716,26 @@ const { isVisible = false, onClose } = Astro.props;
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 100%);
-    width: 900px;
+    width: 480px;
     max-height: 90vh;
     background: white;
-    border-radius: 20px 20px 0 0;
+    border-radius: 16px 16px 0 0;
     box-shadow:
       0 -20px 60px rgba(0, 0, 0, 0.4),
       inset 0 2px 0 rgba(255, 255, 255, 0.9);
-    border: 4px solid var(--color-light-blue);
+    border: 3px solid var(--color-light-blue);
     border-bottom: none;
     z-index: 300;
     transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
     overflow: hidden;
+  }
+
+  @media (min-width: 1536px) {
+    .paper-sheet {
+      width: 900px;
+      border-radius: 20px 20px 0 0;
+      border: 4px solid var(--color-light-blue);
+    }
   }
 
   .paper-sheet.show {
@@ -481,18 +743,32 @@ const { isVisible = false, onClose } = Astro.props;
   }
 
   .paper-content {
-    padding: 40px 50px;
+    padding: 20px 24px;
     height: 100%;
     overflow-y: auto;
+  }
+
+  @media (min-width: 1536px) {
+    .paper-content {
+      padding: 40px 50px;
+    }
   }
 
   .paper-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 32px;
-    padding-bottom: 20px;
-    border-bottom: 4px solid var(--color-light-blue);
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 3px solid var(--color-light-blue);
+  }
+
+  @media (min-width: 1536px) {
+    .paper-header {
+      margin-bottom: 32px;
+      padding-bottom: 20px;
+      border-bottom: 4px solid var(--color-light-blue);
+    }
   }
 
   .dezoom-btn-wrapper {
@@ -508,7 +784,13 @@ const { isVisible = false, onClose } = Astro.props;
   .paper-form {
     display: flex;
     flex-direction: column;
-    gap: 28px;
+    gap: 14px;
+  }
+
+  @media (min-width: 1536px) {
+    .paper-form {
+      gap: 28px;
+    }
   }
 
   .paper-input {
@@ -566,6 +848,7 @@ const { isVisible = false, onClose } = Astro.props;
     
     // Setup de l'overlay contact avec callback de fermeture
     overlayManager.setupOverlay('contact', {
+      closeButtonSelector: '.contact-return-button',
       onClose: () => {
         // Fermer la feuille de papier si elle est ouverte
         if (contactFormManager) {
@@ -573,6 +856,36 @@ const { isVisible = false, onClose } = Astro.props;
         }
       }
     });
+    
+    // Synchroniser les formulaires mobile et desktop
+    const mobileInputs = document.querySelectorAll('[data-sync]');
+    mobileInputs.forEach(input => {
+      input.addEventListener('input', (e) => {
+        const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+        const syncName = target.getAttribute('data-sync');
+        if (syncName) {
+          // Synchroniser vers tous les autres champs avec le même nom
+          const otherInputs = document.querySelectorAll(`[data-sync="${syncName}"]`);
+          otherInputs.forEach(otherInput => {
+            if (otherInput !== target) {
+              (otherInput as HTMLInputElement | HTMLTextAreaElement).value = target.value;
+            }
+          });
+        }
+      });
+    });
+    
+    // Gérer la soumission du formulaire mobile
+    const mobileForm = document.getElementById('contact-form-mobile') as HTMLFormElement;
+    if (mobileForm) {
+      mobileForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // Utiliser la même logique que le formulaire desktop
+        if (contactFormManager) {
+          contactFormManager.handleSubmit(e);
+        }
+      });
+    }
     
     console.log("Contact overlay initialized with managers!");
   }

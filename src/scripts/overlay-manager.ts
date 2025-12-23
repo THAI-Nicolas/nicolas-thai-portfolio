@@ -115,12 +115,16 @@ export class OverlayManager {
 
     // Setup bouton de fermeture
     if (overlayConfig.closeButtonSelector) {
-      const closeButton = getElement(overlayConfig.closeButtonSelector);
-      if (closeButton) {
-        closeButton.addEventListener("click", () => {
-          this.close(type);
-        });
-      }
+      const closeButtons = document.querySelectorAll(
+        overlayConfig.closeButtonSelector
+      );
+      closeButtons.forEach((closeButton) => {
+        if (closeButton) {
+          closeButton.addEventListener("click", () => {
+            this.close(type);
+          });
+        }
+      });
     }
 
     console.log(`Overlay "${type}" setup completed`);
