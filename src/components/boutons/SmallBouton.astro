@@ -6,7 +6,7 @@ import IconParametres from "../../assets/icones/parametres.svg";
 export interface Props {
   type: "parametres" | "telechargement" | "zoom" | "dezoom";
   href?: string;
-  size?: "mobile" | "desktop" | "footer";
+  size?: "mobile" | "laptop" | "desktop" | "footer";
   onClick?: () => void;
   id?: string;
 }
@@ -22,6 +22,10 @@ const sizes = {
   mobile: {
     button: "w-[clamp(2.8rem,12.5vw,4.25rem)] h-[clamp(2.8rem,12.5vw,4.25rem)]",
     icon: "w-[clamp(1.35rem,6vw,2rem)] h-[clamp(1.35rem,6vw,2rem)]",
+  },
+  laptop: {
+    button: "w-[45px] h-[45px]",
+    icon: "w-[21px] h-[21px]",
   },
   desktop: {
     button: "w-[60px] h-[60px]",

@@ -4,7 +4,6 @@ import MainBouton from "../boutons/MainBouton.astro";
 import SmallBouton from "../boutons/SmallBouton.astro";
 import ContactBouton from "../boutons/ContactBouton.astro";
 import Fleche from "../ui/Fleche.astro";
-import Socle from "../ui/Socle.astro";
 
 export interface Props {
   isVisible?: boolean;
@@ -21,75 +20,133 @@ const { isVisible = false, onClose } = Astro.props;
   <div class="bg-black/50 fixed inset-0 z-[70] overflow-hidden"></div>
 
   <div
-    class="cv-container fixed inset-0 z-[80] flex items-center justify-start"
-    style="padding-left: 80px; padding-right: 80px;"
+    class="cv-container fixed inset-0 z-[80] flex items-center justify-start overflow-y-auto xl:overflow-hidden"
+    id="cv-container"
   >
-    <div class="flex items-stretch gap-12">
-      <!-- Partie 1 : MainBouton retour + Boutons Contact -->
-      <div
-        class="flex flex-col items-center justify-between flex-shrink-0 mt-8 mb-4 ml-8"
-      >
-        <div id="cv-return-button">
-          <MainBouton type="retour" size="desktop" />
-        </div>
-        <div class="flex flex-col items-center gap-8">
-          <ContactBouton type="email" />
-          <ContactBouton type="github" />
-          <ContactBouton type="linkedin" />
-          <ContactBouton type="instagram" />
+    <!-- Layout mobile/tablette : vertical -->
+    <div class="flex flex-col xl:hidden w-full h-full py-6 px-4 gap-6">
+      <!-- Bouton retour en haut à droite -->
+      <div class="flex justify-end">
+        <div id="cv-return-button-mobile" class="cv-return-button">
+          <MainBouton type="retour" size="mobile" />
         </div>
       </div>
 
-      <!-- Partie 2 : CV + SmallBouton téléchargement -->
-      <div class="relative flex-shrink-0 flex items-start ml-12">
-        <div class="relative w-[600px]">
-          <div class="absolute top-10 right-4 z-10">
-            <SmallBouton type="telechargement" size="desktop" />
+      <!-- Mii + Socle + Flèches -->
+      <div class="flex-shrink-0 flex items-center justify-center">
+        <div class="relative w-72 h-72 md:w-96 md:h-96">
+          <!-- Cercle néon -->
+          <div
+            class="neon-circle-outer-mobile absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] md:w-[350px] md:h-[350px]"
+          >
+          </div>
+
+          <!-- Flèches -->
+          <div
+            class="absolute md:bottom-40 bottom-28 left-1/2 transform -translate-x-1/2 flex gap-32 md:gap-48 items-center z-40"
+          >
+            <div id="fleche-gauche-mobile" class="cursor-pointer">
+              <Fleche direction="gauche" size="mobile" disableTransition={true} />
+            </div>
+            <div id="fleche-droite-mobile" class="cursor-pointer">
+              <Fleche direction="droite" size="mobile" disableTransition={true} />
+            </div>
+          </div>
+
+          <!-- Container Mii -->
+          <div
+            id="mii-container-mobile"
+            class="mii-container absolute left-1/2 top-1/2 z-30 flex items-center justify-center"
+            style="width: 250px; height: 312.5px; transform: translate(-50%, -50%);"
+          >
+          </div>
+        </div>
+      </div>
+
+      <!-- CV miniature cliquable -->
+      <div class="flex-shrink-0 flex items-center justify-center w-full px-4">
+        <div id="cv-miniature" class="relative w-[80%] cursor-pointer transform transition-transform duration-300 hover:scale-105">
+          <div class="absolute md:top-10 top-10 right-2 z-10">
+            <SmallBouton type="telechargement" size="mobile" />
           </div>
           <Cv />
         </div>
       </div>
 
-      <!-- Partie 3 : Socle + Mii -->
-      <div
-        class="relative flex-shrink-0 flex items-center justify-center -ml-12"
-      >
-        <div class="relative w-96 h-96">
-          <div
-            class="neon-circle-outer absolute top-40 left-125 transform -translate-x-1/2 -translate-y-1/2 w-[784px] h-[784px]"
-          >
-          </div>
+      <!-- 4 ContactBoutons en bas -->
+      <div class="flex justify-center gap-3 pb-4">
+        <ContactBouton type="email" />
+        <ContactBouton type="github" />
+        <ContactBouton type="linkedin" />
+        <ContactBouton type="instagram" />
+      </div>
+    </div>
 
-          <div
-            class="absolute bottom-55 left-125 transform -translate-x-1/2 scale-130 flex gap-96 items-center z-40"
-          >
-            <div id="fleche-gauche" class="cursor-pointer">
-              <Fleche direction="gauche" size="mobile" disableTransition={true} />
-            </div>
-            <div id="fleche-droite" class="cursor-pointer">
-              <Fleche direction="droite" size="mobile" disableTransition={true} />
-            </div>
+    <!-- Layout laptop/desktop : horizontal -->
+    <div class="hidden xl:flex items-start justify-start pl-12 2xl:pl-20">
+      <div class="flex items-stretch gap-8 2xl:gap-12">
+        <!-- Partie 1 : MainBouton retour + Boutons Contact -->
+        <div
+          class="flex flex-col items-center justify-between flex-shrink-0 mt-6 mb-3 ml-2 2xl:mt-8 2xl:mb-4 2xl:ml-8"
+        >
+          <!-- Version laptop -->
+          <div id="cv-return-button-laptop" class="cv-return-button 2xl:hidden">
+            <MainBouton type="retour" size="laptop" />
           </div>
-
-          <div
-            id="mii-container"
-            class="mii-container absolute left-125 z-30 flex items-center justify-center"
-            style="width: clamp(25rem, 50vw, 50rem); height: clamp(31.25rem, 62.5vw, 62.5rem); top: 50%; transform: translate(-50%, -50%);"
-          >
+          <!-- Version desktop -->
+          <div id="cv-return-button-desktop" class="cv-return-button hidden 2xl:block">
+            <MainBouton type="retour" size="desktop" />
           </div>
+          <div class="flex flex-col items-center gap-6 2xl:gap-8">
+            <ContactBouton type="email" />
+            <ContactBouton type="github" />
+            <ContactBouton type="linkedin" />
+            <ContactBouton type="instagram" />
+          </div>
+        </div>
 
-          <div
-            class="socle-with-shadow absolute top-100 left-50 z-20"
-            style="width: 600px; height: 100px;"
-          >
-            <div class="relative w-full h-full">
-              <div
-                class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-4 bg-black/30 blur-md rounded-full"
-              >
+        <!-- Partie 2 : CV + SmallBouton téléchargement -->
+        <div class="relative flex-shrink-0 flex items-start ml-4 2xl:ml-12">
+          <div class="relative w-[460px] 2xl:w-[600px]">
+            <div class="absolute top-8 right-2 2xl:top-10 2xl:right-4 z-10">
+              <!-- Version laptop -->
+              <div class="2xl:hidden">
+                <SmallBouton type="telechargement" size="laptop" />
               </div>
-              <div class="relative z-10 w-full h-full">
-                <Socle />
+              <!-- Version desktop -->
+              <div class="hidden 2xl:block">
+                <SmallBouton type="telechargement" size="desktop" />
               </div>
+            </div>
+            <Cv />
+          </div>
+        </div>
+
+        <!-- Partie 3 : Socle + Mii -->
+        <div
+          class="relative flex-shrink-0 flex items-center justify-center ml-22 2xl:-ml-12 xl:mt-20 2xl:mt-0"
+        >
+          <div class="relative w-96 h-96">
+            <div
+              class="neon-circle-outer absolute top-[120px] left-1/2 transform -translate-x-1/2 -translate-y-1/2 2xl:top-40 2xl:left-125 2xl:transform 2xl:-translate-x-1/2 2xl:-translate-y-1/2 w-[480px] h-[480px] 2xl:w-[784px] 2xl:h-[784px]"
+            >
+            </div>
+
+            <div
+              class="absolute bottom-[220px] 2xl:bottom-55 2xl:left-125 left-1/2 transform -translate-x-1/2 scale-100 2xl:scale-130 flex gap-80 2xl:gap-96 items-center z-40"
+            >
+              <div id="fleche-gauche" class="cursor-pointer">
+                <Fleche direction="gauche" size="mobile" disableTransition={true} />
+              </div>
+              <div id="fleche-droite" class="cursor-pointer">
+                <Fleche direction="droite" size="mobile" disableTransition={true} />
+              </div>
+            </div>
+
+            <div
+              id="mii-container"
+              class="mii-container absolute left-1/2 2xl:left-125 z-30 flex items-center justify-center w-[480px] h-[600px] 2xl:w-[800px] 2xl:h-[1000px] top-[40%] 2xl:top-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            >
             </div>
           </div>
         </div>
@@ -111,8 +168,24 @@ const { isVisible = false, onClose } = Astro.props;
     background: rgba(255, 255, 255, 0.7);
     border: 10.747px solid #34beed;
     border-radius: 50%;
-    filter: drop-shadow(0 0 32.16px rgba(52, 190, 237, 1));
+    /* filter: drop-shadow(0 0 32.16px rgba(52, 190, 237, 1)); */
     box-shadow: 0 0 32.16px rgba(52, 190, 237, 1);
+  }
+
+  .neon-circle-outer-mobile {
+    background: rgba(255, 255, 255, 0.7);
+    border: 6px solid #34beed;
+    border-radius: 50%;
+    /* filter: drop-shadow(0 0 20px rgba(52, 190, 237, 1)); */
+    box-shadow: 0 0 20px rgba(52, 190, 237, 1);
+  }
+
+  @media (min-width: 768px) {
+    .neon-circle-outer-mobile {
+      border: 8px solid #34beed;
+      /* filter: drop-shadow(0 0 24px rgba(52, 190, 237, 1)); */
+      box-shadow: 0 0 24px rgba(52, 190, 237, 1);
+    }
   }
 </style>
 
@@ -121,20 +194,27 @@ const { isVisible = false, onClose } = Astro.props;
   import { OverlayManager } from '../../scripts/overlay-manager';
   
   let miiScene: MiiScene | null = null;
+  let miiSceneMobile: MiiScene | null = null;
 
   function initCvOverlay() {
     const overlayManager = OverlayManager.getInstance();
     const cvOverlay = document.querySelector(".cv-overlay");
     const flecheGauche = document.getElementById("fleche-gauche");
     const flecheDroite = document.getElementById("fleche-droite");
+    const flecheGaucheMobile = document.getElementById("fleche-gauche-mobile");
+    const flecheDroiteMobile = document.getElementById("fleche-droite-mobile");
     
     // Setup de l'overlay avec callbacks personnalisés
     overlayManager.setupOverlay('cv', {
       onClose: () => {
-        // Nettoyer la scène 3D quand l'overlay se ferme
+        // Nettoyer les scènes 3D quand l'overlay se ferme
         if (miiScene) {
           miiScene.destroy();
           miiScene = null;
+        }
+        if (miiSceneMobile) {
+          miiSceneMobile.destroy();
+          miiSceneMobile = null;
         }
       }
     });
@@ -146,14 +226,27 @@ const { isVisible = false, onClose } = Astro.props;
                          cvOverlay.classList.contains("pointer-events-auto");
         
         const miiContainer = document.getElementById("mii-container");
+        const miiContainerMobile = document.getElementById("mii-container-mobile");
         
-        if (isVisible && miiContainer && !miiScene) {
-          // Créer la scène quand l'overlay s'ouvre
-          miiScene = new MiiScene(miiContainer);
-        } else if (!isVisible && miiScene) {
-          // Détruire la scène quand l'overlay se ferme
-          miiScene.destroy();
-          miiScene = null;
+        if (isVisible) {
+          // Créer la scène desktop si le container existe et est visible
+          if (miiContainer && window.innerWidth >= 1280 && !miiScene) {
+            miiScene = new MiiScene(miiContainer);
+          }
+          // Créer la scène mobile si le container existe et est visible
+          if (miiContainerMobile && window.innerWidth < 1280 && !miiSceneMobile) {
+            miiSceneMobile = new MiiScene(miiContainerMobile);
+          }
+        } else {
+          // Détruire les scènes quand l'overlay se ferme
+          if (miiScene) {
+            miiScene.destroy();
+            miiScene = null;
+          }
+          if (miiSceneMobile) {
+            miiSceneMobile.destroy();
+            miiSceneMobile = null;
+          }
         }
       });
       
@@ -163,7 +256,7 @@ const { isVisible = false, onClose } = Astro.props;
       });
     }
     
-    // Gestion de la rotation avec les flèches
+    // Gestion de la rotation avec les flèches desktop
     if (flecheGauche) {
       const linkGauche = flecheGauche.querySelector('a');
       if (linkGauche) {
@@ -173,7 +266,6 @@ const { isVisible = false, onClose } = Astro.props;
       }
       
       flecheGauche.addEventListener('mousedown', () => {
-        // Jouer le son
         import('../../scripts/audio-manager').then(({ audioManager, SoundName }) => {
           audioManager.play(SoundName.PROJECT_SELECT);
         });
@@ -204,7 +296,6 @@ const { isVisible = false, onClose } = Astro.props;
       }
       
       flecheDroite.addEventListener('mousedown', () => {
-        // Jouer le son
         import('../../scripts/audio-manager').then(({ audioManager, SoundName }) => {
           audioManager.play(SoundName.PROJECT_SELECT);
         });
@@ -225,16 +316,132 @@ const { isVisible = false, onClose } = Astro.props;
         }
       });
     }
+
+    // Gestion de la rotation avec les flèches mobile
+    if (flecheGaucheMobile) {
+      const linkGauche = flecheGaucheMobile.querySelector('a');
+      if (linkGauche) {
+        linkGauche.addEventListener('click', (e) => {
+          e.preventDefault();
+        });
+      }
+      
+      flecheGaucheMobile.addEventListener('mousedown', () => {
+        import('../../scripts/audio-manager').then(({ audioManager, SoundName }) => {
+          audioManager.play(SoundName.PROJECT_SELECT);
+        });
+        if (miiSceneMobile) {
+          miiSceneMobile.startRotation('right');
+        }
+      });
+      
+      flecheGaucheMobile.addEventListener('mouseup', () => {
+        if (miiSceneMobile) {
+          miiSceneMobile.stopRotation();
+        }
+      });
+      
+      flecheGaucheMobile.addEventListener('mouseleave', () => {
+        if (miiSceneMobile) {
+          miiSceneMobile.stopRotation();
+        }
+      });
+    }
+    
+    if (flecheDroiteMobile) {
+      const linkDroite = flecheDroiteMobile.querySelector('a');
+      if (linkDroite) {
+        linkDroite.addEventListener('click', (e) => {
+          e.preventDefault();
+        });
+      }
+      
+      flecheDroiteMobile.addEventListener('mousedown', () => {
+        import('../../scripts/audio-manager').then(({ audioManager, SoundName }) => {
+          audioManager.play(SoundName.PROJECT_SELECT);
+        });
+        if (miiSceneMobile) {
+          miiSceneMobile.startRotation('left');
+        }
+      });
+      
+      flecheDroiteMobile.addEventListener('mouseup', () => {
+        if (miiSceneMobile) {
+          miiSceneMobile.stopRotation();
+        }
+      });
+      
+      flecheDroiteMobile.addEventListener('mouseleave', () => {
+        if (miiSceneMobile) {
+          miiSceneMobile.stopRotation();
+        }
+      });
+    }
   }
 
   document.addEventListener("DOMContentLoaded", initCvOverlay);
   document.addEventListener("astro:page-load", initCvOverlay);
+  
+  // Gestion du zoom du CV sur mobile/tablette
+  function initCvZoom() {
+    const cvMiniature = document.getElementById('cv-miniature');
+    const cvContainer = document.getElementById('cv-container');
+    
+    if (cvMiniature && cvContainer) {
+      cvMiniature.addEventListener('click', () => {
+        // Vérifier qu'on est bien en mode mobile/tablette (< 1280px)
+        if (window.innerWidth < 1280) {
+          // Créer l'overlay de zoom
+          const zoomOverlay = document.createElement('div');
+          zoomOverlay.className = 'fixed inset-0 z-[90] bg-black/80 flex items-center justify-center p-4';
+          zoomOverlay.id = 'cv-zoom-overlay';
+          
+          // Créer le container du CV zoomé
+          const zoomContent = document.createElement('div');
+          zoomContent.className = 'relative w-full max-w-3xl';
+          
+          // Bouton de fermeture
+          const closeButton = document.createElement('div');
+          closeButton.className = 'absolute -top-12 right-0 z-10';
+          closeButton.innerHTML = cvMiniature.querySelector('.absolute.top-2')?.innerHTML || '';
+          
+          // Cloner le CV
+          const cvClone = cvMiniature.querySelector('[style*="padding-top"]')?.cloneNode(true) as HTMLElement;
+          if (cvClone) {
+            zoomContent.appendChild(closeButton);
+            zoomContent.appendChild(cvClone);
+            zoomOverlay.appendChild(zoomContent);
+            document.body.appendChild(zoomOverlay);
+            
+            // Fermer au clic sur l'overlay
+            zoomOverlay.addEventListener('click', (e) => {
+              if (e.target === zoomOverlay) {
+                zoomOverlay.remove();
+              }
+            });
+            
+            // Fermer au clic sur le bouton
+            closeButton.addEventListener('click', () => {
+              zoomOverlay.remove();
+            });
+          }
+        }
+      });
+    }
+  }
+  
+  document.addEventListener("DOMContentLoaded", initCvZoom);
+  document.addEventListener("astro:page-load", initCvZoom);
   
   // Nettoyer lors du déchargement de la page
   document.addEventListener("astro:before-preparation", () => {
     if (miiScene) {
       miiScene.destroy();
       miiScene = null;
+    }
+    if (miiSceneMobile) {
+      miiSceneMobile.destroy();
+      miiSceneMobile = null;
     }
   });
 </script>
