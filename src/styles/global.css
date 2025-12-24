@@ -6,12 +6,9 @@
 @import "tailwindcss";
 @import "./animations.css";
 
-/* Suppression du scroll global - sauf pour les pages admin */
-html:not(.admin-page),
-body:not(.admin-page) {
-  overflow: hidden;
-  height: 100%;
-}
+/* Variables CSS déplacées dans Layout.astro (inline) pour éviter le render-blocking */
+
+/* Suppression du scroll global déplacé dans Layout.astro (inline) */
 
 /* Scrollbar custom pour les pages admin uniquement */
 .admin-page::-webkit-scrollbar {
@@ -38,16 +35,7 @@ body:not(.admin-page) {
   scrollbar-color: var(--color-light-blue) var(--color-light-gray);
 }
 
-:root {
-  /* Couleurs Wii */
-  --color-light-blue: #34beed;
-  --color-dark-blue: #008cff;
-  --color-light-gray: #e1e2e6;
-  --color-text-gray: #383e3f;
-  --color-dark-gray: #a2a2a2;
-  --color-background: #f2f2f2;
-  --color-text-dark: #1f1f1f;
-}
+/* Variables CSS déjà définies dans Layout.astro (inline) */
 
 /* Police par défaut pour tout le site */
 body {

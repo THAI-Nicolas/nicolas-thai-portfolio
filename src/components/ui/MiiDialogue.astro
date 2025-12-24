@@ -18,7 +18,8 @@
     z-index: 50;
     pointer-events: none;
     opacity: 0;
-    animation: dialogue-appear 0.5s ease-out forwards;
+    /* Supprimer l'animation initiale pour améliorer LCP */
+    /* animation: dialogue-appear 0.5s ease-out forwards; */
   }
 
   .mii-dialogue__bubble {
@@ -124,6 +125,8 @@
     if (!dialogue) return;
 
     dialogue.classList.remove('hide');
+    // Appliquer l'animation d'apparition manuellement
+    dialogue.style.animation = 'dialogue-appear 0.5s ease-out forwards';
     dialogue.style.opacity = '1';
     isDialogueVisible = true;
 
@@ -169,10 +172,18 @@
     const dialogue = document.getElementById('mii-dialogue');
     if (!dialogue) return;
 
-    // Afficher après 2 secondes
-    setTimeout(() => {
-      showDialogue();
-    }, 2000);
+    // Utiliser requestIdleCallback pour ne pas bloquer le rendu initial
+    const scheduleShow = () => {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(() => {
+          setTimeout(() => showDialogue(), 2000);
+        });
+      } else {
+        setTimeout(() => showDialogue(), 2000);
+      }
+    };
+    
+    scheduleShow();
 
     // Cacher le dialogue au clic sur le bouton Mii
     const miiButton = document.querySelector('[data-type="presentation"]');

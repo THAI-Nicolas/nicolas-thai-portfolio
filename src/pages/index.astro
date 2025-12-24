@@ -202,6 +202,7 @@ projets.forEach((projet, index) => {
 </Layout>
 
 <script>
+  // Chargement prioritaire du carousel (critique pour l'interaction)
   import { CarouselManager } from '../scripts/carousel';
 
   function initCarousel() {
@@ -305,25 +306,32 @@ projets.forEach((projet, index) => {
 </script>
 
 <script>
-  import { OverlayManager } from '../scripts/overlay-manager';
-
+  // Lazy load des overlays (non critiques, chargés après le rendu initial)
   function initOverlayButtons() {
     // Vérifier qu'on est sur la page d'accueil
     if (window.location.pathname !== '/') return;
     
-    const overlayManager = OverlayManager.getInstance();
-    
-    // Setup tous les overlays
-    overlayManager.setupOverlay('cv');
-    overlayManager.setupOverlay('contact');
-    overlayManager.setupOverlay('presentation');
-    overlayManager.setupOverlay('parametres');
-    
-    console.log("Overlay buttons initialized with OverlayManager!");
+    // Dynamic import pour réduire le bundle initial
+    import('../scripts/overlay-manager').then(({ OverlayManager }) => {
+      const overlayManager = OverlayManager.getInstance();
+      
+      // Setup tous les overlays
+      overlayManager.setupOverlay('cv');
+      overlayManager.setupOverlay('contact');
+      overlayManager.setupOverlay('presentation');
+      overlayManager.setupOverlay('parametres');
+      
+      console.log("Overlay buttons initialized with OverlayManager!");
+    });
   }
   
-  // Init au chargement
-  document.addEventListener("DOMContentLoaded", initOverlayButtons);
+  // Charger les overlays avec requestIdleCallback pour éviter de bloquer le thread principal
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(initOverlayButtons);
+  } else {
+    // Fallback pour les navigateurs qui ne supportent pas requestIdleCallback
+    setTimeout(initOverlayButtons, 1);
+  }
   
   // Réinit après transition Astro
   document.addEventListener("astro:page-load", initOverlayButtons);

@@ -78,9 +78,25 @@ const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).href;
     </script>
 
     <style is:inline>
+      /* CSS critique inliné pour éviter le render-blocking */
       :root {
         --body-opacity: 1;
         --body-pointer-events: auto;
+        /* Couleurs Wii */
+        --color-light-blue: #34beed;
+        --color-dark-blue: #008cff;
+        --color-light-gray: #e1e2e6;
+        --color-text-gray: #383e3f;
+        --color-dark-gray: #a2a2a2;
+        --color-background: #f2f2f2;
+        --color-text-dark: #1f1f1f;
+      }
+      
+      /* Suppression du scroll global - sauf pour les pages admin */
+      html:not(.admin-page),
+      body:not(.admin-page) {
+        overflow: hidden;
+        height: 100%;
       }
       
       body > *:not(.homeboarding-overlay):not(.cv-overlay):not(.contact-overlay):not(.presentation-overlay):not(.parametres-overlay) {

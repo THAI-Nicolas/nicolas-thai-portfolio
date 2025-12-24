@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 export class MiiButton {
   private container: HTMLElement;
@@ -13,6 +12,7 @@ export class MiiButton {
   private boundHandleResize?: () => void;
   private resizeObserver: ResizeObserver | null = null;
   private lastSize: number = 0;
+  private GLTFLoader: any = null; // Chargé dynamiquement
 
   // Paramètres fixes pour le bouton
   private params = {
@@ -113,8 +113,16 @@ export class MiiButton {
     this.scene.add(backLight);
   }
 
-  private loadModel(): void {
-    const loader = new GLTFLoader();
+  private async loadModel(): Promise<void> {
+    // Lazy load du GLTFLoader uniquement quand nécessaire
+    if (!this.GLTFLoader) {
+      const { GLTFLoader } = await import(
+        "three/examples/jsm/loaders/GLTFLoader.js"
+      );
+      this.GLTFLoader = GLTFLoader;
+    }
+
+    const loader = new this.GLTFLoader();
 
     loader.load(
       "/models/mii-character.glb",

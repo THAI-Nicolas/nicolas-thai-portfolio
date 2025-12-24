@@ -1,5 +1,4 @@
 import * as THREE from "three";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 export class MiiScene {
   private container: HTMLElement;
@@ -15,6 +14,7 @@ export class MiiScene {
   private rotationSpeed: number = 0.05;
   private boundHandleResize: () => void;
   private resizeObserver: ResizeObserver | null = null;
+  private GLTFLoader: any = null; // Chargé dynamiquement
 
   // Paramètres fixes
   private params = {
@@ -111,8 +111,16 @@ export class MiiScene {
     this.scene.add(backLight);
   }
 
-  private loadModel(): void {
-    const loader = new GLTFLoader();
+  private async loadModel(): Promise<void> {
+    // Lazy load du GLTFLoader uniquement quand nécessaire
+    if (!this.GLTFLoader) {
+      const { GLTFLoader } = await import(
+        "three/examples/jsm/loaders/GLTFLoader.js"
+      );
+      this.GLTFLoader = GLTFLoader;
+    }
+
+    const loader = new this.GLTFLoader();
 
     loader.load(
       "/models/mii-character.glb",
