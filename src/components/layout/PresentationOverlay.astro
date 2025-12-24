@@ -362,11 +362,22 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
             <div class="presentation-card">
               <div class="card-frame">
                 <div class="card-image-container">
-                  <img
-                    src="/images/image_mii_nico.png"
-                    alt="Nicolas THAI"
-                    class="card-avatar"
-                  />
+                  <picture>
+                    <!-- AVIF - Meilleure compression (12.9 KB) -->
+                    <source srcset="/images/image_mii_nico.avif" type="image/avif" />
+                    <!-- WebP - Fallback moderne (14.3 KB) -->
+                    <source srcset="/images/image_mii_nico.webp" type="image/webp" />
+                    <!-- PNG - Fallback legacy (303.8 KB) -->
+                    <img
+                      src="/images/image_mii_nico.png"
+                      alt="Nicolas THAI"
+                      class="card-avatar"
+                      width="593"
+                      height="480"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </picture>
                 </div>
               </div>
 
@@ -1405,6 +1416,7 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transform: scale(1.3);
   }
 
   .card-name {

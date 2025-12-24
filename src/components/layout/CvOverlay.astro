@@ -1,5 +1,4 @@
 ---
-import Cv from "../ui/Cv.astro";
 import MainBouton from "../boutons/MainBouton.astro";
 import SmallBouton from "../boutons/SmallBouton.astro";
 import ContactBouton from "../boutons/ContactBouton.astro";
@@ -69,7 +68,21 @@ const { isVisible = false, onClose } = Astro.props;
           <div class="absolute md:top-10 top-10 right-2 z-10">
             <SmallBouton type="telechargement" size="mobile" />
           </div>
-          <Cv />
+          <div class="w-full">
+            <picture>
+              <source srcset="/images/cv_wii_nicolas-thai.avif" type="image/avif" />
+              <source srcset="/images/cv_wii_nicolas-thai.webp" type="image/webp" />
+              <img
+                src="/images/cv_wii_nicolas-thai.png"
+                alt="CV de Nicolas THAI"
+                class="w-full h-auto rounded-lg shadow-lg"
+                width="1414"
+                height="2000"
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
+          </div>
         </div>
       </div>
 
@@ -91,7 +104,7 @@ const { isVisible = false, onClose } = Astro.props;
         >
           <!-- Version laptop -->
           <div id="cv-return-button-laptop" class="cv-return-button 2xl:hidden">
-            <MainBouton type="retour" size="laptop" />
+            <MainBouton type="retour" size="tablet" />
           </div>
           <!-- Version desktop -->
           <div id="cv-return-button-desktop" class="cv-return-button hidden 2xl:block">
@@ -118,7 +131,21 @@ const { isVisible = false, onClose } = Astro.props;
                 <SmallBouton type="telechargement" size="desktop" />
               </div>
             </div>
-            <Cv />
+            <div class="w-full">
+              <picture>
+                <source srcset="/images/cv_wii_nicolas-thai.avif" type="image/avif" />
+                <source srcset="/images/cv_wii_nicolas-thai.webp" type="image/webp" />
+                <img
+                  src="/images/cv_wii_nicolas-thai.png"
+                  alt="CV de Nicolas THAI"
+                  class="w-full h-auto rounded-lg shadow-lg"
+                  width="1414"
+                  height="2000"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+            </div>
           </div>
         </div>
 
