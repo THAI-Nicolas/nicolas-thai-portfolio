@@ -269,8 +269,30 @@ const currentSize = sizes[size] || sizes.desktop;
       });
     });
 
-    // Initialiser le Mii après un court délai
-    setTimeout(initMiiButton, 100);
+    // Initialiser le Mii uniquement lors d'une interaction ou quand le navigateur est idle
+    // Cela évite de charger Three.js (132 KB) dans le chemin critique
+    let miiInitialized = false;
+    
+    function initMiiButtonOnce() {
+      if (!miiInitialized) {
+        miiInitialized = true;
+        initMiiButton();
+      }
+    }
+    
+    // Initialiser au hover du bouton présentation (priorité)
+    const presentationButtons = document.querySelectorAll('[data-type="presentation"]');
+    presentationButtons.forEach(btn => {
+      btn.addEventListener('mouseenter', initMiiButtonOnce, { once: true });
+      btn.addEventListener('focus', initMiiButtonOnce, { once: true });
+    });
+    
+    // Sinon, attendre que le navigateur soit idle (bas priorité)
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(initMiiButtonOnce, { timeout: 3000 });
+    } else {
+      setTimeout(initMiiButtonOnce, 2000);
+    }
 
     // Applique les effets néon avec la couleur personnalisée
     // Utiliser requestAnimationFrame pour éviter les forced reflow
@@ -331,7 +353,11 @@ const currentSize = sizes[size] || sizes.desktop;
   // Réinitialiser après les transitions Astro (navigation de page)
   document.addEventListener("astro:page-load", () => {
     console.log('astro:page-load - Réinitialisation du Mii Button');
-    setTimeout(initMiiButton, 100);
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => initMiiButton(), { timeout: 2000 });
+    } else {
+      setTimeout(initMiiButton, 1000);
+    }
   });
   
   // Réinitialiser avant les transitions Astro
