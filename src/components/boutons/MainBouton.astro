@@ -207,12 +207,22 @@ const currentSize = sizes[size] || sizes.desktop;
 </style>
 
 <script>
-  import { MiiButton } from '../../scripts/mii-button';
-  
   const miiButtonInstances = new Map();
+  let MiiButtonClass: any = null;
+
+  async function loadMiiButton() {
+    if (!MiiButtonClass) {
+      const module = await import('../../scripts/mii-button');
+      MiiButtonClass = module.MiiButton;
+    }
+    return MiiButtonClass;
+  }
   
-  function initMiiButton() {
+  async function initMiiButton() {
     console.log("Initialisation du Mii Button");
+    
+    // Lazy load MiiButton class
+    const MiiButton = await loadMiiButton();
     
     // Initialiser le Mii 3D dans les boutons de présentation
     const presentationButtons = document.querySelectorAll('[data-type="presentation"]');
@@ -263,43 +273,58 @@ const currentSize = sizes[size] || sizes.desktop;
     setTimeout(initMiiButton, 100);
 
     // Applique les effets néon avec la couleur personnalisée
-    document.querySelectorAll('.wii-main-button__circle').forEach((circle) => {
-      const neonColor = getComputedStyle(circle).getPropertyValue('--neon-color').trim();
+    // Utiliser requestAnimationFrame pour éviter les forced reflow
+    requestAnimationFrame(() => {
+      // Batch toutes les lectures géométriques d'abord
+      const circles = Array.from(document.querySelectorAll('.wii-main-button__circle'));
+      const circleData = circles.map(circle => ({
+        element: circle,
+        neonColor: getComputedStyle(circle).getPropertyValue('--neon-color').trim(),
+        parent: circle.closest('button')
+      }));
       
-      if (neonColor && !neonColor.includes('--color-light-blue')) {
-        // Créer une keyframe dynamique pour cette couleur
-        const styleSheet = document.styleSheets[0];
-        const keyframeName = `button-glow-pulse-${Math.random().toString(36).substr(2, 9)}`;
-        
-        const keyframes = `
-          @keyframes ${keyframeName} {
-            0%, 100% {
-              box-shadow: 0 0 2px ${neonColor}, 0 0 4px ${neonColor};
-            }
-            50% {
-              box-shadow: 0 0 4px ${neonColor}, 0 0 8px ${neonColor};
+      // Séparer les écritures dans un RAF séparé
+      requestAnimationFrame(() => {
+        circleData.forEach(({ element: circle, neonColor, parent }) => {
+          if (neonColor && !neonColor.includes('--color-light-blue')) {
+            // Créer une keyframe dynamique pour cette couleur
+            const styleSheet = document.styleSheets[0];
+            const keyframeName = `button-glow-pulse-${Math.random().toString(36).substr(2, 9)}`;
+            
+            const keyframes = `
+              @keyframes ${keyframeName} {
+                0%, 100% {
+                  box-shadow: 0 0 2px ${neonColor}, 0 0 4px ${neonColor};
+                }
+                50% {
+                  box-shadow: 0 0 4px ${neonColor}, 0 0 8px ${neonColor};
+                }
+              }
+            `;
+            
+            try {
+              styleSheet.insertRule(keyframes, styleSheet.cssRules.length);
+              (circle as HTMLElement).style.setProperty('animation-name', keyframeName);
+              
+              // Applique aussi le hover dynamique
+              if (parent) {
+                parent.addEventListener('mouseenter', () => {
+                  requestAnimationFrame(() => {
+                    (circle as HTMLElement).style.boxShadow = `inset -4px -4px 9.5px rgba(0, 0, 0, 0.26), 5.8px 8.7px 0px rgba(186, 188, 193, 1), 0 0 6px ${neonColor}, 0 0 12px ${neonColor}`;
+                  });
+                });
+                parent.addEventListener('mouseleave', () => {
+                  requestAnimationFrame(() => {
+                    (circle as HTMLElement).style.boxShadow = '';
+                  });
+                });
+              }
+            } catch (e) {
+              console.warn('Could not create dynamic keyframe:', e);
             }
           }
-        `;
-        
-        try {
-          styleSheet.insertRule(keyframes, styleSheet.cssRules.length);
-          circle.style.setProperty('animation-name', keyframeName);
-          
-          // Applique aussi le hover dynamique
-          const parent = circle.closest('button');
-          if (parent) {
-            parent.addEventListener('mouseenter', () => {
-              circle.style.boxShadow = `inset -4px -4px 9.5px rgba(0, 0, 0, 0.26), 5.8px 8.7px 0px rgba(186, 188, 193, 1), 0 0 6px ${neonColor}, 0 0 12px ${neonColor}`;
-            });
-            parent.addEventListener('mouseleave', () => {
-              circle.style.boxShadow = '';
-            });
-          }
-        } catch (e) {
-          console.warn('Could not create dynamic keyframe:', e);
-        }
-      }
+        });
+      });
     });
   });
   

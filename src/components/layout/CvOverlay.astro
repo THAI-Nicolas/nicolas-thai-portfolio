@@ -70,14 +70,20 @@ const { isVisible = false, onClose } = Astro.props;
           </div>
           <div class="w-full">
             <picture>
-              <source srcset="/images/cv_wii_nicolas-thai.avif" type="image/avif" />
-              <source srcset="/images/cv_wii_nicolas-thai.webp" type="image/webp" />
+              <source 
+                srcset="/images/cv_wii_nicolas-thai-600w.avif" 
+                type="image/avif" 
+              />
+              <source 
+                srcset="/images/cv_wii_nicolas-thai-600w.webp" 
+                type="image/webp" 
+              />
               <img
                 src="/images/cv_wii_nicolas-thai.png"
                 alt="CV de Nicolas THAI"
                 class="w-full h-auto rounded-lg shadow-lg"
-                width="1414"
-                height="2000"
+                width="600"
+                height="850"
                 loading="lazy"
                 decoding="async"
               />
@@ -133,14 +139,20 @@ const { isVisible = false, onClose } = Astro.props;
             </div>
             <div class="w-full">
               <picture>
-                <source srcset="/images/cv_wii_nicolas-thai.avif" type="image/avif" />
-                <source srcset="/images/cv_wii_nicolas-thai.webp" type="image/webp" />
+                <source 
+                  srcset="/images/cv_wii_nicolas-thai-600w.avif" 
+                  type="image/avif" 
+                />
+                <source 
+                  srcset="/images/cv_wii_nicolas-thai-600w.webp" 
+                  type="image/webp" 
+                />
                 <img
                   src="/images/cv_wii_nicolas-thai.png"
                   alt="CV de Nicolas THAI"
                   class="w-full h-auto rounded-lg shadow-lg"
-                  width="1414"
-                  height="2000"
+                  width="600"
+                  height="850"
                   loading="lazy"
                   decoding="async"
                 />
@@ -217,11 +229,19 @@ const { isVisible = false, onClose } = Astro.props;
 </style>
 
 <script>
-  import { MiiScene } from '../../scripts/mii-scene';
   import { OverlayManager } from '../../scripts/overlay-manager';
   
-  let miiScene: MiiScene | null = null;
-  let miiSceneMobile: MiiScene | null = null;
+  let miiScene: any | null = null;
+  let miiSceneMobile: any | null = null;
+  let MiiSceneClass: any = null;
+
+  async function loadMiiScene() {
+    if (!MiiSceneClass) {
+      const module = await import('../../scripts/mii-scene');
+      MiiSceneClass = module.MiiScene;
+    }
+    return MiiSceneClass;
+  }
 
   function initCvOverlay() {
     const overlayManager = OverlayManager.getInstance();
@@ -248,7 +268,7 @@ const { isVisible = false, onClose } = Astro.props;
     
     // Observer pour détecter quand l'overlay devient visible et initialiser la scène 3D
     if (cvOverlay) {
-      const observer = new MutationObserver(() => {
+      const observer = new MutationObserver(async () => {
         const isVisible = cvOverlay.classList.contains("opacity-100") && 
                          cvOverlay.classList.contains("pointer-events-auto");
         
@@ -256,6 +276,9 @@ const { isVisible = false, onClose } = Astro.props;
         const miiContainerMobile = document.getElementById("mii-container-mobile");
         
         if (isVisible) {
+          // Lazy load MiiScene uniquement quand l'overlay s'ouvre
+          const MiiScene = await loadMiiScene();
+          
           // Créer la scène desktop si le container existe et est visible
           if (miiContainer && window.innerWidth >= 1280 && !miiScene) {
             miiScene = new MiiScene(miiContainer);
