@@ -182,7 +182,6 @@ export const KEYBOARD_KEYS = {
 // ============================================
 
 export const STORAGE_KEYS = {
-  THEME: "portfolio-theme",
   SETTINGS: "portfolio-settings",
   HOMEBOARDING_SEEN: "portfolio-homeboarding-seen",
 } as const;

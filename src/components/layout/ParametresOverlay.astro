@@ -271,38 +271,6 @@ const { isVisible = false, onClose } = Astro.props;
                   </div>
                 </button>
 
-                <!-- Thème -->
-                <div style="background: white; border: 2px solid var(--color-light-blue); border-radius: 8px; padding: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-                  <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
-                    <svg style="width: 16px; height: 16px; color: var(--color-text-gray);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
-                    </svg>
-                    <div style="font-weight: 600; font-size: 13px; color: var(--color-text-gray);">Thème d'affichage</div>
-                  </div>
-                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-                    <button
-                      id="theme-light-btn"
-                      data-small-button
-                      type="button"
-                      style="padding: 10px; background: linear-gradient(145deg, rgba(52, 190, 237, 0.2), rgba(52, 190, 237, 0.1)); color: var(--color-light-blue); border: 2px solid var(--color-light-blue); border-radius: 6px; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s;"
-                      onmouseover="this.style.background='linear-gradient(145deg, rgba(52, 190, 237, 0.3), rgba(52, 190, 237, 0.15))'"
-                      onmouseout="this.style.background='linear-gradient(145deg, rgba(52, 190, 237, 0.2), rgba(52, 190, 237, 0.1))'"
-                    >
-                      Clair
-                    </button>
-                    <button
-                      id="theme-dark-btn"
-                      data-small-button
-                      type="button"
-                      style="padding: 10px; background: white; color: var(--color-dark-gray); border: 2px solid rgba(52, 190, 237, 0.3); border-radius: 6px; font-weight: 700; font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s;"
-                      onmouseover="this.style.borderColor='var(--color-light-blue)'; this.style.color='var(--color-light-blue)'"
-                      onmouseout="this.style.borderColor='rgba(52, 190, 237, 0.3)'; this.style.color='var(--color-dark-gray)'"
-                    >
-                      Sombre
-                    </button>
-                  </div>
-                </div>
-
                 <!-- Langue -->
                 <div style="background: white; border: 2px solid var(--color-light-blue); border-radius: 8px; padding: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
                   <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
@@ -929,33 +897,6 @@ const { isVisible = false, onClose } = Astro.props;
       padding: 16px !important;
     }
   }
-
-  /* Boutons de thème */
-  .theme-button {
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
-  }
-
-  .theme-button.active {
-    border-color: var(--color-light-blue);
-    background: linear-gradient(
-      145deg,
-      rgba(52, 190, 237, 0.15) 0%,
-      rgba(52, 190, 237, 0.05) 100%
-    ) !important;
-    box-shadow:
-      0 0 0 1px var(--color-light-blue),
-      0 4px 12px rgba(52, 190, 237, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
-  }
-
-  .theme-button.active svg {
-    color: var(--color-dark-blue);
-  }
-
-  .theme-button:hover {
-    border-color: var(--color-light-blue);
-  }
 </style>
 
 <script>
@@ -1005,44 +946,6 @@ const { isVisible = false, onClose } = Astro.props;
         localStorage.setItem('wiiCursor', cursorEnabled ? 'enabled' : 'disabled');
       });
     }
-    
-    // Gestion des boutons de thème
-    const themeLightBtn = document.getElementById('theme-light-btn') as HTMLButtonElement;
-    const themeDarkBtn = document.getElementById('theme-dark-btn') as HTMLButtonElement;
-    
-    const currentTheme = localStorage.getItem('theme') || 'light';
-    
-    function updateThemeButtons(theme: string) {
-      if (theme === 'light') {
-        themeLightBtn.style.background = 'linear-gradient(145deg, rgba(52, 190, 237, 0.2), rgba(52, 190, 237, 0.1))';
-        themeLightBtn.style.color = 'var(--color-light-blue)';
-        themeLightBtn.style.borderColor = 'var(--color-light-blue)';
-        
-        themeDarkBtn.style.background = 'white';
-        themeDarkBtn.style.color = 'var(--color-dark-gray)';
-        themeDarkBtn.style.borderColor = 'rgba(52, 190, 237, 0.3)';
-      } else {
-        themeDarkBtn.style.background = 'linear-gradient(145deg, rgba(52, 190, 237, 0.2), rgba(52, 190, 237, 0.1))';
-        themeDarkBtn.style.color = 'var(--color-light-blue)';
-        themeDarkBtn.style.borderColor = 'var(--color-light-blue)';
-        
-        themeLightBtn.style.background = 'white';
-        themeLightBtn.style.color = 'var(--color-dark-gray)';
-        themeLightBtn.style.borderColor = 'rgba(52, 190, 237, 0.3)';
-      }
-    }
-    
-    updateThemeButtons(currentTheme);
-    
-    themeLightBtn?.addEventListener('click', () => {
-      localStorage.setItem('theme', 'light');
-      updateThemeButtons('light');
-    });
-    
-    themeDarkBtn?.addEventListener('click', () => {
-      localStorage.setItem('theme', 'dark');
-      updateThemeButtons('dark');
-    });
     
     // Gestion des boutons de langue
     const langFrBtn = document.getElementById('lang-fr-btn') as HTMLButtonElement;

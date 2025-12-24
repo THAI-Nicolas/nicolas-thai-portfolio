@@ -6,6 +6,7 @@ import MainBouton from "../../../components/boutons/MainBouton.astro";
 import LargeBouton from "../../../components/boutons/LargeBouton.astro";
 import TechnologiesUtilisees from "../../../components/ui/TechnologieUtilisees.astro";
 import CardContexte from "../../../components/ui/CardContexte.astro";
+import PBImage from "../../../components/ui/PBImage.astro";
 import GridLayer from "../../../assets/icones/gridlayer.svg";
 import Nuage1 from "../../../assets/icones/nuage1.svg";
 import Nuage2 from "../../../assets/icones/nuage2.svg";
@@ -88,7 +89,7 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
   `} />
   <script is:inline define:vars={{ projectColor: colorGradient.to }}>
     function setProjectColor() {
-      document.documentElement.setAttribute("data-theme", "wii");
+      // Thème Wii par défaut
       
       // Supprimer l'ancienne couleur d'abord
       document.documentElement.style.removeProperty('--project-color');
@@ -309,10 +310,14 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
                   class="bg-gradient-to-br from-white to-gray-50 rounded-xl md:rounded-2xl p-3 md:p-4 shadow-lg border-2 border-gray-200 cursor-pointer hover:shadow-xl transition-shadow duration-300 max-w-md md:max-w-lg lg:max-w-none mx-auto"
                   onclick={`document.getElementById('modal-${index}').style.display='flex'`}
                 >
-                  <img
+                  <PBImage
                     src={url}
                     alt={`${projet.titre} visuel ${index + 1}`}
                     class="w-full h-auto rounded-lg md:rounded-xl object-contain"
+                    width={800}
+                    height={600}
+                    sizes="(max-width: 768px) 90vw, (max-width: 1024px) 45vw, 35vw"
+                    priority={index === 0}
                   />
                 </div>
               ))
@@ -338,10 +343,13 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                   </svg>
                 </button>
-                <img
+                <PBImage
                   src={url}
                   alt={`${projet.titre} visuel ${index + 1}`}
                   class="max-w-full max-h-[90vh] object-contain rounded-xl"
+                  width={1920}
+                  height={1080}
+                  sizes="90vw"
                 />
               </div>
             </div>
@@ -430,10 +438,14 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
                           class="cursor-pointer hover:shadow-3xl transition-shadow duration-300 max-w-md md:max-w-lg lg:max-w-none mx-auto"
                           onclick={`document.getElementById('modal-processus-${index}').style.display='flex'`}
                         >
-                          <img
+                          <PBImage
                             src={ProjetsService.getFileUrl(etape, etape.image)}
                             alt={etape.titre}
                             class="w-full h-auto object-cover rounded-2xl md:rounded-3xl shadow-2xl"
+                            width={800}
+                            height={600}
+                            sizes="(max-width: 768px) 90vw, (max-width: 1024px) 70vw, 50vw"
+                            priority={index === 0}
                           />
                         </div>
                       ) : (

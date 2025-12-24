@@ -1,6 +1,7 @@
 ---
 import MainBouton from "../boutons/MainBouton.astro";
 import TechnologiesPresentation from "../ui/TechnologiesPresentation.astro";
+import PBImage from "../ui/PBImage.astro";
 import IconDev from "../../assets/icones/presentation_dev.svg" ;
 import IconDesign from "../../assets/icones/presentation_design.svg" ;
 import IconGestionDeProjet from "../../assets/icones/presentation_gestion_projet.svg" ;
@@ -83,7 +84,7 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
   >
     <!-- Bouton Retour -->
     <div class="absolute top-16 left-28 z-[100] xl:block 2xl:hidden" id="presentation-return-button">
-      <MainBouton type="retour" size="laptop" />
+      <MainBouton type="retour" size="tablet" />
     </div>
     <div class="absolute top-16 left-28 z-[100] hidden 2xl:block" id="presentation-return-button">
       <MainBouton type="retour" size="desktop" />
@@ -97,7 +98,7 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
         <div class="page-2-back-overlay-content">
           <!-- En-tête avec icône -->
           <div class="dev-header">
-            <img src={IconDev.src} alt="Développement" class="dev-icon" />
+            <PBImage src={IconDev.src} alt="Développement" class="dev-icon" width={60} height={60} sizes="60px" />
             <h2 class="dev-title">DÉVELOPPEMENT</h2>
           </div>
 
@@ -163,7 +164,7 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
         <div class="page-2-back-overlay-right-content">
           <!-- En-tête avec icône -->
           <div class="dev-header">
-            <img src={IconDesign.src} alt="Design" class="dev-icon" />
+            <PBImage src={IconDesign.src} alt="Design" class="dev-icon" width={60} height={60} sizes="60px" />
             <h2 class="dev-title">DESIGN</h2>
           </div>
 
@@ -238,7 +239,7 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
         <div class="page-3-back-overlay-content">
           <!-- En-tête avec icône -->
           <div class="dev-header">
-            <img src={IconGestionDeProjet.src} alt="Gestion de projet" class="dev-icon" />
+            <PBImage src={IconGestionDeProjet.src} alt="Gestion de projet" class="dev-icon" width={60} height={60} sizes="60px" />
             <h2 class="dev-title">GESTION DE PROJET</h2>
           </div>
 

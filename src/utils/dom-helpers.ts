@@ -105,19 +105,6 @@ export function removeClass(
 }
 
 /**
- * Toggle une ou plusieurs classes sur un élément
- * @param element - L'élément cible
- * @param classes - Classe(s) à toggler
- */
-export function toggleClass(
-  element: HTMLElement | null,
-  ...classes: string[]
-): void {
-  if (!element) return;
-  classes.forEach((cls) => element.classList.toggle(cls));
-}
-
-/**
  * Vérifie si un élément a une classe
  * @param element - L'élément cible
  * @param className - La classe à vérifier
@@ -166,21 +153,6 @@ export function onEvent<K extends keyof HTMLElementEventMap>(
 }
 
 /**
- * Retire un event listener avec vérification null
- * @param element - L'élément cible
- * @param event - Le type d'événement
- * @param handler - Le handler de l'événement
- */
-export function offEvent<K extends keyof HTMLElementEventMap>(
-  element: HTMLElement | Window | Document | null,
-  event: K,
-  handler: (e: HTMLElementEventMap[K]) => void
-): void {
-  if (!element) return;
-  element.removeEventListener(event, handler as EventListener);
-}
-
-/**
  * Ajoute un event listener sur plusieurs éléments
  * @param elements - NodeList ou Array d'éléments
  * @param event - Le type d'événement
@@ -192,27 +164,6 @@ export function onEventAll<K extends keyof HTMLElementEventMap>(
   handler: (e: HTMLElementEventMap[K]) => void
 ): void {
   elements.forEach((el) => onEvent(el, event, handler));
-}
-
-/**
- * Delegate un événement (event delegation)
- * @param parent - L'élément parent
- * @param selector - Le sélecteur des enfants cibles
- * @param event - Le type d'événement
- * @param handler - Le handler de l'événement
- */
-export function delegateEvent<K extends keyof HTMLElementEventMap>(
-  parent: HTMLElement | Document,
-  selector: string,
-  event: K,
-  handler: (e: HTMLElementEventMap[K], target: HTMLElement) => void
-): void {
-  onEvent(parent, event, (e: HTMLElementEventMap[K]) => {
-    const target = (e.target as HTMLElement).closest(selector);
-    if (target) {
-      handler(e, target as HTMLElement);
-    }
-  });
 }
 
 // ============================================
@@ -329,20 +280,8 @@ export function observeMutations(
 }
 
 // ============================================
-// DOM READY
+// UTILITIES
 // ============================================
-
-/**
- * Exécute un callback quand le DOM est prêt
- * @param callback - Fonction à exécuter
- */
-export function onDOMReady(callback: () => void): void {
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", callback);
-  } else {
-    callback();
-  }
-}
 
 /**
  * Exécute un callback après un délai
@@ -352,13 +291,4 @@ export function onDOMReady(callback: () => void): void {
  */
 export function delay(callback: () => void, ms: number): number {
   return window.setTimeout(callback, ms);
-}
-
-/**
- * Crée une Promise qui se résout après un délai
- * @param ms - Délai en millisecondes
- * @returns Promise qui se résout après le délai
- */
-export function wait(ms: number): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
 }

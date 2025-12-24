@@ -37,20 +37,6 @@ export class ProjetsService {
     }
   }
 
-  static async getById(id: string): Promise<ProjetsResponse | null> {
-    try {
-      const record = await pb
-        .collection(this.COLLECTION)
-        .getOne<ProjetsResponse>(id, {
-          expand: "technologies,processus",
-        });
-      return record;
-    } catch (error) {
-      console.error(`Erreur lors de la récupération du projet ${id}:`, error);
-      return null;
-    }
-  }
-
   static getFileUrl(
     record: ProjetsResponse | ProcessusEtapesRecord | any,
     filename: string

@@ -1,28 +1,15 @@
 ---
-// Composant pour charger les polices Google Fonts de manière optimisée
+// Composant pour charger les polices Raleway de manière optimisée (self-hosted)
 ---
 
-<!-- Préconnexion pour améliorer les performances -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<!-- Google Fonts - Raleway optimisé avec font-display: swap -->
-<link 
-  href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700&display=swap" 
-  rel="stylesheet"
->
-
-<!-- Fallback CSS pour les polices -->
-<style>
+<style is:global>
+  /* Import des polices Raleway depuis @fontsource (self-hosted) */
+  @import "@fontsource/raleway/400.css";
+  @import "@fontsource/raleway/600.css";
+  @import "@fontsource/raleway/700.css";
+  
   /* Police par défaut du body */
   body {
     font-family: 'Raleway', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   }
-  
-  /* Animation douce pour l'apparition du texte */
-  .font-primary {
-    animation: fadeInText 0.3s ease-in-out;
-  }
-  
-  /* Animation fadeInText définie dans animations.css */
 </style>

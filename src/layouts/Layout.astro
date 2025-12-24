@@ -1,6 +1,5 @@
 ---
 import "../styles/global.css";
-import FontLoader from "../components/FontLoader.astro";
 import HomeboardingOverlay from "../components/layout/HomeboardingOverlay.astro";
 
 export interface Props {
@@ -60,16 +59,8 @@ const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).href;
     <!-- View Transitions -->
     <meta name="view-transition" content="same-origin" />
 
-    <!-- Chargement des polices Adobe Fonts -->
-    <FontLoader />
-
-    <!-- Initialisation du thème (inline pour éviter le flash) -->
+    <!-- Initialisation (inline pour éviter le flash) -->
     <script is:inline>
-      const THEME_KEY = "portfolio-theme";
-      const storedTheme = localStorage.getItem(THEME_KEY);
-      const theme = storedTheme === "wii" ? storedTheme : "wii";
-      document.documentElement.setAttribute("data-theme", theme);
-      
       // Initialisation du curseur Wii (inline pour éviter le flash)
       const savedCursor = localStorage.getItem('wiiCursor');
       const cursorEnabled = savedCursor !== 'disabled'; // Par défaut ON
@@ -104,32 +95,6 @@ const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).href;
     <HomeboardingOverlay />
     
     <slot />
-
-    <script is:inline>
-      // Gestionnaire de thème global
-      window.portfolioTheme = {
-        current: localStorage.getItem("portfolio-theme") || "wii",
-
-        setTheme: function (theme) {
-          if (theme !== "wii") return;
-
-          this.current = theme;
-          localStorage.setItem("portfolio-theme", theme);
-          document.documentElement.setAttribute("data-theme", theme);
-
-          // Dispatch event
-          window.dispatchEvent(
-            new CustomEvent("themeChange", { detail: { theme } })
-          );
-
-          console.log("Thème changé:", theme);
-        },
-
-        getTheme: function () {
-          return this.current;
-        },
-      };
-    </script>
 
     <!-- Initialisation de l'AudioManager et UI Sounds -->
     <script>

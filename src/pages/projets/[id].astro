@@ -2,6 +2,7 @@
 import LayoutPageProjet from "../../layouts/LayoutPageProjet.astro";
 import Fleche from "../../components/ui/Fleche.astro";
 import LargeBouton from "../../components/boutons/LargeBouton.astro";
+import PBImage from "../../components/ui/PBImage.astro";
 import { ProjetsService } from "../../services/projets.service";
 
 const { id } = Astro.params;
@@ -68,7 +69,7 @@ const seoDescription = projet.description
     }
   `} />
   <script is:inline>
-    document.documentElement.setAttribute("data-theme", "wii");
+    // Thème Wii par défaut
   </script>
   <article class="relative w-full h-full flex flex-col">
     <header class="sr-only">
@@ -87,10 +88,14 @@ const seoDescription = projet.description
 
       <section class="absolute inset-0 flex items-center justify-center overflow-hidden" aria-label="Aperçu du projet">
         <h2 class="sr-only">Image de couverture</h2>
-        <img
+        <PBImage
           src={coverUrl}
           alt={projet.titre}
           class="w-full object-contain scale-125 md:scale-110 lg:scale-75 xl:scale-100 2xl:scale-105 float-idle-cover"
+          width={1920}
+          height={1080}
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 90vw, 80vw"
+          priority={true}
         />
       </section>
 

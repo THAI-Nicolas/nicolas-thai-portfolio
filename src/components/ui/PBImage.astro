@@ -1,0 +1,78 @@
+---
+/**
+ * PBImage - Composant d'image optimisée avec PocketBase Thumbs API
+ * 
+ * Utilise l'API native de PocketBase pour générer des thumbnails optimisés
+ * Format: ?thumb=WIDTHxHEIGHTt (t = fit, f = fill)
+ */
+
+export interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+  width?: number;
+  height?: number;
+  sizes?: string;
+  priority?: boolean;
+  objectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
+  loading?: 'lazy' | 'eager';
+  fetchpriority?: 'high' | 'low' | 'auto';
+}
+
+const {
+  src,
+  alt,
+  class: className = '',
+  width,
+  height,
+  sizes = '100vw',
+  priority = false,
+  objectFit = 'cover',
+  loading = priority ? 'eager' : 'lazy',
+  fetchpriority = priority ? 'high' : 'auto',
+} = Astro.props;
+
+// Utiliser l'API thumbs de PocketBase si c'est une URL PocketBase
+const isPocketBaseUrl = src.includes('/api/files/');
+
+// Pour PocketBase, utiliser les thumbs. Sinon, URL normale
+const thumbSize = width && height ? `${width}x${height}` : width ? `${width}x0` : '1200x0';
+const thumbMode = objectFit === 'cover' ? 'f' : 't'; // f = fill (cover), t = fit (contain)
+
+// Si c'est PocketBase et qu'on a des dimensions, utiliser thumbs
+const optimizedSrc = isPocketBaseUrl && (width || height)
+  ? `${src}?thumb=${thumbSize}${thumbMode}`
+  : src;
+
+// Créer srcset responsive pour PocketBase uniquement
+const widths = [640, 750, 828, 1080, 1200, 1920];
+const responsiveSrcSet = isPocketBaseUrl ? widths
+  .filter(w => !width || w <= width * 2) // Ne pas générer de tailles inutilement grandes
+  .map(w => {
+    const h = height ? Math.round((height / (width || w)) * w) : 0;
+    return `${src}?thumb=${w}x${h}${thumbMode} ${w}w`;
+  })
+  .join(', ') : '';
+
+// Style pour object-fit
+const objectFitClass = {
+  'cover': 'object-cover',
+  'contain': 'object-contain',
+  'fill': 'object-fill',
+  'none': 'object-none',
+  'scale-down': 'object-scale-down',
+}[objectFit];
+---
+
+<img
+  src={optimizedSrc}
+  srcset={responsiveSrcSet || undefined}
+  sizes={responsiveSrcSet ? sizes : undefined}
+  alt={alt}
+  class={`${className} ${objectFitClass}`}
+  width={width}
+  height={height}
+  loading={loading}
+  fetchpriority={fetchpriority}
+  decoding={priority ? 'sync' : 'async'}
+/>

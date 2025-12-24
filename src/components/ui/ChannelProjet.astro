@@ -1,4 +1,6 @@
 ---
+import PBImage from "./PBImage.astro";
+
 export interface Props {
   isEmpty?: boolean;
   projectCover?: string;
@@ -49,12 +51,15 @@ const currentSize = sizes[size] || sizes.desktop;
         {/* Zone de contenu (image) */}
         <div class="absolute inset-[2px] z-10 flex items-center justify-center overflow-hidden rounded-[26px_/_48px] bg-[#CBCBCB]">
           {!isEmpty && projectCover && (
-            <img
+            <PBImage
               src={projectCover}
               alt={projectTitle || "Project cover"}
-              class="w-full h-full object-cover scale-[1.02] transition-transform duration-300 ease-out group-hover:scale-105"
-              fetchpriority={isPriority ? "high" : undefined}
-              loading={isPriority ? "eager" : "lazy"}
+              class="w-full h-full scale-[1.02] transition-transform duration-300 ease-out group-hover:scale-105"
+              width={400}
+              height={225}
+              sizes="(max-width: 768px) 45vw, 20vw"
+              priority={isPriority}
+              objectFit="cover"
             />
           )}
         </div>
@@ -87,12 +92,15 @@ const currentSize = sizes[size] || sizes.desktop;
         {/* Zone de contenu (image) */}
         <div class="absolute inset-[2px] z-10 flex items-center justify-center overflow-hidden rounded-[26px_/_48px] bg-[#CBCBCB]">
           {!isEmpty && projectCover && (
-            <img
+            <PBImage
               src={projectCover}
               alt={projectTitle || "Project cover"}
-              class="w-full h-full object-cover scale-[1.02] transition-transform duration-300 ease-out group-hover:scale-105"
-              fetchpriority={isPriority ? "high" : undefined}
-              loading={isPriority ? "eager" : "lazy"}
+              class="w-full h-full scale-[1.02] transition-transform duration-300 ease-out group-hover:scale-105"
+              width={400}
+              height={225}
+              sizes="(max-width: 768px) 45vw, 20vw"
+              priority={isPriority}
+              objectFit="cover"
             />
           )}
         </div>

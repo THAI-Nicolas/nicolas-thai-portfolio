@@ -1,5 +1,6 @@
 ---
 import { TechnologiesService } from "../../services/technologies.service";
+import PBImage from "./PBImage.astro";
 
 interface Props {
   technologies: any[];
@@ -10,20 +11,25 @@ const { technologies } = Astro.props;
 
 <div class="flex flex-wrap gap-3 lg:gap-4">
   {
-    technologies.map((tech) => {
-      const logoUrl = TechnologiesService.getLogoUrl(tech);
-      return (
-        <div class="inline-flex items-center gap-3 px-5 py-2.5 bg-white rounded-full border border-text-gray shadow-md hover:scale-105 transition-transform duration-300">
-          <img
-            src={logoUrl}
-            alt={`${tech.nom} logo`}
-            class="w-5 h-5 object-contain"
-          />
-          <span class="font-raleway text-sm lg:text-base font-semibold text-text-gray whitespace-nowrap">
-            {tech.nom}
-          </span>
-        </div>
-      );
-    })
+    technologies
+      .filter((tech) => TechnologiesService.getLogoUrl(tech))
+      .map((tech) => {
+        const logoUrl = TechnologiesService.getLogoUrl(tech) as string;
+        return (
+          <div class="inline-flex items-center gap-3 px-5 py-2.5 bg-white rounded-full border border-text-gray shadow-md hover:scale-105 transition-transform duration-300">
+            <PBImage
+              src={logoUrl}
+              alt={`${tech.nom} logo`}
+              class="w-5 h-5 object-contain"
+              width={20}
+              height={20}
+              sizes="20px"
+            />
+            <span class="font-raleway text-sm lg:text-base font-semibold text-text-gray whitespace-nowrap">
+              {tech.nom}
+            </span>
+          </div>
+        );
+      })
   }
 </div>
