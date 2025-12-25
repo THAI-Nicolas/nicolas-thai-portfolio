@@ -2,6 +2,18 @@ import { defineMiddleware } from "astro:middleware";
 import PocketBase from "pocketbase";
 
 export const onRequest = defineMiddleware(async (context, next) => {
+  // Redirection vers /welcome pour première visite (sauf si déjà sur /welcome ou admin)
+  if (
+    context.url.pathname === "/" &&
+    !context.url.pathname.startsWith("/admin") &&
+    context.url.pathname !== "/welcome"
+  ) {
+    const homeboardingSeen = context.cookies.get("portfolio-homeboarding-seen");
+    if (!homeboardingSeen || homeboardingSeen.value !== "true") {
+      return context.redirect("/welcome");
+    }
+  }
+
   // Protection des routes /admin/* sauf /admin/login
   if (
     context.url.pathname.startsWith("/admin") &&

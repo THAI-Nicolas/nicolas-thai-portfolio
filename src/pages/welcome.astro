@@ -1,0 +1,266 @@
+---
+/**
+ * Page de bienvenue (homeboarding) - première visite uniquement
+ * Redirige automatiquement vers l'index après 6 secondes
+ */
+import { ViewTransitions } from 'astro:transitions';
+import mouseIcon from '../assets/icones/mouse-icon.svg';
+---
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bienvenue - Nicolas THAI Portfolio</title>
+  <meta name="description" content="Bienvenue sur le portfolio de Nicolas THAI, développeur web front-end. Découvrez mes projets, compétences et réalisations.">
+  <ViewTransitions />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Raleway', sans-serif;
+      background: #000;
+      color: #fff;
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: 0.02em;
+    }
+
+    .content {
+      text-align: center;
+      padding: clamp(1rem, 4vw, 2rem);
+      max-width: 1200px;
+      /* Animation désactivée pour ne pas bloquer le LCP */
+      /* animation: content-fade-in 1400ms ease-out forwards; */
+      opacity: 1;
+    }
+
+    /* Animation désactivée - causait NO_LCP car opacity: 0 initial
+    @keyframes content-fade-in {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    */
+
+    .header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: clamp(1rem, 3vw, 1.5rem);
+      margin-bottom: clamp(2rem, 8vw, 4rem);
+    }
+
+    @media (min-width: 768px) {
+      .header {
+        flex-direction: row;
+        justify-content: center;
+      }
+    }
+
+    .warning-icon {
+      width: clamp(3rem, min(6vw, 8vh), 5.5rem);
+      height: clamp(3rem, min(6vw, 8vh), 5.5rem);
+      flex-shrink: 0;
+    }
+
+    h1 {
+      font-size: clamp(1.25rem, min(3.5vw, 5vh), 3rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .main-text {
+      font-size: clamp(1rem, min(2.5vw, 3.5vh), 2.25rem);
+      font-weight: 600;
+      text-transform: uppercase;
+      line-height: 1.5;
+      margin-bottom: clamp(3rem, 10vw, 5rem);
+    }
+
+    .main-text p {
+      margin-bottom: 0.5rem;
+    }
+
+    .main-text p:last-child {
+      margin-bottom: 0;
+    }
+
+    .portfolio-url {
+      margin-bottom: clamp(2.5rem, 8vw, 4rem);
+    }
+
+    .portfolio-url p {
+      font-size: clamp(0.9375rem, min(1.8vw, 2.8vh), 1.875rem);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .portfolio-url p:first-child {
+      font-weight: 600;
+    }
+
+    .url {
+      color: #5d81b8;
+      font-weight: 500;
+    }
+
+    .press-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .press-text {
+      font-size: clamp(1rem, min(2.5vw, 3.5vh), 2.5rem);
+      font-weight: 600;
+      text-transform: uppercase;
+      animation: press-blink 3s ease-in-out infinite;
+    }
+
+    .mouse-button {
+      position: relative;
+      width: clamp(3rem, min(5vw, 7vh), 4.375rem);
+      height: clamp(3rem, min(5vw, 7vh), 4.375rem);
+      background: none;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s;
+      animation: press-blink 3s ease-in-out infinite;
+    }
+
+    .mouse-button:hover {
+      transform: scale(1.1);
+    }
+
+    .mouse-button:active {
+      transform: scale(0.95);
+    }
+
+    .mouse-button:focus-visible {
+      outline: 3px solid #5d81b8;
+      outline-offset: 4px;
+    }
+
+    .mouse-button img {
+      width: 3.5rem;
+      height: 3.5rem;
+      filter: invert(1) brightness(2);
+    }
+
+    @keyframes press-blink {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.3;
+      }
+    }
+
+    /* Triangle d'avertissement */
+    .warning-triangle {
+      fill: #FFD700;
+      stroke: #000;
+      stroke-width: 2;
+    }
+
+    .warning-bar {
+      fill: #000;
+    }
+  </style>
+</head>
+<body>
+  <div class="content">
+    <div class="header">
+      <svg class="warning-icon" viewBox="0 0 118 118" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="warning-triangle" d="M59 8L111.301 103H6.69873L59 8Z" />
+        <rect class="warning-bar" x="54" y="35" width="10" height="30" rx="1.25" />
+        <rect class="warning-bar" x="54" y="75" width="10" height="10" />
+      </svg>
+      <h1>This is a Developer Portfolio</h1>
+    </div>
+
+    <div class="main-text">
+      <p>Before continuing, get ready to explore</p>
+      <p>my projects, skills and achievements.</p>
+      <p>beware, hiring me might</p>
+      <p>boost your sales.</p>
+    </div>
+
+    <div class="portfolio-url">
+      <p>Portfolio available at</p>
+      <p class="url">https://nicolas-thai.fr</p>
+    </div>
+
+    <div class="press-container">
+      <span class="press-text">Press</span>
+      <button id="continue-btn" class="mouse-button" aria-label="Cliquer pour continuer">
+        <img src={mouseIcon.src} alt="Mouse click">
+      </button>
+      <span class="press-text">to continue</span>
+    </div>
+  </div>
+
+  <script>
+    const HOMEBOARDING_KEY = "portfolio-homeboarding-seen";
+    
+    function markAsSeenAndRedirect() {
+      try {
+        // Définir le localStorage
+        localStorage.setItem(HOMEBOARDING_KEY, "true");
+        
+        // Définir le cookie pour le middleware
+        document.cookie = `${HOMEBOARDING_KEY}=true; path=/; max-age=${365 * 24 * 60 * 60}; SameSite=Lax`;
+      } catch (error) {
+        console.error("Error saving to localStorage/cookie:", error);
+      }
+      
+      // Utiliser Astro view transitions si disponible
+      if (typeof window !== 'undefined' && 'navigation' in window) {
+        import('astro:transitions/client').then(({ navigate }) => {
+          navigate('/');
+        });
+      } else {
+        window.location.href = "/";
+      }
+    }
+
+    // Clic sur le bouton
+    const btn = document.getElementById("continue-btn");
+    if (btn) {
+      btn.addEventListener("click", markAsSeenAndRedirect);
+    }
+
+    // Redirection automatique après 6 secondes
+    setTimeout(markAsSeenAndRedirect, 6000);
+
+    // Support clavier (Entrée ou Espace)
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        markAsSeenAndRedirect();
+      }
+    });
+  </script>
+</body>
+</html>

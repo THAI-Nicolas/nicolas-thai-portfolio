@@ -15,6 +15,9 @@ import { ProjetsService } from "../services/projets.service";
 const projets = await ProjetsService.getAll();
 const totalChannels = 27; // 3 lignes de 9 channels
 
+// URL de la première image de projet pour preload LCP
+const firstProjectCover = projets[0] ? ProjetsService.getCoverUrl(projets[0]) : null;
+
 // Créer un tableau de 27 channels pour desktop (ordre horizontal)
 const channels = Array(totalChannels).fill(null).map((_, index) => {
   const projet = projets[index];
