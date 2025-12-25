@@ -268,14 +268,8 @@ const currentSize = sizes[size] || sizes.desktop;
       btn.addEventListener('focus', initMiiButtonOnce, { once: true });
     });
     
-    // Différer le chargement 3D après le load complet pour améliorer LCP
-    window.addEventListener('load', () => {
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(initMiiButtonOnce, { timeout: 5000 });
-      } else {
-        setTimeout(initMiiButtonOnce, 3000);
-      }
-    });
+    // NE PLUS charger automatiquement pour améliorer les performances
+    // Le Mii 3D ne se chargera QUE si l'utilisateur survole le bouton
 
     // Applique les effets néon avec la couleur personnalisée
     // Utiliser requestAnimationFrame pour éviter les forced reflow
