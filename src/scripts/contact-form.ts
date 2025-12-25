@@ -182,11 +182,7 @@ export class ContactFormManager {
     const publicKey = import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY;
 
     if (!serviceId || !templateId || !publicKey) {
-      console.error("❌ EmailJS non configuré. Variables manquantes:", {
-        serviceId,
-        templateId,
-        publicKey,
-      });
+      // Variables EmailJS non configurées - le formulaire sera non fonctionnel
       return;
     }
 
