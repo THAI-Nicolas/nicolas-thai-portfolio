@@ -94,12 +94,21 @@ export class ParametresManager {
     // Ne pas appliquer sur mobile
     if (window.innerWidth < 768) return;
 
-    this.rect = this.parametresContainer.getBoundingClientRect();
+    // Différer getBoundingClientRect dans RAF pour éviter forced layout
+    requestAnimationFrame(() => {
+      if (this.parametresContainer) {
+        this.rect = this.parametresContainer.getBoundingClientRect();
+      }
+    });
 
     // Recalculer le rect au resize de la fenêtre
     onEvent(window, DOM_EVENTS.RESIZE, () => {
       if (this.parametresContainer && window.innerWidth >= 768) {
-        this.rect = this.parametresContainer.getBoundingClientRect();
+        requestAnimationFrame(() => {
+          if (this.parametresContainer) {
+            this.rect = this.parametresContainer.getBoundingClientRect();
+          }
+        });
       }
     });
 
