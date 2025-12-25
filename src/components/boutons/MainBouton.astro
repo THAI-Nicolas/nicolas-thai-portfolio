@@ -353,7 +353,11 @@ const currentSize = sizes[size] || sizes.desktop;
   // Réinitialiser après les transitions Astro (navigation de page)
   document.addEventListener("astro:page-load", () => {
     console.log('astro:page-load - Réinitialisation du Mii Button');
-    setTimeout(initMiiButton, 100);
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => initMiiButton(), { timeout: 2000 });
+    } else {
+      setTimeout(initMiiButton, 1000);
+    }
   });
   
   // Réinitialiser avant les transitions Astro

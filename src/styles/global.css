@@ -3,6 +3,13 @@
 @import "@fontsource/raleway/600.css";
 @import "@fontsource/raleway/700.css";
 
+/* Force font-display: swap pour toutes les polices */
+@font-face {
+  font-family: "Raleway";
+  font-style: normal;
+  font-display: swap;
+}
+
 @import "tailwindcss";
 @import "./animations.css";
 

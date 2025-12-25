@@ -427,7 +427,12 @@ export class AudioManager {
       await instance.audio.play();
       console.log("♫ Musique de fond démarrée");
     } catch (error) {
-      console.error("Error playing background music:", error);
+      // NotAllowedError est normal : les navigateurs bloquent l'autoplay jusqu'à interaction utilisateur
+      if (error instanceof DOMException && error.name === 'NotAllowedError') {
+        console.log("ℹ️ Autoplay bloqué par le navigateur (interaction utilisateur requise)");
+      } else {
+        console.error("Error playing background music:", error);
+      }
       throw error;
     }
   }

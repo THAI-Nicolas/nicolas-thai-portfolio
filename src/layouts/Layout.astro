@@ -137,7 +137,12 @@ const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).href;
           console.log("♫ Musique démarrée avec succès!");
           return true;
         } catch (error) {
-          console.log("⚠️ Autoplay bloqué:", error);
+          // Autoplay bloqué = comportement normal, pas une vraie erreur
+          if (error instanceof DOMException && error.name === 'NotAllowedError') {
+            console.log("ℹ️ En attente d'interaction utilisateur pour la musique");
+          } else {
+            console.warn("⚠️ Erreur inattendue lors du démarrage de la musique:", error);
+          }
           return false;
         }
       };
