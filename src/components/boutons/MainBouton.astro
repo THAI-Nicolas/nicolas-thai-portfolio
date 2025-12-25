@@ -259,7 +259,7 @@ const currentSize = sizes[size] || sizes.desktop;
       });
     });
 
-    // Initialiser le Mii uniquement lors d'une interaction ou quand le navigateur est idle
+    // NE PAS initialiser le Mii automatiquement - uniquement au hover/focus
     // Cela évite de charger Three.js (132 KB) dans le chemin critique
     let miiInitialized = false;
     
@@ -270,19 +270,13 @@ const currentSize = sizes[size] || sizes.desktop;
       }
     }
     
-    // Initialiser au hover du bouton présentation (priorité)
+    // Initialiser UNIQUEMENT au hover/focus du bouton présentation
     const presentationButtons = document.querySelectorAll('[data-type="presentation"]');
     presentationButtons.forEach(btn => {
       btn.addEventListener('mouseenter', initMiiButtonOnce, { once: true });
       btn.addEventListener('focus', initMiiButtonOnce, { once: true });
+      btn.addEventListener('touchstart', initMiiButtonOnce, { once: true, passive: true });
     });
-    
-    // Sinon, attendre que le navigateur soit idle (bas priorité)
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(initMiiButtonOnce, { timeout: 3000 });
-    } else {
-      setTimeout(initMiiButtonOnce, 2000);
-    }
 
     // Applique les effets néon avec la couleur personnalisée
     document.querySelectorAll('.wii-main-button__circle').forEach((circle) => {
