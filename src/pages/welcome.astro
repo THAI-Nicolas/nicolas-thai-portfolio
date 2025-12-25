@@ -19,7 +19,7 @@ import mouseIcon from '../assets/icones/mouse-icon.svg';
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   
-  <style>
+  <style is:inline>
     * {
       margin: 0;
       padding: 0;
@@ -36,29 +36,53 @@ import mouseIcon from '../assets/icones/mouse-icon.svg';
       align-items: center;
       justify-content: center;
       letter-spacing: 0.02em;
+      cursor: url("/cursor-mouse-large.svg") 8 8, pointer;
+    }
+
+    @media (max-width: 639px) {
+      body { cursor: url("/cursor-mouse-large-mobile.svg") 5 5, pointer; }
+    }
+
+    @media (min-width: 640px) and (max-width: 1023px) {
+      body { cursor: url("/cursor-mouse-large-mobile.svg") 6 6, pointer; }
+    }
+
+    @media (min-width: 1024px) and (max-width: 1439px) {
+      body { cursor: url("/cursor-mouse-large-laptop.svg") 6 6, pointer; }
     }
 
     .content {
       text-align: center;
       padding: clamp(1rem, 4vw, 2rem);
       max-width: 1200px;
-      /* Animation désactivée pour ne pas bloquer le LCP */
-      /* animation: content-fade-in 1400ms ease-out forwards; */
-      opacity: 1;
+      animation: fade-in 800ms ease-out;
     }
 
-    /* Animation désactivée - causait NO_LCP car opacity: 0 initial
-    @keyframes content-fade-in {
-      0% {
+    .content.fade-out {
+      animation: fade-out 500ms ease-in forwards;
+    }
+
+    @keyframes fade-in {
+      from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(10px);
       }
-      100% {
+      to {
         opacity: 1;
         transform: translateY(0);
       }
     }
-    */
+
+    @keyframes fade-out {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+    }
 
     .header {
       display: flex;
@@ -100,10 +124,6 @@ import mouseIcon from '../assets/icones/mouse-icon.svg';
       margin-bottom: 0.5rem;
     }
 
-    .main-text p:last-child {
-      margin-bottom: 0;
-    }
-
     .portfolio-url {
       margin-bottom: clamp(2.5rem, 8vw, 4rem);
     }
@@ -112,10 +132,6 @@ import mouseIcon from '../assets/icones/mouse-icon.svg';
       font-size: clamp(0.9375rem, min(1.8vw, 2.8vh), 1.875rem);
       font-weight: 600;
       margin-bottom: 0.5rem;
-    }
-
-    .portfolio-url p:first-child {
-      font-weight: 600;
     }
 
     .url {
@@ -139,10 +155,9 @@ import mouseIcon from '../assets/icones/mouse-icon.svg';
     }
 
     .mouse-button {
-      position: relative;
       width: clamp(3rem, min(5vw, 7vh), 4.375rem);
       height: clamp(3rem, min(5vw, 7vh), 4.375rem);
-      background: none;
+      background: transparent;
       border: none;
       cursor: pointer;
       transition: transform 0.2s;
@@ -169,23 +184,8 @@ import mouseIcon from '../assets/icones/mouse-icon.svg';
     }
 
     @keyframes press-blink {
-      0%, 100% {
-        opacity: 1;
-      }
-      50% {
-        opacity: 0.3;
-      }
-    }
-
-    /* Triangle d'avertissement */
-    .warning-triangle {
-      fill: #FFD700;
-      stroke: #000;
-      stroke-width: 2;
-    }
-
-    .warning-bar {
-      fill: #000;
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
     }
   </style>
 </head>
@@ -193,9 +193,9 @@ import mouseIcon from '../assets/icones/mouse-icon.svg';
   <div class="content">
     <div class="header">
       <svg class="warning-icon" viewBox="0 0 118 118" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path class="warning-triangle" d="M59 8L111.301 103H6.69873L59 8Z" />
-        <rect class="warning-bar" x="54" y="35" width="10" height="30" rx="1.25" />
-        <rect class="warning-bar" x="54" y="75" width="10" height="10" />
+        <path d="M59 8L111.301 103H6.69873L59 8Z" fill="#FFD700" stroke="#000" stroke-width="2" />
+        <rect x="54" y="35" width="10" height="30" rx="1.25" fill="#000" />
+        <rect x="54" y="75" width="10" height="10" fill="#000" />
       </svg>
       <h1>This is a Developer Portfolio</h1>
     </div>
@@ -235,21 +235,27 @@ import mouseIcon from '../assets/icones/mouse-icon.svg';
         console.error("Error saving to localStorage/cookie:", error);
       }
       
-      // Utiliser Astro view transitions si disponible
-      if (typeof window !== 'undefined' && 'navigation' in window) {
-        import('astro:transitions/client').then(({ navigate }) => {
-          navigate('/');
-        });
-      } else {
-        window.location.href = "/";
+      // Ajouter animation de sortie
+      const content = document.querySelector('.content');
+      if (content) {
+        content.classList.add('fade-out');
       }
+      
+      // Attendre la fin de l'animation avant de rediriger
+      setTimeout(() => {
+        // Utiliser Astro view transitions si disponible
+        if (typeof window !== 'undefined' && 'navigation' in window) {
+          import('astro:transitions/client').then(({ navigate }) => {
+            navigate('/');
+          });
+        } else {
+          window.location.href = "/";
+        }
+      }, 500);
     }
 
-    // Clic sur le bouton
-    const btn = document.getElementById("continue-btn");
-    if (btn) {
-      btn.addEventListener("click", markAsSeenAndRedirect);
-    }
+    // Clic n'importe où sur la page
+    document.body.addEventListener("click", markAsSeenAndRedirect);
 
     // Redirection automatique après 6 secondes
     setTimeout(markAsSeenAndRedirect, 6000);

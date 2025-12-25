@@ -108,7 +108,10 @@ const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).href;
     <script>
       import { audioManager } from "../scripts/audio-manager";
       import { uiSoundsManager } from "../scripts/ui-sounds-manager";
- const MAX_ATTEMPTS = 3;
+
+      let musicStarted = false;
+      let initAttempts = 0;
+      const MAX_ATTEMPTS = 3;
       
       const startMusic = async () => {
         if (musicStarted) {
