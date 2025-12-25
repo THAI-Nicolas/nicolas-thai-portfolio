@@ -51,12 +51,13 @@ const styleVars = [
 ---
 
 <div class={`${currentSize.container} relative`}>
-  <a
-    href={href || undefined}
-    class="fleche cursor-pointer transition-all duration-200 hover:scale-110 active:scale-95 block origin-center absolute inset-0"
+  <button
+    type="button"
+    class="fleche cursor-pointer transition-all duration-200 hover:scale-110 active:scale-95 block origin-center absolute inset-0 border-0 bg-transparent p-0"
     data-onclick={onClick ? "true" : undefined}
     data-astro-reload={disableTransition ? true : undefined}
     style={styleVars || undefined}
+    aria-label={`Flèche ${direction}`}
   >
     <svg
       class={`w-full h-full fleche-svg ${direction === "gauche" ? "rotate-180" : direction === "haut" ? "-rotate-90" : direction === "bas" ? "rotate-90" : ""}`}
@@ -73,12 +74,12 @@ const styleVars = [
         stroke-linejoin="round"
         stroke-linecap="round"></path>
     </svg>
-  </a>
+  </button>
 </div>
 
 <script define:vars={{ neonColorProp: neonColor }}>
   document.addEventListener("DOMContentLoaded", () => {
-    const fleche = document.querySelector("a[data-onclick='true']");
+    const fleche = document.querySelector("button[data-onclick='true']");
     if (fleche) {
       fleche.addEventListener("click", () => {
         console.log("Fleche cliquée");

@@ -285,9 +285,9 @@ const { isVisible = false, onClose } = Astro.props;
     
     // Gestion de la rotation avec les flèches desktop
     if (flecheGauche) {
-      const linkGauche = flecheGauche.querySelector('a');
-      if (linkGauche) {
-        linkGauche.addEventListener('click', (e) => {
+      const buttonGauche = flecheGauche.querySelector('button');
+      if (buttonGauche) {
+        buttonGauche.addEventListener('click', (e) => {
           e.preventDefault();
         });
       }
@@ -315,9 +315,9 @@ const { isVisible = false, onClose } = Astro.props;
     }
     
     if (flecheDroite) {
-      const linkDroite = flecheDroite.querySelector('a');
-      if (linkDroite) {
-        linkDroite.addEventListener('click', (e) => {
+      const buttonDroite = flecheDroite.querySelector('button');
+      if (buttonDroite) {
+        buttonDroite.addEventListener('click', (e) => {
           e.preventDefault();
         });
       }
@@ -346,9 +346,9 @@ const { isVisible = false, onClose } = Astro.props;
 
     // Gestion de la rotation avec les flèches mobile
     if (flecheGaucheMobile) {
-      const linkGauche = flecheGaucheMobile.querySelector('a');
-      if (linkGauche) {
-        linkGauche.addEventListener('click', (e) => {
+      const buttonGauche = flecheGaucheMobile.querySelector('button');
+      if (buttonGauche) {
+        buttonGauche.addEventListener('click', (e) => {
           e.preventDefault();
         });
       }
@@ -376,9 +376,9 @@ const { isVisible = false, onClose } = Astro.props;
     }
     
     if (flecheDroiteMobile) {
-      const linkDroite = flecheDroiteMobile.querySelector('a');
-      if (linkDroite) {
-        linkDroite.addEventListener('click', (e) => {
+      const buttonDroite = flecheDroiteMobile.querySelector('button');
+      if (buttonDroite) {
+        buttonDroite.addEventListener('click', (e) => {
           e.preventDefault();
         });
       }
