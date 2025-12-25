@@ -36,11 +36,8 @@ export class CarouselManager {
     this.arrowLeft = getById(CAROUSEL_IDS.ARROW_LEFT);
 
     if (!this.carouselGrid || !this.arrowRight || !this.arrowLeft) {
-      console.log("Carousel elements not found");
       return;
     }
-
-    console.log("Initialisation du carousel");
 
     // Initialisation - Page 1 active par défaut
     setStyle(this.arrowLeft, "opacity", "0");
@@ -67,7 +64,6 @@ export class CarouselManager {
     // Navigation vers la page 2 (flèche droite)
     onEvent(this.arrowRight, DOM_EVENTS.CLICK, (e) => {
       e.preventDefault();
-      console.log("Click sur flèche droite");
       audioManager.play(SoundName.ARROW_CLICK);
       this.switchPage(2);
     });
@@ -75,7 +71,6 @@ export class CarouselManager {
     // Navigation vers la page 1 (flèche gauche)
     onEvent(this.arrowLeft, DOM_EVENTS.CLICK, (e) => {
       e.preventDefault();
-      console.log("Click sur flèche gauche");
       audioManager.play(SoundName.ARROW_CLICK);
       this.switchPage(1);
     });
@@ -96,8 +91,6 @@ export class CarouselManager {
   private switchPage(pageNumber: number): void {
     if (!this.carouselGrid || !this.arrowRight || !this.arrowLeft) return;
 
-    console.log("Changement vers la page:", pageNumber);
-
     // Calculer dynamiquement le translateX en fonction de la largeur réelle des channels
     // On récupère la largeur d'un channel + gap
     const firstChannel = this.carouselGrid.querySelector(".channel-fluid");
@@ -115,7 +108,6 @@ export class CarouselManager {
       setStyle(this.arrowRight, "opacity", "1");
       setStyle(this.arrowLeft, "opacity", "0");
       this.currentPage = 1;
-      console.log("Page 1 active");
     } else if (pageNumber === 2) {
       setStyle(
         this.carouselGrid,
@@ -125,7 +117,6 @@ export class CarouselManager {
       setStyle(this.arrowRight, "opacity", "0");
       setStyle(this.arrowLeft, "opacity", "1");
       this.currentPage = 2;
-      console.log("Page 2 active");
     }
   }
 

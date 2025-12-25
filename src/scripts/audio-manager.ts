@@ -182,7 +182,6 @@ export class AudioManager {
     await Promise.all(loadPromises);
 
     this.initialized = true;
-    console.log("🎵 AudioManager initialized with all sounds");
   }
 
   /**
@@ -419,19 +418,15 @@ export class AudioManager {
 
     // Si la musique est déjà en cours, ne rien faire
     if (!instance.audio.paused) {
-      console.log("♫ Musique déjà en cours de lecture");
       return;
     }
 
     try {
       await instance.audio.play();
-      console.log("♫ Musique de fond démarrée");
     } catch (error) {
       // NotAllowedError est normal : les navigateurs bloquent l'autoplay jusqu'à interaction utilisateur
       if (error instanceof DOMException && error.name === "NotAllowedError") {
-        console.log(
-          "ℹ️ Autoplay bloqué par le navigateur (interaction utilisateur requise)"
-        );
+        // Silent - c'est un comportement normal du navigateur
       } else {
         console.error("Error playing background music:", error);
       }

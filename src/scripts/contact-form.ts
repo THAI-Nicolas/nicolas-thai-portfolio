@@ -39,6 +39,8 @@ export class ContactFormManager {
   private contactOverlay: HTMLElement | null = null;
   private contactForm: HTMLFormElement | null = null;
   private paperForm: HTMLFormElement | null = null;
+  private retryCount: number = 0;
+  private maxRetries: number = 2;
 
   constructor() {
     this.init();
@@ -58,12 +60,12 @@ export class ContactFormManager {
     this.contactOverlay = getElement(OVERLAY_SELECTORS.CONTACT);
 
     if (!this.gamingSign || !this.paperSheet || !this.contactOverlay) {
-      console.log("Contact form elements not found, retrying...");
-      delay(() => this.init(), DELAYS.RETRY_INIT);
+      if (this.retryCount < this.maxRetries) {
+        this.retryCount++;
+        delay(() => this.init(), DELAYS.RETRY_INIT);
+      }
       return;
     }
-
-    console.log("Contact form elements found!");
 
     this.setupObserver();
     this.setupZoomButtons();
@@ -91,7 +93,6 @@ export class ContactFormManager {
             );
 
             if (isVisible && !hasClass(this.gamingSign, CSS_CLASSES.SHOW)) {
-              console.log("Contact overlay opened, launching animation!");
               // Jouer le son de l'animation de la pancarte
               audioManager.play(SoundName.FORM_ANIMATION_SOUND);
               addClass(this.gamingSign, CSS_CLASSES.SHOW);
@@ -130,7 +131,6 @@ export class ContactFormManager {
       ) {
         e.preventDefault();
         e.stopPropagation();
-        console.log("Opening paper sheet!");
         addClass(this.paperSheet, CSS_CLASSES.SHOW);
       }
 
@@ -142,7 +142,6 @@ export class ContactFormManager {
       ) {
         e.preventDefault();
         e.stopPropagation();
-        console.log("Closing paper sheet!");
         removeClass(this.paperSheet, CSS_CLASSES.SHOW);
       }
     });
@@ -171,8 +170,6 @@ export class ContactFormManager {
         });
       });
     });
-
-    console.log("Forms synchronized!");
   }
 
   /**
@@ -183,14 +180,6 @@ export class ContactFormManager {
     const serviceId = import.meta.env.PUBLIC_EMAILJS_SERVICE_ID;
     const templateId = import.meta.env.PUBLIC_EMAILJS_TEMPLATE_ID;
     const publicKey = import.meta.env.PUBLIC_EMAILJS_PUBLIC_KEY;
-
-    console.log("📧 EmailJS Config:", {
-      serviceId: serviceId ? "✓" : "✗",
-      templateId: templateId ? "✓" : "✗",
-      publicKey: publicKey ? "✓" : "✗",
-      hasContactForm: !!this.contactForm,
-      hasPaperForm: !!this.paperForm,
-    });
 
     if (!serviceId || !templateId || !publicKey) {
       console.error("❌ EmailJS non configuré. Variables manquantes:", {
@@ -203,13 +192,11 @@ export class ContactFormManager {
 
     // Initialiser EmailJS avec la clé publique
     emailjs.init(publicKey);
-    console.log("✅ EmailJS initialisé avec succès");
 
     // Gérer la soumission du formulaire de la pancarte
     if (this.contactForm) {
       onEvent(this.contactForm, "submit", async (e) => {
         e.preventDefault();
-        console.log("📤 Soumission du formulaire pancarte");
         await this.handleSubmit(this.contactForm!, serviceId, templateId);
       });
     }
@@ -218,12 +205,9 @@ export class ContactFormManager {
     if (this.paperForm) {
       onEvent(this.paperForm, "submit", async (e) => {
         e.preventDefault();
-        console.log("📤 Soumission du formulaire feuille");
         await this.handleSubmit(this.paperForm!, serviceId, templateId);
       });
     }
-
-    console.log("Form submit handlers configured with EmailJS!");
   }
 
   /**
@@ -238,8 +222,6 @@ export class ContactFormManager {
       'button[type="submit"]'
     ) as HTMLButtonElement;
     const originalText = submitButton.textContent;
-
-    console.log("🚀 Début envoi email...");
 
     try {
       // Désactiver le bouton et afficher un loader
@@ -258,16 +240,12 @@ export class ContactFormManager {
         nom: formData.get("nom"),
       };
 
-      console.log("📋 Données du formulaire:", templateParams);
-
       // Envoyer via EmailJS
       const response = await emailjs.send(
         serviceId,
         templateId,
         templateParams
       );
-
-      console.log("✅ Email envoyé avec succès!", response);
 
       // Message de succès
       submitButton.textContent = "✓ MESSAGE ENVOYÉ !";

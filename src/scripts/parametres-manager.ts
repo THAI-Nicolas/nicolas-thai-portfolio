@@ -28,6 +28,7 @@ import {
   delay,
 } from "../utils/dom-helpers";
 import { audioManager } from "./audio-manager";
+import { logger } from "../utils/logger";
 
 interface VolumeSettings {
   master: number;
@@ -56,6 +57,8 @@ export class ParametresManager {
   private parametresContainer: HTMLElement | null = null;
   private rect: DOMRect | null = null;
   private currentSettings: ParametresSettings;
+  private retryCount: number = 0;
+  private maxRetries: number = 2;
 
   constructor() {
     this.currentSettings = { ...DEFAULT_SETTINGS };
@@ -70,8 +73,10 @@ export class ParametresManager {
     this.parametresContainer = getElement(PARAMETRES_SELECTORS.CONTAINER);
 
     if (!this.parametresContent || !this.parametresContainer) {
-      console.log("Parametres elements not found, retrying...");
-      delay(() => this.init(), DELAYS.RETRY_INIT);
+      if (this.retryCount < this.maxRetries) {
+        this.retryCount++;
+        delay(() => this.init(), DELAYS.RETRY_INIT);
+      }
       return;
     }
 
@@ -81,8 +86,6 @@ export class ParametresManager {
     this.setupLanguageButtons();
     this.setupActionButtons();
     this.loadSettings();
-
-    console.log("Parametres manager initialized!");
   }
 
   /**
@@ -191,7 +194,6 @@ export class ParametresManager {
       onEvent(toggle, DOM_EVENTS.CHANGE, (e) => {
         const target = e.target as HTMLInputElement;
         this.currentSettings.options[target.id] = target.checked;
-        console.log(`${target.id} changed to:`, target.checked);
       });
     });
   }
@@ -221,7 +223,6 @@ export class ParametresManager {
         const lang = target.dataset.lang;
         if (lang) {
           this.currentSettings.language = lang;
-          console.log("Language:", lang);
         }
       });
     });
@@ -272,8 +273,6 @@ export class ParametresManager {
    * Enregistre les paramètres
    */
   private saveSettings(): void {
-    console.log("Paramètres enregistrés:", this.currentSettings);
-    // TODO: Sauvegarder dans localStorage ou envoyer au serveur
     localStorage.setItem(
       "portfolio-settings",
       JSON.stringify(this.currentSettings)
@@ -284,8 +283,6 @@ export class ParametresManager {
    * Réinitialise les paramètres par défaut
    */
   private resetToDefaults(): void {
-    console.log("resetToDefaults appelé!");
-
     // Réinitialiser les paramètres internes
     this.currentSettings = { ...DEFAULT_SETTINGS };
 
@@ -346,8 +343,6 @@ export class ParametresManager {
 
     // Sauvegarder les paramètres par défaut
     this.saveSettings();
-
-    console.log("Paramètres réinitialisés");
   }
 
   /**
@@ -366,9 +361,8 @@ export class ParametresManager {
       try {
         this.currentSettings = JSON.parse(saved);
         this.applySettingsToUI();
-        console.log("Paramètres chargés:", this.currentSettings);
       } catch (e) {
-        console.error("Error loading settings:", e);
+        logger.error("Error loading settings:", e);
       }
     }
   }

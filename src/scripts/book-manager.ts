@@ -23,6 +23,8 @@ export class BookManager {
   private totalPages: number = 0;
   private isOpened: boolean = false;
   private isAnimating: boolean = false; // Anti-spam pour les changements de page
+  private retryCount: number = 0;
+  private maxRetries: number = 2;
 
   constructor() {
     this.init();
@@ -48,8 +50,10 @@ export class BookManager {
     );
 
     if (!this.overlay || !this.bookCard) {
-      console.log("Book elements not found, retrying...");
-      setTimeout(() => this.init(), 100);
+      if (this.retryCount < this.maxRetries) {
+        this.retryCount++;
+        setTimeout(() => this.init(), 100);
+      }
       return;
     }
 
@@ -57,8 +61,6 @@ export class BookManager {
 
     this.setupEventListeners();
     this.setupObserver();
-
-    console.log("Book manager initialized!");
   }
 
   /**
@@ -107,7 +109,6 @@ export class BookManager {
 
     // Empêcher le spam de clics
     if (this.isAnimating) {
-      console.log("Animation en cours, veuillez attendre...");
       return;
     }
 
@@ -125,10 +126,6 @@ export class BookManager {
         if (this.presentationContainer) {
           this.presentationContainer.classList.remove("hidden");
         }
-
-        console.log(
-          `Page actuelle: ${this.currentPage}/${this.totalPages} (ouverture + première page)`
-        );
       } else {
         // Cacher le contenu avant de tourner la page
         if (this.presentationContainer && this.currentPage === 1) {
@@ -142,8 +139,6 @@ export class BookManager {
         this.currentPage++;
 
         this.updateOverlays();
-
-        console.log(`Page actuelle: ${this.currentPage}/${this.totalPages}`);
       }
 
       // Débloquer après 1 seconde
@@ -155,7 +150,6 @@ export class BookManager {
       this.isAnimating = true;
       audioManager.play(SoundName.BOOK_CLOSE);
       this.reset();
-      console.log("Retour à la couverture");
 
       // Débloquer après l'animation de fermeture
       setTimeout(() => {
@@ -172,44 +166,36 @@ export class BookManager {
     if (this.currentPage === 2 && this.page2BackOverlay) {
       setTimeout(() => {
         this.page2BackOverlay?.classList.add("visible");
-        console.log("Overlay page 2 back (gauche) affiché");
       }, 600);
     } else if (this.currentPage !== 2 && this.page2BackOverlay) {
       this.page2BackOverlay.classList.remove("visible");
-      console.log("Overlay page 2 back (gauche) caché");
     }
 
     // Afficher l'overlay Design en même temps
     if (this.currentPage === 2 && this.page2BackOverlayRight) {
       setTimeout(() => {
         this.page2BackOverlayRight?.classList.add("visible");
-        console.log("Overlay Design (droite) affiché");
       }, 200);
     } else if (this.currentPage !== 2 && this.page2BackOverlayRight) {
       this.page2BackOverlayRight.classList.remove("visible");
-      console.log("Overlay Design (droite) caché");
     }
 
     // Afficher l'overlay Gestion de projet
     if (this.currentPage === 3 && this.page3BackOverlay) {
       setTimeout(() => {
         this.page3BackOverlay?.classList.add("visible");
-        console.log("Overlay Gestion de projet (gauche) affiché");
       }, 600);
     } else if (this.currentPage !== 3 && this.page3BackOverlay) {
       this.page3BackOverlay.classList.remove("visible");
-      console.log("Overlay Gestion de projet (gauche) caché");
     }
 
     // Afficher l'overlay Audiovisuel en même temps
     if (this.currentPage === 3 && this.page3BackOverlayRight) {
       setTimeout(() => {
         this.page3BackOverlayRight?.classList.add("visible");
-        console.log("Overlay Audiovisuel (droite) affiché");
       }, 200);
     } else if (this.currentPage !== 3 && this.page3BackOverlayRight) {
       this.page3BackOverlayRight.classList.remove("visible");
-      console.log("Overlay Audiovisuel (droite) caché");
     }
   }
 

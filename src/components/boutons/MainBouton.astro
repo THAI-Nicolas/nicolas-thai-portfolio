@@ -219,27 +219,21 @@ const currentSize = sizes[size] || sizes.desktop;
   }
   
   async function initMiiButton() {
-    console.log("Initialisation du Mii Button");
-    
     // Lazy load MiiButton class
     const MiiButton = await loadMiiButton();
     
     // Initialiser le Mii 3D dans les boutons de présentation
     const presentationButtons = document.querySelectorAll('[data-type="presentation"]');
-    console.log("Boutons présentation trouvés:", presentationButtons.length);
     
     presentationButtons.forEach((button, index) => {
       const container = button.querySelector('#mii-button-container');
-      console.log(`Container ${index} trouvé:`, container);
       
       if (container && !miiButtonInstances.has(container)) {
-        console.log(`Création du Mii Button ${index}...`);
         try {
           const instance = new MiiButton(container);
           miiButtonInstances.set(container, instance);
-          console.log(`Mii Button ${index} créé avec succès!`);
         } catch (error) {
-          console.error(`Erreur lors de la création du Mii Button ${index}:`, error);
+          // Silencieux en prod
         }
       }
     });
@@ -251,21 +245,7 @@ const currentSize = sizes[size] || sizes.desktop;
     buttons.forEach((button) => {
       button.addEventListener("click", (e) => {
         const type = button.getAttribute("data-type");
-
-        switch (type) {
-          case "retour":
-            console.log("Retour cliqué");
-            break;
-          case "contact":
-            console.log("Contact cliqué");
-            break;
-          case "dezoom":
-            console.log("Dézoom cliqué");
-            break;
-          case "presentation":
-            console.log("Présentation cliqué");
-            break;
-        }
+        // Actions gérées par les overlays
       });
     });
 
@@ -352,7 +332,6 @@ const currentSize = sizes[size] || sizes.desktop;
   
   // Réinitialiser après les transitions Astro (navigation de page)
   document.addEventListener("astro:page-load", () => {
-    console.log('astro:page-load - Réinitialisation du Mii Button');
     if ('requestIdleCallback' in window) {
       requestIdleCallback(() => initMiiButton(), { timeout: 2000 });
     } else {
@@ -362,7 +341,6 @@ const currentSize = sizes[size] || sizes.desktop;
   
   // Réinitialiser avant les transitions Astro
   document.addEventListener("astro:before-swap", () => {
-    console.log('astro:before-swap - Nettoyage du Mii Button');
     miiButtonInstances.forEach(instance => {
       instance.destroy();
     });
@@ -379,7 +357,6 @@ const currentSize = sizes[size] || sizes.desktop;
             const classList = (mutation.target as HTMLElement).classList;
             // Si l'overlay est fermé (n'a plus la classe 'open')
             if (!classList.contains('open') && miiButtonInstances.size > 0) {
-              console.log('Overlay fermé, réinitialisation du Mii Button');
               // Réinitialiser le Mii après un court délai
               setTimeout(initMiiButton, 200);
             }

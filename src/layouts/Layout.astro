@@ -124,24 +124,21 @@ const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).href;
       
       const startMusic = async () => {
         if (musicStarted) {
-          console.log("♫ Musique déjà démarrée");
           return true;
         }
         
         initAttempts++;
-        console.log(`♫ Tentative ${initAttempts}/${MAX_ATTEMPTS} de démarrage de la musique...`);
         
         try {
           await audioManager.playBackgroundMusic();
           musicStarted = true;
-          console.log("♫ Musique démarrée avec succès!");
           return true;
         } catch (error) {
           // Autoplay bloqué = comportement normal, pas une vraie erreur
           if (error instanceof DOMException && error.name === 'NotAllowedError') {
-            console.log("ℹ️ En attente d'interaction utilisateur pour la musique");
+            // Silencieux
           } else {
-            console.warn("⚠️ Erreur inattendue lors du démarrage de la musique:", error);
+            console.error("⚠️ Erreur inattendue lors du démarrage de la musique:", error);
           }
           return false;
         }
@@ -155,11 +152,8 @@ const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).href;
       }
 
       async function initAudio() {
-        console.log("🎵 Initialisation de l'audio...");
-        
         try {
           await audioManager.init();
-          console.log("✅ AudioManager initialisé");
         } catch (error) {
           console.error("❌ Erreur lors de l'initialisation de l'audio:", error);
           return;
@@ -169,10 +163,8 @@ const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).href;
         
         // Vérifier si la musique est désactivée
         const disableMusic = document.body.dataset.disableMusic === 'true';
-        console.log("🔊 disableMusic:", disableMusic);
         
         if (disableMusic) {
-          console.log("🔇 Musique désactivée pour cette page");
           return;
         }
         
@@ -180,8 +172,6 @@ const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).href;
         const success = await startMusic();
         
         if (!success && initAttempts < MAX_ATTEMPTS) {
-          console.log("👆 Attente d'une interaction utilisateur...");
-          
           // Tentative 2 : Délai court (certains navigateurs autorisent après un délai)
           setTimeout(async () => {
             if (!musicStarted) {

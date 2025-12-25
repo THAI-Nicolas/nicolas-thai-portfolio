@@ -40,7 +40,6 @@ export class UISoundsManager {
     }
 
     this.initialized = true;
-    console.log("🔊 UI Sounds Manager initialized");
   }
 
   /**

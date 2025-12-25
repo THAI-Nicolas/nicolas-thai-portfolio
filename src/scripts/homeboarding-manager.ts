@@ -102,8 +102,6 @@ export class HomeboardingManager {
     this.autoCloseTimeout = window.setTimeout(() => {
       this.handleContinue();
     }, 6000);
-
-    console.log("Homeboarding displayed - first visit");
   }
 
   /**
@@ -140,8 +138,6 @@ export class HomeboardingManager {
 
     // Marquer comme vu
     this.markAsSeen();
-
-    console.log("Homeboarding hidden");
   }
 
   /**
@@ -216,7 +212,6 @@ export class HomeboardingManager {
   public reset(): void {
     try {
       localStorage.removeItem(HOMEBOARDING_KEY);
-      console.log("Homeboarding reset - will show on next visit");
     } catch (error) {
       console.error("Error resetting homeboarding:", error);
     }

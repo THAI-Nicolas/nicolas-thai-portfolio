@@ -230,15 +230,3 @@ const currentSize = sizes[size] || sizes.desktop;
     outline: none;
   }
 </style>
-
-<script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const channels = document.querySelectorAll('div[data-onclick="true"]');
-
-    channels.forEach((channel) => {
-      channel.addEventListener("click", (e) => {
-        console.log("Channel cliqué");
-      });
-    });
-  });
-</script>

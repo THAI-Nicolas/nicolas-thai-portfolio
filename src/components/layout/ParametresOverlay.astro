@@ -954,6 +954,11 @@ const { isVisible = false, onClose } = Astro.props;
     const currentLang = localStorage.getItem('language') || 'fr';
     
     function updateLangButtons(lang: string) {
+      // Vérifier que les boutons existent avant de les utiliser
+      if (!langFrBtn || !langEnBtn) {
+        return;
+      }
+      
       if (lang === 'fr') {
         langFrBtn.style.background = 'linear-gradient(145deg, rgba(52, 190, 237, 0.2), rgba(52, 190, 237, 0.1))';
         langFrBtn.style.color = 'var(--color-light-blue)';
@@ -985,7 +990,6 @@ const { isVisible = false, onClose } = Astro.props;
       updateLangButtons('en');
     });
     
-    console.log("Parametres overlay initialized with managers!");
   }
 
   if (document.readyState === "loading") {

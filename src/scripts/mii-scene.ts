@@ -73,18 +73,9 @@ export class MiiScene {
 
     // Gestion du resize avec ResizeObserver pour détecter les changements de taille du conteneur
     this.resizeObserver = new ResizeObserver((entries) => {
-      console.log("ResizeObserver triggered!", {
-        width: entries[0].contentRect.width,
-        height: entries[0].contentRect.height,
-      });
       this.handleResize();
     });
     this.resizeObserver.observe(this.container);
-
-    console.log("MiiScene initialized, container size:", {
-      width: container.clientWidth,
-      height: container.clientHeight,
-    });
 
     // Backup avec window resize
     window.addEventListener("resize", this.boundHandleResize);
@@ -167,10 +158,7 @@ export class MiiScene {
         this.animate();
       },
       (progress) => {
-        console.log(
-          "Loading model...",
-          (progress.loaded / progress.total) * 100 + "%"
-        );
+        // Silent loading
       },
       (error) => {
         console.error("Error loading model:", error);
@@ -237,8 +225,6 @@ export class MiiScene {
 
     const width = this.container.clientWidth;
     const height = this.container.clientHeight;
-
-    console.log("Mii resize:", { width, height });
 
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();

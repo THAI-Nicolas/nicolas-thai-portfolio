@@ -81,7 +81,7 @@ export class OverlayManager {
   ): void {
     const overlayConfig = this.overlays.get(type);
     if (!overlayConfig) {
-      console.error(`Overlay type "${type}" not found`);
+      logger.error(`Overlay type "${type}" not found`);
       return;
     }
 
@@ -92,9 +92,7 @@ export class OverlayManager {
 
     const overlay = getElement(overlayConfig.overlaySelector);
     if (!overlay) {
-      console.warn(
-        `Overlay element not found: ${overlayConfig.overlaySelector}`
-      );
+      // Silencieux - normal sur certaines pages
       return;
     }
 
@@ -126,8 +124,6 @@ export class OverlayManager {
         }
       });
     }
-
-    console.log(`Overlay "${type}" setup completed`);
   }
 
   /**
@@ -136,14 +132,13 @@ export class OverlayManager {
   public open(type: OverlayType): void {
     const config = this.overlays.get(type);
     if (!config) {
-      console.error(`Overlay type \"${type}\" not found`);
+      logger.error(`Overlay type "${type}" not found`);
       return;
     }
 
     const overlay = getElement(config.overlaySelector);
     if (!overlay) {
-      console.warn(`Overlay element not found: ${config.overlaySelector}`);
-      return;
+      return; // Silencieux
     }
 
     // Fermer l'overlay actuel s'il y en a un
@@ -163,8 +158,6 @@ export class OverlayManager {
     if (config.onOpen) {
       config.onOpen();
     }
-
-    console.log(`Overlay "${type}" opened`);
   }
 
   /**
@@ -173,14 +166,13 @@ export class OverlayManager {
   public close(type: OverlayType): void {
     const config = this.overlays.get(type);
     if (!config) {
-      console.error(`Overlay type \"${type}\" not found`);
+      logger.error(`Overlay type "${type}" not found`);
       return;
     }
 
     const overlay = getElement(config.overlaySelector);
     if (!overlay) {
-      console.warn(`Overlay element not found: ${config.overlaySelector}`);
-      return;
+      return; // Silencieux
     }
 
     // Fermer l'overlay
@@ -198,8 +190,6 @@ export class OverlayManager {
     if (config.onClose) {
       config.onClose();
     }
-
-    console.log(`Overlay "${type}" closed`);
   }
 
   /**

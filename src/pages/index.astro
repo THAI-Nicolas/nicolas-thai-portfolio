@@ -218,11 +218,8 @@ projets.forEach((projet, index) => {
       const arrowLeftMobile = document.getElementById('arrow-left-mobile');
       
       if (!scrollContainer || !carouselGridMobile || !arrowRightMobile || !arrowLeftMobile) {
-        console.log('Éléments carousel mobile non trouvés');
         return;
       }
-      
-      console.log('Initialisation carousel mobile');
       
       const columnWidth = 319; // largeur channel mobile (295px) + gap (24px)
       const visibleColumns = 3; // 3 colonnes visibles
@@ -235,8 +232,6 @@ projets.forEach((projet, index) => {
         
         const scrollLeft = scrollContainer.scrollLeft;
         const maxScroll = scrollContainer.scrollWidth - scrollContainer.clientWidth;
-        
-        console.log('Scroll position:', { scrollLeft, maxScroll });
         
         // Gestion visibilité de la flèche gauche
         if (scrollLeft <= 10) { // Petite tolérance
@@ -275,7 +270,6 @@ projets.forEach((projet, index) => {
       
       finalArrowRight.addEventListener('click', (e) => {
         e.preventDefault();
-        console.log('Click flèche droite mobile');
         // Scroller d'une colonne vers la droite
         scrollContainer.scrollBy({
           left: columnWidth,
@@ -285,7 +279,6 @@ projets.forEach((projet, index) => {
       
       finalArrowLeft.addEventListener('click', (e) => {
         e.preventDefault();
-        console.log('Click flèche gauche mobile');
         // Scroller d'une colonne vers la gauche
         scrollContainer.scrollBy({
           left: -columnWidth,
@@ -320,8 +313,6 @@ projets.forEach((projet, index) => {
       overlayManager.setupOverlay('contact');
       overlayManager.setupOverlay('presentation');
       overlayManager.setupOverlay('parametres');
-      
-      console.log("Overlay buttons initialized with OverlayManager!");
     });
   }
   
