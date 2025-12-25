@@ -268,12 +268,14 @@ const currentSize = sizes[size] || sizes.desktop;
       btn.addEventListener('focus', initMiiButtonOnce, { once: true });
     });
     
-    // Sinon, attendre que le navigateur soit idle (bas priorité)
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(initMiiButtonOnce, { timeout: 3000 });
-    } else {
-      setTimeout(initMiiButtonOnce, 2000);
-    }
+    // Différer le chargement 3D après le load complet pour améliorer LCP
+    window.addEventListener('load', () => {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(initMiiButtonOnce, { timeout: 5000 });
+      } else {
+        setTimeout(initMiiButtonOnce, 3000);
+      }
+    });
 
     // Applique les effets néon avec la couleur personnalisée
     // Utiliser requestAnimationFrame pour éviter les forced reflow

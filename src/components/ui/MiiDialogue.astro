@@ -4,7 +4,7 @@
 
 <div class="mii-dialogue" id="mii-dialogue">
   <div class="mii-dialogue__bubble">
-    <p class="mii-dialogue__text" id="mii-dialogue-text">Bienvenue sur mon portfolio !</p>
+    <p class="mii-dialogue__text" id="mii-dialogue-text" fetchpriority="high">Bienvenue sur mon portfolio !</p>
     <div class="mii-dialogue__arrow"></div>
   </div>
 </div>
@@ -17,10 +17,9 @@
     margin-bottom: 0;
     z-index: 50;
     pointer-events: none;
-    opacity: 0;
-    visibility: hidden; /* Empêche d'être le LCP */
-    /* Supprimer l'animation initiale pour améliorer LCP */
-    /* animation: dialogue-appear 0.5s ease-out forwards; */
+    /* Afficher immédiatement pour améliorer LCP */
+    opacity: 1;
+    visibility: visible;
   }
 
   .mii-dialogue__bubble {
