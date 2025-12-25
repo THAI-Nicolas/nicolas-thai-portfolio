@@ -39,6 +39,7 @@ const currentSize = sizes[size] || sizes.desktop;
     <a
       href={href}
       class={`block ${currentSize.container} cursor-pointer group relative`}
+      role="listitem"
     >
       {/* Container principal style Wii Channel */}
       <div class="relative w-full h-full wii-channel-container overflow-hidden flex items-center justify-center">
@@ -80,6 +81,7 @@ const currentSize = sizes[size] || sizes.desktop;
     <div
       class={`${currentSize.container} cursor-pointer group relative`}
       data-onclick={onClick ? "true" : undefined}
+      role="listitem"
     >
       {/* Container principal style Wii Channel */}
       <div class="relative w-full h-full wii-channel-container overflow-hidden flex items-center justify-center">

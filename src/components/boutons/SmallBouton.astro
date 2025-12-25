@@ -57,6 +57,7 @@ const Element = isDownload ? 'a' : 'button';
     data-small-button
     data-type={type}
     id={id}
+    aria-label="Télécharger le CV"
   >
     <div
       class="w-full h-full rounded-full relative overflow-hidden flex items-center justify-center wii-button__circle"
@@ -77,6 +78,7 @@ const Element = isDownload ? 'a' : 'button';
     data-type={type}
     data-onclick={onClick ? "true" : undefined}
     id={id}
+    aria-label={type === "parametres" ? "Ouvrir les paramètres" : type === "zoom" ? "Zoomer" : "Dézoomer"}
   >
     <div
       class="w-full h-full rounded-full relative overflow-hidden flex items-center justify-center wii-button__circle"

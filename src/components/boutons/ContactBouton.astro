@@ -38,6 +38,7 @@ const IconComponent = icons[type];
   rel={type !== "email" ? "noopener noreferrer" : undefined}
   class="relative cursor-pointer transition-transform duration-200 ease-in-out border-none bg-none p-0 w-20 h-20 md:w-24 md:h-24 lg:w-24 lg:h-24 xl:w-[80px] xl:h-[80px] 2xl:w-[120px] 2xl:h-[120px] hover:scale-105 flex items-center justify-center"
   data-type={type}
+  aria-label={type === "email" ? "Envoyer un email" : type === "github" ? "Visiter mon profil GitHub" : type === "linkedin" ? "Visiter mon profil LinkedIn" : "Visiter mon profil Instagram"}
 >
   <div
     class="w-full h-full rounded-2xl relative overflow-hidden flex items-center justify-center wii-contact-button__container"

@@ -84,6 +84,7 @@ const currentSize = sizes[size] || sizes.desktop;
         ? "cv-return-button"
         : undefined)}
   data-onclick={onClick ? "true" : undefined}
+  aria-label={type === "contact" ? "Ouvrir le formulaire de contact" : type === "retour" ? "Retour" : type === "presentation" ? "Ouvrir la présentation" : "Dézoomer"}
 >
   <div
     class="w-full h-full rounded-full relative overflow-hidden flex items-center justify-center wii-main-button__circle"
