@@ -47,7 +47,11 @@ export class HomeboardingManager {
 
     // Vérifier si c'est la première visite
     if (this.isFirstVisit()) {
-      this.show();
+      // Retarder l'affichage pour permettre au LCP d'être mesuré
+      // Le délai minimal permet au navigateur de rendre le contenu prioritaire
+      setTimeout(() => {
+        this.show();
+      }, 100);
       this.setupEventListeners();
     } else {
       // Masquer complètement l'overlay si déjà vu
@@ -86,7 +90,7 @@ export class HomeboardingManager {
   private show(): void {
     if (!this.overlay) return;
 
-    // Afficher le fond noir immédiatement
+    // Afficher le fond noir
     removeClass(this.overlay, "opacity-0", "pointer-events-none");
     addClass(this.overlay, "opacity-100", "pointer-events-auto");
 
