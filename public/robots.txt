@@ -15,7 +15,7 @@ Disallow: /*_buildManifest.js$
 Disallow: /*_ssgManifest.js$
 
 # Sitemap XML pour l'indexation
-Sitemap: https://nicolas-thai.fr/sitemap-index.xml
+Sitemap: https://portfolio.nicolas-thai.fr/sitemap-index.xml
 
 # Crawl-delay pour éviter la surcharge (optionnel)
 # Crawl-delay: 1

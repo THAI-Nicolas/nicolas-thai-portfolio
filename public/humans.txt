@@ -18,7 +18,7 @@ Outils : Cursor, Figma, Blender, DaVinci Resolve
 /* THANKS */
 Inspiration : Interface Nintendo Wii
 Communauté : Astro, Three.js
-Polices : Adobe Fonts (Raleway, Hagrid)
+Polices : Google Fonts (Raleway)
 
 /* SITE NOTES */
 Ce portfolio est une recréation moderne de l'interface iconique de la Nintendo Wii.
