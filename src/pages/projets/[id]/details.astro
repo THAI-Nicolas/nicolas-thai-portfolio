@@ -766,39 +766,9 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
     display: flex;
   }
 
-  /* Animations au scroll pour les étapes du processus */
-  .processus-etape {
-    opacity: 0;
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-  }
-
-  /* Étapes paires : arrivent de la gauche */
-  .processus-etape:nth-child(odd) {
-    transform: translateX(-50px);
-  }
-
-  /* Étapes impaires : arrivent de la droite */
-  .processus-etape:nth-child(even) {
-    transform: translateX(50px);
-  }
-
-  /* Sur mobile, toutes les étapes arrivent de bas en haut */
-  @media (max-width: 1023px) {
-    .processus-etape:nth-child(odd),
-    .processus-etape:nth-child(even) {
-      transform: translateY(30px);
-    }
-  }
-
-  .processus-etape.visible {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  @media (max-width: 1023px) {
-    .processus-etape.visible {
-      transform: translateY(0);
-    }
+  /* Processus etapes - pas d'animation pour l'instant */
+  :global(.processus-etape) {
+    opacity: 1 !important;
   }
 
   /* Répéter la grille sur toute la hauteur de la section */
@@ -870,38 +840,4 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
   document.addEventListener('astro:page-load', initIframeHandler);
 </script>
 
-<script is:inline>
-  // Animation au scroll pour les étapes du processus
-  function initScrollAnimations() {
-    const etapes = document.querySelectorAll('.processus-etape');
-    
-    if (etapes.length === 0) return;
 
-    const observerOptions = {
-      threshold: 0.15,
-      rootMargin: '0px 0px -100px 0px'
-    };
-
-    const observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, observerOptions);
-
-    etapes.forEach(function(etape) {
-      observer.observe(etape);
-    });
-  }
-
-  // Init au chargement
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initScrollAnimations);
-  } else {
-    initScrollAnimations();
-  }
-
-  // Réinit après transition Astro
-  document.addEventListener('astro:page-load', initScrollAnimations);
-</script>

@@ -29,13 +29,27 @@ export class CarouselManager {
    */
   private init(): void {
     // Vérifier qu'on est sur la page d'accueil
-    if (window.location.pathname !== ROUTES.HOME) return;
+    if (window.location.pathname !== ROUTES.HOME) {
+      console.log(
+        "CarouselManager: Not on home page, pathname:",
+        window.location.pathname
+      );
+      return;
+    }
 
+    console.log("CarouselManager: Initializing...");
     this.carouselGrid = getById(CAROUSEL_IDS.GRID);
     this.arrowRight = getById(CAROUSEL_IDS.ARROW_RIGHT);
     this.arrowLeft = getById(CAROUSEL_IDS.ARROW_LEFT);
 
+    console.log("CarouselManager elements:", {
+      grid: this.carouselGrid,
+      arrowRight: this.arrowRight,
+      arrowLeft: this.arrowLeft,
+    });
+
     if (!this.carouselGrid || !this.arrowRight || !this.arrowLeft) {
+      console.error("CarouselManager: Missing elements!");
       return;
     }
 
@@ -44,6 +58,7 @@ export class CarouselManager {
 
     // Setup des event listeners
     this.setupEventListeners();
+    console.log("CarouselManager: Setup complete");
   }
 
   /**
@@ -52,37 +67,41 @@ export class CarouselManager {
   private setupEventListeners(): void {
     if (!this.arrowRight || !this.arrowLeft) return;
 
-    // Nettoyer les anciens listeners en clonant les éléments
-    const newArrowRight = this.arrowRight.cloneNode(true) as HTMLElement;
-    this.arrowRight.parentNode?.replaceChild(newArrowRight, this.arrowRight);
-    this.arrowRight = newArrowRight;
+    console.log("CarouselManager: Setting up event listeners");
 
-    const newArrowLeft = this.arrowLeft.cloneNode(true) as HTMLElement;
-    this.arrowLeft.parentNode?.replaceChild(newArrowLeft, this.arrowLeft);
-    this.arrowLeft = newArrowLeft;
-
+    // Utiliser la délégation d'événements sur les conteneurs
     // Navigation vers la page 2 (flèche droite)
-    onEvent(this.arrowRight, DOM_EVENTS.CLICK, (e) => {
+    this.arrowRight.addEventListener("click", (e) => {
+      console.log("Arrow right clicked!");
       e.preventDefault();
+      e.stopPropagation();
       audioManager.play(SoundName.ARROW_CLICK);
       this.switchPage(2);
     });
 
     // Navigation vers la page 1 (flèche gauche)
-    onEvent(this.arrowLeft, DOM_EVENTS.CLICK, (e) => {
+    this.arrowLeft.addEventListener("click", (e) => {
+      console.log("Arrow left clicked!");
       e.preventDefault();
+      e.stopPropagation();
       audioManager.play(SoundName.ARROW_CLICK);
       this.switchPage(1);
     });
 
     // Navigation au clavier
-    onEvent(document, DOM_EVENTS.KEYDOWN, (e) => {
+    document.addEventListener("keydown", (e) => {
       if (e.key === KEYBOARD_KEYS.ARROW_RIGHT && this.currentPage === 1) {
+        console.log("Keyboard arrow right pressed");
+        audioManager.play(SoundName.ARROW_CLICK);
         this.switchPage(2);
       } else if (e.key === KEYBOARD_KEYS.ARROW_LEFT && this.currentPage === 2) {
+        console.log("Keyboard arrow left pressed");
+        audioManager.play(SoundName.ARROW_CLICK);
         this.switchPage(1);
       }
     });
+
+    console.log("CarouselManager: Event listeners attached");
   }
 
   /**
