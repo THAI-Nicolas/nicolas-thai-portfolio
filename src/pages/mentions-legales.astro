@@ -162,7 +162,7 @@ const seoDescription = "Mentions légales du portfolio de Nicolas THAI - Informa
             <ul class="list-disc list-inside space-y-2 pl-6">
               <li><strong>Formulaire de contact :</strong> Nom, prénom, email et message (traité via EmailJS)</li>
               <li><strong>Préférences utilisateur :</strong> Paramètres d'interface stockés localement dans le navigateur (localStorage)</li>
-              <li><strong>Données de navigation :</strong> Aucun cookie de tracking ou analytics n'est utilisé</li>
+              <li><strong>Données de navigation :</strong> Données anonymisées collectées via Umami Analytics (voir section 5)</li>
             </ul>
 
             <h3 class="font-hagrid text-xl lg:text-2xl font-semibold text-text-gray mt-8 mb-4">
@@ -181,12 +181,15 @@ const seoDescription = "Mentions légales du portfolio de Nicolas THAI - Informa
           </div>
         </section>
 
-        <!-- Section 5: Cookies et stockage local -->
+        <!-- Section 5: Cookies, stockage local et analytics -->
         <section aria-labelledby="cookies">
           <h2 id="cookies" class="font-hagrid text-2xl lg:text-4xl font-bold text-text-gray mb-6">
-            5. Cookies et stockage local
+            5. Cookies, stockage local et analytics
           </h2>
           <div class="font-raleway text-base lg:text-lg text-text-gray space-y-4 leading-relaxed">
+            <h3 class="font-hagrid text-xl lg:text-2xl font-semibold text-text-gray mt-8 mb-4">
+              5.1 Stockage local
+            </h3>
             <p>
               Ce site utilise le <strong>stockage local du navigateur (localStorage)</strong> pour sauvegarder vos préférences d'interface, telles que :
             </p>
@@ -198,9 +201,25 @@ const seoDescription = "Mentions légales du portfolio de Nicolas THAI - Informa
             <p>
               Ces données sont stockées uniquement sur votre appareil et ne sont jamais transmises à des serveurs externes. Vous pouvez les supprimer à tout moment en vidant le cache de votre navigateur.
             </p>
-            <p class="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
-              <strong>Aucun cookie de suivi ou analytics</strong> n'est utilisé sur ce site. Votre navigation est entièrement privée.
+
+            <h3 class="font-hagrid text-xl lg:text-2xl font-semibold text-text-gray mt-8 mb-4">
+              5.2 Analytics (Umami)
+            </h3>
+            <p>
+              Ce site utilise <strong>Umami Analytics</strong>, une solution d'analyse de trafic respectueuse de la vie privée. Umami collecte des données <strong>anonymisées et agrégées</strong> pour nous aider à comprendre comment les visiteurs utilisent le site.
             </p>
+            <p class="bg-light-blue/10 border-l-4 border-light-blue p-4 rounded-r-lg">
+              <strong>Respect de votre vie privée :</strong> Umami ne dépose aucun cookie, n'utilise pas de fingerprinting, et ne collecte aucune donnée personnelle identifiable. Toutes les données sont anonymisées et ne permettent pas de vous identifier individuellement. Umami est conforme au RGPD sans nécessiter de bandeau de consentement.
+            </p>
+            <p>
+              Les données collectées incluent uniquement :
+            </p>
+            <ul class="list-disc list-inside space-y-2 pl-6">
+              <li>Pages visitées et durée de visite</li>
+              <li>Source de trafic (d'où vous venez)</li>
+              <li>Type d'appareil et navigateur (sans identification)</li>
+              <li>Pays de provenance (géolocalisation approximative)</li>
+            </ul>
           </div>
         </section>
 

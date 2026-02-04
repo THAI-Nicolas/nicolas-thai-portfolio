@@ -58,6 +58,9 @@ const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).href;
     <!-- View Transitions -->
     <meta name="view-transition" content="same-origin" />
 
+    <!-- Analytics avec Umami.is -->
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="02f38ec9-cf6f-42cc-87cb-905475ce9b3f"></script>
+
     <!-- Initialisation (inline pour éviter le flash) -->
     <script is:inline>
       // Initialisation du curseur Wii (inline pour éviter le flash)
@@ -202,6 +205,3 @@ const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).href;
       });
     </script>
 
-    <!-- Initialisation du Homeboarding -->
-    <!-- DÉSACTIVÉ TEMPORAIREMENT POUR TESTS DE PERFORMANCE -->
-    <!--
