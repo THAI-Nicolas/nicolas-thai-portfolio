@@ -18,13 +18,23 @@ jobs:
           node-version: "20"
           cache: "npm"
 
-      - name: Install dependencies
+      - name: Install all dependencies (for build)
         run: npm ci
 
       - name: Build project
+        run: npm run build
+
+      - name: Clean and install production dependencies only
         run: |
-          npm run build
-          cp package.json dist/server/
+          rm -rf node_modules
+          npm ci --omit=dev --ignore-scripts
+
+      - name: Prepare deployment package
+        run: |
+          mkdir -p deploy_package
+          cp -r dist/* deploy_package/
+          cp -r node_modules deploy_package/server/
+          cp package.json deploy_package/server/
 
       - name: Deploy to VPS via SCP
         uses: appleboy/scp-action@v0.1.3
@@ -33,23 +43,21 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22009
-          source: "dist/*"
+          source: "deploy_package/*"
           target: "/var/www/dossier_portfolio/"
           strip_components: 1
           rm: false
           overwrite: true
           debug: true
 
-      - name: Install production dependencies on VPS
+      - name: Restart application on VPS
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22009
+          command_timeout: 30s
           script: |
             cd /var/www/dossier_portfolio/server
-            npm ci
-            npm install astro
-            npm install send server-destroy
-            PORT=8087 pm2 restart portfolio || PORT=8087 pm2 start server/entry.mjs --name portfolio
+            PORT=8087 pm2 restart portfolio || PORT=8087 pm2 start entry.mjs --name portfolio
