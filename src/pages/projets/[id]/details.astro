@@ -496,7 +496,7 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
 
         {
           (projet.resultat_url || projet.resultat_iframe) && (
-            <section class="mb-20 md:mb-32 lg:mb-48" aria-labelledby="resultat-title">
+            <section class="mb-20 md:mb-32 lg:mb-48 mt-12 md:mt-20 lg:mt-28" aria-labelledby="resultat-title">
               <h2 id="resultat-title" class="font-hagrid text-2xl md:text-3xl lg:text-5xl font-bold mb-12 md:mb-16 lg:mb-20 text-text-gray">
                 Le résultat final
               </h2>
@@ -527,7 +527,7 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
                       />
                     ) : null}
                     <div
-                      class="iframe-overlay absolute inset-0 bg-black/30 flex items-center justify-center cursor-pointer transition-opacity duration-300"
+                      class="iframe-overlay absolute inset-0 bg-black/30 flex items-center justify-center cursor-pointer transition-opacity duration-300 z-50"
                       id="iframe-overlay"
                       role="button"
                       aria-label="Activer l'interaction avec l'iframe"
@@ -744,16 +744,29 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
     animation: float-right-large 6s ease-in-out infinite;
   }
 
-  /* CSS pour l'iframe interactive */
-  .iframe-content {
+  /* CSS pour l'iframe interactive - utiliser :global pour cibler les éléments dynamiques */
+  :global(.iframe-content) {
     pointer-events: none;
+    width: 100%;
+    height: 100%;
   }
 
-  .iframe-container.active .iframe-content {
+  :global(.iframe-content iframe) {
+    pointer-events: none;
+    width: 100% !important;
+    height: 100% !important;
+    border: none;
+  }
+
+  :global(.iframe-container.active .iframe-content) {
     pointer-events: auto;
   }
 
-  .iframe-container.active .iframe-overlay {
+  :global(.iframe-container.active .iframe-content iframe) {
+    pointer-events: auto;
+  }
+
+  :global(.iframe-container.active .iframe-overlay) {
     opacity: 0;
     pointer-events: none;
   }
@@ -805,10 +818,16 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
     const iframeOverlay = document.getElementById('iframe-overlay');
 
     if (iframeContainer && iframeOverlay) {
+      // Éviter les écouteurs dupliqués
+      if (iframeOverlay.dataset.initialized === 'true') return;
+      iframeOverlay.dataset.initialized = 'true';
+
       // Activer l'iframe au clic sur l'overlay
       iframeOverlay.addEventListener('click', function(e) {
+        e.preventDefault();
         e.stopPropagation();
         iframeContainer.classList.add('active');
+        this.style.display = 'none';
       });
 
       // Support clavier (Entrée/Espace)
@@ -817,13 +836,15 @@ const seoDescription = `Découvrez le processus de création complet de ${projet
           e.preventDefault();
           e.stopPropagation();
           iframeContainer.classList.add('active');
+          this.style.display = 'none';
         }
       });
 
       // Désactiver si on clique en dehors
       document.addEventListener('click', function(e) {
-        if (iframeContainer.classList.contains('active') && !iframeContainer.contains(e.target)) {
+        if (iframeContainer && iframeContainer.classList.contains('active') && !iframeContainer.contains(e.target)) {
           iframeContainer.classList.remove('active');
+          iframeOverlay.style.display = 'flex';
         }
       });
     }
