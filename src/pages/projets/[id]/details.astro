@@ -61,11 +61,11 @@ const numberOpacity = avgLuminance > 128 ? '0.35' : '0.18'; // Plus visible sur 
 // SEO optimisé pour la page détails
 const techNames = technologies.map((t: any) => t.nom).join(', ');
 const etapesCount = processusEtapes.length;
-const seoDescription = `Découvrez le processus de création complet de ${projet.titre} en ${etapesCount} étapes. Projet réalisé pour ${projet.client} avec ${techNames}. Contexte : ${projet.contexte.substring(0, 80)}...`;
+const seoDescription = `Découvrez le projet ${projet.titre}. Projet réalisé pour ${projet.client} avec ${techNames}.`;
 ---
 
 <Layout 
-  title={`${projet.titre} - Processus de Création & Détails | Nicolas THAI`}
+  title={`${projet.titre} - | Nicolas THAI`}
   description={seoDescription.substring(0, 160)}
   keywords={`${projet.titre}, processus création, ${techNames}, ${projet.client}, étude de cas, portfolio`}
   ogImage={coverUrl}

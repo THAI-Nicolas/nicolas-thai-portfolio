@@ -1,25 +1,40 @@
 /* TEAM */
 Développeur & Designer : Nicolas THAI
+Rôle : Développeur Web Front-End | UX/UI Designer
 Localisation : France
 Contact : thainicolas06@gmail.com
+Portfolio : https://portfolio.nicolas-thai.fr
 GitHub : https://github.com/THAI-Nicolas
 LinkedIn : https://www.linkedin.com/in/nicolas-thai-21539a294/
 Instagram : https://www.instagram.com/nicowh6/
 
+/* COMPÉTENCES */
+Front-End : JavaScript, TypeScript, Astro, TailwindCSS, Three.js
+Design : Figma, Blender, Adobe Illustrator
+Gestion de projet : Notion, Miro, Todoist
+Audiovisuel : DaVinci Resolve, CapCut
+
 /* SITE */
+Nom : Portfolio Wii de Nicolas THAI
 Dernière mise à jour : 2025
 Langage : Français
 Standards : HTML5, CSS3, ES2023
 Stack technique : Astro, TypeScript, TailwindCSS, Three.js
 Backend : PocketBase
 Hébergement : Infomaniak
-Outils : Cursor, Figma, Blender, DaVinci Resolve
+Outils : VS Code, Cursor, Figma, Blender, DaVinci Resolve
+
+/* CONCEPT */
+Ce portfolio unique est une recréation moderne de l'interface iconique 
+de la Nintendo Wii. Il combine nostalgie gaming et technologies web 
+modernes pour offrir une expérience utilisateur immersive et mémorable.
+
+/* MOTS-CLÉS */
+Nicolas THAI, portfolio wii, portfolio interactif, portfolio créatif,
+développeur web junior, développeur front-end, JavaScript, Astro,
+TypeScript, TailwindCSS, Three.js, UX Design, UI Design, France
 
 /* THANKS */
 Inspiration : Interface Nintendo Wii
-Communauté : Astro, Three.js
-Polices : Google Fonts (Raleway)
-
-/* SITE NOTES */
-Ce portfolio est une recréation moderne de l'interface iconique de la Nintendo Wii.
-Développé avec passion pour allier nostalgie et technologies web modernes.
+Communauté : Astro, Three.js, TailwindCSS
+Polices : Google Fonts (Raleway, Hagrid)

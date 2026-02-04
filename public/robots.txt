@@ -1,4 +1,5 @@
-# robots.txt pour nicolas-thai-portfolio
+# robots.txt pour portfolio.nicolas-thai.fr
+# Portfolio Wii de Nicolas THAI - Développeur Web Front-End
 # Mise à jour : 2025
 
 # Autoriser tous les robots d'indexation
@@ -8,11 +9,17 @@ Allow: /
 # Interdire l'accès aux dossiers backend et API
 Disallow: /backend/
 Disallow: /api/
+Disallow: /admin/
 
 # Interdire l'accès aux fichiers temporaires et de configuration
 Disallow: /*.json$
 Disallow: /*_buildManifest.js$
 Disallow: /*_ssgManifest.js$
+
+# Autoriser les bots d'images
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /og-*.jpg
 
 # Sitemap XML pour l'indexation
 Sitemap: https://portfolio.nicolas-thai.fr/sitemap-index.xml
