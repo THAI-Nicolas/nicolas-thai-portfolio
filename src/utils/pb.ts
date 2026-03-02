@@ -4,7 +4,7 @@ import PocketBase from "pocketbase";
 const PB_URL =
   import.meta.env.PUBLIC_POCKETBASE_URL ||
   (import.meta.env.MODE === "production"
-    ? "https://portfolio.nicolas-thai.fr"
+    ? "https://nicolas-thai.fr"
     : "http://localhost:8090");
 
 class PocketBaseClient {

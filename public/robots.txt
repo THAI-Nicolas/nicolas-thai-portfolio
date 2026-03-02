@@ -1,4 +1,4 @@
-# robots.txt pour portfolio.nicolas-thai.fr
+# robots.txt pour nicolas-thai.fr
 # Portfolio Wii de Nicolas THAI - Développeur Web Front-End
 # Mise à jour : 2025
 
@@ -22,7 +22,7 @@ Allow: /images/
 Allow: /og-*.jpg
 
 # Sitemap XML pour l'indexation
-Sitemap: https://portfolio.nicolas-thai.fr/sitemap-index.xml
+Sitemap: https://nicolas-thai.fr/sitemap-index.xml
 
 # Crawl-delay pour éviter la surcharge (optionnel)
 # Crawl-delay: 1
