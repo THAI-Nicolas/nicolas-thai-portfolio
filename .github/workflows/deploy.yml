@@ -7,7 +7,6 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: 🚚 Checkout code
         uses: actions/checkout@v4
@@ -25,14 +24,14 @@ jobs:
 
       - name: 📂 Deploy to VPS (RSYNC)
         uses: easingthemes/ssh-deploy@v5.1.0
-        env:
+        with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.SSH_HOST }} # Vérifie si ton secret s'appelle HOST ou SSH_HOST
-          REMOTE_USER: ${{ secrets.SSH_USER }} # Vérifie si ton secret s'appelle USER ou SSH_USER
-          SOURCE: "." # On envoie tout (sauf exclus) pour avoir le package.json
-          TARGET: "/var/www/portfolio_app"
-          # On exclut les dossiers inutiles sur le serveur
-          ARGS: "-rlgoDvc --delete --exclude='.git*' --exclude='node_modules' --exclude='src'"
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USER }}
+          SOURCE: "."
+          TARGET: "/var/www/portfolio" # <--- Mis à jour ici
+          ARGS: "-rlgoDvc --delete"
+          EXCLUDE: "/.git*, /node_modules/, /src/, /portfolio_pb/" # On ignore le dossier de la DB
 
       - name: 🔄 Restart Application via SSH
         uses: appleboy/ssh-action@v1.0.0
@@ -40,10 +39,8 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          # Plus besoin du port 22009 ici
           script: |
-            cd /var/www/portfolio_app
-            # Installation propre des dépendances de prod sur le VPS
+            cd /var/www/portfolio # <--- Mis à jour ici
             npm install --omit=dev
-            # On lance sur le port 4321 pour correspondre à Nginx
+            # Lancement sur le port 4321
             PORT=4321 pm2 restart portfolio || PORT=4321 pm2 start dist/server/entry.mjs --name portfolio
