@@ -1,4 +1,4 @@
-name: Build and Deploy to VPS
+name: Build and Deploy Portfolio (OVH SSR)
 
 on:
   push:
@@ -9,55 +9,41 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: 🚚 Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: 🏗️ Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: "npm"
 
-      - name: Install all dependencies (for build)
-        run: npm ci
-
-      - name: Build project
-        run: npm run build
-
-      - name: Clean and install production dependencies only
+      - name: 📦 Install and Build
         run: |
-          rm -rf node_modules
-          npm ci --omit=dev --ignore-scripts
+          npm ci
+          npm run build
 
-      - name: Prepare deployment package
-        run: |
-          mkdir -p deploy_package
-          cp -r dist/* deploy_package/
-          cp -r node_modules deploy_package/server/
-          cp package.json deploy_package/server/
+      - name: 📂 Deploy to VPS (RSYNC)
+        uses: easingthemes/ssh-deploy@v5.1.0
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }} # Vérifie si ton secret s'appelle HOST ou SSH_HOST
+          REMOTE_USER: ${{ secrets.SSH_USER }} # Vérifie si ton secret s'appelle USER ou SSH_USER
+          SOURCE: "." # On envoie tout (sauf exclus) pour avoir le package.json
+          TARGET: "/var/www/portfolio_app"
+          # On exclut les dossiers inutiles sur le serveur
+          ARGS: "-rlgoDvc --delete --exclude='.git*' --exclude='node_modules' --exclude='src'"
 
-      - name: Deploy to VPS via SCP
-        uses: appleboy/scp-action@v0.1.3
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22009
-          source: "deploy_package/*"
-          target: "/var/www/dossier_portfolio/"
-          strip_components: 1
-          rm: false
-          overwrite: true
-          debug: true
-
-      - name: Restart application on VPS
+      - name: 🔄 Restart Application via SSH
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USER }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22009
-          command_timeout: 30s
+          # Plus besoin du port 22009 ici
           script: |
-            cd /var/www/dossier_portfolio/server
-            PORT=8087 pm2 restart portfolio || PORT=8087 pm2 start entry.mjs --name portfolio
+            cd /var/www/portfolio_app
+            # Installation propre des dépendances de prod sur le VPS
+            npm install --omit=dev
+            # On lance sur le port 4321 pour correspondre à Nginx
+            PORT=4321 pm2 restart portfolio || PORT=4321 pm2 start dist/server/entry.mjs --name portfolio
