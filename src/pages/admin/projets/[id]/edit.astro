@@ -1,86 +1,36 @@
 ---
 import Layout from '../../../../layouts/Layout.astro';
-import { pb } from '../../../../utils/pb';
+import { PB_PUBLIC_URL } from '../../../../utils/pb';
+import type { RecordModel } from 'pocketbase';
 
-// Restaurer l'auth depuis le cookie
-const authCookie = Astro.cookies.get('pb_auth');
-if (authCookie) {
-  const authData = JSON.parse(authCookie.value);
-  pb.authStore.save(authData.token, authData.model);
+// Client PocketBase par requête, authentifié par le middleware
+const pb = Astro.locals.pb;
+if (!pb) {
+  return Astro.redirect('/admin/login');
 }
 
 const projetId = Astro.params.id!;
 
-// Récupérer le projet
-const projet = await pb.collection('projets').getOne(projetId);
+// Récupérer le projet (id invalide -> retour à la liste plutôt qu'une 500)
+let projet: RecordModel;
+try {
+  projet = await pb.collection('projets').getOne(projetId);
+} catch (error) {
+  console.error(`Projet introuvable (${projetId}):`, error);
+  return Astro.redirect('/admin/projets');
+}
 
 // Récupérer les technologies pour le formulaire
-const technologies = await pb.collection('technologies').getFullList({
-  sort: 'nom',
-});
-
-const skipPost = true;
-if (false) {
-  try {
-    const formData = await Astro.request.formData();
-    
-    // Générer le slug à partir du titre
-    const titre = formData.get('titre')?.toString() || '';
-    const slug = titre
-      .toLowerCase()
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '');
-    
-    // Préparer les données
-    const projetData: any = {
-      slug,
-      titre: formData.get('titre'),
-      annee: formData.get('annee'),
-      description: formData.get('description'),
-      contexte: formData.get('contexte'),
-      client: formData.get('client'),
-      cadre: formData.get('cadre'),
-      temps: formData.get('temps'),
-      mode: formData.get('mode'),
-      color_from: formData.get('color_from'),
-      color_to: formData.get('color_to'),
-      resultat_url: formData.get('resultat_url') || '',
-      ordre: parseInt(formData.get('ordre')?.toString() || '0'),
-      visible: formData.get('visible') === 'on',
-      technologies: formData.getAll('technologies'),
-    };
-
-    // Mettre à jour le projet
-    await pb.collection('projets').update(projetId, projetData);
-    
-    // Upload des nouvelles images si présentes
-    const coverImage = formData.get('cover_image') as File;
-    const visuels = formData.getAll('visuels') as File[];
-    
-    if (coverImage && coverImage.size > 0) {
-      const updateData = new FormData();
-      updateData.append('cover_image', coverImage);
-      await pb.collection('projets').update(projetId, updateData);
-    }
-    
-    if (visuels.length > 0 && visuels[0].size > 0) {
-      const updateData = new FormData();
-      visuels.forEach(visuel => {
-        if (visuel.size > 0) {
-          updateData.append('visuels', visuel);
-        }
-      });
-      await pb.collection('projets').update(projetId, updateData);
-    }
-    
-    return Astro.redirect('/admin/projets');
-    
-  } catch (e: any) {
-    console.error('Erreur mise à jour projet:', e);
-  }
+// (liste vide plutôt que 500 si PocketBase est indisponible)
+let technologies: RecordModel[] = [];
+try {
+  technologies = await pb.collection('technologies').getFullList({
+    sort: 'nom',
+  });
+} catch (error) {
+  console.error('Erreur lors du chargement des technologies:', error);
 }
+
 ---
 
 <Layout title={`Admin - Éditer ${projet.titre}`} disableMusic={true}>
@@ -393,7 +343,7 @@ if (false) {
               {projet.cover_image && (
                 <div style="margin-bottom: 12px;">
                   <img 
-                    src={`${pb.baseUrl}/api/files/${projet.collectionId}/${projet.id}/${projet.cover_image}`}
+                    src={`${PB_PUBLIC_URL}/api/files/${projet.collectionId}/${projet.id}/${projet.cover_image}`}
                     alt="Couverture actuelle"
                     style="max-width: 300px; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
                   />
@@ -418,7 +368,7 @@ if (false) {
                 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-bottom: 12px;">
                   {projet.visuels.map((visuel: string) => (
                     <img 
-                      src={`${pb.baseUrl}/api/files/${projet.collectionId}/${projet.id}/${visuel}`}
+                      src={`${PB_PUBLIC_URL}/api/files/${projet.collectionId}/${projet.id}/${visuel}`}
                       alt="Visuel"
                       style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);"
                     />
@@ -500,7 +450,6 @@ if (false) {
     const pathParts = window.location.pathname.split('/');
     const projetId = pathParts[pathParts.length - 2]; // /admin/projets/[id]/edit
     
-    console.log('🆔 Projet ID récupéré depuis URL:', projetId);
     
     // Restaurer l'auth depuis le cookie
     const authCookie = document.cookie.split('; ').find(row => row.startsWith('pb_auth='));
@@ -516,8 +465,6 @@ if (false) {
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
       
-      console.log('🚀 Début de la soumission du formulaire');
-      console.log('📝 Projet ID:', projetId);
       
       try {
         if (submitBtn) submitBtn.textContent = 'Enregistrement...';
@@ -525,7 +472,6 @@ if (false) {
         
         const formData = new FormData(form);
         
-        console.log('📋 FormData récupéré, nombre de champs:', Array.from(formData.entries()).length);
         
         // Récupérer le slug depuis le formulaire (peut être modifié manuellement)
         let slug = formData.get('slug')?.toString() || '';
@@ -533,7 +479,6 @@ if (false) {
         // Si le slug est vide, le générer depuis le titre
         if (!slug) {
           const titre = formData.get('titre')?.toString() || '';
-          console.log('📌 Titre:', titre);
           
           slug = titre
             .toLowerCase()
@@ -543,7 +488,6 @@ if (false) {
             .replace(/(^-|-$)/g, '');
         }
         
-        console.log('🔗 Slug:', slug);
         
         // Préparer les données du projet
         const projetData = new FormData();
@@ -566,28 +510,21 @@ if (false) {
         const techs = formData.getAll('technologies');
         techs.forEach(tech => projetData.append('technologies', tech.toString()));
         
-        console.log('📦 Données préparées:', Array.from(projetData.entries()));
-        console.log('🌐 PocketBase URL:', pb.baseUrl);
-        console.log('🔑 Auth token présent:', !!pb.authStore.token);
         
         // Mettre à jour le projet
-        console.log('⏳ Appel API update...');
         const result = await pb.collection('projets').update(projetId, projetData);
-        console.log('✅ Résultat update:', result);
         
         // Upload des fichiers
         const coverImage = formData.get('cover_image');
         const visuels = formData.getAll('visuels');
         
         if (coverImage && coverImage instanceof File && coverImage.size > 0) {
-          console.log('📸 Upload cover image...');
           const updateData = new FormData();
           updateData.append('cover_image', coverImage);
           await pb.collection('projets').update(projetId, updateData);
         }
         
         if (visuels.length > 0 && visuels.some((f) => f instanceof File && f.size > 0)) {
-          console.log('🖼️ Upload visuels...');
           const updateData = new FormData();
           visuels.forEach((visuel) => {
             if (visuel instanceof File && visuel.size > 0) {
@@ -597,7 +534,6 @@ if (false) {
           await pb.collection('projets').update(projetId, updateData);
         }
         
-        console.log('🎉 Tout est enregistré, redirection...');
         window.location.href = '/admin/projets';
       } catch (err) {
         console.error('❌ ERREUR:', err);

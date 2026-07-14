@@ -1,18 +1,23 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
-import { pb } from '../../../utils/pb';
+import type { RecordModel } from 'pocketbase';
 
-// Restaurer l'auth depuis le cookie
-const authCookie = Astro.cookies.get('pb_auth');
-if (authCookie) {
-  const authData = JSON.parse(authCookie.value);
-  pb.authStore.save(authData.token, authData.model);
+// Client PocketBase par requête, authentifié par le middleware
+const pb = Astro.locals.pb;
+if (!pb) {
+  return Astro.redirect('/admin/login');
 }
 
 // Récupérer les technologies pour le formulaire
-const technologies = await pb.collection('technologies').getFullList({
-  sort: 'nom',
-});
+// (liste vide plutôt que 500 si PocketBase est indisponible)
+let technologies: RecordModel[] = [];
+try {
+  technologies = await pb.collection('technologies').getFullList({
+    sort: 'nom',
+  });
+} catch (error) {
+  console.error('Erreur lors du chargement des technologies:', error);
+}
 ---
 
 <Layout title="Admin - Nouveau Projet" disableMusic={true}>

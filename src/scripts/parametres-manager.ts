@@ -59,6 +59,8 @@ export class ParametresManager {
   private currentSettings: ParametresSettings;
   private retryCount: number = 0;
   private maxRetries: number = 2;
+  // Permet de retirer tous les listeners d'un coup à la destruction
+  private abortController: AbortController = new AbortController();
 
   constructor() {
     this.currentSettings = { ...DEFAULT_SETTINGS };
@@ -69,6 +71,8 @@ export class ParametresManager {
    * Initialise le gestionnaire de paramètres
    */
   private init(): void {
+    if (this.abortController.signal.aborted) return;
+
     this.parametresContent = getElement(PARAMETRES_SELECTORS.CONTENT);
     this.parametresContainer = getElement(PARAMETRES_SELECTORS.CONTAINER);
 
@@ -104,46 +108,63 @@ export class ParametresManager {
       }
     });
 
+    const signal = this.abortController.signal;
+
     // Recalculer le rect au resize de la fenêtre
-    onEvent(window, DOM_EVENTS.RESIZE, () => {
-      if (this.parametresContainer && window.innerWidth >= 768) {
-        requestAnimationFrame(() => {
-          if (this.parametresContainer) {
-            this.rect = this.parametresContainer.getBoundingClientRect();
-          }
-        });
-      }
-    });
-
-    onEvent(this.parametresContainer, DOM_EVENTS.MOUSEMOVE, (e: MouseEvent) => {
-      if (!this.rect || !this.parametresContent || window.innerWidth < 768)
-        return;
-
-      const x = e.clientX - this.rect.left;
-      const y = e.clientY - this.rect.top;
-      const centerX = this.rect.width / 2;
-      const centerY = this.rect.height / 2;
-
-      const rotateX = ((y - centerY) / centerY) * 1.5;
-      const rotateY = ((x - centerX) / centerX) * 1.5;
-
-      requestAnimationFrame(() => {
-        if (this.parametresContent) {
-          this.parametresContent.style.transform = `rotateX(${-rotateX}deg) rotateY(${rotateY}deg)`;
+    onEvent(
+      window,
+      DOM_EVENTS.RESIZE,
+      () => {
+        if (this.parametresContainer && window.innerWidth >= 768) {
+          requestAnimationFrame(() => {
+            if (this.parametresContainer) {
+              this.rect = this.parametresContainer.getBoundingClientRect();
+            }
+          });
         }
-      });
-    });
+      },
+      { signal }
+    );
 
-    onEvent(this.parametresContainer, DOM_EVENTS.MOUSELEAVE, () => {
-      if (this.parametresContent && window.innerWidth >= 768) {
+    onEvent(
+      this.parametresContainer,
+      DOM_EVENTS.MOUSEMOVE,
+      (e: MouseEvent) => {
+        if (!this.rect || !this.parametresContent || window.innerWidth < 768)
+          return;
+
+        const x = e.clientX - this.rect.left;
+        const y = e.clientY - this.rect.top;
+        const centerX = this.rect.width / 2;
+        const centerY = this.rect.height / 2;
+
+        const rotateX = ((y - centerY) / centerY) * 1.5;
+        const rotateY = ((x - centerX) / centerX) * 1.5;
+
         requestAnimationFrame(() => {
           if (this.parametresContent) {
-            this.parametresContent.style.transform =
-              "rotateX(0deg) rotateY(0deg)";
+            this.parametresContent.style.transform = `rotateX(${-rotateX}deg) rotateY(${rotateY}deg)`;
           }
         });
-      }
-    });
+      },
+      { signal }
+    );
+
+    onEvent(
+      this.parametresContainer,
+      DOM_EVENTS.MOUSELEAVE,
+      () => {
+        if (this.parametresContent && window.innerWidth >= 768) {
+          requestAnimationFrame(() => {
+            if (this.parametresContent) {
+              this.parametresContent.style.transform =
+                "rotateX(0deg) rotateY(0deg)";
+            }
+          });
+        }
+      },
+      { signal }
+    );
   }
 
   /**
@@ -350,6 +371,14 @@ export class ParametresManager {
    */
   public getSettings(): ParametresSettings {
     return this.currentSettings;
+  }
+
+  /**
+   * Retire tous les listeners posés par cette instance
+   * (à appeler avant d'en recréer une après une navigation View Transitions)
+   */
+  public destroy(): void {
+    this.abortController.abort();
   }
 
   /**

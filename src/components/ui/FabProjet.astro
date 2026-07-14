@@ -176,13 +176,19 @@ const fabTextColor = avgLuminance > 200 ? '#383e3f' : '#FFFFFF';
 
 <script>
   // Gestion du scroll pour cacher le FAB près du footer
+  // (cleanup de l'init précédente : le listener window s'accumulait à chaque navigation)
+  let fabAbortController: AbortController | null = null;
+
   function initFabScroll() {
+    fabAbortController?.abort();
+    fabAbortController = new AbortController();
+
     const fab = document.querySelector('.fab-projet');
     const footer = document.querySelector('footer');
-    
+
     if (!fab || !footer) return;
 
-    function handleScroll() {
+    const handleScroll = () => {
       const footerRect = footer.getBoundingClientRect();
       const windowHeight = window.innerHeight;
 
@@ -192,20 +198,23 @@ const fabTextColor = avgLuminance > 200 ? '#383e3f' : '#FFFFFF';
       } else {
         fab.classList.remove('hidden');
       }
-    }
+    };
 
     // Throttle via requestAnimationFrame : au plus une mesure par frame
     let scrollTicking = false;
-    function onScroll() {
+    const onScroll = () => {
       if (scrollTicking) return;
       scrollTicking = true;
       requestAnimationFrame(() => {
         handleScroll();
         scrollTicking = false;
       });
-    }
+    };
 
-    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('scroll', onScroll, {
+      passive: true,
+      signal: fabAbortController.signal,
+    });
     handleScroll(); // Check initial state
   }
 

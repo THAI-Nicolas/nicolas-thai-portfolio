@@ -351,7 +351,13 @@ const currentSize = sizes[size] || sizes.desktop;
   });
   
   // Observer les overlays pour réinitialiser le Mii après fermeture
+  // (observers mémorisés pour être déconnectés avant chaque ré-observation)
+  const overlayObservers: MutationObserver[] = [];
+
   const observeOverlays = () => {
+    overlayObservers.forEach((observer) => observer.disconnect());
+    overlayObservers.length = 0;
+
     const overlays = document.querySelectorAll('[id$="-overlay"]');
     overlays.forEach((overlay) => {
       const observer = new MutationObserver((mutations) => {
@@ -366,16 +372,21 @@ const currentSize = sizes[size] || sizes.desktop;
           }
         });
       });
-      
+
       observer.observe(overlay, {
         attributes: true,
         attributeFilter: ['class']
       });
+      overlayObservers.push(observer);
     });
   };
-  
-  // Lancer l'observation après le chargement
+
+  // Lancer l'observation après le chargement et après chaque navigation
+  // (les overlays sont remplacés par les View Transitions)
   document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(observeOverlays, 500);
+  });
+  document.addEventListener('astro:page-load', () => {
     setTimeout(observeOverlays, 500);
   });
 </script>

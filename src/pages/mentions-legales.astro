@@ -3,6 +3,9 @@ import Layout from "../layouts/Layout.astro";
 import { ViewTransitions } from "astro:transitions";
 import MainBouton from "../components/boutons/MainBouton.astro";
 
+// Page 100% statique : générée au build plutôt que re-rendue à chaque requête
+export const prerender = true;
+
 const seoDescription = "Mentions légales du portfolio de Nicolas THAI - Informations sur l'hébergement, la propriété intellectuelle et les conditions d'utilisation du site.";
 ---
 

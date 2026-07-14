@@ -1,20 +1,15 @@
 ---
 import Layout from '../../../layouts/Layout.astro';
-import { pb } from '../../../utils/pb';
+import { PB_PUBLIC_URL } from '../../../utils/pb';
+import type { RecordModel } from 'pocketbase';
 
-// Restaurer l'auth depuis le cookie
-const authCookie = Astro.cookies.get('pb_auth');
-if (authCookie) {
-  const authData = JSON.parse(authCookie.value);
-  pb.authStore.save(authData.token, authData.model);
+// Client PocketBase par requête, authentifié par le middleware
+const pb = Astro.locals.pb;
+if (!pb) {
+  return Astro.redirect('/admin/login');
 }
 
-// Récupérer tous les projets
-const projets = await pb.collection('projets').getFullList({
-  sort: '-created',
-});
-
-// Supprimer un projet
+// Supprimer un projet (traité avant la récupération pour lister l'état à jour)
 if (Astro.request.method === 'POST') {
   const formData = await Astro.request.formData();
   const action = formData.get('action');
@@ -28,6 +23,16 @@ if (Astro.request.method === 'POST') {
       console.error('Erreur suppression:', error);
     }
   }
+}
+
+// Récupérer tous les projets (liste vide plutôt que 500 si PocketBase est indisponible)
+let projets: RecordModel[] = [];
+try {
+  projets = await pb.collection('projets').getFullList({
+    sort: '-created',
+  });
+} catch (error) {
+  console.error('Erreur lors du chargement des projets admin:', error);
 }
 ---
 
@@ -99,7 +104,7 @@ if (Astro.request.method === 'POST') {
               <div style="flex-shrink: 0;">
                 {projet.cover_image ? (
                   <img 
-                    src={`${pb.baseUrl}/api/files/${projet.collectionId}/${projet.id}/${projet.cover_image}`}
+                    src={`${PB_PUBLIC_URL}/api/files/${projet.collectionId}/${projet.id}/${projet.cover_image}`}
                     alt={projet.titre}
                     style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px;"
                   />

@@ -142,14 +142,16 @@ export function replaceClasses(
  * @param element - L'élément cible
  * @param event - Le type d'événement
  * @param handler - Le handler de l'événement
+ * @param options - Options addEventListener (ex: { signal } pour le cleanup)
  */
 export function onEvent<K extends keyof HTMLElementEventMap>(
   element: HTMLElement | Window | Document | null,
   event: K,
-  handler: (e: HTMLElementEventMap[K]) => void
+  handler: (e: HTMLElementEventMap[K]) => void,
+  options?: AddEventListenerOptions
 ): void {
   if (!element) return;
-  element.addEventListener(event, handler as EventListener);
+  element.addEventListener(event, handler as EventListener, options);
 }
 
 /**
@@ -157,13 +159,15 @@ export function onEvent<K extends keyof HTMLElementEventMap>(
  * @param elements - NodeList ou Array d'éléments
  * @param event - Le type d'événement
  * @param handler - Le handler de l'événement
+ * @param options - Options addEventListener (ex: { signal } pour le cleanup)
  */
 export function onEventAll<K extends keyof HTMLElementEventMap>(
   elements: NodeListOf<HTMLElement> | HTMLElement[],
   event: K,
-  handler: (e: HTMLElementEventMap[K]) => void
+  handler: (e: HTMLElementEventMap[K]) => void,
+  options?: AddEventListenerOptions
 ): void {
-  elements.forEach((el) => onEvent(el, event, handler));
+  elements.forEach((el) => onEvent(el, event, handler, options));
 }
 
 // ============================================

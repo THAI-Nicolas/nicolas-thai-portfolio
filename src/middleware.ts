@@ -1,5 +1,6 @@
 import { defineMiddleware } from "astro:middleware";
 import PocketBase from "pocketbase";
+import { PB_PUBLIC_URL } from "./utils/pb";
 
 export const onRequest = defineMiddleware(async (context, next) => {
   // Redirection vers /welcome pour première visite (sauf si déjà sur /welcome ou admin)
@@ -27,7 +28,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
     try {
       const authData = JSON.parse(authCookie.value);
-      const pb = new PocketBase("http://127.0.0.1:8090");
+      // Client PocketBase par requête pour les pages admin (via locals.pb).
+      // POCKETBASE_ADMIN_URL permet de pointer sur l'URL interne du serveur
+      // (ex: http://127.0.0.1:8090) pour éviter l'aller-retour par Nginx.
+      const pb = new PocketBase(
+        import.meta.env.POCKETBASE_ADMIN_URL || PB_PUBLIC_URL
+      );
       pb.authStore.save(authData.token, authData.model);
 
       // Vérifier si le token est toujours valide

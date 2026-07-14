@@ -25,6 +25,9 @@ export class BookManager {
   private isAnimating: boolean = false; // Anti-spam pour les changements de page
   private retryCount: number = 0;
   private maxRetries: number = 2;
+  // Permet de retirer listeners et observer à la destruction
+  private abortController: AbortController = new AbortController();
+  private observer: MutationObserver | null = null;
 
   constructor() {
     this.init();
@@ -34,6 +37,8 @@ export class BookManager {
    * Initialise le gestionnaire de livre
    */
   private init(): void {
+    if (this.abortController.signal.aborted) return;
+
     this.overlay = document.querySelector(".presentation-overlay");
     this.bookCard = document.getElementById("book-card");
     this.pages = document.querySelectorAll(".book-page");
@@ -68,10 +73,14 @@ export class BookManager {
    */
   private setupEventListeners(): void {
     // Clic sur la carte pour tourner les pages
-    this.bookCard?.addEventListener("click", (e) => {
-      e.stopPropagation();
-      this.nextPage();
-    });
+    this.bookCard?.addEventListener(
+      "click",
+      (e) => {
+        e.stopPropagation();
+        this.nextPage();
+      },
+      { signal: this.abortController.signal }
+    );
   }
 
   /**
@@ -80,7 +89,7 @@ export class BookManager {
   private setupObserver(): void {
     if (!this.overlay) return;
 
-    const observer = new MutationObserver((mutations) => {
+    this.observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (
           mutation.attributeName === "class" ||
@@ -95,7 +104,7 @@ export class BookManager {
       });
     });
 
-    observer.observe(this.overlay, {
+    this.observer.observe(this.overlay, {
       attributes: true,
       attributeFilter: ["class", "style"],
     });
@@ -243,5 +252,17 @@ export class BookManager {
    */
   public isBookOpened(): boolean {
     return this.isOpened;
+  }
+
+  /**
+   * Retire listeners et observer posés par cette instance
+   * (à appeler avant d'en recréer une après une navigation View Transitions)
+   */
+  public destroy(): void {
+    this.abortController.abort();
+    if (this.observer) {
+      this.observer.disconnect();
+      this.observer = null;
+    }
   }
 }

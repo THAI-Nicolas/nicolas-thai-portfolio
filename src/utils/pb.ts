@@ -7,6 +7,10 @@ const PB_URL =
     ? "https://nicolas-thai.fr"
     : "http://localhost:8090");
 
+// URL publique de PocketBase, à utiliser pour les liens/images rendus dans le
+// HTML (le client du middleware pointe lui sur l'URL interne du serveur)
+export const PB_PUBLIC_URL = PB_URL;
+
 class PocketBaseClient {
   private static instance: PocketBase;
 

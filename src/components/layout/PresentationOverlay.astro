@@ -2449,6 +2449,8 @@ const technologiesMontage = formattedTechnologies.filter((tech) =>
     overlayManager.setupOverlay('presentation');
     
     // Recréer le gestionnaire de livre à chaque fois pour éviter les références DOM obsolètes
+    // (en détruisant l'ancien pour ne pas accumuler listeners et observers)
+    bookManager?.destroy();
     bookManager = new BookManager();
   }
 

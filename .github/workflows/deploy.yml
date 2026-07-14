@@ -18,9 +18,20 @@ jobs:
           cache: "npm"
 
       - name: 📦 Install and Build
+        # Les variables PUBLIC_* sont intégrées au bundle client au moment du build :
+        # sans elles, le formulaire de contact (EmailJS) est inactif en production.
+        # À créer dans Settings -> Secrets and variables -> Actions.
+        env:
+          PUBLIC_EMAILJS_SERVICE_ID: ${{ secrets.PUBLIC_EMAILJS_SERVICE_ID }}
+          PUBLIC_EMAILJS_TEMPLATE_ID: ${{ secrets.PUBLIC_EMAILJS_TEMPLATE_ID }}
+          PUBLIC_EMAILJS_PUBLIC_KEY: ${{ secrets.PUBLIC_EMAILJS_PUBLIC_KEY }}
+          PUBLIC_POCKETBASE_URL: "https://nicolas-thai.fr"
         run: |
           npm ci
           npm run build
+
+      - name: 🔍 Type check (informatif, non bloquant)
+        run: npx astro check || true
 
       - name: 📂 Deploy to VPS (RSYNC)
         uses: easingthemes/ssh-deploy@v5.1.0
@@ -29,9 +40,10 @@ jobs:
           REMOTE_HOST: ${{ secrets.SSH_HOST }}
           REMOTE_USER: ${{ secrets.SSH_USER }}
           SOURCE: "."
-          TARGET: "/var/www/portfolio" # <--- Mis à jour ici
+          TARGET: "/var/www/portfolio"
           ARGS: "-rlgoDvc --delete"
-          EXCLUDE: "/.git*, /node_modules/, /src/, /portfolio_pb/" # On ignore le dossier de la DB
+          # .env* exclu : sans cela, --delete supprimerait un éventuel .env côté serveur
+          EXCLUDE: "/.git*, /node_modules/, /src/, /portfolio_pb/, /.env*" # On ignore le dossier de la DB
 
       - name: 🔄 Restart Application via SSH
         uses: appleboy/ssh-action@v1.0.0
@@ -40,7 +52,10 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /var/www/portfolio # <--- Mis à jour ici
+            cd /var/www/portfolio
             npm install --omit=dev
             # Lancement sur le port 4321
             PORT=4321 pm2 restart portfolio || PORT=4321 pm2 start dist/server/entry.mjs --name portfolio
+            # Healthcheck : échoue le déploiement si le serveur ne répond pas
+            sleep 3
+            curl -sf http://127.0.0.1:4321/welcome > /dev/null || (echo "Healthcheck failed" && exit 1)

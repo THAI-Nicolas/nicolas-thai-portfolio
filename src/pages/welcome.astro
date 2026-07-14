@@ -5,6 +5,9 @@
  */
 import { ViewTransitions } from 'astro:transitions';
 import mouseIcon from '../assets/icones/mouse-icon.svg';
+
+// Page 100% statique : générée au build plutôt que re-rendue à chaque requête
+export const prerender = true;
 ---
 
 <!DOCTYPE html>

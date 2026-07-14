@@ -842,8 +842,10 @@ const { isVisible = false, onClose } = Astro.props;
 
   function initContactOverlay() {
     const overlayManager = OverlayManager.getInstance();
-    
+
     // Recréer le gestionnaire de formulaire à chaque fois pour éviter les références DOM obsolètes
+    // (en détruisant l'ancien pour ne pas accumuler listeners et observers)
+    contactFormManager?.destroy();
     contactFormManager = new ContactFormManager();
     
     // Setup de l'overlay contact avec callback de fermeture

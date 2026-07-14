@@ -117,7 +117,21 @@
 
   let currentMessageIndex = 0;
   let hideTimeout: number | null = null;
+  let textSwapTimeout: number | null = null;
+  let reappearTimeout: number | null = null;
   let isDialogueVisible = false;
+  // Cleanup des inits précédentes : initDialogue tourne sur DOMContentLoaded
+  // ET astro:page-load, et la boucle show/hide se replanifie en continu
+  let dialogueAbortController: AbortController | null = null;
+
+  function clearDialogueTimeouts() {
+    [hideTimeout, textSwapTimeout, reappearTimeout].forEach((timeout) => {
+      if (timeout !== null) clearTimeout(timeout);
+    });
+    hideTimeout = null;
+    textSwapTimeout = null;
+    reappearTimeout = null;
+  }
 
   function showDialogue() {
     const dialogue = document.getElementById('mii-dialogue');
@@ -150,7 +164,7 @@
     }
 
     // Attendre que l'animation de sortie soit terminée avant de changer le texte
-    setTimeout(() => {
+    textSwapTimeout = window.setTimeout(() => {
       // Passer au message suivant
       currentMessageIndex = (currentMessageIndex + 1) % messages.length;
       const textElement = document.getElementById('mii-dialogue-text');
@@ -160,13 +174,19 @@
 
       // Réafficher la bulle après 3-4 secondes (aléatoire)
       const randomDelay = Math.floor(Math.random() * 1000) + 3000;
-      setTimeout(() => {
+      reappearTimeout = window.setTimeout(() => {
         showDialogue();
       }, randomDelay);
     }, 300); // Durée de l'animation de disparition
   }
 
   function initDialogue() {
+    // Nettoyer l'init précédente (listeners + boucle de timeouts)
+    dialogueAbortController?.abort();
+    dialogueAbortController = new AbortController();
+    const signal = dialogueAbortController.signal;
+    clearDialogueTimeouts();
+
     // Vérifier qu'on est sur la page d'accueil
     if (window.location.pathname !== '/') return;
 
@@ -184,23 +204,28 @@
     if (miiButton) {
       miiButton.addEventListener('click', () => {
         hideDialogue();
-      });
+      }, { signal });
     }
 
     // Cacher au clic sur n'importe quel overlay
     document.addEventListener('click', (e) => {
       const target = e.target as HTMLElement;
-      if (target.closest('.card-cv') || 
-          target.closest('#contact-button') || 
+      if (target.closest('.card-cv') ||
+          target.closest('#contact-button') ||
           target.closest('#parametres-button')) {
         hideDialogue();
       }
-    });
+    }, { signal });
   }
 
   // Init au chargement
   document.addEventListener('DOMContentLoaded', initDialogue);
-  
+
   // Réinit après transition Astro
   document.addEventListener('astro:page-load', initDialogue);
+
+  // Stopper la boucle de la bulle avant de quitter la page
+  document.addEventListener('astro:before-swap', () => {
+    clearDialogueTimeouts();
+  });
 </script>

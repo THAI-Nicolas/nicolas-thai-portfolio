@@ -1,19 +1,25 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { pb } from '../../utils/pb';
+import { PB_PUBLIC_URL } from '../../utils/pb';
 
 const user = Astro.locals.user;
 
-// Restaurer l'auth depuis le cookie
-const authCookie = Astro.cookies.get('pb_auth');
-if (authCookie) {
-  const authData = JSON.parse(authCookie.value);
-  pb.authStore.save(authData.token, authData.model);
+// Client PocketBase par requête, authentifié par le middleware
+// (le singleton partagé ne doit jamais porter d'auth : fuite entre requêtes)
+const pb = Astro.locals.pb;
+if (!pb) {
+  return Astro.redirect('/admin/login');
 }
 
-// Récupérer les statistiques
-const projets = await pb.collection('projets').getFullList();
-const technologies = await pb.collection('technologies').getFullList();
+// Récupérer les statistiques (page dégradée plutôt que 500 si PocketBase est indisponible)
+let projets: unknown[] = [];
+let technologies: unknown[] = [];
+try {
+  projets = await pb.collection('projets').getFullList();
+  technologies = await pb.collection('technologies').getFullList();
+} catch (error) {
+  console.error('Erreur lors du chargement des statistiques admin:', error);
+}
 ---
 
 <Layout title="Admin - Dashboard" disableMusic={true}>
@@ -136,7 +142,7 @@ const technologies = await pb.collection('technologies').getFullList();
 
         <!-- Card Technologies -->
         <a 
-          href={`${pb.baseUrl}/_/`}
+          href={`${PB_PUBLIC_URL}/_/`}
           target="_blank"
           style="background: white; border: 2px solid var(--color-dark-blue); border-radius: 12px; padding: 36px; text-decoration: none; transition: all 0.2s; display: block; position: relative; overflow: hidden;"
           class="admin-card"
@@ -161,7 +167,7 @@ const technologies = await pb.collection('technologies').getFullList();
 
         <!-- Card Processus -->
         <a 
-          href={`${pb.baseUrl}/_/`}
+          href={`${PB_PUBLIC_URL}/_/`}
           target="_blank"
           style="background: white; border: 2px solid var(--color-dark-gray); border-radius: 12px; padding: 36px; text-decoration: none; transition: all 0.2s; display: block; position: relative; overflow: hidden;"
           class="admin-card"

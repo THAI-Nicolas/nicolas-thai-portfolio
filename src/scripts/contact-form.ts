@@ -42,6 +42,9 @@ export class ContactFormManager {
   private mobileForm: HTMLFormElement | null = null;
   private retryCount: number = 0;
   private maxRetries: number = 2;
+  // Permet de retirer tous les listeners d'un coup à la destruction
+  private abortController: AbortController = new AbortController();
+  private observer: MutationObserver | null = null;
 
   constructor() {
     this.init();
@@ -51,6 +54,8 @@ export class ContactFormManager {
    * Initialise le gestionnaire de formulaire de contact
    */
   private init(): void {
+    if (this.abortController.signal.aborted) return;
+
     this.gamingSign = getById(CONTACT_IDS.GAMING_SIGN);
     this.paperSheet = getById(CONTACT_IDS.PAPER_SHEET);
     this.zoomButton = getById(CONTACT_IDS.ZOOM_BUTTON);
@@ -81,7 +86,7 @@ export class ContactFormManager {
   private setupObserver(): void {
     if (!this.contactOverlay || !this.gamingSign || !this.chains) return;
 
-    observeMutations(
+    this.observer = observeMutations(
       this.contactOverlay,
       (mutations) => {
         mutations.forEach((mutation) => {
@@ -122,31 +127,36 @@ export class ContactFormManager {
    * Configure les boutons de zoom/dézoom
    */
   private setupZoomButtons(): void {
-    onEvent(document, "click", (e) => {
-      const target = e.target as HTMLElement;
+    onEvent(
+      document,
+      "click",
+      (e) => {
+        const target = e.target as HTMLElement;
 
-      // Ouvrir la feuille de papier
-      if (
-        target &&
-        (target.id === CONTACT_IDS.ZOOM_BUTTON ||
-          target.closest(`#${CONTACT_IDS.ZOOM_BUTTON}`))
-      ) {
-        e.preventDefault();
-        e.stopPropagation();
-        addClass(this.paperSheet, CSS_CLASSES.SHOW);
-      }
+        // Ouvrir la feuille de papier
+        if (
+          target &&
+          (target.id === CONTACT_IDS.ZOOM_BUTTON ||
+            target.closest(`#${CONTACT_IDS.ZOOM_BUTTON}`))
+        ) {
+          e.preventDefault();
+          e.stopPropagation();
+          addClass(this.paperSheet, CSS_CLASSES.SHOW);
+        }
 
-      // Fermer la feuille de papier
-      if (
-        target &&
-        (target.id === CONTACT_IDS.DEZOOM_BUTTON ||
-          target.closest(`#${CONTACT_IDS.DEZOOM_BUTTON}`))
-      ) {
-        e.preventDefault();
-        e.stopPropagation();
-        removeClass(this.paperSheet, CSS_CLASSES.SHOW);
-      }
-    });
+        // Fermer la feuille de papier
+        if (
+          target &&
+          (target.id === CONTACT_IDS.DEZOOM_BUTTON ||
+            target.closest(`#${CONTACT_IDS.DEZOOM_BUTTON}`))
+        ) {
+          e.preventDefault();
+          e.stopPropagation();
+          removeClass(this.paperSheet, CSS_CLASSES.SHOW);
+        }
+      },
+      { signal: this.abortController.signal }
+    );
   }
 
   /**
@@ -156,21 +166,26 @@ export class ContactFormManager {
     const allInputs = getElements(CONTACT_SELECTORS.SYNC_INPUTS);
 
     allInputs.forEach((input) => {
-      onEvent(input as HTMLElement, "input", (e) => {
-        const target = e.target as HTMLInputElement | HTMLTextAreaElement;
-        const syncKey = target.getAttribute("data-sync");
-        const value = target.value;
+      onEvent(
+        input as HTMLElement,
+        "input",
+        (e) => {
+          const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+          const syncKey = target.getAttribute("data-sync");
+          const value = target.value;
 
-        // Trouver tous les champs avec le même syncKey et mettre à jour leur valeur
-        const otherInputs = getElements(`[data-sync="${syncKey}"]`);
+          // Trouver tous les champs avec le même syncKey et mettre à jour leur valeur
+          const otherInputs = getElements(`[data-sync="${syncKey}"]`);
 
-        otherInputs.forEach((otherInput) => {
-          if (otherInput !== target) {
-            (otherInput as HTMLInputElement | HTMLTextAreaElement).value =
-              value;
-          }
-        });
-      });
+          otherInputs.forEach((otherInput) => {
+            if (otherInput !== target) {
+              (otherInput as HTMLInputElement | HTMLTextAreaElement).value =
+                value;
+            }
+          });
+        },
+        { signal: this.abortController.signal }
+      );
     });
   }
 
@@ -191,28 +206,45 @@ export class ContactFormManager {
     // Initialiser EmailJS avec la clé publique
     emailjs.init(publicKey);
 
+    const signal = this.abortController.signal;
+
     // Gérer la soumission du formulaire de la pancarte
     if (this.contactForm) {
-      onEvent(this.contactForm, "submit", async (e) => {
-        e.preventDefault();
-        await this.handleSubmit(this.contactForm!, serviceId, templateId);
-      });
+      onEvent(
+        this.contactForm,
+        "submit",
+        async (e) => {
+          e.preventDefault();
+          await this.handleSubmit(this.contactForm!, serviceId, templateId);
+        },
+        { signal }
+      );
     }
 
     // Gérer la soumission du formulaire de la feuille
     if (this.paperForm) {
-      onEvent(this.paperForm, "submit", async (e) => {
-        e.preventDefault();
-        await this.handleSubmit(this.paperForm!, serviceId, templateId);
-      });
+      onEvent(
+        this.paperForm,
+        "submit",
+        async (e) => {
+          e.preventDefault();
+          await this.handleSubmit(this.paperForm!, serviceId, templateId);
+        },
+        { signal }
+      );
     }
 
     // Gérer la soumission du formulaire mobile
     if (this.mobileForm) {
-      onEvent(this.mobileForm, "submit", async (e) => {
-        e.preventDefault();
-        await this.handleSubmit(this.mobileForm!, serviceId, templateId);
-      });
+      onEvent(
+        this.mobileForm,
+        "submit",
+        async (e) => {
+          e.preventDefault();
+          await this.handleSubmit(this.mobileForm!, serviceId, templateId);
+        },
+        { signal }
+      );
     }
   }
 
@@ -301,5 +333,17 @@ export class ContactFormManager {
    */
   public closePaperSheet(): void {
     removeClass(this.paperSheet, CSS_CLASSES.SHOW);
+  }
+
+  /**
+   * Retire tous les listeners et observers posés par cette instance
+   * (à appeler avant d'en recréer une après une navigation View Transitions)
+   */
+  public destroy(): void {
+    this.abortController.abort();
+    if (this.observer) {
+      this.observer.disconnect();
+      this.observer = null;
+    }
   }
 }

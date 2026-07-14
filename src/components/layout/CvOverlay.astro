@@ -234,6 +234,10 @@ const { isVisible = false, onClose } = Astro.props;
   let miiScene: any | null = null;
   let miiSceneMobile: any | null = null;
   let MiiSceneClass: any = null;
+  // Cleanup des inits précédentes : initCvOverlay tourne sur DOMContentLoaded
+  // ET astro:page-load, sans cela listeners et observers s'accumulent
+  let cvObserver: MutationObserver | null = null;
+  let cvAbortController: AbortController | null = null;
 
   async function loadMiiScene() {
     if (!MiiSceneClass) {
@@ -243,7 +247,41 @@ const { isVisible = false, onClose } = Astro.props;
     return MiiSceneClass;
   }
 
+  function setupFlecheRotation(
+    fleche: HTMLElement | null,
+    getScene: () => any,
+    direction: 'left' | 'right',
+    signal: AbortSignal
+  ) {
+    if (!fleche) return;
+
+    const button = fleche.querySelector('button');
+    button?.addEventListener('click', (e) => e.preventDefault(), { signal });
+
+    fleche.addEventListener('mousedown', () => {
+      import('../../scripts/audio-manager').then(({ audioManager, SoundName }) => {
+        audioManager.play(SoundName.PROJECT_SELECT);
+      });
+      getScene()?.startRotation(direction);
+    }, { signal });
+
+    fleche.addEventListener('mouseup', () => {
+      getScene()?.stopRotation();
+    }, { signal });
+
+    fleche.addEventListener('mouseleave', () => {
+      getScene()?.stopRotation();
+    }, { signal });
+  }
+
   function initCvOverlay() {
+    // Nettoyer l'init précédente avant d'en refaire une
+    cvAbortController?.abort();
+    cvAbortController = new AbortController();
+    const signal = cvAbortController.signal;
+    cvObserver?.disconnect();
+    cvObserver = null;
+
     const overlayManager = OverlayManager.getInstance();
     const cvOverlay = document.querySelector(".cv-overlay");
     const flecheGauche = document.getElementById("fleche-gauche");
@@ -268,7 +306,7 @@ const { isVisible = false, onClose } = Astro.props;
     
     // Observer pour détecter quand l'overlay devient visible et initialiser la scène 3D
     if (cvOverlay) {
-      const observer = new MutationObserver(async () => {
+      cvObserver = new MutationObserver(async () => {
         const isVisible = cvOverlay.classList.contains("opacity-100") && 
                          cvOverlay.classList.contains("pointer-events-auto");
         
@@ -300,143 +338,33 @@ const { isVisible = false, onClose } = Astro.props;
         }
       });
       
-      observer.observe(cvOverlay, {
+      cvObserver.observe(cvOverlay, {
         attributes: true,
         attributeFilter: ['class']
       });
     }
-    
-    // Gestion de la rotation avec les flèches desktop
-    if (flecheGauche) {
-      const buttonGauche = flecheGauche.querySelector('button');
-      if (buttonGauche) {
-        buttonGauche.addEventListener('click', (e) => {
-          e.preventDefault();
-        });
-      }
-      
-      flecheGauche.addEventListener('mousedown', () => {
-        import('../../scripts/audio-manager').then(({ audioManager, SoundName }) => {
-          audioManager.play(SoundName.PROJECT_SELECT);
-        });
-        if (miiScene) {
-          miiScene.startRotation('right');
-        }
-      });
-      
-      flecheGauche.addEventListener('mouseup', () => {
-        if (miiScene) {
-          miiScene.stopRotation();
-        }
-      });
-      
-      flecheGauche.addEventListener('mouseleave', () => {
-        if (miiScene) {
-          miiScene.stopRotation();
-        }
-      });
-    }
-    
-    if (flecheDroite) {
-      const buttonDroite = flecheDroite.querySelector('button');
-      if (buttonDroite) {
-        buttonDroite.addEventListener('click', (e) => {
-          e.preventDefault();
-        });
-      }
-      
-      flecheDroite.addEventListener('mousedown', () => {
-        import('../../scripts/audio-manager').then(({ audioManager, SoundName }) => {
-          audioManager.play(SoundName.PROJECT_SELECT);
-        });
-        if (miiScene) {
-          miiScene.startRotation('left');
-        }
-      });
-      
-      flecheDroite.addEventListener('mouseup', () => {
-        if (miiScene) {
-          miiScene.stopRotation();
-        }
-      });
-      
-      flecheDroite.addEventListener('mouseleave', () => {
-        if (miiScene) {
-          miiScene.stopRotation();
-        }
-      });
-    }
 
-    // Gestion de la rotation avec les flèches mobile
-    if (flecheGaucheMobile) {
-      const buttonGauche = flecheGaucheMobile.querySelector('button');
-      if (buttonGauche) {
-        buttonGauche.addEventListener('click', (e) => {
-          e.preventDefault();
-        });
-      }
-      
-      flecheGaucheMobile.addEventListener('mousedown', () => {
-        import('../../scripts/audio-manager').then(({ audioManager, SoundName }) => {
-          audioManager.play(SoundName.PROJECT_SELECT);
-        });
-        if (miiSceneMobile) {
-          miiSceneMobile.startRotation('right');
-        }
-      });
-      
-      flecheGaucheMobile.addEventListener('mouseup', () => {
-        if (miiSceneMobile) {
-          miiSceneMobile.stopRotation();
-        }
-      });
-      
-      flecheGaucheMobile.addEventListener('mouseleave', () => {
-        if (miiSceneMobile) {
-          miiSceneMobile.stopRotation();
-        }
-      });
-    }
-    
-    if (flecheDroiteMobile) {
-      const buttonDroite = flecheDroiteMobile.querySelector('button');
-      if (buttonDroite) {
-        buttonDroite.addEventListener('click', (e) => {
-          e.preventDefault();
-        });
-      }
-      
-      flecheDroiteMobile.addEventListener('mousedown', () => {
-        import('../../scripts/audio-manager').then(({ audioManager, SoundName }) => {
-          audioManager.play(SoundName.PROJECT_SELECT);
-        });
-        if (miiSceneMobile) {
-          miiSceneMobile.startRotation('left');
-        }
-      });
-      
-      flecheDroiteMobile.addEventListener('mouseup', () => {
-        if (miiSceneMobile) {
-          miiSceneMobile.stopRotation();
-        }
-      });
-      
-      flecheDroiteMobile.addEventListener('mouseleave', () => {
-        if (miiSceneMobile) {
-          miiSceneMobile.stopRotation();
-        }
-      });
-    }
+    // Gestion de la rotation avec les flèches desktop puis mobile
+    setupFlecheRotation(flecheGauche, () => miiScene, 'right', signal);
+    setupFlecheRotation(flecheDroite, () => miiScene, 'left', signal);
+    setupFlecheRotation(flecheGaucheMobile, () => miiSceneMobile, 'right', signal);
+    setupFlecheRotation(flecheDroiteMobile, () => miiSceneMobile, 'left', signal);
   }
 
   document.addEventListener("DOMContentLoaded", initCvOverlay);
   document.addEventListener("astro:page-load", initCvOverlay);
   
   // Gestion du zoom du CV sur mobile/tablette
+  // (cleanup séparé : initCvZoom tourne aussi sur DOMContentLoaded + astro:page-load)
+  let cvZoomAbortController: AbortController | null = null;
+
   function initCvZoom() {
+    cvZoomAbortController?.abort();
+    cvZoomAbortController = new AbortController();
+
     const cvMiniature = document.getElementById('cv-miniature');
     const cvContainer = document.getElementById('cv-container');
-    
+
     if (cvMiniature && cvContainer) {
       cvMiniature.addEventListener('click', () => {
         // Vérifier qu'on est bien en mode mobile/tablette (< 1280px)
@@ -476,7 +404,7 @@ const { isVisible = false, onClose } = Astro.props;
             });
           }
         }
-      });
+      }, { signal: cvZoomAbortController.signal });
     }
   }
   
