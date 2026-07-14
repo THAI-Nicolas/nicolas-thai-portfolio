@@ -13,8 +13,14 @@ export class MiiScene {
   private rotationDirection: "left" | "right" | null = null;
   private rotationSpeed: number = 0.05;
   private boundHandleResize: () => void;
+  private boundHandleVisibility?: () => void;
   private resizeObserver: ResizeObserver | null = null;
+  private intersectionObserver: IntersectionObserver | null = null;
   private GLTFLoader: any = null; // Chargé dynamiquement
+  private isPageVisible: boolean = !document.hidden;
+  private isInView: boolean = true;
+  private animationStarted: boolean = false;
+  private destroyed: boolean = false;
 
   // Paramètres fixes
   private params = {
@@ -79,6 +85,40 @@ export class MiiScene {
 
     // Backup avec window resize
     window.addEventListener("resize", this.boundHandleResize);
+
+    // Mettre le rendu en pause quand l'onglet est caché
+    this.boundHandleVisibility = () => {
+      this.isPageVisible = !document.hidden;
+      this.updateAnimationState();
+    };
+    document.addEventListener("visibilitychange", this.boundHandleVisibility);
+
+    // Mettre le rendu en pause quand la scène sort de l'écran (overlay masqué)
+    this.intersectionObserver = new IntersectionObserver((entries) => {
+      this.isInView = entries[0]?.isIntersecting ?? true;
+      this.updateAnimationState();
+    });
+    this.intersectionObserver.observe(this.container);
+  }
+
+  private shouldAnimate(): boolean {
+    return this.isPageVisible && this.isInView && !this.destroyed;
+  }
+
+  /**
+   * Démarre ou arrête la boucle de rendu selon la visibilité
+   */
+  private updateAnimationState(): void {
+    if (this.shouldAnimate()) {
+      if (this.animationStarted && this.animationFrameId === null) {
+        // Réinitialiser le delta pour éviter un saut d'animation après la pause
+        this.clock.getDelta();
+        this.animate();
+      }
+    } else if (this.animationFrameId !== null) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
   }
 
   private setupLights(): void {
@@ -155,6 +195,7 @@ export class MiiScene {
         }
 
         // Démarrer l'animation
+        this.animationStarted = true;
         this.animate();
       },
       (progress) => {
@@ -167,6 +208,11 @@ export class MiiScene {
   }
 
   private animate(): void {
+    if (!this.shouldAnimate()) {
+      this.animationFrameId = null;
+      return;
+    }
+
     this.animationFrameId = requestAnimationFrame(this.animate.bind(this));
 
     const delta = this.clock.getDelta();
@@ -247,9 +293,21 @@ export class MiiScene {
   }
 
   public destroy(): void {
+    this.destroyed = true;
+
     // Arrêter l'animation
     if (this.animationFrameId !== null) {
       cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = null;
+    }
+
+    // Arrêter les actions d'animation en cours
+    if (this.mixer) {
+      this.mixer.stopAllAction();
+      if (this.model) {
+        this.mixer.uncacheRoot(this.model);
+      }
+      this.mixer = null;
     }
 
     // Nettoyer le ResizeObserver
@@ -258,33 +316,58 @@ export class MiiScene {
       this.resizeObserver = null;
     }
 
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect();
+      this.intersectionObserver = null;
+    }
+
     // Nettoyer les événements
     window.removeEventListener("resize", this.boundHandleResize);
+    if (this.boundHandleVisibility) {
+      document.removeEventListener(
+        "visibilitychange",
+        this.boundHandleVisibility
+      );
+    }
 
-    // Nettoyer le renderer
+    // Nettoyer la scène (géométries, matériaux et leurs textures)
+    if (this.scene) {
+      const disposeMaterial = (material: THREE.Material) => {
+        for (const value of Object.values(material)) {
+          if (value && typeof value === "object" && "isTexture" in value) {
+            (value as THREE.Texture).dispose();
+          }
+        }
+        material.dispose();
+      };
+
+      this.scene.traverse((object) => {
+        if ((object as THREE.Mesh).isMesh) {
+          const mesh = object as THREE.Mesh;
+          mesh.geometry?.dispose();
+          if (Array.isArray(mesh.material)) {
+            mesh.material.forEach(disposeMaterial);
+          } else if (mesh.material) {
+            disposeMaterial(mesh.material);
+          }
+        }
+      });
+    }
+
+    // Nettoyer le renderer et libérer le contexte WebGL de façon déterministe
     if (this.renderer) {
       this.renderer.dispose();
+      try {
+        this.renderer.forceContextLoss();
+      } catch {
+        // Certains navigateurs peuvent refuser : le GC s'en chargera
+      }
       if (
         this.container &&
         this.renderer.domElement.parentNode === this.container
       ) {
         this.container.removeChild(this.renderer.domElement);
       }
-    }
-
-    // Nettoyer la scène
-    if (this.scene) {
-      this.scene.traverse((object) => {
-        if ((object as THREE.Mesh).isMesh) {
-          const mesh = object as THREE.Mesh;
-          mesh.geometry?.dispose();
-          if (Array.isArray(mesh.material)) {
-            mesh.material.forEach((material) => material.dispose());
-          } else {
-            mesh.material?.dispose();
-          }
-        }
-      });
     }
   }
 }
