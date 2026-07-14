@@ -185,7 +185,7 @@ const fabTextColor = avgLuminance > 200 ? '#383e3f' : '#FFFFFF';
     function handleScroll() {
       const footerRect = footer.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      
+
       // Cacher le FAB si le footer est visible à moins de 100px du bas de l'écran
       if (footerRect.top < windowHeight + 100) {
         fab.classList.add('hidden');
@@ -194,7 +194,18 @@ const fabTextColor = avgLuminance > 200 ? '#383e3f' : '#FFFFFF';
       }
     }
 
-    window.addEventListener('scroll', handleScroll);
+    // Throttle via requestAnimationFrame : au plus une mesure par frame
+    let scrollTicking = false;
+    function onScroll() {
+      if (scrollTicking) return;
+      scrollTicking = true;
+      requestAnimationFrame(() => {
+        handleScroll();
+        scrollTicking = false;
+      });
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
     handleScroll(); // Check initial state
   }
 

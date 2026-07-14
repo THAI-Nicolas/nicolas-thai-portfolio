@@ -16,6 +16,7 @@ import {
   removeClass,
   replaceClasses,
 } from "../utils/dom-helpers";
+import { logger } from "../utils/logger";
 
 export type OverlayType = "cv" | "contact" | "presentation" | "parametres";
 

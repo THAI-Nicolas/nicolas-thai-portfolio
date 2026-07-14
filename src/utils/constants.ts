@@ -43,6 +43,7 @@ export const CONTACT_IDS = {
   DEZOOM_BUTTON: "dezoom-button",
   CONTACT_FORM: "contact-form",
   PAPER_FORM: "paper-form",
+  MOBILE_FORM: "contact-form-mobile",
 } as const;
 
 export const CONTACT_SELECTORS = {

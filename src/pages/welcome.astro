@@ -223,8 +223,14 @@ import mouseIcon from '../assets/icones/mouse-icon.svg';
 
   <script>
     const HOMEBOARDING_KEY = "portfolio-homeboarding-seen";
-    
+
+    let redirected = false;
+    let autoRedirectTimeout: ReturnType<typeof setTimeout> | undefined;
+
     function markAsSeenAndRedirect() {
+      if (redirected) return;
+      redirected = true;
+      clearTimeout(autoRedirectTimeout);
       try {
         // Définir le localStorage
         localStorage.setItem(HOMEBOARDING_KEY, "true");
@@ -258,7 +264,7 @@ import mouseIcon from '../assets/icones/mouse-icon.svg';
     document.body.addEventListener("click", markAsSeenAndRedirect);
 
     // Redirection automatique après 6 secondes
-    setTimeout(markAsSeenAndRedirect, 6000);
+    autoRedirectTimeout = setTimeout(markAsSeenAndRedirect, 6000);
 
     // Support clavier (Entrée ou Espace)
     document.addEventListener("keydown", (e) => {

@@ -209,6 +209,8 @@ const currentSize = sizes[size] || sizes.desktop;
 
 <script>
   const miiButtonInstances = new Map();
+  // Keyframes néon déjà injectées (le scope module survit aux View Transitions)
+  const injectedKeyframes = new Set<string>();
   let MiiButtonClass: any = null;
 
   async function loadMiiButton() {
@@ -286,10 +288,11 @@ const currentSize = sizes[size] || sizes.desktop;
       requestAnimationFrame(() => {
         circleData.forEach(({ element: circle, neonColor, parent }) => {
           if (neonColor && !neonColor.includes('--color-light-blue')) {
-            // Créer une keyframe dynamique pour cette couleur
+            // Créer une keyframe dynamique pour cette couleur (nom déterministe
+            // pour ne pas accumuler de règles à chaque navigation View Transitions)
             const styleSheet = document.styleSheets[0];
-            const keyframeName = `button-glow-pulse-${Math.random().toString(36).substr(2, 9)}`;
-            
+            const keyframeName = `button-glow-pulse-${neonColor.replace(/[^a-zA-Z0-9]/g, '-')}`;
+
             const keyframes = `
               @keyframes ${keyframeName} {
                 0%, 100% {
@@ -300,9 +303,12 @@ const currentSize = sizes[size] || sizes.desktop;
                 }
               }
             `;
-            
+
             try {
-              styleSheet.insertRule(keyframes, styleSheet.cssRules.length);
+              if (!injectedKeyframes.has(keyframeName)) {
+                styleSheet.insertRule(keyframes, styleSheet.cssRules.length);
+                injectedKeyframes.add(keyframeName);
+              }
               (circle as HTMLElement).style.setProperty('animation-name', keyframeName);
               
               // Applique aussi le hover dynamique

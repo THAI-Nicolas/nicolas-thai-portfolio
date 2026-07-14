@@ -39,6 +39,7 @@ export class ContactFormManager {
   private contactOverlay: HTMLElement | null = null;
   private contactForm: HTMLFormElement | null = null;
   private paperForm: HTMLFormElement | null = null;
+  private mobileForm: HTMLFormElement | null = null;
   private retryCount: number = 0;
   private maxRetries: number = 2;
 
@@ -57,6 +58,7 @@ export class ContactFormManager {
     this.chains = getElements(CONTACT_SELECTORS.CHAINS);
     this.contactForm = getById(CONTACT_IDS.CONTACT_FORM) as HTMLFormElement;
     this.paperForm = getById(CONTACT_IDS.PAPER_FORM) as HTMLFormElement;
+    this.mobileForm = getById(CONTACT_IDS.MOBILE_FORM) as HTMLFormElement;
     this.contactOverlay = getElement(OVERLAY_SELECTORS.CONTACT);
 
     if (!this.gamingSign || !this.paperSheet || !this.contactOverlay) {
@@ -202,6 +204,14 @@ export class ContactFormManager {
       onEvent(this.paperForm, "submit", async (e) => {
         e.preventDefault();
         await this.handleSubmit(this.paperForm!, serviceId, templateId);
+      });
+    }
+
+    // Gérer la soumission du formulaire mobile
+    if (this.mobileForm) {
+      onEvent(this.mobileForm, "submit", async (e) => {
+        e.preventDefault();
+        await this.handleSubmit(this.mobileForm!, serviceId, templateId);
       });
     }
   }

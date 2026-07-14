@@ -857,35 +857,8 @@ const { isVisible = false, onClose } = Astro.props;
       }
     });
     
-    // Synchroniser les formulaires mobile et desktop
-    const mobileInputs = document.querySelectorAll('[data-sync]');
-    mobileInputs.forEach(input => {
-      input.addEventListener('input', (e) => {
-        const target = e.target as HTMLInputElement | HTMLTextAreaElement;
-        const syncName = target.getAttribute('data-sync');
-        if (syncName) {
-          // Synchroniser vers tous les autres champs avec le même nom
-          const otherInputs = document.querySelectorAll(`[data-sync="${syncName}"]`);
-          otherInputs.forEach(otherInput => {
-            if (otherInput !== target) {
-              (otherInput as HTMLInputElement | HTMLTextAreaElement).value = target.value;
-            }
-          });
-        }
-      });
-    });
-    
-    // Gérer la soumission du formulaire mobile
-    const mobileForm = document.getElementById('contact-form-mobile') as HTMLFormElement;
-    if (mobileForm) {
-      mobileForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        // Utiliser la même logique que le formulaire desktop
-        if (contactFormManager) {
-          contactFormManager.handleSubmit(e);
-        }
-      });
-    }
+    // La synchronisation des champs et la soumission (desktop, feuille et mobile)
+    // sont gérées par ContactFormManager (syncForms + setupFormSubmit)
   }
 
   if (document.readyState === "loading") {

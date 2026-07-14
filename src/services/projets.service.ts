@@ -27,7 +27,7 @@ export class ProjetsService {
     try {
       const record = await pb
         .collection(this.COLLECTION)
-        .getFirstListItem<ProjetsResponse>(`slug = "${slug}"`, {
+        .getFirstListItem<ProjetsResponse>(pb.filter("slug = {:slug}", { slug }), {
           expand: "technologies,processus",
         });
       return record;
