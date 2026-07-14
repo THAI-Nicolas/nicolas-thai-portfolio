@@ -13,8 +13,25 @@ import { audioManager, SoundName } from "./audio-manager";
 export class UISoundsManager {
   private static instance: UISoundsManager;
   private initialized: boolean = false;
+  // Mémorise les listeners déjà posés pour ne jamais attacher deux fois le même
+  // son au même élément (reattach() est rappelé à chaque View Transition)
+  private attached: WeakMap<Element, Set<string>> = new WeakMap();
 
   private constructor() {}
+
+  /**
+   * Attache un listener click une seule fois par élément et par type de son
+   */
+  private attachOnce(element: Element, key: string, handler: () => void): void {
+    let keys = this.attached.get(element);
+    if (!keys) {
+      keys = new Set();
+      this.attached.set(element, keys);
+    }
+    if (keys.has(key)) return;
+    keys.add(key);
+    element.addEventListener("click", handler);
+  }
 
   /**
    * Récupère l'instance unique (Singleton)
@@ -59,7 +76,7 @@ export class UISoundsManager {
   private attachCardCVSounds(): void {
     const cardCVElements = document.querySelectorAll(".card-cv");
     cardCVElements.forEach((element) => {
-      element.addEventListener("click", () => {
+      this.attachOnce(element, "card-cv", () => {
         audioManager.play(SoundName.CARD_CV_CLICK);
       });
     });
@@ -74,7 +91,7 @@ export class UISoundsManager {
     mainButtons.forEach((button) => {
       // Ne pas attacher si c'est un bouton de retour projet (géré séparément)
       if (!button.hasAttribute("data-project-back")) {
-        button.addEventListener("click", () => {
+        this.attachOnce(button, "main-button", () => {
           audioManager.play(SoundName.MAIN_BUTTON_CLICK);
         });
       }
@@ -87,7 +104,7 @@ export class UISoundsManager {
   private attachSmallButtonSounds(): void {
     const smallButtons = document.querySelectorAll("[data-small-button]");
     smallButtons.forEach((button) => {
-      button.addEventListener("click", () => {
+      this.attachOnce(button, "small-button", () => {
         audioManager.play(SoundName.SMALL_BUTTON_CLICK);
       });
     });
@@ -99,7 +116,7 @@ export class UISoundsManager {
   private attachArrowSounds(): void {
     const arrows = document.querySelectorAll("[data-arrow]");
     arrows.forEach((arrow) => {
-      arrow.addEventListener("click", () => {
+      this.attachOnce(arrow, "arrow", () => {
         audioManager.play(SoundName.ARROW_CLICK);
       });
     });
@@ -116,13 +133,13 @@ export class UISoundsManager {
 
       // Sélection de projet depuis l'accueil
       if (href.match(/\/projets\/[^/]+$/) && window.location.pathname === "/") {
-        link.addEventListener("click", () => {
+        this.attachOnce(link, "project-select", () => {
           audioManager.play(SoundName.PROJECT_SELECT);
         });
       }
       // Voir le projet (vers /details)
       else if (href.includes("/details")) {
-        link.addEventListener("click", () => {
+        this.attachOnce(link, "project-view", () => {
           audioManager.play(SoundName.PROJECT_VIEW);
         });
       }
@@ -131,7 +148,7 @@ export class UISoundsManager {
     // Bouton retour sur la page cover et page details (avec data-project-back)
     const backButtons = document.querySelectorAll("[data-project-back]");
     backButtons.forEach((button) => {
-      button.addEventListener("click", () => {
+      this.attachOnce(button, "project-back", () => {
         audioManager.play(SoundName.PROJECT_BACK);
       });
     });
@@ -139,7 +156,7 @@ export class UISoundsManager {
     // Bouton "Visiter le site" dans la page details (avec data-project-view)
     const viewButtons = document.querySelectorAll("[data-project-view]");
     viewButtons.forEach((button) => {
-      button.addEventListener("click", () => {
+      this.attachOnce(button, "project-view", () => {
         audioManager.play(SoundName.PROJECT_VIEW);
       });
     });
@@ -147,7 +164,7 @@ export class UISoundsManager {
     // Flèches dans les pages cover projet (avec data-project-arrow)
     const projectArrows = document.querySelectorAll("[data-project-arrow]");
     projectArrows.forEach((arrow) => {
-      arrow.addEventListener("click", () => {
+      this.attachOnce(arrow, "project-arrow", () => {
         audioManager.play(SoundName.PROJECT_SELECT);
       });
     });

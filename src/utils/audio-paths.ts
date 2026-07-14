@@ -4,17 +4,17 @@
  */
 
 import backgroundMusic from "../assets/sounds/music-portfolio.mp3";
-import cardCvClick from "../assets/sounds/card-cv-click.MP3";
-import mainButtonClick from "../assets/sounds/main-button-click.MP3";
-import smallButtonClick from "../assets/sounds/small-button-click.MP3";
-import bookPageTurn from "../assets/sounds/book-page-turn.MP3";
-import bookOpen from "../assets/sounds/book-open.MP3";
-import bookClose from "../assets/sounds/book-close.MP3";
-import arrowClick from "../assets/sounds/arrow-click.MP3";
-import projectSelect from "../assets/sounds/project-select.MP3";
-import projectView from "../assets/sounds/project-view.MP3";
-import projectBack from "../assets/sounds/project-back.MP3";
-import formAnimationSound from "../assets/sounds/form-animation-sound.MP3";
+import cardCvClick from "../assets/sounds/card-cv-click.mp3";
+import mainButtonClick from "../assets/sounds/main-button-click.mp3";
+import smallButtonClick from "../assets/sounds/small-button-click.mp3";
+import bookPageTurn from "../assets/sounds/book-page-turn.mp3";
+import bookOpen from "../assets/sounds/book-open.mp3";
+import bookClose from "../assets/sounds/book-close.mp3";
+import arrowClick from "../assets/sounds/arrow-click.mp3";
+import projectSelect from "../assets/sounds/project-select.mp3";
+import projectView from "../assets/sounds/project-view.mp3";
+import projectBack from "../assets/sounds/project-back.mp3";
+import formAnimationSound from "../assets/sounds/form-animation-sound.mp3";
 
 export const AUDIO_PATHS = {
   BACKGROUND_MUSIC: backgroundMusic,

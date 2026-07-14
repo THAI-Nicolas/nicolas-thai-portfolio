@@ -200,7 +200,20 @@ const canonicalURL = canonical || new URL(Astro.url.pathname, Astro.site).href;
         if (disableMusic) {
           return;
         }
-        
+
+        // Précharger la musique (~3,7 Mo) quand le navigateur est inactif,
+        // sans bloquer le chargement de la page ni attendre la 1ère interaction
+        const idlePreload = () => {
+          audioManager.preloadBackgroundMusic().catch(() => {
+            // Une nouvelle tentative aura lieu au moment de jouer la musique
+          });
+        };
+        if ("requestIdleCallback" in window) {
+          requestIdleCallback(idlePreload, { timeout: 8000 });
+        } else {
+          setTimeout(idlePreload, 3000);
+        }
+
         // Tentative 1 : Démarrage immédiat
         const success = await startMusic();
         

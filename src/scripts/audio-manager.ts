@@ -54,6 +54,7 @@ export class AudioManager {
     sfx: 50,
   };
   private initialized: boolean = false;
+  private musicLoadPromise: Promise<void> | null = null;
 
   private constructor() {}
 
@@ -76,16 +77,9 @@ export class AudioManager {
     // Charger les paramètres sauvegardés
     this.loadSettings();
 
-    // Précharger tous les sons
+    // Précharger uniquement les effets sonores (légers).
+    // La musique de fond (~3,7 Mo) est chargée à part : voir preloadBackgroundMusic()
     const soundsToLoad = [
-      // Musique de fond
-      {
-        name: SoundName.BACKGROUND_MUSIC,
-        path: AUDIO_PATHS.BACKGROUND_MUSIC,
-        type: SoundType.MUSIC,
-        volume: 1.0,
-        loop: true,
-      },
       // Effets sonores
       {
         name: SoundName.CARD_CV_CLICK,
@@ -407,9 +401,34 @@ export class AudioManager {
   }
 
   /**
+   * Charge la musique de fond si ce n'est pas déjà fait.
+   * Le téléchargement (~3,7 Mo) n'est déclenché qu'à la première interaction
+   * utilisateur ou quand le navigateur est inactif, jamais dans le chemin critique.
+   */
+  public preloadBackgroundMusic(): Promise<void> {
+    if (!this.musicLoadPromise) {
+      this.musicLoadPromise = this.loadSound(
+        SoundName.BACKGROUND_MUSIC,
+        AUDIO_PATHS.BACKGROUND_MUSIC,
+        SoundType.MUSIC,
+        1.0,
+        true
+      ).catch((error) => {
+        // Permettre une nouvelle tentative au prochain appel
+        this.musicLoadPromise = null;
+        throw error;
+      });
+    }
+    return this.musicLoadPromise;
+  }
+
+  /**
    * Joue la musique de fond
    */
   public async playBackgroundMusic(): Promise<void> {
+    // Charger la musique à la demande si nécessaire
+    await this.preloadBackgroundMusic();
+
     const instance = this.audioMap.get(SoundName.BACKGROUND_MUSIC);
     if (!instance) {
       console.warn("Background music not loaded");
