@@ -21,9 +21,6 @@ export default defineConfig({
     ssr: {
       noExternal: ["pocketbase"],
     },
-    build: {
-      sourcemap: true, // Génère les source maps pour tous les fichiers JS
-    },
   },
   output: "server",
   adapter: node({
