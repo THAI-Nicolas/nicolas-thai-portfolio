@@ -675,7 +675,10 @@ const seoDescription = `Découvrez le projet ${projet.titre}. Projet réalisé p
   .iframe-container {
     scroll-snap-align: center;
     scroll-snap-stop: always;
-    height: 900px;
+    /* Mobile : hauteur relative au viewport plutôt qu'une tour fixe de 900px */
+    height: 70vh;
+    height: 70dvh;
+    max-height: 900px;
   }
 
   @media (min-width: 768px) {
@@ -696,6 +699,20 @@ const seoDescription = `Découvrez le projet ${projet.titre}. Projet réalisé p
 
   .border-3 {
     border-width: 3px;
+  }
+
+  /* Garde anti-débordement pour le contenu CMS injecté (set:html) :
+     longues chaînes, tables et <pre> ne débordent plus horizontalement sur mobile */
+  .projet-page {
+    overflow-wrap: break-word;
+  }
+  .projet-page :is(pre, table) {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  .projet-page :is(img, iframe, video) {
+    max-width: 100%;
   }
 
   /* Forcer Raleway sur tout le contenu HTML injecté */

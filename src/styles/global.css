@@ -257,6 +257,22 @@ body {
   }
 }
 
+/* Écrans tactiles : aucun curseur custom (pas de pointeur fin à styliser) */
+@media (pointer: coarse) {
+  html.custom-cursor,
+  html.custom-cursor *,
+  html.custom-cursor button,
+  html.custom-cursor a,
+  html.custom-cursor input[type="button"],
+  html.custom-cursor input[type="submit"],
+  html.custom-cursor input[type="range"],
+  html.custom-cursor label.gaming-toggle,
+  html.custom-cursor .toggle-slider,
+  html.custom-cursor [role="button"] {
+    cursor: auto !important;
+  }
+}
+
 html.custom-cursor button:active,
 html.custom-cursor a:active,
 html.custom-cursor input[type="button"]:active,

@@ -10,7 +10,7 @@ const seoDescription = "Page introuvable - Portfolio de Nicolas THAI, Développe
   description={seoDescription}
   keywords="404, page introuvable, portfolio, Nicolas THAI"
 >
-  <main class="min-h-screen w-full bg-background flex flex-col items-center justify-center px-6 text-center">
+  <main class="min-h-dvh w-full bg-background flex flex-col items-center justify-center px-6 py-10 text-center">
     <h1 class="font-raleway text-6xl lg:text-8xl font-bold text-light-blue mb-6">
       404
     </h1>
@@ -23,3 +23,12 @@ const seoDescription = "Page introuvable - Portfolio de Nicolas THAI, Développe
     <LargeBouton href="/" text="Retour à l'accueil" variant="primary" />
   </main>
 </Layout>
+
+<style>
+  /* Autoriser le scroll si le contenu dépasse (le lock global est overflow:hidden) */
+  html,
+  body {
+    overflow-y: auto !important;
+    height: auto !important;
+  }
+</style>
