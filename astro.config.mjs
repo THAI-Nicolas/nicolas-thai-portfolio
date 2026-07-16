@@ -7,6 +7,9 @@ import sitemap from "@astrojs/sitemap";
 // https://astro.build/config
 export default defineConfig({
   site: "https://nicolas-thai.fr", // URL de production pour génération des URLs canoniques
+  build: {
+    assets: "assets", // 👈 Force Astro à utiliser /assets/ au lieu de /_astro/ (évite les blocages Nginx)
+  },
   integrations: [
     sitemap({
       // Configuration du sitemap
