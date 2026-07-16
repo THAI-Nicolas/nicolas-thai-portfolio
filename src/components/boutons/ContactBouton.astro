@@ -36,7 +36,7 @@ const IconComponent = icons[type];
   href={finalHref}
   target={type !== "email" ? "_blank" : undefined}
   rel={type !== "email" ? "noopener noreferrer" : undefined}
-  class="relative cursor-pointer transition-transform duration-200 ease-in-out border-none bg-none p-0 w-20 h-20 md:w-24 md:h-24 lg:w-24 lg:h-24 xl:w-[80px] xl:h-[80px] 2xl:w-[120px] 2xl:h-[120px] hover:scale-105 flex items-center justify-center"
+  class="relative cursor-pointer transition-transform duration-200 ease-in-out border-none bg-none p-0 w-20 h-20 md:w-24 md:h-24 lg:w-24 lg:h-24 xl:w-24 xl:h-24 3xl:w-[120px] 3xl:h-[120px] hover:scale-105 flex items-center justify-center"
   data-type={type}
   aria-label={type === "email" ? "Envoyer un email" : type === "github" ? "Visiter mon profil GitHub" : type === "linkedin" ? "Visiter mon profil LinkedIn" : "Visiter mon profil Instagram"}
 >
@@ -47,22 +47,22 @@ const IconComponent = icons[type];
     {/* Icônes */}
     {
       type === "email" && (
-        <IconEnveloppe class="w-8 h-8 md:w-10 md:h-10 lg:w-10 lg:h-10 xl:w-10 xl:h-10 2xl:w-[60px] 2xl:h-[60px] wii-contact-button__icon" />
+        <IconEnveloppe class="w-8 h-8 md:w-10 md:h-10 lg:w-10 lg:h-10 xl:w-10 xl:h-10 3xl:w-[60px] 3xl:h-[60px] wii-contact-button__icon" />
       )
     }
     {
       type === "github" && (
-        <IconGithub class="w-8 h-8 md:w-10 md:h-10 lg:w-10 lg:h-10 xl:w-10 xl:h-10 2xl:w-[60px] 2xl:h-[60px] wii-contact-button__icon" />
+        <IconGithub class="w-8 h-8 md:w-10 md:h-10 lg:w-10 lg:h-10 xl:w-10 xl:h-10 3xl:w-[60px] 3xl:h-[60px] wii-contact-button__icon" />
       )
     }
     {
       type === "linkedin" && (
-        <IconLinkedin class="w-8 h-8 md:w-10 md:h-10 lg:w-10 lg:h-10 xl:w-10 xl:h-10 2xl:w-[60px] 2xl:h-[60px] wii-contact-button__icon" />
+        <IconLinkedin class="w-8 h-8 md:w-10 md:h-10 lg:w-10 lg:h-10 xl:w-10 xl:h-10 3xl:w-[60px] 3xl:h-[60px] wii-contact-button__icon" />
       )
     }
     {
       type === "instagram" && (
-        <IconInstagram class="w-8 h-8 md:w-10 md:h-10 lg:w-10 lg:h-10 xl:w-10 xl:h-10 2xl:w-[60px] 2xl:h-[60px] wii-contact-button__icon" />
+        <IconInstagram class="w-8 h-8 md:w-10 md:h-10 lg:w-10 lg:h-10 xl:w-10 xl:h-10 3xl:w-[60px] 3xl:h-[60px] wii-contact-button__icon" />
       )
     }
   </div>

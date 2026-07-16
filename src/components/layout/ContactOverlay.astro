@@ -18,7 +18,7 @@ const { isVisible = false, onClose } = Astro.props;
   <div class="bg-black/50 fixed inset-0 z-[70] overflow-hidden"></div>
 
   <div
-    class="contact-container fixed inset-0 z-[80] flex items-center justify-center overflow-y-auto md:overflow-hidden"
+    class="contact-container fixed inset-0 z-[80] flex items-center justify-center overflow-y-auto 3xl:overflow-hidden"
     id="contact-container"
   >
     <!-- Layout mobile/tablette : vertical -->
@@ -134,7 +134,9 @@ const { isVisible = false, onClose } = Astro.props;
     </div>
 
     <!-- Layout desktop/laptop : horizontal -->
-    <div class="hidden lg:flex items-stretch gap-8 xl:gap-60">
+    <!-- my-auto : équivalent au centrage quand ça tient, mais aligne en haut
+         (donc scrollable) quand la pancarte dépasse une fenêtre peu haute -->
+    <div class="hidden lg:flex items-stretch gap-8 xl:gap-60 my-auto">
       <!-- Partie gauche - 4 ContactBoutons -->
       <div
         class="flex flex-col items-center justify-end flex-shrink-0 mt-4 mb-2 xl:mt-8 xl:mb-4"
@@ -388,11 +390,11 @@ const { isVisible = false, onClose } = Astro.props;
       <!-- Partie droite - MainBouton Retour -->
       <div class="flex flex-col items-center justify-start flex-shrink-0 mt-4 xl:mt-8">
         <!-- Version laptop -->
-        <div id="contact-return-button-laptop" class="contact-return-button 2xl:hidden">
+        <div id="contact-return-button-laptop" class="contact-return-button 3xl:hidden">
           <MainBouton type="retour" size="laptop" />
         </div>
         <!-- Version desktop -->
-        <div id="contact-return-button-desktop" class="contact-return-button hidden 2xl:block">
+        <div id="contact-return-button-desktop" class="contact-return-button hidden 3xl:block">
           <MainBouton type="retour" size="desktop" />
         </div>
       </div>
@@ -415,7 +417,7 @@ const { isVisible = false, onClose } = Astro.props;
     perspective: 1000px;
   }
 
-  @media (min-width: 1536px) {
+  @media (min-width: 1920px) {
     .sign-wrapper {
       width: 1000px;
     }
@@ -477,7 +479,7 @@ const { isVisible = false, onClose } = Astro.props;
     transform: translateY(-100px);
   }
 
-  @media (min-width: 1536px) {
+  @media (min-width: 1920px) {
     .chain {
       width: 8px;
       height: 350px;
@@ -509,7 +511,7 @@ const { isVisible = false, onClose } = Astro.props;
       -2px 0 4px rgba(0, 0, 0, 0.2);
   }
 
-  @media (min-width: 1536px) {
+  @media (min-width: 1920px) {
     .chain-left {
       left: 90px;
     }
@@ -539,7 +541,7 @@ const { isVisible = false, onClose } = Astro.props;
       box-shadow 0.6s ease;
   }
 
-  @media (min-width: 1536px) {
+  @media (min-width: 1920px) {
     .gaming-sign {
       border: 6px solid #8b6f47;
       border-radius: 20px;
@@ -562,7 +564,7 @@ const { isVisible = false, onClose } = Astro.props;
     pointer-events: none;
   }
 
-  @media (min-width: 1536px) {
+  @media (min-width: 1920px) {
     .gaming-sign::before {
       inset: 12px;
       border: 3px solid rgba(139, 111, 71, 0.4);
@@ -584,7 +586,7 @@ const { isVisible = false, onClose } = Astro.props;
       inset 0 2px 4px rgba(255, 255, 255, 0.2);
   }
 
-  @media (min-width: 1536px) {
+  @media (min-width: 1920px) {
     .hook {
       top: -6px;
       width: 30px;
@@ -609,7 +611,7 @@ const { isVisible = false, onClose } = Astro.props;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
   }
 
-  @media (min-width: 1536px) {
+  @media (min-width: 1920px) {
     .hook::after {
       width: 12px;
       height: 12px;
@@ -624,7 +626,7 @@ const { isVisible = false, onClose } = Astro.props;
     right: 50px;
   }
 
-  @media (min-width: 1536px) {
+  @media (min-width: 1920px) {
     .hook-left {
       left: 74px;
     }
@@ -645,7 +647,7 @@ const { isVisible = false, onClose } = Astro.props;
       inset 0 1px 0 rgba(255, 255, 255, 0.9);
   }
 
-  @media (min-width: 1536px) {
+  @media (min-width: 1920px) {
     .sign-content {
       border-radius: 16px;
       padding: 32px;
@@ -665,7 +667,7 @@ const { isVisible = false, onClose } = Astro.props;
     border-bottom: 3px solid var(--color-light-blue);
   }
 
-  @media (min-width: 1536px) {
+  @media (min-width: 1920px) {
     .sign-header {
       margin-bottom: 24px;
       padding-bottom: 16px;
@@ -693,7 +695,7 @@ const { isVisible = false, onClose } = Astro.props;
     gap: 10px;
   }
 
-  @media (min-width: 1536px) {
+  @media (min-width: 1920px) {
     .sign-form {
       gap: 20px;
     }
@@ -730,7 +732,7 @@ const { isVisible = false, onClose } = Astro.props;
     overflow: hidden;
   }
 
-  @media (min-width: 1536px) {
+  @media (min-width: 1920px) {
     .paper-sheet {
       width: 900px;
       border-radius: 20px 20px 0 0;
@@ -748,7 +750,7 @@ const { isVisible = false, onClose } = Astro.props;
     overflow-y: auto;
   }
 
-  @media (min-width: 1536px) {
+  @media (min-width: 1920px) {
     .paper-content {
       padding: 40px 50px;
     }
@@ -763,7 +765,7 @@ const { isVisible = false, onClose } = Astro.props;
     border-bottom: 3px solid var(--color-light-blue);
   }
 
-  @media (min-width: 1536px) {
+  @media (min-width: 1920px) {
     .paper-header {
       margin-bottom: 32px;
       padding-bottom: 20px;
@@ -787,7 +789,7 @@ const { isVisible = false, onClose } = Astro.props;
     gap: 14px;
   }
 
-  @media (min-width: 1536px) {
+  @media (min-width: 1920px) {
     .paper-form {
       gap: 28px;
     }
@@ -829,6 +831,49 @@ const { isVisible = false, onClose } = Astro.props;
     background: white !important;
     color: var(--color-light-blue) !important;
     border-color: var(--color-light-blue) !important;
+  }
+
+  /* Bande base→1919 : la pancarte étant centrée verticalement, les chaînes de
+     220px flottaient coupées en l'air ; on les fait monter jusqu'au haut de
+     l'écran (l'excédent est rogné par le viewport) */
+  @media (max-width: 1919px) {
+    .chain {
+      height: 45vh;
+      top: calc(8px - 45vh);
+    }
+  }
+
+  /* Laptops/desktops 1280-1919 peu hauts : les utilitaires xl: gonflent la pancarte à
+     ~615px (trop juste sous ~820px de haut) ; on revient aux tailles compactes
+     de la bande lg (pancarte ~495px) */
+  @media (min-width: 1280px) and (max-width: 1919px) and (max-height: 820px) {
+    .gaming-input {
+      padding: 0.5rem;
+      font-size: 0.75rem;
+      line-height: 1rem;
+    }
+
+    .sign-form label {
+      font-size: 0.75rem;
+      line-height: 1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .sign-form .grid {
+      gap: 0.5rem;
+    }
+
+    .gaming-submit-btn {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+    }
+
+    .sign-header h2 {
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+    }
   }
 
   /* Animations définies dans animations.css */

@@ -74,11 +74,11 @@ projets.forEach((projet, index) => {
           <h2 class="sr-only">Galerie de projets</h2>
           
           <!-- Grille unique avec tous les channels -->
-          <div class="absolute top-[38%] -translate-y-1/2" style="left: clamp(3rem, 8vw, 10rem);">
+          <div id="grid-anchor" class="absolute top-[38%] -translate-y-1/2" style="left: clamp(3rem, 8vw, 10rem);">
             <div
               id="carousel-grid"
               class="grid grid-cols-9 w-max transition-transform duration-800 ease-in-out ml-8"
-              style="row-gap: clamp(0rem, 0.7vw, 0.7rem); column-gap: clamp(1rem, 2.5vw, 1rem);"
+              style="row-gap: clamp(0rem, 0.7vw, 0.7rem); column-gap: 1rem;"
               role="list"
               aria-label="Liste des projets"
             >
@@ -130,12 +130,16 @@ projets.forEach((projet, index) => {
         <section aria-label="Mes projets web">
           <h2 class="sr-only">Galerie de projets</h2>
           
-          <!-- Grille horizontale mobile - 9 colonnes × 3 lignes, mais seulement 3 colonnes visibles -->
-          <div class="relative w-full overflow-x-auto overflow-y-hidden pl-20 scrollbar-hide" style="height: 580px; scroll-behavior: smooth;">
+          <!-- Grille horizontale mobile - 9 colonnes × 3 lignes, défilement avec snap par colonne -->
+          <div
+            id="carousel-scroll-mobile"
+            class="relative w-full overflow-x-auto overflow-y-hidden pl-10 pr-6 py-4 scrollbar-hide snap-x snap-mandatory scroll-pl-10"
+            style="scroll-behavior: smooth;"
+          >
             <div
               id="carousel-grid-mobile"
-              class="grid grid-cols-9 grid-rows-3 gap-x-80 gap-y-8"
-              style="width: fit-content;"
+              class="grid grid-rows-3 gap-x-5 gap-y-8"
+              style="width: fit-content; grid-template-columns: repeat(9, max-content);"
               role="list"
               aria-label="Liste des projets"
             >
@@ -155,7 +159,7 @@ projets.forEach((projet, index) => {
 
         <!-- Flèche de navigation droite -->
         <div
-          class="absolute right-12 top-1/2 transform -translate-y-1/2 z-30 cursor-pointer"
+          class="absolute right-2 top-1/2 transform -translate-y-1/2 z-30 cursor-pointer p-3"
           id="arrow-right-mobile"
           role="button"
           aria-label="Voir les projets suivants"
@@ -166,7 +170,7 @@ projets.forEach((projet, index) => {
 
         <!-- Flèche de navigation gauche -->
         <div
-          class="absolute left-4 top-1/2 transform -translate-y-1/2 z-30 cursor-pointer opacity-0"
+          class="absolute left-2 top-1/2 transform -translate-y-1/2 z-30 cursor-pointer p-3 opacity-0"
           id="arrow-left-mobile"
           role="button"
           aria-label="Voir les projets précédents"
@@ -224,9 +228,18 @@ projets.forEach((projet, index) => {
               var channelWidth = firstChannel.getBoundingClientRect().width;
               var gridStyle = window.getComputedStyle(carouselGrid);
               var gap = parseFloat(gridStyle.columnGap) || 0;
-              var translateX = -(channelWidth + gap) * 5.4;
-              
-              carouselGrid.style.transform = 'translateX(' + translateX + 'px)';
+              var shift = (channelWidth + gap) * 5.4;
+
+              // Sous 1536px, le décalage 5.4 (calibré pour 1920) dépasse la fin
+              // de la grille : le plafonner pour caler la dernière colonne
+              // avec une marge à droite pour la flèche retour
+              if (window.innerWidth < 1536) {
+                var gridRect = carouselGrid.getBoundingClientRect();
+                var maxShift = gridRect.left + gridRect.width - window.innerWidth + 100;
+                shift = Math.min(shift, Math.max(0, maxShift));
+              }
+
+              carouselGrid.style.transform = 'translateX(' + (-shift) + 'px)';
               arrowRightContainer.style.opacity = '0';
               arrowLeftContainer.style.opacity = '1';
               currentPage = 2;
@@ -235,12 +248,53 @@ projets.forEach((projet, index) => {
             arrowLeft.onclick = function(e) {
               e.preventDefault();
               e.stopPropagation();
-              
+
               carouselGrid.style.transform = 'translateX(0)';
               arrowRightContainer.style.opacity = '1';
               arrowLeftContainer.style.opacity = '0';
               currentPage = 1;
             };
+          }
+
+          // Carrousel mobile : défilement natif avec snap, flèches en scroll programmatique
+          var mobileScroller = document.getElementById('carousel-scroll-mobile');
+          var mobileGrid = document.getElementById('carousel-grid-mobile');
+          var arrowRightMobile = document.getElementById('arrow-right-mobile');
+          var arrowLeftMobile = document.getElementById('arrow-left-mobile');
+
+          if (mobileScroller && mobileGrid && arrowRightMobile && arrowLeftMobile) {
+            var mobileStep = function() {
+              var card = mobileGrid.querySelector('.channel-mobile');
+              if (!card) return 300;
+              var gap = parseFloat(window.getComputedStyle(mobileGrid).columnGap) || 0;
+              return card.getBoundingClientRect().width + gap;
+            };
+
+            var updateMobileArrows = function() {
+              var maxScroll = mobileScroller.scrollWidth - mobileScroller.clientWidth;
+              arrowLeftMobile.style.opacity = mobileScroller.scrollLeft > 10 ? '1' : '0';
+              arrowRightMobile.style.opacity = mobileScroller.scrollLeft < maxScroll - 10 ? '1' : '0';
+            };
+
+            // Assignations (idempotentes) : le script tourne sur DOMContentLoaded ET astro:page-load
+            arrowRightMobile.onclick = function() {
+              mobileScroller.scrollBy({ left: mobileStep(), behavior: 'smooth' });
+            };
+            arrowLeftMobile.onclick = function() {
+              mobileScroller.scrollBy({ left: -mobileStep(), behavior: 'smooth' });
+            };
+
+            var mobileArrowsTicking = false;
+            mobileScroller.onscroll = function() {
+              if (mobileArrowsTicking) return;
+              mobileArrowsTicking = true;
+              requestAnimationFrame(function() {
+                updateMobileArrows();
+                mobileArrowsTicking = false;
+              });
+            };
+
+            updateMobileArrows();
           }
         });
       });
@@ -298,12 +352,15 @@ projets.forEach((projet, index) => {
     animation: bounce-right-mobile 1.5s infinite;
   }
   
+  /* Ne pas ré-appliquer translateY(-50%) ici : le centrage vertical vient déjà
+     de la propriété `translate` (utilitaire -translate-y-1/2 de Tailwind v4) ;
+     un translateY dans le transform de l'animation se composerait avec (→ -100%) */
   @keyframes bounce-right-mobile {
     0%, 100% {
-      transform: translateY(-50%) translateX(0);
+      transform: translateX(0);
     }
     50% {
-      transform: translateY(-50%) translateX(10px);
+      transform: translateX(10px);
     }
   }
 
@@ -312,8 +369,16 @@ projets.forEach((projet, index) => {
     -ms-overflow-style: none;  /* IE et Edge */
     scrollbar-width: none;  /* Firefox */
   }
-  
+
   .scrollbar-hide::-webkit-scrollbar {
     display: none;  /* Chrome, Safari et Opera */
+  }
+
+  /* Laptops peu hauts (≤800px) : remonter la grille pour qu'elle ne chevauche
+     pas le footer fixe (33px de recouvrement mesurés à 1280×720 avec top:38%) */
+  @media (min-width: 1024px) and (max-width: 1535px) and (max-height: 800px) {
+    #grid-anchor {
+      top: 33%;
+    }
   }
 </style>

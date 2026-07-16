@@ -24,7 +24,7 @@ const {
 // Tailles dynamiques avec clamp() fluide + limitation par hauteur viewport
 const sizes = {
   mobile: {
-    container: "channel-mobile w-[clamp(17rem,45vw,18.4375rem)] md:w-[clamp(17rem,min(48vw,50vh),18.4375rem)] h-[clamp(9rem,24vw,10rem)] md:h-[clamp(9rem,min(26vw,28vh),10rem)]",
+    container: "channel-mobile snap-start w-[clamp(13rem,70vw,18.4375rem)] md:w-[clamp(17rem,min(48vw,50vh),18.4375rem)] h-[clamp(7.5rem,39vw,10rem)] md:h-[clamp(9rem,min(26vw,28vh),10rem)]",
   },
   desktop: {
     container: "channel-fluid w-[clamp(12rem,min(20vw,37vh),26rem)] h-[clamp(7.5rem,min(10vw,22vh),15rem)]",
@@ -230,5 +230,13 @@ const currentSize = sizes[size] || sizes.desktop;
   /* Focus ring supprimé */
   div:focus {
     outline: none;
+  }
+
+  /* Écrans tactiles : pas de survol possible, la bulle de titre est
+     entièrement désactivée (le rendu souris reste inchangé) */
+  @media (pointer: coarse) {
+    .wii-title-bubble {
+      display: none !important;
+    }
   }
 </style>

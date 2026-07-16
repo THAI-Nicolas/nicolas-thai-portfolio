@@ -6,6 +6,14 @@
 @import "tailwindcss";
 @import "./animations.css";
 
+/* Breakpoint additionnel : palier "design 1920" des overlays.
+   (une variante arbitraire min-[1920px]: serait triée avant xl: dans la
+   cascade Tailwind et perdrait contre elle à ≥1920 — un breakpoint nommé
+   est trié par valeur, après xl) */
+@theme {
+  --breakpoint-3xl: 120rem;
+}
+
 /* Variables CSS déplacées dans Layout.astro (inline) pour éviter le render-blocking */
 
 /* Suppression du scroll global déplacé dans Layout.astro (inline) */
