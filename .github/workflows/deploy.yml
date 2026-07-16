@@ -54,8 +54,10 @@ jobs:
           script: |
             cd /var/www/portfolio
             npm install --omit=dev
-            # Lancement sur le port 4321
-            PORT=4321 pm2 restart portfolio || PORT=4321 pm2 start dist/server/entry.mjs --name portfolio
-            # Healthcheck : échoue le déploiement si le serveur ne répond pas
+
+            # 🔥 On redémarre le bon service SystemD à la place de PM2
+            sudo systemctl restart portfolio-web.service
+
+            # Healthcheck : pour s'assurer que le site redémarre bien
             sleep 3
             curl -sf http://127.0.0.1:4321/welcome > /dev/null || (echo "Healthcheck failed" && exit 1)
